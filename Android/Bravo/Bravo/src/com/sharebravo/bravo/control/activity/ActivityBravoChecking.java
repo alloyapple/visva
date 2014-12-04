@@ -123,8 +123,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         if (!BravoUtils.isTwitterLoggedInAlready(this)) {
             Uri uri = getIntent().getData();
             if (uri != null
-                    && (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL) || uri.toString().startsWith(
-                            BravoConstant.TWITTER_CALLBACK_SETTING_URL))) {
+                    && (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL))) {
                 // oAuth verifier
                 String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
 
@@ -152,6 +151,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                         sns.foreignSNS = BravoConstant.TWITTER;
                         sns.foreignAccessToken = accessToken.getToken() + "," + accessToken.getTokenSecret();
                         putSNS(sns);
+                        mFragmentBravoReturnSpots.updatePostSNS(sns, true);
                         showFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID);
                     }
                 } catch (Exception e) {
@@ -390,32 +390,9 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     }
 
     private void shareViaTwitter(String urlCallback, ObPostBravo obPostBravo, String sharedText) {
-
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-        if (!BravoUtils.isTwitterLoggedInAlready(this)) {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
-            builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
-            Configuration configuration = builder.build();
-
-            TwitterFactory factory = new TwitterFactory(configuration);
-            mTwitter = factory.getInstance();
-
-            try {
-                mTwitterRequestToken = mTwitter.getOAuthRequestToken(urlCallback);
-                this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL())));
-                finish();
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-        } else {
-            if (obPostBravo == null)
-                return;
-            requestToGetTwitterUserInfo(obPostBravo.data.Bravo_ID, sharedText);
-        }
+        if (obPostBravo == null)
+            return;
+        requestToGetTwitterUserInfo(obPostBravo.data.Bravo_ID, sharedText);
     }
 
     @Override
@@ -629,5 +606,34 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 BravoSharePrefs.getInstance(ActivityBravoChecking.this).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
             }
         });
+    }
+
+    @Override
+    public void requestToLoginSNS(String snsType) {
+        if (BravoConstant.TWITTER.equals(snsType)) {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Log.d("Twitter", "BravoUtils.isTwitterLoggedInAlready:"+BravoUtils.isTwitterLoggedInAlready(this));
+            if (!BravoUtils.isTwitterLoggedInAlready(this)) {
+                ConfigurationBuilder builder = new ConfigurationBuilder();
+                builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+                builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+                Configuration configuration = builder.build();
+
+                TwitterFactory factory = new TwitterFactory(configuration);
+                mTwitter = factory.getInstance();
+
+                try {
+                    mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL);
+                    this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL())));
+                    finish();
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }

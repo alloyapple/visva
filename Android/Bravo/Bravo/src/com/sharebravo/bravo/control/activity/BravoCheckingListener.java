@@ -24,4 +24,6 @@ public interface BravoCheckingListener {
     public void finishPostBravo();
 
     public void shareViaSNSByRecentPost(String twitter, ObPostBravo mObPostBravo, String sharedText);
+
+    public void requestToLoginSNS(String snsType);
 }
