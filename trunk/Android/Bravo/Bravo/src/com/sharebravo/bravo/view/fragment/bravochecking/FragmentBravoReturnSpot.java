@@ -3,7 +3,6 @@ package com.sharebravo.bravo.view.fragment.bravochecking;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -33,9 +32,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+import br.com.condesales.EasyFoursquareAsync;
+import br.com.condesales.listeners.AccessTokenRequestListener;
+import br.com.condesales.listeners.UserInfoRequestListener;
+import br.com.condesales.models.User;
 
 import com.facebook.Request;
+import com.facebook.Request.GraphUserCallback;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
@@ -49,7 +52,6 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.ObPostSpot;
 import com.sharebravo.bravo.model.response.SNS;
-import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
@@ -63,30 +65,29 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
-public class FragmentBravoReturnSpot extends FragmentBasic {
+public class FragmentBravoReturnSpot extends FragmentBasic implements AccessTokenRequestListener {
     // ====================Constant Define=================
-    private static final int REQUEST_CODE_CAMERA  = 101;
-    private static final int REQUEST_CODE_GALLERY = 102;
+    private static final int    REQUEST_CODE_CAMERA  = 101;
+    private static final int    REQUEST_CODE_GALLERY = 102;
     // ====================Class Define====================
-    private Spot             mSpot;
-    private SNSList          mSNSList;
-    private ArrayList<SNS>   mArrSNSList;
+    private Spot                mSpot;
+    private EasyFoursquareAsync mEasyFoursquareAsync;
     // ====================Variable Define=================
-    private ImageView        mImageSpot;
-    
-    private ImageView        mImageChooseImage;
-    private ImageButton      mBtnImageCover;
-    private TextView         mTextSpotName;
-    private Button           mBtnReturnSpot;
-    private LoginButton      mBtnShareFacebook;
-    private Button           mBtnShareTwitter;
-    private Button           mBtnShareFourSquare;
-    private Uri              mCapturedImageURI;
-    private Bitmap           mSpotBitmap;
-    private ObPostBravo      mObPostBravo;
-    private SessionLogin     mSessionLogin        = null;
-    private int              mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
-    private boolean          isPostOnFacebook, isPostOnFourSquare, isPostOnTwitter;
+    private ImageView           mImageSpot;
+
+    private ImageView           mImageChooseImage;
+    private ImageButton         mBtnImageCover;
+    private TextView            mTextSpotName;
+    private Button              mBtnReturnSpot;
+    private LoginButton         mBtnShareFacebook;
+    private Button              mBtnShareTwitter;
+    private Button              mBtnShareFourSquare;
+    private Uri                 mCapturedImageURI;
+    private Bitmap              mSpotBitmap;
+    private ObPostBravo         mObPostBravo;
+    private SessionLogin        mSessionLogin        = null;
+    private int                 mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
+    private boolean             isPostOnFacebook, isPostOnFourSquare, isPostOnTwitter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,37 +100,23 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     }
 
     private void initializeData() {
-        mSNSList = BravoUtils.getSNSList(getActivity());
-        if (mSNSList == null)
-            mArrSNSList = new ArrayList<SNS>();
-        else
-            mArrSNSList = mSNSList.snsArrList;
-        if (mArrSNSList == null || mArrSNSList.size() == 0) {
-            isPostOnFacebook = false;
-            isPostOnFourSquare = false;
-            isPostOnTwitter = false;
-        } else
-            for (int i = 0; i < mArrSNSList.size(); i++) {
-                if (BravoConstant.FACEBOOK.equals(mArrSNSList.get(i).foreignSNS))
-                    isPostOnFacebook = true;
-                if (BravoConstant.FOURSQUARE.equals(mArrSNSList.get(i).foreignSNS))
-                    isPostOnFourSquare = true;
-                if (BravoConstant.TWITTER.equals(mArrSNSList.get(i).foreignSNS))
-                    isPostOnTwitter = true;
-            }
         isPostOnTwitter = BravoUtils.isTwitterLoggedInAlready(getActivity());
+        isPostOnFacebook = BravoUtils.isFacebookLoggedInAlready(getActivity());
         isPostOnFourSquare = BravoUtils.isFourSquareLoggedInAlready(getActivity());
-        if (isPostOnFacebook) {
+        boolean isAlreadyFacebookCheck = BravoUtils.isFacebookAlreadyChecked(getActivity());
+        boolean isAlreadyTwitterCheck = BravoUtils.isTwitterAlreadyChecked(getActivity());
+        boolean isAlreadyFourSquareCheck = BravoUtils.isFourSquareAlreadyChecked(getActivity());
+        if (isPostOnFacebook && isAlreadyFacebookCheck) {
             mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
         } else {
             mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
         }
-        if (isPostOnTwitter) {
+        if (isPostOnTwitter && isAlreadyTwitterCheck) {
             mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
         } else {
             mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
         }
-        if (isPostOnFourSquare) {
+        if (isPostOnFourSquare && isAlreadyFourSquareCheck) {
             mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
         } else {
             mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
@@ -138,12 +125,14 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                Session session = Session.getActiveSession();
-                AIOLog.d("getActiveSession=>" + session);
-                if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
-                    mBtnShareFacebook.onClickLoginFb();
+                if (!isPostOnFacebook) {
+                    isPostOnFacebook = true;
+                    onCheckedToggleBtnFacebook();
                 } else {
-                    requestUserFacebookInfo(session);
+                    isPostOnFacebook = false;
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
+                    mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
                 }
             }
         });
@@ -151,7 +140,11 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onUserInfoFetched(GraphUser user) {
-                if (user != null) {
+                if (user == null) {
+                    isPostOnFacebook = false;
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, false);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, false);
+                } else {
                     Session activeSession = Session.getActiveSession();
                     SNS sns = new SNS();
                     sns.foreignAccessToken = activeSession.getAccessToken();
@@ -159,7 +152,35 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                     sns.foreignSNS = BravoConstant.FACEBOOK;
                     mBravoCheckingListener.putSNS(sns);
                     isPostOnFacebook = true;
-                    mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
+
+                    if (isPostOnFacebook) {
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
+                        mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
+                    }
+                    else {
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
+                        mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
+                    }
+                }
+            }
+        });
+        mBtnShareTwitter.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isPostOnTwitter) {
+                    isPostOnTwitter = false;
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_CHECKED, isPostOnTwitter);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, isPostOnTwitter);
+                    mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
+                } else {
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_CHECKED, true);
+                    mBravoCheckingListener.requestToLoginSNS(BravoConstant.TWITTER);
+                    mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
                 }
             }
         });
@@ -167,16 +188,62 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FOURSQUARE, null, null);
+                if (isPostOnFourSquare) {
+                    isPostOnFourSquare = false;
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_CHECKED, isPostOnFourSquare);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, isPostOnFourSquare);
+                    mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
+                } else {
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_CHECKED, true);
+                    onCheckedToggleBtnFourSquare();
+                    mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
+                }
             }
         });
-        mBtnShareTwitter.setOnClickListener(new View.OnClickListener() {
+    }
 
-            @Override
-            public void onClick(View v) {
-                mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, null, null);
-            }
-        });
+    private void onCheckedToggleBtnFourSquare() {
+        mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
+        mEasyFoursquareAsync.requestAccess(this);
+    }
+
+    private void onCheckedToggleBtnFacebook() {
+
+        final Session session = Session.getActiveSession();
+        AIOLog.d("session=>" + session);
+        if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
+            mBtnShareFacebook.onClickLoginFb();
+        } else {
+            Request infoRequest = Request.newMeRequest(session, new GraphUserCallback() {
+
+                @Override
+                public void onCompleted(GraphUser user, Response response) {
+                    SNS sns = new SNS();
+                    sns.foreignAccessToken = session.getAccessToken();
+                    sns.foreignID = user.getId();
+                    sns.foreignSNS = BravoConstant.FACEBOOK;
+
+                    if (isPostOnFacebook) {
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
+                        mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
+                    }
+                    else {
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
+                        mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
+                    }
+                    mBravoCheckingListener.putSNS(sns);
+                }
+            });
+            Bundle params = new Bundle();
+            params.putString("fields", "id, name, picture");
+            infoRequest.setParameters(params);
+            infoRequest.executeAsync();
+        }
+
     }
 
     @Override
@@ -189,31 +256,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 mTextSpotName.setText(mSpot.Spot_Name);
             }
         }
-    }
-
-    private void requestUserFacebookInfo(final Session session) {
-        Request infoRequest = Request.newMeRequest(session, new com.facebook.Request.GraphUserCallback() {
-
-            @Override
-            public void onCompleted(final GraphUser user, Response response) {
-                if (user != null) {
-                    Toast.makeText(getActivity(), "share facebook successfully", Toast.LENGTH_SHORT).show();
-                    SNS sns = new SNS();
-                    sns.foreignAccessToken = session.getAccessToken();
-                    sns.foreignID = user.getId();
-                    sns.foreignSNS = BravoConstant.FACEBOOK;
-                    mBravoCheckingListener.putSNS(sns);
-                    isPostOnFacebook = true;
-                    mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
-                }
-            }
-
-        });
-        Bundle params = new Bundle();
-        params.putString("fields", "id, name, picture");
-        infoRequest.setParameters(params);
-        infoRequest.executeAsync();
-
     }
 
     private void requestToPostBravoSpot(Spot spot, Bitmap spotImage) {
@@ -333,7 +375,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         mBtnShareFourSquare = (Button) root.findViewById(R.id.btn_return_spot_share_foursquare);
 
         mBtnImageCover.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
                 showDialogChooseImage();
@@ -519,8 +561,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         subParams.put("Spot_Name", spot.Spot_Name);
         subParams.put("Spot_FID", spot.Spot_FID);
         subParams.put("Spot_Source", spot.Spot_Source);
-        subParams.put("Spot_Longitude", (float)spot.Spot_Longitude);
-        subParams.put("Spot_Latitude", (float)spot.Spot_Latitude);
+        subParams.put("Spot_Longitude", (float) spot.Spot_Longitude);
+        subParams.put("Spot_Latitude", (float) spot.Spot_Latitude);
         subParams.put("Spot_Type", spot.Spot_Type);
         subParams.put("Spot_Genre", spot.Spot_Genre);
         subParams.put("Spot_Address", spot.Spot_Address);
@@ -528,7 +570,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         // subParams.put("Spot_Price", spot.Spot_Price);
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParams(jsonObject.toString());
-        AsyncHttpPost request = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
+        AsyncHttpPost request = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response mObPostSpot:" + response);
@@ -554,14 +596,23 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
     public void updatePostSNS(SNS sns, boolean b) {
         if (BravoConstant.FACEBOOK.equals(sns.foreignSNS)) {
-            isPostOnFacebook = false;
-            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
+            isPostOnFacebook = b;
+            if (isPostOnFacebook)
+                mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
+            else
+                mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
         } else if (BravoConstant.FOURSQUARE.equals(sns.foreignSNS)) {
-            isPostOnFourSquare = false;
-            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
+            isPostOnFourSquare = b;
+            if (!isPostOnFourSquare)
+                mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
+            else
+                mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
         } else if (BravoConstant.TWITTER.equals(sns.foreignSNS)) {
-            isPostOnTwitter = false;
-            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
+            isPostOnTwitter = b;
+            if (!isPostOnTwitter)
+                mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
+            else
+                mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
         }
     }
 
@@ -571,5 +622,41 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         } else {
             requestPostSpot(mSpot);
         }
+    }
+
+    @Override
+    public void onError(String errorMsg) {
+        isPostOnFourSquare = false;
+    }
+
+    @Override
+    public void onAccessGrant(final String accessToken) {
+        AIOLog.d("accessToken: " + accessToken);
+        mEasyFoursquareAsync.getUserInfo(new UserInfoRequestListener() {
+
+            @Override
+            public void onError(String errorMsg) {
+                isPostOnFourSquare = false;
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, false);
+            }
+
+            @Override
+            public void onUserInfoFetched(User user) {
+                AIOLog.d("user 4square:" + user);
+                if (user == null)
+                    return;
+                AIOLog.d("user: " + user.getFirstName());
+                SNS sns = new SNS();
+                sns.foreignAccessToken = accessToken;
+                sns.foreignID = user.getId() + "";
+                sns.foreignSNS = BravoConstant.FOURSQUARE;
+
+                mBravoCheckingListener.putSNS(sns);
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
+                BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED, sns.foreignID);
+            }
+        });
+        isPostOnFourSquare = true;
+
     }
 }
