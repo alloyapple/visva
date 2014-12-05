@@ -42,10 +42,11 @@
         android:id="@+id/layout_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/search_background" >
+        android:background="@drawable/box_search"
+        android:gravity="center_vertical" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/box_search"
@@ -58,14 +59,23 @@
                 android:background="@drawable/icon_search" />
 
             <EditText
-                android:id="@+id/txtbox_search_network"
+                android:id="@+id/txtbox_search_spot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="@string/setup_search_friends"
+                android:hint="@string/search_search_bar"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/icon_cancel_search"
+                android:layout_width="@dimen/cancel_search_icon"
+                android:layout_height="@dimen/cancel_search_icon"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/icon_cancel"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

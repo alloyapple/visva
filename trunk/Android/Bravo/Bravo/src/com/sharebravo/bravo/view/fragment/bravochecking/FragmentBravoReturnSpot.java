@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,8 +34,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.condesales.EasyFoursquareAsync;
+import br.com.condesales.criterias.CheckInCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
+import br.com.condesales.listeners.CheckInListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
+import br.com.condesales.models.Checkin;
 import br.com.condesales.models.User;
 
 import com.facebook.Request;
@@ -70,7 +74,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
     private static final int    REQUEST_CODE_CAMERA  = 101;
     private static final int    REQUEST_CODE_GALLERY = 102;
     // ====================Class Define====================
-    private Spot                mSpot;
+    private static Spot         mSpot;
     private EasyFoursquareAsync mEasyFoursquareAsync;
     // ====================Variable Define=================
     private ImageView           mImageSpot;
@@ -88,6 +92,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
     private SessionLogin        mSessionLogin        = null;
     private int                 mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
     private boolean             isPostOnFacebook, isPostOnFourSquare, isPostOnTwitter;
+    private String              mSharedText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,6 +130,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
 
             @Override
             public void onClick(View v) {
+                Log.d("Facebook", "isPostOnFacebook:" + isPostOnFacebook);
                 if (!isPostOnFacebook) {
                     isPostOnFacebook = true;
                     onCheckedToggleBtnFacebook();
@@ -153,18 +159,10 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                     mBravoCheckingListener.putSNS(sns);
                     isPostOnFacebook = true;
 
-                    if (isPostOnFacebook) {
-                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
-                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
-                        mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
-                    }
-                    else {
-                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
-                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
-                        mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
-                    }
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
+                    mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
                 }
             }
         });
@@ -180,7 +178,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                 } else {
                     BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_CHECKED, true);
                     mBravoCheckingListener.requestToLoginSNS(BravoConstant.TWITTER);
-                    mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
+                    // mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
                 }
             }
         });
@@ -196,10 +194,11 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                 } else {
                     BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_CHECKED, true);
                     onCheckedToggleBtnFourSquare();
-                    mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
                 }
             }
         });
+        
+        mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
     }
 
     private void onCheckedToggleBtnFourSquare() {
@@ -287,6 +286,9 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                     mBravoCheckingListener.finishPostBravo();
                     return;
                 }
+                /* share sns */
+                shareViaSNS(mObPostBravo);
+
                 AIOLog.d("obPostBravo.Bravo_ID:" + mObPostBravo.data.Bravo_ID + ", FS_Checkin_Bravo" + mObPostBravo.data.FS_Checkin_Bravo);
                 if (mSpotBitmap != null) {
                     updateBravoWithImage(mObPostBravo, mSpotBitmap);
@@ -294,7 +296,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                 else
                     /* go to return to spot detail */
                     mBravoCheckingListener.goToBack();
-                shareViaSNS(mObPostBravo);
             }
 
             @Override
@@ -306,13 +307,14 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
     }
 
     private void shareViaSNS(ObPostBravo mObPostBravo) {
-        String sharedText = getActivity().getString(R.string.share_bravo_on_sns_text, mSpot.Spot_Name);
-        if (isPostOnFacebook)
-            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FACEBOOK, mObPostBravo, sharedText);
-        if (isPostOnFourSquare)
-            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FOURSQUARE, mObPostBravo, sharedText);
+        Log.d("KieuThang", "isPostOnFourSquare:" + isPostOnFourSquare + ",isPostOnTwitter:" + isPostOnTwitter);
+        mSharedText = getActivity().getString(R.string.share_bravo_on_sns_text, mSpot.Spot_Name);
+        // if (isPostOnFacebook)
+        // mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FACEBOOK, mObPostBravo, sharedText);
         if (isPostOnTwitter)
-            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, mObPostBravo, sharedText);
+            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, mObPostBravo, mSharedText);
+        if (isPostOnFourSquare)
+            shareViaFourSquare(mObPostBravo, mSharedText);
     }
 
     private void updateBravoWithImage(ObPostBravo obPostBravo, Bitmap spotBitmap) {
@@ -410,7 +412,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
 
     public void setBravoSpot(Spot _spot) {
         AIOLog.d("spot:=>" + _spot);
-        this.mSpot = _spot;
+        mSpot = _spot;
     }
 
     private void showDialogChooseImage() {
@@ -617,6 +619,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
     }
 
     public void onReturnToSpot() {
+        if (mSpot == null)
+            return;
         if (mSpot.Spot_ID != null && !StringUtility.isEmpty(mSpot.Spot_ID)) {
             requestToPostBravoSpot(mSpot, mSpotBitmap);
         } else {
@@ -654,9 +658,33 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                 mBravoCheckingListener.putSNS(sns);
                 BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
                 BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED, sns.foreignID);
+                mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
+                if(mObPostBravo != null && isPostOnFourSquare)
+                    shareViaFourSquare(mObPostBravo, mSharedText);
             }
         });
         isPostOnFourSquare = true;
 
+    }
+
+    private void shareViaFourSquare(ObPostBravo obPostBravo, String sharedText) {
+        if (obPostBravo == null || mEasyFoursquareAsync == null) {
+            mEasyFoursquareAsync.requestAccess(this);
+        } else {
+            CheckInCriteria criteria = new CheckInCriteria();
+            criteria.setBroadcast(CheckInCriteria.BroadCastType.PUBLIC);
+            criteria.setVenueId("4c7063da9c6d6dcb9798d27a");
+
+            mEasyFoursquareAsync.checkIn(new CheckInListener() {
+                @Override
+                public void onCheckInDone(Checkin checkin) {
+                    AIOLog.d("check in via recet post");
+                }
+
+                @Override
+                public void onError(String errorMsg) {
+                }
+            }, criteria);
+        }
     }
 }

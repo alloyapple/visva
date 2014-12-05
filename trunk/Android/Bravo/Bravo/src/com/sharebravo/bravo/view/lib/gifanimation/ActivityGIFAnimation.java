@@ -57,7 +57,7 @@ public class ActivityGIFAnimation extends GraphicsActivity {
             double scalex = (double) this.getWidth() / (double) mMovie.width();
             // double scaley = (double) this.getHeight() / (double) mMovie.height();
             canvas.scale((float) scalex, (float) scalex);
-            mMovie.draw(canvas, 0, 70, paint);
+            mMovie.draw(canvas, 0, 73, paint);
             this.invalidate();
         }
     }

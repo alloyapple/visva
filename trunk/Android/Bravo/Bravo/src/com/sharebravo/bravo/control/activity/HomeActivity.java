@@ -919,7 +919,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Status tweeted successfully", Toast.LENGTH_SHORT).show();
+                    String shareTwDone = getString(R.string.share_complete_twitter);
+                    Toast.makeText(getApplicationContext(), shareTwDone, Toast.LENGTH_SHORT).show();
                     goToBack();
                 }
             });
