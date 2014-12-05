@@ -76,7 +76,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     private FragmentBravoReturnSpot mFragmentBravoReturnSpots;
     private FragmentBravoSearch     mFragmentBravoSearch;
     private Spot                    mSpot;
-    private static String           mBravoId;
     private PendingAction           mPendingAction                 = PendingAction.NONE;
     // ======================Variable Define===============
     private ArrayList<String>       mBackstack                     = new ArrayList<String>();
@@ -312,6 +311,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     @Override
     public void shareViaSNSByRecentPost(String snsType, ObPostBravo obPostBravo, String sharedText) {
         // Check if already logged in
+        Log.d("KieuThang", "shareViaSNSByRecentPost:" + snsType + ",obPostBravo:" + obPostBravo);
         if (BravoConstant.TWITTER.equals(snsType)) {
             shareViaTwitter(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL, obPostBravo, sharedText);
         } else if (BravoConstant.FOURSQUARE.equals(snsType)) {
@@ -368,7 +368,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     }
 
     private void shareViaFourSquare(ObPostBravo obPostBravo, String sharedText) {
-        if (obPostBravo == null) {
+        if (obPostBravo == null || mEasyFoursquareAsync == null) {
             mEasyFoursquareAsync = new EasyFoursquareAsync(this);
             mEasyFoursquareAsync.requestAccess(this);
         } else {
@@ -392,6 +392,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     private void shareViaTwitter(String urlCallback, ObPostBravo obPostBravo, String sharedText) {
         if (obPostBravo == null)
             return;
+        Log.d("Twitter", "shareViaTwitter :" + obPostBravo.data.Bravo_ID);
         requestToGetTwitterUserInfo(obPostBravo.data.Bravo_ID, sharedText);
     }
 
@@ -509,7 +510,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
             AIOLog.e("user twitter is null");
             return;
         }
-        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mBravoId);
+        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", bravoId);
         // update twitter status
         new UpdateTwitterStatus().execute(sharedText + " \n" + bravoUrl);
     }
@@ -531,7 +532,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
          * getting Places JSON
          * */
         protected String doInBackground(String... args) {
-            Log.d("Tweet Text", "> " + args[0]);
+            Log.d("Twitter", "> " + args[0]);
             String status = args[0];
             try {
                 ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -550,7 +551,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 // Update status
                 twitter4j.Status response = twitter.updateStatus(status);
 
-                Log.d("Status", "> " + response.getText());
+                Log.d("Twitter", "> " + response.getText());
             } catch (TwitterException e) {
                 // Error in updating status
                 Log.d("Twitter Update Error", e.getMessage());
@@ -615,7 +616,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
             }
-            Log.d("Twitter", "BravoUtils.isTwitterLoggedInAlready:"+BravoUtils.isTwitterLoggedInAlready(this));
+            Log.d("Twitter", "BravoUtils.isTwitterLoggedInAlready:" + BravoUtils.isTwitterLoggedInAlready(this));
             if (!BravoUtils.isTwitterLoggedInAlready(this)) {
                 ConfigurationBuilder builder = new ConfigurationBuilder();
                 builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);

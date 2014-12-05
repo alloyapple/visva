@@ -111,7 +111,7 @@ public class AdapterHomeNotification extends BaseAdapter {
         }
         else if (mNo.Notification_Type.equals("bravo")) {
             notificationContent = mContext.getResources().getString(R.string.notification_have_bravo)
-                    .replace("%1$s", mNo.Spot_Name).replace("%2$s", userName);
+                    .replace("%1$s", mNo.Spot_Name).replace("%2$s", userName).replace("%s", mNo.Spot_Name);
         } else {
             notificationContent = mContext.getResources().getString(R.string.notification_news_bravos_yesterday)
                     .replace("%d", "");

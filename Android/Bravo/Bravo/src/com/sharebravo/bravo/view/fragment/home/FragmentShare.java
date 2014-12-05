@@ -153,7 +153,8 @@ public class FragmentShare extends FragmentBasic {
 
                         @Override
                         public void onCompleted(Response response) {
-                            Toast.makeText(getActivity(), "share facebook successfully", Toast.LENGTH_SHORT).show();
+                            String shareDone = getActivity().getString(R.string.share_complete_facebook);
+                            Toast.makeText(getActivity(), shareDone, Toast.LENGTH_SHORT).show();
                             isClickFacebook = false;
                             SNS sns = new SNS();
                             sns.foreignAccessToken = activeSession.getAccessToken();

@@ -7,6 +7,8 @@ import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -54,6 +57,7 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
     private Button                btnBack;
     private ObGetUserSearch       mObGetUserSearch;
     private LinearLayout          mLayoutPoorConnection;
+    private ImageButton             cancelSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +68,8 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
         /* request news */
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-        textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_network);
+        cancelSearch = (ImageButton) root.findViewById(R.id.icon_cancel_search);
+        textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_spot);
         textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -76,6 +81,37 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
                     return true;
                 }
                 return false;
+            }
+        });
+        textboxSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                if (!textboxSearch.getEditableText().toString().equals("")) {
+                    if (cancelSearch.getVisibility() == View.GONE) {
+                        cancelSearch.setVisibility(View.VISIBLE);
+                    }
+                } else
+                    cancelSearch.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
+        cancelSearch.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                cancelSearch.setVisibility(View.GONE);
+                textboxSearch.setText("");
+
             }
         });
         btnBack = (Button) root.findViewById(R.id.btn_back);
