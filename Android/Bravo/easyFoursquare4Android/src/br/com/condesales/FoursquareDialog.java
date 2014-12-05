@@ -56,7 +56,8 @@ public class FoursquareDialog extends Dialog {
 		mListener = listener;
 	}
 
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mSpinner = new ProgressDialog(getContext());

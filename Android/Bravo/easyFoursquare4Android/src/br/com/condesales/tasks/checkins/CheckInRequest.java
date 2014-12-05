@@ -15,7 +15,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.location.Location;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
@@ -26,8 +25,6 @@ import br.com.condesales.models.Checkin;
 import com.google.gson.Gson;
 public class CheckInRequest extends AsyncTask<String, Integer, Checkin> {
 
-	private Activity mActivity;
-	private ProgressDialog mProgress;
 	private CheckInListener mListener;
 	private CheckInCriteria mCriteria;
 
@@ -43,7 +40,6 @@ public class CheckInRequest extends AsyncTask<String, Integer, Checkin> {
 	 */
 	public CheckInRequest(Activity activity, CheckInListener listener,
 			CheckInCriteria criteria) {
-		mActivity = activity;
 		mListener = listener;
 		mCriteria = criteria;
 	}
@@ -57,16 +53,11 @@ public class CheckInRequest extends AsyncTask<String, Integer, Checkin> {
 	 *            the object containing all the params from check in
 	 */
 	public CheckInRequest(Activity activity, CheckInCriteria criteria) {
-		mActivity = activity;
 		mCriteria = criteria;
 	}
 
 	@Override
 	protected void onPreExecute() {
-		mProgress = new ProgressDialog(mActivity);
-		mProgress.setCancelable(false);
-		mProgress.setMessage("Checking in ...");
-		mProgress.show();
 		super.onPreExecute();
 	}
 
@@ -105,7 +96,6 @@ public class CheckInRequest extends AsyncTask<String, Integer, Checkin> {
 
 	@Override
 	protected void onPostExecute(Checkin checkin) {
-		mProgress.dismiss();
 		if (mListener != null)
 			mListener.onCheckInDone(checkin);
 		super.onPostExecute(checkin);
