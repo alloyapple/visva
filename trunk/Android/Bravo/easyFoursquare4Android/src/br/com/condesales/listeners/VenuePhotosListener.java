@@ -1,9 +1,5 @@
 package br.com.condesales.listeners;
 
-import java.util.ArrayList;
-
-import br.com.condesales.listeners.ErrorListener;
-import br.com.condesales.models.PhotoItem;
 import br.com.condesales.models.PhotosGroup;
 
 /**
