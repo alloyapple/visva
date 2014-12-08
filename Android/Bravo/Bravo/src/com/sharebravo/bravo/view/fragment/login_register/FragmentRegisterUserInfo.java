@@ -149,6 +149,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     if (mUserAvatarBitmap != null) {
                         requestToPostUserWithAvatarImage(bravoUser, mUserAvatarBitmap);
                     } else {
+                        addSharePreKey(bravoUser.mAuthenMethod, bravoUser.mForeign_Id);
                         /* go to home screen */
                         Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -168,6 +169,21 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
         }, params, true);
         postRegister.execute(BravoWebServiceConfig.URL_POST_USER);
 
+    }
+
+    public void addSharePreKey(String snsType, String snsID) {
+        if (BravoConstant.FACEBOOK.equals(snsType)) {
+            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, true);
+            BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, snsID);
+        }
+        else if (BravoConstant.FOURSQUARE.equals(snsType)) {
+            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
+            BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED, snsID);
+        }
+        else if (BravoConstant.TWITTER.equals(snsType)) {
+            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, true);
+            BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_TWITTER_ID_LOGINED, snsID);
+        }
     }
 
     @Override
@@ -358,7 +374,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
             }
         }
     }
-    
+
     private void requestToPostUserWithAvatarImage(BravoUser bravoUser, Bitmap userAvatarBmp) {
         if (userAvatarBmp == null) {
             /* go to home screen */
