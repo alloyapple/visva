@@ -8,7 +8,7 @@ import android.util.Log;
 public class AIOLog {
     public static String  TAG    = AIOLog.class.getSimpleName();
 
-    public static boolean DEBUG  = true;
+    public static boolean DEBUG  = false;
     public static boolean ASSERT = false;
 
     // private static final String LOG_FILE_PATH = Environment.getDataDirectory() + File.separator + "/data/com.visva.android.visvasdklibrary/log";

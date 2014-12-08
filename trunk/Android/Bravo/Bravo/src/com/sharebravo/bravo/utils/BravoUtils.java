@@ -382,18 +382,7 @@ public class BravoUtils {
             SNS sns = entry.getValue();
             if (sns == null)
                 continue;
-            if(BravoConstant.FACEBOOK.equals(sns.foreignSNS)){
-                BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, true);
-                BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
-            }
-            else if(BravoConstant.FOURSQUARE.equals(sns.foreignSNS)){
-                BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
-                BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED, sns.foreignID);
-            }
-            else if(BravoConstant.TWITTER.equals(sns.foreignSNS)){
-                BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, true);
-                BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_TWITTER_ID_LOGINED, sns.foreignID);
-            }
+           
         }
     }
 

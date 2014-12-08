@@ -311,7 +311,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     @Override
     public void shareViaSNSByRecentPost(String snsType, ObPostBravo obPostBravo, String sharedText) {
         // Check if already logged in
-        Log.d("KieuThang", "shareViaSNSByRecentPost:" + snsType + ",obPostBravo:" + obPostBravo);
         if (BravoConstant.TWITTER.equals(snsType)) {
             shareViaTwitter(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL, obPostBravo, sharedText);
         } else if (BravoConstant.FOURSQUARE.equals(snsType)) {
@@ -392,8 +391,11 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     private void shareViaTwitter(String urlCallback, ObPostBravo obPostBravo, String sharedText) {
         if (obPostBravo == null)
             return;
-        Log.d("Twitter", "shareViaTwitter :" + obPostBravo.data.Bravo_ID);
-        requestToGetTwitterUserInfo(obPostBravo.data.Bravo_ID, sharedText);
+        Log.d("Twitter", "shareViaTwitter :" + obPostBravo.data.Bravo_ID + ",mTwitter: " + mTwitter);
+        if (mTwitter == null) {
+            requestToLoginSNS(BravoConstant.TWITTER);
+        } else
+            requestToGetTwitterUserInfo(obPostBravo.data.Bravo_ID, sharedText);
     }
 
     @Override

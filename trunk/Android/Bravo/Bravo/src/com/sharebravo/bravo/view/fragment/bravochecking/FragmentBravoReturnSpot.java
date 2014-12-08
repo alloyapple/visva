@@ -197,7 +197,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                 }
             }
         });
-        
+
         mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
     }
 
@@ -309,12 +309,12 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
     private void shareViaSNS(ObPostBravo mObPostBravo) {
         Log.d("KieuThang", "isPostOnFourSquare:" + isPostOnFourSquare + ",isPostOnTwitter:" + isPostOnTwitter);
         mSharedText = getActivity().getString(R.string.share_bravo_on_sns_text, mSpot.Spot_Name);
-        // if (isPostOnFacebook)
-        // mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FACEBOOK, mObPostBravo, sharedText);
-        if (isPostOnTwitter)
-            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, mObPostBravo, mSharedText);
+        if (isPostOnFacebook)
+            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FACEBOOK, mObPostBravo, mSharedText);
         if (isPostOnFourSquare)
             shareViaFourSquare(mObPostBravo, mSharedText);
+        if (isPostOnTwitter)
+            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, mObPostBravo, mSharedText);
     }
 
     private void updateBravoWithImage(ObPostBravo obPostBravo, Bitmap spotBitmap) {
@@ -659,7 +659,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                 BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
                 BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED, sns.foreignID);
                 mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
-                if(mObPostBravo != null && isPostOnFourSquare)
+                Log.d("KieuThang", "mObPostBravo:" + mObPostBravo + ",isPostOnFourSquare:" + isPostOnFourSquare);
+                if (mObPostBravo != null && isPostOnFourSquare)
                     shareViaFourSquare(mObPostBravo, mSharedText);
             }
         });
@@ -673,7 +674,9 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
         } else {
             CheckInCriteria criteria = new CheckInCriteria();
             criteria.setBroadcast(CheckInCriteria.BroadCastType.PUBLIC);
-            criteria.setVenueId("4c7063da9c6d6dcb9798d27a");
+            criteria.setVenueId(mSpot.Spot_FID);
+            AIOLog.d("mSpot.Spot_FID: " + mSpot.Spot_FID);
+            //criteria.setVenueId("4c7063da9c6d6dcb9798d27a");
 
             mEasyFoursquareAsync.checkIn(new CheckInListener() {
                 @Override
