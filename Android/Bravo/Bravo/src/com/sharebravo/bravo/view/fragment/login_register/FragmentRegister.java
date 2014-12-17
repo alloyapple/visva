@@ -5,6 +5,7 @@ import java.util.TimeZone;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +18,20 @@ import br.com.condesales.listeners.ImageRequestListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.models.User;
 
-import com.facebook.AppEventsLogger;
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginTextView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityLogin_Register;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sromku.simple.fb.Permission;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Profile;
+import com.sromku.simple.fb.listeners.OnLoginListener;
+import com.sromku.simple.fb.listeners.OnProfileListener;
 
-public class FragmentRegister extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener,
-        LoginTextView.UserInfoChangedCallback {
+public class FragmentRegister extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener {
     // ====================Constant Define=================
     public static final int        TW_LOGIN_ERROR   = -1;
     public static final int        TW_LOGIN_SUCCESS = 0;
@@ -41,11 +39,9 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
     // ====================Variable Define=================
     private Button                 mBtnBravoRegister;
     private IShowPageBravoRegister mListener;
-    private LoginTextView          mTextViewFacebookRegister;
+    private TextView               mTextViewFacebookRegister;
     private TextView               mTextViewTwitterRegister;
     private TextView               mTextViewFoursquareRegister;
-    private UiLifecycleHelper      mUiLifecycleHelper;
-    private Session.StatusCallback mFacebookCallback;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
     private static int             mResgisterType;
 
@@ -70,7 +66,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
         });
 
         /* facebook */
-        mTextViewFacebookRegister = (LoginTextView) root.findViewById(R.id.text_facebook_register);
+        mTextViewFacebookRegister = (TextView) root.findViewById(R.id.text_facebook_register);
         mTextViewFacebookRegister.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -79,7 +75,6 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
                 onClickTextViewFacebookLogin();
             }
         });
-        mTextViewFacebookRegister.setUserInfoChangedCallback(this);
 
         /* twitter */
         mTextViewTwitterRegister = (TextView) root.findViewById(R.id.text_twitter_register);
@@ -108,15 +103,6 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFacebookCallback = new Session.StatusCallback() {
-            @Override
-            public void call(final Session session, final SessionState state, final Exception exception) {
-                AIOLog.d("session callback register:" + session + "state: " + state);
-            }
-        };
-        mUiLifecycleHelper = new UiLifecycleHelper(getActivity(), mFacebookCallback);
-        mUiLifecycleHelper.onCreate(savedInstanceState);
-
     }
 
     public interface IShowPageBravoRegister {
@@ -134,10 +120,6 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
     @Override
     public void onResume() {
         super.onResume();
-        Session session = Session.getActiveSession();
-        boolean isActivedSession = session.isOpened();
-        AIOLog.d("isActivedSession=" + isActivedSession);
-        AppEventsLogger.activateApp(getActivity());
     }
 
     /**
@@ -196,14 +178,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
      * facebook login
      */
 
-    @Override
-    public void onUserInfoFetched(GraphUser user) {
-        AIOLog.d("user at login facebook:" + user + " mResgisterType:" + mResgisterType);
-        if (mResgisterType == BravoConstant.REGISTER_BY_FACEBOOK)
-            onFacebookUserConnected(user);
-    }
-
-    private void onFacebookUserConnected(GraphUser user) {
+    private void onFacebookUserConnected(Profile user) {
         if (user == null)
             return;
         Session session = Session.getActiveSession();
@@ -222,28 +197,71 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
     }
 
     public void onClickTextViewFacebookLogin() {
-        Session session = Session.getActiveSession();
-        if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
-            mTextViewFacebookRegister.onClickLoginFb();
-        } else {
-            AIOLog.d("request user info:" + session);
-            requestUserFacebookInfo(session);
-        }
+        Log.d("KieuThang", "mSimpleFacebook:" + mSimpleFacebook);
+        if (mSimpleFacebook == null)
+            return;
+        mSimpleFacebook.login(onLoginListener);
     }
 
-    private void requestUserFacebookInfo(Session activeSession) {
-        Request infoRequest = Request.newMeRequest(activeSession, new com.facebook.Request.GraphUserCallback() {
+    private void requestUserFacebookInfo() {
+        if (mSimpleFacebook == null) {
+            mSimpleFacebook = SimpleFacebook.getInstance(getActivity());
+            return;
+        }
+        SimpleFacebook.getInstance().getProfile(new OnProfileListener() {
 
             @Override
-            public void onCompleted(GraphUser user, Response response) {
-                AIOLog.d("requestUserFacebookInfo:" + user);
-                onFacebookUserConnected(user);
+            public void onThinking() {
             }
 
+            @Override
+            public void onException(Throwable throwable) {
+            }
+
+            @Override
+            public void onFail(String reason) {
+            }
+
+            @Override
+            public void onComplete(Profile profile) {
+                onFacebookUserConnected(profile);
+            }
         });
-        Bundle params = new Bundle();
-        params.putString("fields", "id, name, picture");
-        infoRequest.setParameters(params);
-        infoRequest.executeAsync();
     }
+
+    /**
+     * Login example.
+     */
+    // Login listener
+    final OnLoginListener onLoginListener = new OnLoginListener() {
+
+                                              @Override
+                                              public void onFail(String reason) {
+                                                  AIOLog.e("Failed to login");
+                                              }
+
+                                              @Override
+                                              public void onException(Throwable throwable) {
+                                                  AIOLog.e("Bad thing happened", throwable);
+                                              }
+
+                                              @Override
+                                              public void onThinking() {
+                                                  // show progress bar or something to the user while login is
+                                                  // happening
+                                              }
+
+                                              @Override
+                                              public void onLogin() {
+                                                  // change the state of the button or do whatever you want
+                                                  AIOLog.d("onLogin");
+                                                  requestUserFacebookInfo();
+                                              }
+
+                                              @Override
+                                              public void onNotAcceptingPermissions(Permission.Type type) {
+                                                  Toast.makeText(getActivity(), String.format("You didn't accept %s permissions", type.name()),
+                                                          Toast.LENGTH_SHORT).show();
+                                              }
+                                          };
 }

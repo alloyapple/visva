@@ -167,7 +167,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <com.facebook.widget.ToggleButtonLogin
+                <ToggleButton
                     android:id="@+id/toggle_btn_post_on_facebook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

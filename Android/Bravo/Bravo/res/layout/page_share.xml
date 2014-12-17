@@ -49,7 +49,7 @@
         android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
         android:background="@drawable/green_button" >
 
-        <com.facebook.widget.LoginTextView
+        <TextView
             android:id="@+id/btn_share_facebook"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

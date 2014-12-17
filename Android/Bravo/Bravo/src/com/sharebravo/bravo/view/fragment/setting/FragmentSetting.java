@@ -14,21 +14,13 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import br.com.condesales.EasyFoursquareAsync;
 import br.com.condesales.listeners.AccessTokenRequestListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.models.User;
 
-import com.facebook.Request;
-import com.facebook.Request.GraphUserCallback;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.ToggleButtonLogin;
-import com.facebook.widget.ToggleButtonLogin.UserInfoChangedCallback;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivitySplash;
@@ -42,31 +34,32 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sromku.simple.fb.Permission;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Profile;
+import com.sromku.simple.fb.listeners.OnLoginListener;
+import com.sromku.simple.fb.listeners.OnProfileListener;
 
 public class FragmentSetting extends FragmentBasic implements AccessTokenRequestListener {
     // =======================Constant Define==============
     // =======================Class Define=================
-    private EasyFoursquareAsync    mEasyFoursquareAsync;
+    private EasyFoursquareAsync mEasyFoursquareAsync;
     // =======================Variable Define==============
-    private TextView               mTextTermOfUse;
-    private TextView               mTextShareWithFriends;
-    private TextView               mTextUpdateUserInfo;
-    private TextView               mTextDeleteMyAccount;
-    private ToggleButtonLogin      mToggleBtnPostOnFacebook;
-    private ToggleButton           mToggleBtnPostOnTwitter;
-    private ToggleButton           mToggleBtnPostOnFourSquare;
-    private ToggleButton           mToggleBtnCommentNotifications;
-    private ToggleButton           mToggleBtnFollowNotifications;
-    private ToggleButton           mToggleBtnFavouriteNotifications;
-    private ToggleButton           mToggleBtnTotalBravoNotifications;
-    private ToggleButton           mToggleBtnBravoNotifications;
-    private Button                 mBtnBack;
-    private boolean                isPostOnFacebook, isPostOnTwitter, isPostOnFourSquare;
-    private boolean                isClickFacebookToggle;
-
-    private UiLifecycleHelper      mUiLifecycleHelper;
-    private Session.StatusCallback mFacebookCallback;
-    private LinearLayout           mLayoutPoorConnection;
+    private TextView            mTextTermOfUse;
+    private TextView            mTextShareWithFriends;
+    private TextView            mTextUpdateUserInfo;
+    private TextView            mTextDeleteMyAccount;
+    private ToggleButton        mToggleBtnPostOnFacebook;
+    private ToggleButton        mToggleBtnPostOnTwitter;
+    private ToggleButton        mToggleBtnPostOnFourSquare;
+    private ToggleButton        mToggleBtnCommentNotifications;
+    private ToggleButton        mToggleBtnFollowNotifications;
+    private ToggleButton        mToggleBtnFavouriteNotifications;
+    private ToggleButton        mToggleBtnTotalBravoNotifications;
+    private ToggleButton        mToggleBtnBravoNotifications;
+    private Button              mBtnBack;
+    private boolean             isPostOnFacebook, isPostOnTwitter, isPostOnFourSquare;
+    private LinearLayout        mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,42 +95,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     String snsId = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED);
                     mHomeActionListener.deleteSNS(snsId);
                 }
-                isClickFacebookToggle = true;
-            }
-        });
-        mToggleBtnPostOnFacebook.setUserInfoChangedCallback(new UserInfoChangedCallback() {
-
-            @Override
-            public void onUserInfoFetched(GraphUser user) {
-                AIOLog.d("facebook: user=>" + user + ",isClickFacebookToggle:" + isClickFacebookToggle);
-                if (isClickFacebookToggle) {
-                    if (user == null) {
-                        mToggleBtnPostOnFacebook.setChecked(false);
-                        isPostOnFacebook = false;
-                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, false);
-                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, false);
-                    } else {
-                        mToggleBtnPostOnFacebook.setChecked(true);
-                        isPostOnFacebook = true;
-                        Session session = Session.getActiveSession();
-                        if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
-                            AIOLog.d("session is null");
-                            isPostOnFacebook = false;
-                            return;
-                        }
-                        SNS sns = new SNS();
-                        if (session != null || session.isOpened()) {
-                            sns.foreignAccessToken = session.getAccessToken();
-                            sns.foreignID = user.getId();
-                            sns.foreignSNS = BravoConstant.FACEBOOK;
-
-                            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
-                            BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
-                            mHomeActionListener.putSNS(sns);
-                        }
-                    }
-                    isClickFacebookToggle = false;
-                }
             }
         });
         mToggleBtnPostOnTwitter.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -162,7 +119,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mToggleBtnPostOnFourSquare.setChecked(false);
-                if (isChecked){
+                if (isChecked) {
                     BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_CHECKED, true);
                     onCheckedToggleBtnFourSquare(isChecked);
                 }
@@ -175,7 +132,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 }
             }
         });
-
         /* Notifications */
         mToggleBtnBravoNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -216,29 +172,11 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     }
 
     private void onCheckedToggleBtnFacebook(boolean isChecked) {
-        final Session session = Session.getActiveSession();
-        AIOLog.d("session=>" + session);
-        if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
-            mToggleBtnPostOnFacebook.onClickLoginFb();
+        if (mSimpleFacebook == null) {
+            mSimpleFacebook.login(onLoginListener);
+            return;
         } else {
-            Request infoRequest = Request.newMeRequest(session, new GraphUserCallback() {
-
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    SNS sns = new SNS();
-                    sns.foreignAccessToken = session.getAccessToken();
-                    sns.foreignID = user.getId();
-                    sns.foreignSNS = BravoConstant.FACEBOOK;
-
-                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
-                    mHomeActionListener.putSNS(sns);
-                }
-            });
-            Bundle params = new Bundle();
-            params.putString("fields", "id, name, picture");
-            infoRequest.setParameters(params);
-            infoRequest.executeAsync();
+            requestUserFacebookInfo();
         }
     }
 
@@ -251,10 +189,9 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         isPostOnTwitter = BravoUtils.isTwitterLoggedInAlready(getActivity());
         isPostOnFacebook = BravoUtils.isFacebookLoggedInAlready(getActivity());
         isPostOnFourSquare = BravoUtils.isFourSquareLoggedInAlready(getActivity());
-        boolean isAlreadyFacebookCheck = BravoUtils.isFacebookAlreadyChecked(getActivity());
         boolean isAlreadyTwitterCheck = BravoUtils.isTwitterAlreadyChecked(getActivity());
         boolean isAlreadyFourSquareCheck = BravoUtils.isFourSquareAlreadyChecked(getActivity());
-        if (isPostOnFacebook && isAlreadyFacebookCheck) {
+        if (isPostOnFacebook) {
             mToggleBtnPostOnFacebook.setChecked(true);
         } else {
             mToggleBtnPostOnFacebook.setChecked(false);
@@ -300,7 +237,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         mToggleBtnCommentNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_comment_notifications);
         mToggleBtnFavouriteNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_favourite_notifications);
         mToggleBtnFollowNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_follow_notifications);
-        mToggleBtnPostOnFacebook = (ToggleButtonLogin) root.findViewById(R.id.toggle_btn_post_on_facebook);
+        mToggleBtnPostOnFacebook = (ToggleButton) root.findViewById(R.id.toggle_btn_post_on_facebook);
         mToggleBtnPostOnFourSquare = (ToggleButton) root.findViewById(R.id.toggle_btn_post_on_4square);
         mToggleBtnPostOnTwitter = (ToggleButton) root.findViewById(R.id.toggle_btn_post_on_twitter);
         mToggleBtnTotalBravoNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_total_bravo_notifications);
@@ -448,15 +385,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /* facebook api */
-        mFacebookCallback = new Session.StatusCallback() {
-            @Override
-            public void call(final Session session, final SessionState state, final Exception exception) {
-                AIOLog.d("session callback login:" + session + "state: " + state);
-            }
-        };
-        mUiLifecycleHelper = new UiLifecycleHelper(getActivity(), mFacebookCallback);
-        mUiLifecycleHelper.onCreate(savedInstanceState);
     }
 
     public void setLoginedTwitter(boolean isLoginedTwitter, SNS sns) {
@@ -494,4 +422,80 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     }
                 });
     }
+
+    /**
+     * Login example.
+     */
+    // Login listener
+    final OnLoginListener onLoginListener = new OnLoginListener() {
+
+                                              @Override
+                                              public void onFail(String reason) {
+                                                  AIOLog.e("Failed to login");
+                                              }
+
+                                              @Override
+                                              public void onException(Throwable throwable) {
+                                                  AIOLog.e("Bad thing happened", throwable);
+                                              }
+
+                                              @Override
+                                              public void onThinking() {
+                                                  // show progress bar or something to the user while login is
+                                                  // happening
+                                              }
+
+                                              @Override
+                                              public void onLogin() {
+                                                  // change the state of the button or do whatever you want
+                                                  AIOLog.d("onLogin");
+                                                  requestUserFacebookInfo();
+                                              }
+
+                                              @Override
+                                              public void onNotAcceptingPermissions(Permission.Type type) {
+                                                  Toast.makeText(getActivity(), String.format("You didn't accept %s permissions", type.name()),
+                                                          Toast.LENGTH_SHORT).show();
+                                              }
+                                          };
+
+    private void requestUserFacebookInfo() {
+        if (mSimpleFacebook == null) {
+            mSimpleFacebook = SimpleFacebook.getInstance(getActivity());
+            return;
+        }
+        SimpleFacebook.getInstance().getProfile(new OnProfileListener() {
+
+            @Override
+            public void onThinking() {
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+            }
+
+            @Override
+            public void onFail(String reason) {
+            }
+
+            @Override
+            public void onComplete(Profile profile) {
+                onFacebookUserConnected(profile);
+            }
+
+        });
+    }
+
+    private void onFacebookUserConnected(Profile profile) {
+        SNS sns = new SNS();
+        sns.foreignAccessToken = "";
+        sns.foreignID = profile.getId();
+        sns.foreignSNS = BravoConstant.FACEBOOK;
+        mHomeActionListener.putSNS(sns);
+        isPostOnFacebook = true;
+
+        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
+    }
+
 }

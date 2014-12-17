@@ -1,8 +1,6 @@
 package com.sharebravo.bravo.control.activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -30,14 +28,7 @@ import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.models.Checkin;
 import br.com.condesales.models.User;
 
-import com.facebook.Request;
-import com.facebook.Request.Callback;
-import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.Session.NewPermissionsRequest;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
@@ -56,6 +47,7 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
+import com.sromku.simple.fb.SimpleFacebook;
 
 public class ActivityBravoChecking extends VisvaAbstractFragmentActivity implements BravoCheckingListener, AccessTokenRequestListener {
     // ======================Constant Define===============
@@ -68,7 +60,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     public static final int         FRAGMENT_BRAVO_MAP_ID          = FRAGMENT_BASE_ID + 2;
     public static final int         FRAGMENT_BRAVO_RETURN_SPOTS_ID = FRAGMENT_BASE_ID + 3;
 
-    private static final String     PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
     // ======================Class Define==================
     private FragmentManager         mFmManager;
     private FragmentTransaction     mTransaction;
@@ -76,18 +67,12 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     private FragmentBravoReturnSpot mFragmentBravoReturnSpots;
     private FragmentBravoSearch     mFragmentBravoSearch;
     private Spot                    mSpot;
-    private PendingAction           mPendingAction                 = PendingAction.NONE;
     // ======================Variable Define===============
     private ArrayList<String>       mBackstack                     = new ArrayList<String>();
     private static RequestToken     mTwitterRequestToken;
     protected static Twitter        mTwitter;
-    private UiLifecycleHelper       mUiLifecycleHelper;
-    private Session.StatusCallback  mFacebookCallback;
     private EasyFoursquareAsync     mEasyFoursquareAsync;
-
-    private enum PendingAction {
-        NONE, POST_PHOTO, POST_STATUS_UPDATE
-    }
+    private SimpleFacebook          mSimpleFacebook;
 
     @Override
     public int contentView() {
@@ -96,17 +81,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void onCreate() {
-        /* facebook api */
-        mFacebookCallback = new Session.StatusCallback() {
-            @Override
-            public void call(final Session session, final SessionState state, final Exception exception) {
-                AIOLog.d("session callback login:" + session + "state: " + state);
-            }
-        };
-        Bundle bundle = getIntent().getExtras();
-        mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
-        mUiLifecycleHelper.onCreate(bundle);
-
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
         if (Build.VERSION.SDK_INT >= 11)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         initializeFragments();
@@ -326,44 +301,20 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened() || obPostBravo == null) {
             AIOLog.d("session or obPostbravo is null");
         } else {
-            // isClickFacebook = true;
-            final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+            FacebookUtil.getInstance(ActivityBravoChecking.this).publishShareInBackground(obPostBravo.data.Bravo_ID, sharedText,
+                    new IRequestListener() {
 
-            if (Session.getActiveSession() != null) {
-                List<String> sessionPermission = Session.getActiveSession().getPermissions();
-                if (!sessionPermission.containsAll(PERMISSIONS)) {
-                    NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(ActivityBravoChecking.this, PERMISSIONS);
-                    Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
-                }
-            }
-            requestUserFacebookInfo(session, obPostBravo, sharedText);
+                        @Override
+                        public void onResponse(String response) {
+                            AIOLog.d("share facebook success via recent post");
+                        }
+
+                        @Override
+                        public void onErrorResponse(String errorMessage) {
+
+                        }
+                    });
         }
-    }
-
-    private void requestUserFacebookInfo(Session activeSession, final ObPostBravo obPostBravo, final String sharedText) {
-        AIOLog.d("activeSession:" + activeSession);
-        Request infoRequest = Request.newMeRequest(activeSession, new com.facebook.Request.GraphUserCallback() {
-
-            @Override
-            public void onCompleted(final GraphUser user, Response response) {
-                AIOLog.d("requestUserFacebookInfo:" + user);
-                if (user != null)
-                    FacebookUtil.getInstance(ActivityBravoChecking.this).publishShareInBackground(obPostBravo.data.Bravo_ID, sharedText,
-                            new Callback() {
-
-                                @Override
-                                public void onCompleted(Response response) {
-                                    AIOLog.d("share facebook success via recent post");
-                                }
-                            });
-            }
-
-        });
-        Bundle params = new Bundle();
-        params.putString("fields", "id, name, picture");
-        infoRequest.setParameters(params);
-        infoRequest.executeAsync();
-
     }
 
     private void shareViaFourSquare(ObPostBravo obPostBravo, String sharedText) {
@@ -401,49 +352,28 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mUiLifecycleHelper.onSaveInstanceState(outState);
-
-        outState.putString(PENDING_ACTION_BUNDLE_KEY, mPendingAction.name());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mUiLifecycleHelper.onActivityResult(requestCode, resultCode, data, null);
+        mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mUiLifecycleHelper.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mUiLifecycleHelper.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mUiLifecycleHelper.onResume();
-        final Session session = Session.getActiveSession();
-        if (session == null || session.isClosed() || !session.isOpened()) {
-            mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
-        } else {
-            AIOLog.e("resume: session", "not null");
-            Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    if (session == Session.getActiveSession()) {
-                        if (user != null) {
-                        }
-                    }
-                }
-            });
-            request.executeAsync();
-        }
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
     }
 
     @Override
