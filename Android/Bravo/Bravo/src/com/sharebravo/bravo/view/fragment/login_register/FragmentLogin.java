@@ -182,7 +182,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
      * @param userID
      * @param accessToken
      */
-    private void onLoginBravoBySNS(String userID, String accessToken, final int loginType) {
+    private void onLoginBravoBySNS(final String userID, String accessToken, final int loginType) {
         AIOLog.d("userID:" + userID + ", accessToken:" + accessToken);
         String url = BravoWebServiceConfig.URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT + "/" + userID;
         List<NameValuePair> params = ParameterFactory.createSubParamsLoginBySNS(userID, accessToken);
@@ -197,7 +197,9 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 } else {
                     /* save data */
                     BravoUtils.saveResponseToSharePreferences(getActivity(), loginType, response);
-
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, true);
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, userID);
+                    
                     /* go to home screen */
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                     startActivity(homeIntent);
