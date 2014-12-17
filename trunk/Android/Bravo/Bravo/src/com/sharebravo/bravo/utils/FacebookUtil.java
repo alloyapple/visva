@@ -1,21 +1,12 @@
 package com.sharebravo.bravo.utils;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.widget.Toast;
 
-import com.facebook.FacebookException;
-import com.facebook.FacebookOperationCanceledException;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Request.Callback;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.widget.WebDialog;
-import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.control.request.IRequestListener;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Feed;
+import com.sromku.simple.fb.listeners.OnPublishListener;
 
 public class FacebookUtil {
 
@@ -30,100 +21,68 @@ public class FacebookUtil {
         return mInstance;
     }
 
-    public void publishShareInBackground(String bravoId, String sharedText, final Callback callback) {
-        AIOLog.d("sharedText" + sharedText);
+    public void publishShareInBackground(String bravoId, String sharedText, final IRequestListener callback) {
         String message = sharedText;
         String name = mContext.getString(R.string.app_name);
         String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", bravoId);
         String pic = mContext.getString(R.string.picture_share_fb);
-        final Bundle _postParameter = new Bundle();
-        _postParameter.putString("name", name);
-        _postParameter.putString("link", bravoUrl);
-        _postParameter.putString("picture", pic);
-        _postParameter.putString("description", message);
+        final Feed feed = new Feed.Builder().setMessage(sharedText).setName(name).setCaption(message)
+                .setDescription(message).setPicture(pic).setLink(bravoUrl).build();
 
-        // final List<String> PERMISSIONS = Arrays.asList("publish_stream");
-        //
-        // if (Session.getActiveSession() != null) {
-        // List<String> sessionPermission = Session.getActiveSession().getPermissions();
-        // if (!sessionPermission.containsAll(PERMISSIONS)) {
-        // NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(mContext, PERMISSIONS);
-        // Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
-        // }
-        // }
-
-        Request request = new Request(Session.getActiveSession(), "feed", _postParameter, HttpMethod.POST);
-        request.setCallback(new Callback() {
+        SimpleFacebook.getInstance().publish(feed, new OnPublishListener() {
 
             @Override
-            public void onCompleted(Response response) {
-                callback.onCompleted(response);
-                AIOLog.d("response:" + response);
+            public void onException(Throwable throwable) {
+               callback.onErrorResponse("");
+            }
+
+            @Override
+            public void onFail(String reason) {
+                callback.onErrorResponse("");
+            }
+
+            @Override
+            public void onThinking() {
+                callback.onErrorResponse("");
+            }
+
+            @Override
+            public void onComplete(String response) {
+                callback.onResponse(response);
             }
         });
-        RequestAsyncTask task = new RequestAsyncTask(request);
-        task.execute();
-    }
-
-    public void publishShareDialog() {
-        Session session = Session.getActiveSession();
-        if (session != null && session.isOpened()) {
-            Bundle params = new Bundle();
-            params.putString("name", "Shoppie");
-            params.putString("caption", "");
-            params.putString("description", "text here");
-            params.putString("link", "");
-            params.putString("picture", "");
-            // http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg
-            WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(mContext,
-                    Session.getActiveSession(), params)).setOnCompleteListener(
-                    new OnCompleteListener() {
-
-                        @Override
-                        public void onComplete(Bundle values, FacebookException error) {
-                            if (error == null) {
-                                Toast.makeText(mContext, "Share successfully ", Toast.LENGTH_SHORT).show();
-                            } else if (error instanceof FacebookOperationCanceledException) {
-                                Toast.makeText(mContext, "Publish cancelled", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(mContext, "Error posting story", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }).build();
-            feedDialog.show();
-        }
-    }
-
-    public void publishFeedDialog(String custId) {
-        Bundle params = new Bundle();
-        params.putString("name", "");
-        params.putString("caption", "");
-        params.putString("description", "");
-        params.putString("link", "http://www.shoppie.com.vn/");
-        params.putString("picture", "");
-        params.putString("to", "");
-        WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(mContext,
-                Session.getActiveSession(), params)).setOnCompleteListener(
-                new OnCompleteListener() {
-
-                    @Override
-                    public void onComplete(Bundle values,
-                            FacebookException error) {
-                        if (error == null) {
-                            // When the story is posted, echo the success
-                            // and the post Id.
-                            final String name = "";
-                            Toast.makeText(mContext, "Invited " + name, Toast.LENGTH_SHORT).show();
-                        } else if (error instanceof FacebookOperationCanceledException) {
-                            // User clicked the "x" button
-                            Toast.makeText(mContext, "Publish cancelled", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Generic, ex: network error
-                            Toast.makeText(mContext, "Error posting story", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).build();
-        feedDialog.show();
-
+        
+//        AIOLog.d("sharedText" + sharedText);
+//        String message = sharedText;
+//        String name = mContext.getString(R.string.app_name);
+//        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", bravoId);
+//        String pic = mContext.getString(R.string.picture_share_fb);
+//        final Bundle _postParameter = new Bundle();
+//        _postParameter.putString("name", name);
+//        _postParameter.putString("link", bravoUrl);
+//        _postParameter.putString("picture", pic);
+//        _postParameter.putString("description", message);
+//
+//        final List<String> PERMISSIONS = Arrays.asList("publish_stream");
+//
+//        if (Session.getActiveSession() != null) {
+//            List<String> sessionPermission = Session.getActiveSession().getPermissions();
+//            if (!sessionPermission.containsAll(PERMISSIONS)) {
+//                NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(mContext, PERMISSIONS);
+//                Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
+//            }
+//        }
+//
+//        Request request = new Request(Session.getActiveSession(), "feed", _postParameter, HttpMethod.POST);
+//        request.setCallback(new Callback() {
+//
+//            @Override
+//            public void onCompleted(Response response) {
+//                callback.onCompleted(response);
+//                AIOLog.d("response:" + response);
+//            }
+//        });
+//        RequestAsyncTask task = new RequestAsyncTask(request);
+//        task.execute();
     }
 }

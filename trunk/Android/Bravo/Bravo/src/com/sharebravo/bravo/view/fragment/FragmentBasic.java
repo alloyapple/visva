@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
+import com.sromku.simple.fb.SimpleFacebook;
 
 public class FragmentBasic extends Fragment implements IUISync {
     private boolean                 backStatus  = false;
@@ -18,10 +20,17 @@ public class FragmentBasic extends Fragment implements IUISync {
     private boolean                 dataChange  = false;
     private VisvaDialog             mProgressDialog;
     public int                      mNumLoading = 0;
+    protected SimpleFacebook        mSimpleFacebook;
 
     public FragmentBasic() {
         mHomeActionListener = (HomeActivity) getActivity();
         mBravoCheckingListener = (ActivityBravoChecking) getActivity();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSimpleFacebook = SimpleFacebook.getInstance(getActivity());
     }
 
     public void before() {

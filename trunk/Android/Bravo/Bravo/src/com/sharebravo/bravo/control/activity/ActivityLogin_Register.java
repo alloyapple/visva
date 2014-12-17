@@ -27,14 +27,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 
-import com.facebook.FacebookAuthorizationException;
-import com.facebook.FacebookOperationCanceledException;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
@@ -57,6 +49,7 @@ import com.sharebravo.bravo.view.fragment.login_register.FragmentLogin.IShowPage
 import com.sharebravo.bravo.view.fragment.login_register.FragmentRegister;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentRegister.IShowPageBravoRegister;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentRegisterUserInfo;
+import com.sromku.simple.fb.SimpleFacebook;
 
 public class ActivityLogin_Register extends FragmentActivity implements IShowPageBravoLogin, IShowPageBravoRegister, IShowPageForgotPassword {
 
@@ -69,7 +62,6 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     private static final String      FRAGMENT_REGISTER_USER_INFO = "register_user_info";
     private static final String      FRAGMENT_BRAVO_LOGIN        = "bravo_login";
     private static final String      FRAGMENT_FORGOT_PASSWORD    = "forgot_password";
-    private final String             PENDING_ACTION_BUNDLE_KEY   = "com.sharebravo.bravo:PendingAction";
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -83,31 +75,17 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
 
     // ======================Variable Define===============
     private ArrayList<String>        mBackstack                  = new ArrayList<String>();
-    private UiLifecycleHelper        mUiLifecycleHelper;
-    private Session.StatusCallback   mFacebookCallback;
     private int                      mAccessType;
-    private PendingAction            mPendingAction              = PendingAction.NONE;
     private static RequestToken      mTwitterRequestToken;
     protected static Twitter         mTwitter;
     private static int               mTwitterType;
+    private SimpleFacebook           mSimpleFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
-        /* facebook api */
-        mFacebookCallback = new Session.StatusCallback() {
-            @Override
-            public void call(Session session, SessionState state, Exception exception) {
-                onSessionStateChange(session, state, exception);
-            }
-        };
-        mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
-        mUiLifecycleHelper.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            String name = savedInstanceState.getString(PENDING_ACTION_BUNDLE_KEY);
-            mPendingAction = PendingAction.valueOf(name);
-        }
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
 
         /* initialize fragments */
         initializeFragments(savedInstanceState);
@@ -163,8 +141,6 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             }
         }
     }
-
-   
 
     private void initializeFragments(Bundle savedInstanceState) {
         mFmManager = getSupportFragmentManager();
@@ -335,56 +311,28 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mUiLifecycleHelper.onSaveInstanceState(outState);
-
-        outState.putString(PENDING_ACTION_BUNDLE_KEY, mPendingAction.name());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mUiLifecycleHelper.onActivityResult(requestCode, resultCode, data, null);
+        mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mUiLifecycleHelper.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mUiLifecycleHelper.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mUiLifecycleHelper.onResume();
-
-        // Call the 'activateApp' method to log an app event for use in
-        // analytics and advertising reporting. Do so in
-        // the onResume methods of the primary Activities that an app may be
-        // launched into.
-
-        final Session session = Session.getActiveSession();
-        if (session == null || session.isClosed() || !session.isOpened()) {
-            mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
-        } else {
-            AIOLog.e("resume: session", "not null");
-            Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    if (session == Session.getActiveSession()) {
-                        if (user != null) {
-                        }
-                    }
-                }
-            });
-            request.executeAsync();
-        }
-
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
     }
 
     /**
@@ -397,32 +345,6 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     @Override
     public void showPageBravoRegister() {
         showFragment(BravoConstant.FRAGMENT_BRAVO_REGISTER_ID);
-    }
-
-    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-        if (mPendingAction != PendingAction.NONE
-                && (exception instanceof FacebookOperationCanceledException || exception instanceof FacebookAuthorizationException)) {
-            mPendingAction = PendingAction.NONE;
-        } else if (state == SessionState.OPENED_TOKEN_UPDATED) {
-            handlePendingAction();
-        }
-    }
-
-    private enum PendingAction {
-        NONE, POST_PHOTO, POST_STATUS_UPDATE
-    }
-
-    @SuppressWarnings("incomplete-switch")
-    private void handlePendingAction() {
-        PendingAction previouslyPendingAction = mPendingAction;
-        mPendingAction = PendingAction.NONE;
-
-        switch (previouslyPendingAction) {
-        case POST_PHOTO:
-            break;
-        case POST_STATUS_UPDATE:
-            break;
-        }
     }
 
     @Override

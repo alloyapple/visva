@@ -36,12 +36,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -88,11 +82,11 @@ import com.sharebravo.bravo.view.fragment.userprofile.FragmentHistory;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab.IShowPageSettings;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage;
+import com.sromku.simple.fb.SimpleFacebook;
 
 public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageSettings {
 
     // ======================Constant Define===============
-    private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
     public static final int          REQUEST_CODE_CHECKING_BRAVO    = 1;
     public static final int          REQUEST_CODE_TAP_HERE_BRAVO    = 2;
     public static final String       EXTRA_MESSAGE                  = "message";
@@ -179,9 +173,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private ArrayList<Integer>       backstackSearch                = new ArrayList<Integer>();
     private ArrayList<Integer>       backstackMyData                = new ArrayList<Integer>();
 
-    private UiLifecycleHelper        mUiLifecycleHelper;
-    private Session.StatusCallback   mFacebookCallback;
-    private PendingAction            mPendingAction                 = PendingAction.NONE;
+    private SimpleFacebook           mSimpleFacebook;
     private boolean                  mBackPressedToExitOnce         = false;
     private SessionLogin             mSessionLogin                  = null;
     private int                      mLoginBravoViaType             = BravoConstant.NO_LOGIN_SNS;
@@ -201,21 +193,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onCreate() {
         MyApplication myApp = (MyApplication) getApplication();
         myApp._homeActivity = this;
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
+        
         Log.d("Twitter", "onCreated");
         mLoginBravoViaType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(this, mLoginBravoViaType);
         userId = mSessionLogin.userID;
         accessToken = mSessionLogin.accessToken;
-        /* facebook api */
-        mFacebookCallback = new Session.StatusCallback() {
-            @Override
-            public void call(final Session session, final SessionState state, final Exception exception) {
-                AIOLog.d("session callback login:" + session + "state: " + state);
-            }
-        };
-        Bundle bundle = getIntent().getExtras();
-        mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
-        mUiLifecycleHelper.onCreate(bundle);
 
         if (Build.VERSION.SDK_INT >= 11)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
@@ -230,14 +214,14 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         Log.d("Twitter", "BravoUtils.isTwitterLoggedInAlready:" + BravoUtils.isTwitterLoggedInAlready(this));
         if (!BravoUtils.isTwitterLoggedInAlready(this)) {
             Uri uri = getIntent().getData();
-            
-            Log.d("Twitter", "URI:"+uri);
+
+            Log.d("Twitter", "URI:" + uri);
             if (uri != null
                     && (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL) || uri.toString().startsWith(
                             BravoConstant.TWITTER_CALLBACK_SETTING_URL))) {
                 // oAuth verifier
                 String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
-                Log.d("Twitter", "verifier:"+verifier);
+                Log.d("Twitter", "verifier:" + verifier);
                 try {
                     // Get the access token
                     AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
@@ -291,7 +275,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } else {
             AIOLog.e("No valid Google Play Services APK found.");
         }
-        
+
     }
 
     public void resetStack() {
@@ -364,33 +348,24 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mUiLifecycleHelper.onSaveInstanceState(outState);
-
-        outState.putString(PENDING_ACTION_BUNDLE_KEY, mPendingAction.name());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mUiLifecycleHelper.onActivityResult(requestCode, resultCode, data, null);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_CHECKING_BRAVO) {
-                goToAddSpot();
-            } else if (requestCode == REQUEST_CODE_TAP_HERE_BRAVO) {
-            }
-        }
+        mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mUiLifecycleHelper.onPause();
+        //mUiLifecycleHelper.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mUiLifecycleHelper.onDestroy();
+       // mUiLifecycleHelper.onDestroy();
     }
 
     @Override
@@ -407,23 +382,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     protected void onResume() {
         super.onResume();
         Log.d("Twitter", "onResume");
-        mUiLifecycleHelper.onResume();
-        final Session session = Session.getActiveSession();
-        if (session == null || session.isClosed() || !session.isOpened()) {
-            mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
-        } else {
-            AIOLog.e("resume: session", "not null");
-            Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    if (session == Session.getActiveSession()) {
-                        if (user != null) {
-                        }
-                    }
-                }
-            });
-            request.executeAsync();
-        }
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
     }
 
     private void initializeFragments() {
@@ -933,10 +892,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         showFragment(FRAGMENT_HISTORY_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
-    private enum PendingAction {
-        NONE, POST_PHOTO, POST_STATUS_UPDATE
-    }
-
     @Override
     public void goToMapView(String foreignID, int locationType, String fullName) {
         // mFragmentMapView = new FragmentMapView();
@@ -1033,15 +988,15 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void putSNS(final SNS sns) {
         BravoRequestManager.getInstance(this).putSNS(this, sns, new IRequestListener() {
-            
+
             @Override
             public void onResponse(String response) {
-                AIOLog.d("putSNS onResponse:"+response);
+                AIOLog.d("putSNS onResponse:" + response);
             }
-            
+
             @Override
             public void onErrorResponse(String errorMessage) {
-                AIOLog.d("putSNS onErrorResponse:"+errorMessage);
+                AIOLog.d("putSNS onErrorResponse:" + errorMessage);
             }
         });
     }
@@ -1052,7 +1007,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
             @Override
             public void onResponse(String response) {
-                AIOLog.d("deleteSNS response:"+response);
+                AIOLog.d("deleteSNS response:" + response);
             }
 
             @Override
