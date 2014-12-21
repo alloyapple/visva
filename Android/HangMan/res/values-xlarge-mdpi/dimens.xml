@@ -16,7 +16,7 @@
     <dimen name="dialog_text_font_size">18.0sp</dimen>
     <dimen name="dialog_bottom_margin">20.0dip</dimen>
     <dimen name="game_board_top_margin">2.0dip</dimen>
-    <dimen name="enter_word_board_top">15.0dip</dimen>
+    <dimen name="enter_word_board_top">150.0dip</dimen>
     <dimen name="first_row_top">7.0dip</dimen>
     <dimen name="one_player_main_top">20.0dip</dimen>
     <dimen name="two_player_main_top">25.0dip</dimen>

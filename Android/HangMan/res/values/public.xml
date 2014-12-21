@@ -10,7 +10,6 @@
     <public id="0x7f020020" name="b_disabled_lrg" type="drawable" />
     <public id="0x7f020021" name="b_lrg" type="drawable" />
     <public id="0x7f020023" name="b_right_lrg" type="drawable" />
-    <public id="0x7f020026" name="back_arrow_lrg" type="drawable" />
     <public id="0x7f020027" name="back_lrg" type="drawable" />
     <public id="0x7f020029" name="back_pressed_lrg" type="drawable" />
     <public id="0x7f02002e" name="bg_dialog_lrg" type="drawable" />
@@ -153,17 +152,9 @@
     <public id="0x7f02005b" name="e" type="drawable" />
     <public id="0x7f02005c" name="e_disabled" type="drawable" />
     <public id="0x7f02005f" name="e_right" type="drawable" />
-    <public id="0x7f020061" name="easy" type="drawable" />
-    <public id="0x7f020063" name="easy_selected" type="drawable" />
-    <public id="0x7f020065" name="enter_word_bg" type="drawable" />
-    <public id="0x7f020067" name="enter_word_box" type="drawable" />
-    <public id="0x7f020068" name="enter_word_line1" type="drawable" />
-    <public id="0x7f02006a" name="enter_word_line3" type="drawable" />
     <public id="0x7f02006c" name="f" type="drawable" />
     <public id="0x7f02006d" name="f_disabled" type="drawable" />
     <public id="0x7f020070" name="f_right" type="drawable" />
-    <public id="0x7f020072" name="food" type="drawable" />
-    <public id="0x7f020074" name="food_selected" type="drawable" />
     <public id="0x7f020076" name="g" type="drawable" />
     <public id="0x7f020077" name="g_disabled" type="drawable" />
     <public id="0x7f02007a" name="g_right" type="drawable" />
@@ -176,8 +167,6 @@
     <public id="0x7f020088" name="gallows_anim_6" type="drawable" />
     <public id="0x7f02008a" name="gallows_anim_7" type="drawable" />
     <public id="0x7f02008c" name="gallows_anim_8" type="drawable" />
-    <public id="0x7f02008e" name="gameboard_logo_free" type="drawable" />
-    <public id="0x7f02008f" name="gameboard_logo_pro" type="drawable" />
     <public id="0x7f020095" name="h" type="drawable" />
     <public id="0x7f020096" name="h_disabled" type="drawable" />
     <public id="0x7f020099" name="h_right" type="drawable" />
