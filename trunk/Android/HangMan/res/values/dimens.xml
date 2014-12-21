@@ -27,7 +27,7 @@
     <dimen name="first_piece_left_margin">0.0dip</dimen>
     <dimen name="ok_button_left_margin">25.0dip</dimen>
     <dimen name="word_start_at">33.0dip</dimen>
-    <dimen name="enter_word_board_top">0.0dip</dimen>
+    <dimen name="enter_word_board_top">120dip</dimen>
     <dimen name="first_line_top">18.0dip</dimen>
     <dimen name="enter_word_box_top">25.0dip</dimen>
     <dimen name="first_row_top">10.0dip</dimen>

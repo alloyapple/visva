@@ -15,8 +15,7 @@
             android:id="@id/LinearLayout01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-20.0dip"
-            android:background="@drawable/bg_taopbar" >
+            android:layout_marginBottom="-20.0dip" >
 
             <ImageButton
                 android:id="@id/btn_menu_gameboard"
@@ -33,8 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginLeft="35.0dip"
-                android:layout_marginTop="2.0dip"
-                android:background="@drawable/gameboard_logo_pro" />
+                android:layout_marginTop="2.0dip" />
 
             <ImageButton
                 android:id="@id/btn_new_gameboard"

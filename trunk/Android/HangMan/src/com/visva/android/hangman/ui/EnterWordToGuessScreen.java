@@ -115,9 +115,9 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
 			str_player2 = extras.getString(PLAYER2);
 			player1Challenge = extras.getBoolean(PLAYER1_CHALLENGE);
 			if (player1Challenge) {
-				txt_playername.setText(str_player2);
+				txt_playername.setText(getString(R.string.enter_word_for_play_name_to_guess,str_player2));
 			} else {
-				txt_playername.setText(str_player1);
+			    txt_playername.setText(getString(R.string.enter_word_for_play_name_to_guess,str_player1));
 			}
 		}
 		getMapCharButtons();

@@ -1,130 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/enter_word_bg" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@id/main_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/enter_word_bg"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@id/LinearLayout01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-10.0dip"
-            android:background="@drawable/bg_taopbar" >
+            android:layout_marginBottom="-10.0dip" >
 
             <ImageButton
                 android:id="@id/btn_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_gravity="top"
-                android:layout_marginLeft="10.0dip"
+                android:layout_marginLeft="30.0dip"
                 android:layout_marginTop="15.0dip"
                 android:background="@drawable/menu_button"
-                android:soundEffectsEnabled="false" />
-
-            <ImageView
-                android:id="@id/header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_marginLeft="35.0dip"
-                android:layout_marginTop="2.0dip"
-                android:background="@drawable/gameboard_logo_pro"
                 android:soundEffectsEnabled="false" />
 
             <ImageButton
                 android:id="@id/btn_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="top"
-                android:layout_marginLeft="30.0dip"
+                android:layout_marginRight="30.0dip"
                 android:layout_marginTop="15.0dip"
                 android:background="@drawable/new_game_button"
                 android:soundEffectsEnabled="false" />
-        </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_player_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="@dimen/enter_word_board_top"
+            android:text="@string/enter_word_for_play_name_to_guess"
+            android:textSize="14sp" >
+        </TextView>
 
         <LinearLayout
             android:id="@id/LinearLayout02"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/enter_word_board_top"
-            android:background="@drawable/enter_word_box"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/first_line_top" >
-
-            <ImageView
-                android:id="@id/ImageView01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/line_one_top"
-                android:background="@drawable/enter_word_line1"
-                android:soundEffectsEnabled="false" />
-
-            <TextView
-                android:id="@id/txt_player_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/line_two_top"
-                android:soundEffectsEnabled="false"
-                android:text="Player name"
-                android:textColor="#ffdee66c"
-                android:textSize="18.0sp"
-                android:typeface="serif" />
-
-            <ImageView
-                android:id="@id/ImageView03"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/line_three_top"
-                android:background="@drawable/enter_word_line3"
-                android:soundEffectsEnabled="false" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="44.0dip"
-            android:layout_marginTop="10.0dip"
-            android:gravity="bottom|center" >
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/layout_bg_corner"
+            android:orientation="vertical" >
 
             <EditText
                 android:id="@id/txt_enter_word"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="#00000000"
-                android:cursorVisible="false"
+                android:cursorVisible="true"
                 android:editable="false"
                 android:focusableInTouchMode="false"
                 android:freezesText="false"
-                android:gravity="top"
+                android:gravity="center"
                 android:lines="1"
                 android:maxLength="10"
-                android:textColor="#ffdee66c"
-                android:textSize="22.0sp"
+                android:textColor="#000000"
+                android:textSize="16.0sp"
                 android:typeface="serif" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@id/LinearLayout04"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="@dimen/game_board_one_char_layout"
-            android:orientation="horizontal" >
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="9" >
 
             <ImageView
                 android:id="@id/char_a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/a"
@@ -134,6 +106,7 @@
                 android:id="@id/char_b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/b"
@@ -143,6 +116,7 @@
                 android:id="@id/char_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/c"
@@ -152,6 +126,7 @@
                 android:id="@id/char_d"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/d"
@@ -161,6 +136,7 @@
                 android:id="@id/char_e"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/e"
@@ -170,6 +146,7 @@
                 android:id="@id/char_f"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/f"
@@ -179,6 +156,7 @@
                 android:id="@id/char_g"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/g"
@@ -188,6 +166,7 @@
                 android:id="@id/char_h"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/h"
@@ -197,6 +176,7 @@
                 android:id="@id/char_i"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/i"
@@ -205,16 +185,21 @@
 
         <LinearLayout
             android:id="@id/LinearLayout05"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="@dimen/game_board_second_char_layout"
-            android:orientation="horizontal" >
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="9" >
 
             <ImageView
                 android:id="@id/char_j"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/j"
@@ -224,6 +209,7 @@
                 android:id="@id/char_k"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/k"
@@ -233,6 +219,7 @@
                 android:id="@id/char_l"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/l"
@@ -242,6 +229,7 @@
                 android:id="@id/char_m"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/m"
@@ -251,6 +239,7 @@
                 android:id="@id/char_n"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/n"
@@ -260,6 +249,7 @@
                 android:id="@id/char_o"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/o"
@@ -269,6 +259,7 @@
                 android:id="@id/char_p"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/p"
@@ -278,6 +269,7 @@
                 android:id="@id/char_q"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/q"
@@ -287,6 +279,7 @@
                 android:id="@id/char_r"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/r"
@@ -295,16 +288,21 @@
 
         <LinearLayout
             android:id="@id/LinearLayout06"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/game_board_third_char_layout"
-            android:orientation="horizontal" >
+            android:gravity="center"
+              android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:weightSum="9" >
 
             <ImageView
                 android:id="@id/char_s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/s"
@@ -314,6 +312,7 @@
                 android:id="@id/char_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/t"
@@ -323,6 +322,7 @@
                 android:id="@id/char_u"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/u"
@@ -332,6 +332,7 @@
                 android:id="@id/char_v"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/v"
@@ -341,6 +342,7 @@
                 android:id="@id/char_w"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/w"
@@ -350,6 +352,7 @@
                 android:id="@id/char_x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/x"
@@ -359,6 +362,7 @@
                 android:id="@id/char_y"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/y"
@@ -368,6 +372,7 @@
                 android:id="@id/char_z"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/z"
@@ -379,16 +384,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10.0dip"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:padding="8.0dip"
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/back_arrow" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@id/LinearLayout07"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:layout_marginTop="@dimen/buttons_top"
             android:gravity="center_horizontal" >
 
@@ -398,8 +405,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="-10.0dip"
-                android:background="@drawable/clear_word_bg"
+                android:background="@drawable/btn_clear_selector"
                 android:soundEffectsEnabled="false" />
 
             <ImageButton
@@ -408,12 +414,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="155.0dip"
-                android:background="@drawable/continue_button"
+                android:background="@drawable/btn_continue_selector"
                 android:soundEffectsEnabled="false" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
-
-   
 
 </RelativeLayout>

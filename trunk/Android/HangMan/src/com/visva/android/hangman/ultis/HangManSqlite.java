@@ -103,12 +103,10 @@ public class HangManSqlite extends SQLiteOpenHelper{
 		}
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
 		
 	}
 	//Design by iRocker

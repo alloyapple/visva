@@ -32,5 +32,6 @@
     <!-- The application's publisher ID assigned by AdMob -->
     <string name="ADMOB_PUBLISHER_ID">your_id_admod" </string>
     <string name="word">WORD:</string>
+    <string name="enter_word_for_play_name_to_guess">Enter word for %s to guess</string>
 
 </resources>
