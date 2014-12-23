@@ -28,7 +28,6 @@ import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.models.Checkin;
 import br.com.condesales.models.User;
 
-import com.facebook.Session;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
@@ -47,7 +46,11 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
+import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Profile;
+import com.sromku.simple.fb.listeners.OnLoginListener;
+import com.sromku.simple.fb.listeners.OnProfileListener;
 
 public class ActivityBravoChecking extends VisvaAbstractFragmentActivity implements BravoCheckingListener, AccessTokenRequestListener {
     // ======================Constant Define===============
@@ -73,6 +76,8 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     protected static Twitter        mTwitter;
     private EasyFoursquareAsync     mEasyFoursquareAsync;
     private SimpleFacebook          mSimpleFacebook;
+    private ObPostBravo             mObPostBravo;
+    private String                  mSharedText;
 
     @Override
     public int contentView() {
@@ -296,24 +301,13 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     }
 
     private void shareViaFacebook(ObPostBravo obPostBravo, String sharedText) {
-        Session session = Session.getActiveSession();
-        AIOLog.d("getActiveSession=>" + session);
-        if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened() || obPostBravo == null) {
-            AIOLog.d("session or obPostbravo is null");
+        mObPostBravo = obPostBravo;
+        mSharedText = sharedText;
+        if (mSimpleFacebook == null) {
+            mSimpleFacebook.login(onLoginListener);
+            return;
         } else {
-            FacebookUtil.getInstance(ActivityBravoChecking.this).publishShareInBackground(obPostBravo.data.Bravo_ID, sharedText,
-                    new IRequestListener() {
-
-                        @Override
-                        public void onResponse(String response) {
-                            AIOLog.d("share facebook success via recent post");
-                        }
-
-                        @Override
-                        public void onErrorResponse(String errorMessage) {
-
-                        }
-                    });
+            requestUserFacebookInfo();
         }
     }
 
@@ -567,6 +561,86 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 }
             }
         }
+    }
 
+    /**
+     * Login example.
+     */
+    // Login listener
+    final OnLoginListener onLoginListener = new OnLoginListener() {
+
+                                              @Override
+                                              public void onFail(String reason) {
+                                                  AIOLog.e("Failed to login");
+                                              }
+
+                                              @Override
+                                              public void onException(Throwable throwable) {
+                                                  AIOLog.e("Bad thing happened", throwable);
+                                              }
+
+                                              @Override
+                                              public void onThinking() {
+                                                  // show progress bar or something to the user while login is
+                                                  // happening
+                                              }
+
+                                              @Override
+                                              public void onLogin() {
+                                                  // change the state of the button or do whatever you want
+                                                  AIOLog.d("onLogin");
+                                                  requestUserFacebookInfo();
+                                              }
+
+                                              @Override
+                                              public void onNotAcceptingPermissions(Permission.Type type) {
+                                                  Toast.makeText(ActivityBravoChecking.this,
+                                                          String.format("You didn't accept %s permissions", type.name()),
+                                                          Toast.LENGTH_SHORT).show();
+                                              }
+                                          };
+
+    private void requestUserFacebookInfo() {
+        if (mSimpleFacebook == null) {
+            mSimpleFacebook = SimpleFacebook.getInstance(this);
+            return;
+        }
+        SimpleFacebook.getInstance().getProfile(new OnProfileListener() {
+
+            @Override
+            public void onThinking() {
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+            }
+
+            @Override
+            public void onFail(String reason) {
+            }
+
+            @Override
+            public void onComplete(Profile profile) {
+                onFacebookUserConnected();
+            }
+        });
+    }
+
+    private void onFacebookUserConnected() {
+        if(mObPostBravo == null)
+            return;
+        FacebookUtil.getInstance(ActivityBravoChecking.this).publishShareInBackground(mObPostBravo.data.Bravo_ID, mSharedText,
+                new IRequestListener() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        AIOLog.d("share facebook success via recent post");
+                    }
+
+                    @Override
+                    public void onErrorResponse(String errorMessage) {
+
+                    }
+                });
     }
 }
