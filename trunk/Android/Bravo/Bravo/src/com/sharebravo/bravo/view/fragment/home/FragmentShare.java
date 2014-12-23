@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.view.fragment.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,7 @@ public class FragmentShare extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
+                Log.d("KieuThang", "mSimpleFacebook:" + mSimpleFacebook);
                 if (mSimpleFacebook == null) {
                     mSimpleFacebook.login(onLoginListener);
                     return;

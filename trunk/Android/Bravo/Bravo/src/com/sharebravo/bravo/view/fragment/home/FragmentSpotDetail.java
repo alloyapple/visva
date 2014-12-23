@@ -76,6 +76,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     private SessionLogin        mSessionLogin       = null;
     private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     private String              mFourquareDetailURL = "http:\\";
+    private boolean             isClickTapToBravo   = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -156,35 +157,35 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         getSpotHistoryRequest.execute(url);
     }
 
-//    private void requestGetSpot(String spotID) {
-//        String userId = mSessionLogin.userID;
-//        String accessToken = mSessionLogin.accessToken;
-//        String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", spotID);
-//        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken);
-//        AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
-//            @Override
-//            public void processIfResponseSuccess(String response) {
-//                AIOLog.d("mObGetSpot:" + response);
-//                Gson gson = new GsonBuilder().serializeNulls().create();
-//                ObGetSpot mObGetSpot;
-//                mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
-//                AIOLog.d("mObGetSpot:" + mObGetSpot);
-//                if (mObGetSpot == null)
-//                    return;
-//                else {
-//                    mAdapter.updateMapView();
-//                    mAdapter.updatSpot(mObGetSpot.data);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void processIfResponseFail() {
-//                AIOLog.d("response error");
-//            }
-//        }, params, true);
-//        getBravoRequest.execute(url);
-//    }
+    // private void requestGetSpot(String spotID) {
+    // String userId = mSessionLogin.userID;
+    // String accessToken = mSessionLogin.accessToken;
+    // String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", spotID);
+    // List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken);
+    // AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+    // @Override
+    // public void processIfResponseSuccess(String response) {
+    // AIOLog.d("mObGetSpot:" + response);
+    // Gson gson = new GsonBuilder().serializeNulls().create();
+    // ObGetSpot mObGetSpot;
+    // mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
+    // AIOLog.d("mObGetSpot:" + mObGetSpot);
+    // if (mObGetSpot == null)
+    // return;
+    // else {
+    // mAdapter.updateMapView();
+    // mAdapter.updatSpot(mObGetSpot.data);
+    //
+    // }
+    // }
+    //
+    // @Override
+    // public void processIfResponseFail() {
+    // AIOLog.d("response error");
+    // }
+    // }, params, true);
+    // getBravoRequest.execute(url);
+    // }
 
     private void requestGetSpotRank(String spotID) {
         String userId = mSessionLogin.userID;
@@ -263,7 +264,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
                 if (mAllows.data.allow_bravo == 1) {
                     onTabToBravo();
                 } else {
-                    
+
                     showDialogSpentBravoADay();
                 }
             }
@@ -361,6 +362,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            isClickTapToBravo = false;
             if (!isBackStatus()) {
                 mAdapter.updateMapView();
                 if (mSpot.Spot_ID != null && !mSpot.Spot_ID.equals("")) {
@@ -498,7 +500,10 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     }
 
     public void onTabToBravo() {
-        mHomeActionListener.goToMapView(mSpot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
+        if (!isClickTapToBravo) {
+            mHomeActionListener.goToMapView(mSpot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
+            isClickTapToBravo = true;
+        }
     }
 
     @Override
