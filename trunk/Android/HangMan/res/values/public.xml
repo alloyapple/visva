@@ -141,7 +141,6 @@
     <public id="0x7f020048" name="c_right" type="drawable" />
     <public id="0x7f02004a" name="chalk" type="drawable" />
     <public id="0x7f02004b" name="clear_word" type="drawable" />
-    <public id="0x7f02004c" name="clear_word_bg" type="drawable" />
     <public id="0x7f02004e" name="clear_word_select" type="drawable" />
     <public id="0x7f020050" name="continue_button" type="drawable" />
     <public id="0x7f020051" name="continue_word" type="drawable" />
