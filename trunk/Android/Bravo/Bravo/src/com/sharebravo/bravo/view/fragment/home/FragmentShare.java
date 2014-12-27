@@ -74,7 +74,7 @@ public class FragmentShare extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 Log.d("KieuThang", "mSimpleFacebook:" + mSimpleFacebook);
-                if (mSimpleFacebook == null) {
+                if (mSimpleFacebook == null || !mSimpleFacebook.isLogin()) {
                     mSimpleFacebook.login(onLoginListener);
                     return;
                 } else {

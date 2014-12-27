@@ -76,8 +76,8 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     protected static Twitter        mTwitter;
     private EasyFoursquareAsync     mEasyFoursquareAsync;
     private SimpleFacebook          mSimpleFacebook;
-    private ObPostBravo             mObPostBravo;
-    private String                  mSharedText;
+    private static ObPostBravo      mObPostBravo;
+    private static String           mSharedText;
 
     @Override
     public int contentView() {
@@ -131,12 +131,27 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                         sns.foreignAccessToken = accessToken.getToken() + "," + accessToken.getTokenSecret();
                         putSNS(sns);
                         mFragmentBravoReturnSpots.updatePostSNS(sns, true);
-                        showFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID);
+
+                        if (mObPostBravo != null) {
+                            requestToGetTwitterUserInfo(mObPostBravo.data.Bravo_ID, mSharedText);
+                            mObPostBravo = null;
+                            mSharedText = "";
+                        } else {
+                            showFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID);
+                        }
                     }
                 } catch (Exception e) {
                     Log.e("Twitter Login Error", "> " + e.getMessage());
                 }
             }
+        }else{
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+            builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+            Configuration configuration = builder.build();
+
+            TwitterFactory factory = new TwitterFactory(configuration);
+            mTwitter = factory.getInstance();
         }
     }
 
@@ -290,6 +305,8 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void shareViaSNSByRecentPost(String snsType, ObPostBravo obPostBravo, String sharedText) {
+        mObPostBravo = obPostBravo;
+        mSharedText = sharedText;
         // Check if already logged in
         if (BravoConstant.TWITTER.equals(snsType)) {
             shareViaTwitter(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL, obPostBravo, sharedText);
@@ -464,7 +481,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 ConfigurationBuilder builder = new ConfigurationBuilder();
                 builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
                 builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
-
                 // Access Token
                 String access_token = BravoSharePrefs.getInstance(ActivityBravoChecking.this).getStringValue(
                         BravoConstant.PREF_KEY_TWITTER_OAUTH_TOKEN);
@@ -473,11 +489,13 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
                 AccessToken accessToken = new AccessToken(access_token, access_token_secret);
                 Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-
                 // Update status
-                twitter4j.Status response = twitter.updateStatus(status);
-
-                Log.d("Twitter", "> " + response.getText());
+                if (twitter == null) {
+                    shareViaTwitter(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL, mObPostBravo, mSharedText);
+                } else {
+                    twitter4j.Status response = twitter.updateStatus(status);
+                    Log.d("Twitter", "> " + response.getText());
+                }
             } catch (TwitterException e) {
                 // Error in updating status
                 Log.d("Twitter Update Error", e.getMessage());
@@ -543,7 +561,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 StrictMode.setThreadPolicy(policy);
             }
             Log.d("Twitter", "BravoUtils.isTwitterLoggedInAlready:" + BravoUtils.isTwitterLoggedInAlready(this));
-            if (!BravoUtils.isTwitterLoggedInAlready(this)) {
+            if (!BravoUtils.isTwitterLoggedInAlready(this) || mTwitter == null) {
                 ConfigurationBuilder builder = new ConfigurationBuilder();
                 builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
                 builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
@@ -627,7 +645,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     }
 
     private void onFacebookUserConnected() {
-        if(mObPostBravo == null)
+        if (mObPostBravo == null)
             return;
         FacebookUtil.getInstance(ActivityBravoChecking.this).publishShareInBackground(mObPostBravo.data.Bravo_ID, mSharedText,
                 new IRequestListener() {
