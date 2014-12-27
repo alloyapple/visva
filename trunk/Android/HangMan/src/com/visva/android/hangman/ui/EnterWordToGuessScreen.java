@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,30 +18,31 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.visva.android.hangman.R;
 import com.visva.android.hangman.definition.GlobalDef;
 import com.visva.android.hangman.ultis.GameSetting;
 import com.visva.android.hangman.ultis.SoundEffect;
+import com.visva.android.hangman.ultis.StringUtility;
 
 public class EnterWordToGuessScreen extends Activity implements GlobalDef {
     /** Called when the activity is first created. */
-    public static final int DIALOG_ENTER_WORD_ALERT = 0x01;
-    public static final int DIALOG_CONFIRMATION = 0x02;
-    public static final int DIALOG_NEW_WORD = 0x03;
-    public Dialog alertEnterWordDialog;
-    public Dialog confirmationDialog;
-    public Dialog newWordDialog;
-    public ImageButton alertContinueButtonOK;
-    public Button btnGameOK;
-    public Button btnGameCancel;
-    private ImageButton btn_clear;
-    private ImageButton btn_continue;
-    private ImageButton btn_menu;
-    private ImageButton btn_new;
-    private TextView txt_playername;
-    private EditText edt_word;
-    private String enter_word = "";
+    public static final int DIALOG_CONFIRMATION     = 0x02;
+    public static final int DIALOG_NEW_WORD         = 0x03;
+    public Dialog           alertEnterWordDialog;
+    public Dialog           confirmationDialog;
+    public Dialog           newWordDialog;
+    public ImageButton      alertContinueButtonOK;
+    public Button           btnGameOK;
+    public Button           btnGameCancel;
+    private ImageButton     btn_clear;
+    private ImageButton     btn_continue;
+    private ImageButton     btn_menu;
+    private ImageButton     btn_new;
+    private TextView        txt_playername;
+    private EditText        edt_word;
+    private String          enter_word              = "";
 
     /**
      * @return the enter_word
@@ -68,38 +71,38 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
         edt_word.setText(getEnter_word());
     }
 
-    private ImageView char_a;
-    private ImageView char_b;
-    private ImageView char_c;
-    private ImageView char_d;
-    private ImageView char_e;
-    private ImageView char_f;
-    private ImageView char_g;
-    private ImageView char_h;
-    private ImageView char_i;
-    private ImageView char_j;
-    private ImageView char_k;
-    private ImageView char_l;
-    private ImageView char_m;
-    private ImageView char_n;
-    private ImageView char_o;
-    private ImageView char_p;
-    private ImageView char_q;
-    private ImageView char_r;
-    private ImageView char_s;
-    private ImageView char_t;
-    private ImageView char_u;
-    private ImageView char_v;
-    private ImageView char_w;
-    private ImageView char_x;
-    private ImageView char_y;
-    private ImageView char_z;
-    private ImageView char_del;
+    private ImageView                   char_a;
+    private ImageView                   char_b;
+    private ImageView                   char_c;
+    private ImageView                   char_d;
+    private ImageView                   char_e;
+    private ImageView                   char_f;
+    private ImageView                   char_g;
+    private ImageView                   char_h;
+    private ImageView                   char_i;
+    private ImageView                   char_j;
+    private ImageView                   char_k;
+    private ImageView                   char_l;
+    private ImageView                   char_m;
+    private ImageView                   char_n;
+    private ImageView                   char_o;
+    private ImageView                   char_p;
+    private ImageView                   char_q;
+    private ImageView                   char_r;
+    private ImageView                   char_s;
+    private ImageView                   char_t;
+    private ImageView                   char_u;
+    private ImageView                   char_v;
+    private ImageView                   char_w;
+    private ImageView                   char_x;
+    private ImageView                   char_y;
+    private ImageView                   char_z;
+    private ImageView                   char_del;
     private HashMap<Integer, ImageView> mCharButtons;
-    String str_player1 = "";
-    String str_player2 = "";
-    private int NUMBER_OF_TRIES = 0;
-    private boolean player1Challenge = false;
+    String                              str_player1      = "";
+    String                              str_player2      = "";
+    private int                         NUMBER_OF_TRIES  = 0;
+    private boolean                     player1Challenge = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +110,7 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
         setContentView(R.layout.enter_word_screen);
         initControl();
         Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/VTK.ttf");
-        txt_playername.setTypeface(tf);
+        // txt_playername.setTypeface(tf);
         edt_word.setTypeface(tf);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -115,9 +118,9 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
             str_player2 = extras.getString(PLAYER2);
             player1Challenge = extras.getBoolean(PLAYER1_CHALLENGE);
             if (player1Challenge) {
-                txt_playername.setText(getString(R.string.enter_word_for_play_name_to_guess,str_player2));
+                txt_playername.setText(getString(R.string.enter_word_for_play_name_to_guess, str_player2));
             } else {
-                txt_playername.setText(getString(R.string.enter_word_for_play_name_to_guess,str_player1));
+                txt_playername.setText(getString(R.string.enter_word_for_play_name_to_guess, str_player1));
             }
         }
         getMapCharButtons();
@@ -137,7 +140,7 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
             @Override
             public void onClick(View v) {
                 if (getEnter_word().equals("")) {
-                    showDialog(DIALOG_ENTER_WORD_ALERT);
+                    Toast.makeText(EnterWordToGuessScreen.this, getString(R.string.enter_word_to_continue), Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intentGameBoard = new Intent(EnterWordToGuessScreen.this, GameBoardScreen.class);
                     intentGameBoard.putExtra(PLAYER1, str_player1);
@@ -200,6 +203,27 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
         char_z = (ImageView) findViewById(R.id.char_z);
         char_del = (ImageView) findViewById(R.id.delete);
 
+        edt_word.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!StringUtility.isEmpty(edt_word))
+                    char_del.setVisibility(View.VISIBLE);
+                else
+                    char_del.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     public void getMapCharButtons() {
@@ -241,47 +265,29 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
 
     private OnClickListener mButtonClick = new OnClickListener() {
 
-        @Override
-        public void onClick(View v) {
-            int keyId = (Integer) v.getTag();
-            if (keyId == CHAR_DEL) {
-                if (NUMBER_OF_TRIES != 0) {
-                    setOnKeyBackClick();
-                    NUMBER_OF_TRIES--;
-                }
+                                             @Override
+                                             public void onClick(View v) {
+                                                 int keyId = (Integer) v.getTag();
+                                                 if (keyId == CHAR_DEL) {
+                                                     if (NUMBER_OF_TRIES != 0) {
+                                                         setOnKeyBackClick();
+                                                         NUMBER_OF_TRIES--;
+                                                     }
 
-            } else {
-                if (NUMBER_OF_TRIES < 10) {
-                    setOnAlphabetClick(ALPHABET[keyId - 1].toString());
-                    NUMBER_OF_TRIES++;
-                }
-            }
-        }
+                                                 } else {
+                                                     if (NUMBER_OF_TRIES < 10) {
+                                                         setOnAlphabetClick(ALPHABET[keyId - 1].toString());
+                                                         NUMBER_OF_TRIES++;
+                                                     }
+                                                 }
+                                             }
 
-    };
+                                         };
 
     @Override
     protected Dialog onCreateDialog(int id) {
 
         switch (id) {
-        case DIALOG_ENTER_WORD_ALERT:
-            alertEnterWordDialog = new Dialog(this, R.style.Theme_GameDialog) {
-                @Override
-                public boolean onKeyDown(int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
-                        return true;
-                    }
-                    return super.onKeyDown(keyCode, event);
-                }
-            };
-            alertEnterWordDialog.setContentView(R.layout.empty_word_dialog);
-            alertEnterWordDialog.setCancelable(false);
-            TextView txt_mess = (TextView) alertEnterWordDialog.findViewById(R.id.txtresult);
-            Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/VTK.ttf");
-            txt_mess.setTypeface(tf);
-            alertContinueButtonOK = (ImageButton) alertEnterWordDialog.findViewById(R.id.gamecontinue);
-            alertContinueButtonOK.setOnClickListener(onContinueDialogOk);
-            return alertEnterWordDialog;
         case DIALOG_CONFIRMATION:
             confirmationDialog = new Dialog(this, R.style.Theme_CustomDialog) {
                 @Override
@@ -346,54 +352,56 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
         }
     }
 
-    private Button.OnClickListener onNewWordOk = new ImageButton.OnClickListener() {
+    private Button.OnClickListener onNewWordOk        = new ImageButton.OnClickListener() {
 
-        @Override
-        public void onClick(View arg0) {
-            NUMBER_OF_TRIES = 0;
-            newWordDialog.dismiss();
-            setEnter_word("");
-            edt_word.setText("");
-        }
-    };
-    private Button.OnClickListener onNewWordCancel = new ImageButton.OnClickListener() {
+                                                          @Override
+                                                          public void onClick(View arg0) {
+                                                              NUMBER_OF_TRIES = 0;
+                                                              newWordDialog.dismiss();
+                                                              setEnter_word("");
+                                                              edt_word.setText("");
+                                                          }
+                                                      };
+    private Button.OnClickListener onNewWordCancel    = new ImageButton.OnClickListener() {
 
-        @Override
-        public void onClick(View arg0) {
-            newWordDialog.dismiss();
-        }
-    };
+                                                          @Override
+                                                          public void onClick(View arg0) {
+                                                              newWordDialog.dismiss();
+                                                          }
+                                                      };
     private Button.OnClickListener onContinueDialogOk = new ImageButton.OnClickListener() {
 
-        @Override
-        public void onClick(View arg0) {
-            alertEnterWordDialog.dismiss();
+                                                          @Override
+                                                          public void onClick(View arg0) {
+                                                              alertEnterWordDialog.dismiss();
 
-        }
-    };
+                                                          }
+                                                      };
 
-    private Button.OnClickListener onGameOk = new ImageButton.OnClickListener() {
+    private Button.OnClickListener onGameOk           = new ImageButton.OnClickListener() {
 
-        @Override
-        public void onClick(View arg0) {
-            confirmationDialog.dismiss();
-            Intent _playSettingIntent = null;
-            if (GameSetting._game_mode == ONE_PLAYER_MODE)
-                _playSettingIntent = new Intent(EnterWordToGuessScreen.this, PlayerSettingsScreen.class);
-            else
-                _playSettingIntent = new Intent(EnterWordToGuessScreen.this, TwoPlayerSettingScreen.class);
-            _playSettingIntent.putExtra(GAME_MODE, TWO_PLAYER_MODE);
-            startActivity(_playSettingIntent);
-            finish();
-        }
-    };
-    private Button.OnClickListener onGameCancel = new ImageButton.OnClickListener() {
+                                                          @Override
+                                                          public void onClick(View arg0) {
+                                                              confirmationDialog.dismiss();
+                                                              Intent _playSettingIntent = null;
+                                                              if (GameSetting._game_mode == ONE_PLAYER_MODE)
+                                                                  _playSettingIntent = new Intent(EnterWordToGuessScreen.this,
+                                                                          PlayerSettingsScreen.class);
+                                                              else
+                                                                  _playSettingIntent = new Intent(EnterWordToGuessScreen.this,
+                                                                          TwoPlayerSettingScreen.class);
+                                                              _playSettingIntent.putExtra(GAME_MODE, TWO_PLAYER_MODE);
+                                                              startActivity(_playSettingIntent);
+                                                              finish();
+                                                          }
+                                                      };
+    private Button.OnClickListener onGameCancel       = new ImageButton.OnClickListener() {
 
-        @Override
-        public void onClick(View arg0) {
-            confirmationDialog.dismiss();
-        }
-    };
+                                                          @Override
+                                                          public void onClick(View arg0) {
+                                                              confirmationDialog.dismiss();
+                                                          }
+                                                      };
 
     @Override
     public void onBackPressed() {

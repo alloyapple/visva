@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="top"
-                android:layout_marginLeft="30.0dip"
-                android:layout_marginTop="15.0dip"
+                android:layout_marginLeft="35.0dip"
+                android:layout_marginTop="25.0dip"
                 android:background="@drawable/menu_button"
                 android:soundEffectsEnabled="false" />
 
@@ -33,11 +33,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="top"
-                android:layout_marginRight="30.0dip"
-                android:layout_marginTop="15.0dip"
+                android:layout_marginRight="35.0dip"
+                android:layout_marginTop="25.0dip"
                 android:background="@drawable/new_game_button"
                 android:soundEffectsEnabled="false" />
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/enter_word_board_top"
+            android:background="@drawable/won_game"
+            android:textSize="14sp" >
+        </ImageView>
 
         <TextView
             android:id="@+id/txt_player_name"
@@ -45,12 +54,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="@dimen/enter_word_board_top"
+            android:layout_marginTop="10dp"
             android:text="@string/enter_word_for_play_name_to_guess"
+            android:textColor="#000000"
             android:textSize="14sp" >
         </TextView>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@id/LinearLayout02"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +88,21 @@
                 android:textColor="#000000"
                 android:textSize="16.0sp"
                 android:typeface="serif" />
-        </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10.0dip"
+                android:background="@android:color/transparent"
+                android:padding="8.0dip"
+                android:soundEffectsEnabled="false"
+                android:src="@drawable/back_arrow"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@id/LinearLayout04"
@@ -291,10 +315,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="@dimen/game_board_third_char_layout"
             android:gravity="center"
-              android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:orientation="horizontal"
             android:weightSum="9" >
 
@@ -377,32 +401,21 @@
                 android:soundEffectsEnabled="false"
                 android:src="@drawable/z"
                 android:tag="26" />
-
-            <ImageButton
-                android:id="@id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10.0dip"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:padding="8.0dip"
-                android:soundEffectsEnabled="false"
-                android:src="@drawable/back_arrow" />
         </LinearLayout>
 
         <RelativeLayout
             android:id="@id/LinearLayout07"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_marginTop="@dimen/buttons_top"
             android:gravity="center_horizontal" >
 
             <ImageButton
                 android:id="@id/clear_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/btn_option_width"
+                android:layout_height="@dimen/btn_option_height"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/btn_clear_selector"
@@ -410,8 +423,8 @@
 
             <ImageButton
                 android:id="@id/btn_continue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/btn_option_width"
+                android:layout_height="@dimen/btn_option_height"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/btn_continue_selector"

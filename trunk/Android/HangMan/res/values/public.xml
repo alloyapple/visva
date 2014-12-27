@@ -252,14 +252,12 @@
     <public id="0x7f030000" name="appirater" type="layout" />
     <public id="0x7f030001" name="confirmation_dialog" type="layout" />
     <public id="0x7f030002" name="dialog_layout" type="layout" />
-    <public id="0x7f030003" name="empty_word_dialog" type="layout" />
     <public id="0x7f030004" name="enter_word_screen" type="layout" />
     <public id="0x7f030005" name="main_menu" type="layout" />
     <public id="0x7f030006" name="one_player_game_board_screen" type="layout" />
     <public id="0x7f030007" name="one_player_settings" type="layout" />
     <public id="0x7f030008" name="options_screen" type="layout" />
     <public id="0x7f030009" name="two_player_game_board_screen" type="layout" />
-    <public id="0x7f03000a" name="two_players_settings" type="layout" />
     <public id="0x7f040000" name="draw_gallow" type="anim" />
     <public id="0x7f040001" name="draw_head" type="anim" />
     <public id="0x7f040002" name="draw_left_arm" type="anim" />
