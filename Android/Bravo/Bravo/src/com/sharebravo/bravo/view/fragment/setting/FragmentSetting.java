@@ -172,7 +172,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     }
 
     private void onCheckedToggleBtnFacebook(boolean isChecked) {
-        if (mSimpleFacebook == null) {
+        if (mSimpleFacebook == null || !mSimpleFacebook.isLogin()) {
             mSimpleFacebook.login(onLoginListener);
             return;
         } else {

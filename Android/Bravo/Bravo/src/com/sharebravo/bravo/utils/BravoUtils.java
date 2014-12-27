@@ -77,12 +77,15 @@ public class BravoUtils {
 
         switch (mRegisterType) {
         case BravoConstant.REGISTER_BY_FACEBOOK:
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, true);
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_FACEBOOK, response);
             break;
         case BravoConstant.REGISTER_BY_TWITTER:
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_TWITTER, true);
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER, response);
             break;
         case BravoConstant.REGISTER_BY_4SQUARE:
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_4SQUARE,true);
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE, response);
             break;
         case BravoConstant.REGISTER_BY_BRAVO_ACC:

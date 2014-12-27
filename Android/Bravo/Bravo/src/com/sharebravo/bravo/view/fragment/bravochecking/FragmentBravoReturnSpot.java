@@ -131,7 +131,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic implements AccessToke
                 Log.d("Facebook", "isPostOnFacebook:" + isPostOnFacebook);
                 if (!isPostOnFacebook) {
                     isPostOnFacebook = true;
-                    if (mSimpleFacebook == null) {
+                    if (mSimpleFacebook == null || !mSimpleFacebook.isLogin()) {
                         mSimpleFacebook.login(onLoginListener);
                         return;
                     } else {
