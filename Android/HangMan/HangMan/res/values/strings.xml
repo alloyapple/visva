@@ -34,5 +34,6 @@
     <string name="word">WORD:</string>
     <string name="enter_word_for_play_name_to_guess">Enter word for %s to guess</string>
     <string name="enter_word_to_continue">Enter a word to continue.</string>
+    <string name="scores">Scores:</string>
 
 </resources>
