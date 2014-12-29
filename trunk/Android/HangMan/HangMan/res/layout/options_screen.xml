@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@id/sound_layout"
+        android:id="@+id/sound_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/option_layout_margin_top"
@@ -17,45 +17,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="-10dp"
+            android:layout_marginLeft="10dp"
             android:text="@string/sound"
-            android:textColor="#ffffffff"
+            android:textColor="#000000"
             android:textSize="14.0sp"
+            android:layout_centerVertical="true"
             android:textStyle="bold"
             android:typeface="serif" />
 
-        <TextView
-            android:id="@+id/sound_on"
-            android:layout_width="@dimen/options_btn_with"
-            android:layout_height="@dimen/options_btn_height"
-            android:layout_below="@id/lbl_sound"
-            android:layout_marginTop="5.0dip"
-            android:background="@drawable/btn_word_list"
-            android:gravity="center"
-            android:text="@string/on" />
+        <ToggleButton
+            android:id="@+id/toggle_btn_sound_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/switch_btn"
+            android:enabled="true"
+            android:layout_centerVertical="true"
+            android:textOff=""
+            android:textOn="" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/sound_off"
-            android:layout_width="@dimen/options_btn_with"
-            android:layout_height="@dimen/options_btn_height"
-            android:layout_below="@id/lbl_sound"
-            android:layout_marginLeft="15.0dip"
-            android:layout_marginTop="5.0dip"
-            android:layout_toRightOf="@id/sound_on"
-            android:background="@drawable/btn_word_list"
-            android:gravity="center"
-            android:text="@string/off" />
+    <RelativeLayout
+        android:id="@+id/share_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sound_layout"
+        >
 
         <TextView
             android:id="@+id/lbl_share_via"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sound_off"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="-10dp"
             android:layout_marginTop="10dp"
             android:text="@string/share_via"
-            android:textColor="#ffffffff"
+            android:textColor="#000000"
             android:textSize="14.0sp"
             android:textStyle="bold"
             android:typeface="serif" />

@@ -42,22 +42,17 @@
                 android:src="@drawable/new_game_button" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="0.0px"
             android:layout_weight="375.0"
             android:weightSum="480.0" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="30.0" />
-
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_gravity="left"
-                android:layout_weight="330.0"
+                android:layout_marginLeft="40dp"
                 android:gravity="bottom|left" >
 
                 <ImageView
@@ -70,8 +65,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
                 android:layout_marginTop="60dp"
-                android:layout_weight="120.0"
                 android:orientation="vertical"
                 android:weightSum="2" >
 
@@ -92,14 +88,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/img_player1_turn"
-                        android:text="Player1" />
+                        android:text="@string/player_1" />
 
                     <TextView
                         android:id="@+id/scores"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/player1"
-                        android:text="Scores:" />
+                        android:text="@string/scores"
+                        android:textColor="#000000" />
 
                     <TextView
                         android:id="@+id/player1_score"
@@ -107,9 +104,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/player1"
                         android:layout_toRightOf="@id/scores"
-                        android:text="100" />
+                        android:text="0" />
                 </RelativeLayout>
-                 <RelativeLayout
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -126,14 +124,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/img_player2_turn"
-                        android:text="Player1" />
+                        android:text="@string/player_2" />
 
                     <TextView
                         android:id="@+id/scores_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/player2"
-                        android:text="Scores:" />
+                        android:text="@string/scores"
+                        android:textColor="#000000" />
 
                     <TextView
                         android:id="@+id/player2_score"
@@ -141,10 +140,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/player2"
                         android:layout_toRightOf="@id/scores_2"
-                        android:text="100" />
+                        android:text="0" />
                 </RelativeLayout>
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
