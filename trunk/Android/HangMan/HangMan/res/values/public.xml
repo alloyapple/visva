@@ -6,7 +6,6 @@
     <public id="0x7f02000b" name="armleft_anim_0_lrg" type="drawable" />
     <public id="0x7f020013" name="armright_anim_0_lrg" type="drawable" />
     <public id="0x7f02001b" name="arrow_erase_lrg" type="drawable" />
-    <public id="0x7f02001d" name="arrow_point_lrg" type="drawable" />
     <public id="0x7f020020" name="b_disabled_lrg" type="drawable" />
     <public id="0x7f020021" name="b_lrg" type="drawable" />
     <public id="0x7f020023" name="b_right_lrg" type="drawable" />
@@ -54,7 +53,6 @@
     <public id="0x7f0200bb" name="i_disabled_lrg" type="drawable" />
     <public id="0x7f0200bc" name="i_lrg" type="drawable" />
     <public id="0x7f0200be" name="i_right_lrg" type="drawable" />
-    <public id="0x7f0200c0" name="icon_free_lrg" type="drawable" />
     <public id="0x7f0200c5" name="j_disabled_lrg" type="drawable" />
     <public id="0x7f0200c6" name="j_lrg" type="drawable" />
     <public id="0x7f0200c8" name="j_right_lrg" type="drawable" />
