@@ -81,7 +81,7 @@
                         android:id="@+id/img_player1_turn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/won_game" />
+                        android:background="@drawable/arrow_point" />
 
                     <TextView
                         android:id="@+id/player1"
@@ -117,7 +117,7 @@
                         android:id="@+id/img_player2_turn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/won_game" />
+                        android:background="@drawable/arrow_point" />
 
                     <TextView
                         android:id="@+id/player2"
