@@ -71,11 +71,11 @@ public class GameBoardScreen extends Activity implements GlobalDef {
     private ImageView                   arrow_point_player1;
     private ImageView                   arrow_point_player2;
     private HashMap<Integer, ImageView> mCharButtons;
-    private SMTextView                  txt_category;
-    private SMTextView                  txt_player1;
-    private SMTextView                  txt_player2;
-    private SMTextView                  txt_player1_score;
-    private SMTextView                  txt_player2_score;
+    private TextView                  txt_category;
+    private TextView                  txt_player1;
+    private TextView                  txt_player2;
+    private TextView                  txt_player1_score;
+    private TextView                  txt_player2_score;
     private ImageButton                 btn_menu_gameboard;
     private ImageButton                 btn_menu_new;
     private int                         mNumberOfTries;
@@ -207,12 +207,12 @@ public class GameBoardScreen extends Activity implements GlobalDef {
         if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 
         } else {
-            txt_category = (SMTextView) findViewById(R.id.txt_category);
-            txt_player1 = (SMTextView) findViewById(R.id.player1);
-            txt_player2 = (SMTextView) findViewById(R.id.player2);
+            // txt_category = (SMTextView) findViewById(R.id.txt_category);
+            txt_player1 = (TextView) findViewById(R.id.player1);
+            txt_player2 = (TextView) findViewById(R.id.player2);
             txt_player1.getTextSize();
-            txt_player1_score = (SMTextView) findViewById(R.id.player1_score);
-            txt_player2_score = (SMTextView) findViewById(R.id.player2_score);
+            txt_player1_score = (TextView) findViewById(R.id.player1_score);
+            txt_player2_score = (TextView) findViewById(R.id.player2_score);
         }
     }
 
@@ -535,11 +535,11 @@ public class GameBoardScreen extends Activity implements GlobalDef {
             String str_player2 = extras.getString(PLAYER2);
             player1Challenge = extras.getBoolean(PLAYER1_CHALLENGE);
             if (player1Challenge) {
-                arrow_point_player2.setVisibility(View.VISIBLE);
-                arrow_point_player1.setVisibility(View.INVISIBLE);
+                // arrow_point_player2.setVisibility(View.VISIBLE);
+                // arrow_point_player1.setVisibility(View.INVISIBLE);
             } else {
-                arrow_point_player2.setVisibility(View.INVISIBLE);
-                arrow_point_player1.setVisibility(View.VISIBLE);
+                // arrow_point_player2.setVisibility(View.INVISIBLE);
+                // arrow_point_player1.setVisibility(View.VISIBLE);
             }
             mChallenge = extras.getString(CHALLENGE);
             txt_player1.setText(strPlayer1Name);
@@ -979,8 +979,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
         if (GameSetting._game_mode == ONE_PLAYER_MODE) {
             // TODO
         } else {
-            txt_player1_score.setText(String.valueOf(GameSetting._two_mode_player1_hscore));
-            txt_player2_score.setText(String.valueOf(GameSetting._two_mode_player2_hscore));
+            // txt_player1_score.setText(String.valueOf(GameSetting._two_mode_player1_hscore));
+            // txt_player2_score.setText(String.valueOf(GameSetting._two_mode_player2_hscore));
         }
     }
 
