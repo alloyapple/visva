@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="APPIRATER_MESSAGE">If you enjoy using %s, please support us by taking a minute to rate it. Thanks for your support!</string>
+    <string name="APPIRATER_MESSAGE_TITLE">Please Rate %s</string>
+    <string name="APPIRATER_CANCEL_BUTTON">No, Thanks</string>
+    <string name="APPIRATER_RATE_BUTTON">Rate %s</string>
+    <string name="APPIRATER_RATE_LATER">Remind me later</string>
+    <string name="app_name">Hangman</string>
+    <string name="player_1">Player 1</string>
+    <string name="player_2">Player 2</string>
+    <string name="android">Android</string>
+    <string name="name">Name:</string>
+    <string name="opponent">Opponent:</string>
+    <string name="word_list">Word List:</string>
+    <string name="easy">Easy</string>
+    <string name="standard">Standard</string>
+    <string name="hard">Hard</string>
+    <string name="animals">Animals</string>
+    <string name="food">Food</string>
+    <string name="geography">Geography</string>
+    <string name="holidays">Holidays</string>
+    <string name="toefl">Toefl</string>
+    <string name="sat">Sat</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="sound">Sound</string>
+    <string name="gallows">Gallows</string>
+    <string name="share_via">Share via</string>
+    <!-- The application's publisher ID assigned by AdMob -->
+    <string name="ADMOB_PUBLISHER_ID">your_id_admod" </string>
+    <string name="word">WORD:</string>
+    <string name="enter_word_for_play_name_to_guess">Enter word for %s to guess</string>
+    <string name="enter_word_to_continue">Enter a word to continue.</string>
+
+</resources>
