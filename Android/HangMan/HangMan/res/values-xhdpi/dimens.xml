@@ -90,7 +90,7 @@
     <dimen name="one_player_main_layout_left">20dp</dimen>
 	
 	<!-- option setting  -->
-	<dimen name="option_layout_margin_top">200dp</dimen>
+	<dimen name="option_layout_margin_top">220dp</dimen>
 	<dimen name="options_btn_with">60dp</dimen>
 	<dimen name="options_btn_height">20dp</dimen>
 	
