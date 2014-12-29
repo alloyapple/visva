@@ -7,12 +7,10 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.visva.android.hangman.R;
@@ -24,7 +22,6 @@ public class OptionsScreen extends Activity implements GlobalDef {
 	private ImageButton btn_back;
 	private TextView img_sound;
 	private TextView img_share;
-	private Button btn_share;
 	private int soundEnabled = ON;
 	private Typeface mFont;
 	private int mFontDefaultColor;
@@ -58,13 +55,6 @@ public class OptionsScreen extends Activity implements GlobalDef {
 					GamePreferences.setIntVal(OptionsScreen.this, SOUND_ON, OFF);
 			}
 		});
-		btn_share.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(OptionsScreen.this, "Shared", Toast.LENGTH_SHORT).show();
-			}
-		});
 	}
 
 	/*
@@ -75,7 +65,6 @@ public class OptionsScreen extends Activity implements GlobalDef {
 		mFontDefaultColor = getResources().getColor(R.color.font_default_color);
 		mFontPressedColor = getResources().getColor(R.color.font_pressed_color2);
 		btn_back = (ImageButton) findViewById(R.id.back_options);
-		btn_share = (Button) findViewById(R.id.btn_share_via);
 		img_share = (TextView) findViewById(R.id.lbl_share_via);
 		img_share.setTypeface(mFont);
 		img_share.setTextColor(mFontDefaultColor);

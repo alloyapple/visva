@@ -5,7 +5,7 @@
     android:background="@drawable/bg_options"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/sound_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -16,12 +16,12 @@
             android:id="@+id/lbl_sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="@string/sound"
             android:textColor="#000000"
             android:textSize="14.0sp"
-            android:layout_centerVertical="true"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -30,45 +30,73 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="60dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/switch_btn"
             android:enabled="true"
-            android:layout_centerVertical="true"
             android:textOff=""
             android:textOn="" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/share_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sound_layout"
-        >
+        android:gravity="center" >
 
         <TextView
             android:id="@+id/lbl_share_via"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="-10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
             android:text="@string/share_via"
             android:textColor="#000000"
             android:textSize="14.0sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
+        <ToggleButton
+            android:id="@+id/toggle_btn_sound_mode_fake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/switch_btn"
+            android:enabled="true"
+            android:textOff=""
+            android:textOn=""
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_btn_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/share_layout"
+        android:layout_marginTop="5dp"
+        android:gravity="center" >
+
         <Button
-            android:id="@+id/btn_share_via"
-            android:layout_width="@dimen/options_btn_with"
-            android:layout_height="@dimen/options_btn_height"
-            android:layout_below="@id/lbl_share_via"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_share"
-            android:gravity="center" />
-    </RelativeLayout>
+            android:id="@+id/btn_share_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_facebook_selector" />
+
+        <Button
+            android:id="@+id/btn_share_gg_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/btn_gg_plus_selector" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@id/back_options"
