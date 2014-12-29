@@ -1,0 +1,27 @@
+# view AndroidManifest.xml #generated:91
+-keep class com.google.ads.AdActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:83
+-keep class com.visva.android.hangman.ui.EnterWordToGuessScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:69
+-keep class com.visva.android.hangman.ui.GameBoardScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:30
+-keep class com.visva.android.hangman.ui.MainMenuScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:76
+-keep class com.visva.android.hangman.ui.MoreGameScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:62
+-keep class com.visva.android.hangman.ui.OptionsScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:48
+-keep class com.visva.android.hangman.ui.PlayerSettingsScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:40
+-keep class com.visva.android.hangman.ui.PromoScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:55
+-keep class com.visva.android.hangman.ui.TwoPlayerSettingScreen { <init>(...); }
+

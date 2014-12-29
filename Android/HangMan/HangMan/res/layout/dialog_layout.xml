@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:theme="@style/Theme.GameDialog" >
+
+    <RelativeLayout
+        android:id="@+id/image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30.0px"
+        android:layout_marginTop="15.0px" >
+
+        <ImageView
+            android:id="@+id/imgresult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/loose_game"
+            android:soundEffectsEnabled="false" />
+
+        <TextView
+            android:id="@+id/txtresult"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgresult"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Player 1 "
+            android:textColor="@color/font_default_color"
+            android:textSize="@dimen/player_1_name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_word"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtresult"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@string/word"
+            android:textColor="@color/found_word"
+            android:textSize="@dimen/found_word" />
+
+        <ImageButton
+            android:id="@+id/gamecontinue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_word"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="top"
+            android:layout_marginLeft="10.0px"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:background="@android:color/transparent"
+            android:padding="5.0dip"
+            android:soundEffectsEnabled="false"
+            android:src="@drawable/ok_button" />
+    </RelativeLayout>
+
+</LinearLayout>
