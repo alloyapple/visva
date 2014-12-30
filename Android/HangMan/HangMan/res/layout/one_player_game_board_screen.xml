@@ -66,6 +66,21 @@
                     android:layout_height="@dimen/hangman_height"
                     android:background="@drawable/gallows_anim_8" />
             </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="180.0"
+                android:gravity="center" >
+
+                <ListView
+                    android:layout_marginTop="30dp"
+                    android:id="@+id/list_suggest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dividerHeight="2dp"
+                    android:src="@android:drawable/screen_background_light" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

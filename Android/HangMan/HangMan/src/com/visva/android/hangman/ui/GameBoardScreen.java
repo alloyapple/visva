@@ -2,8 +2,13 @@ package com.visva.android.hangman.ui;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,6 +18,7 @@ import android.database.SQLException;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,16 +28,22 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.visva.android.hangman.R;
+import com.visva.android.hangman.adapter.ImageResultArrayAdapter;
 import com.visva.android.hangman.definition.GlobalDef;
 import com.visva.android.hangman.ultis.GamePreferences;
 import com.visva.android.hangman.ultis.GameSetting;
 import com.visva.android.hangman.ultis.HangManSqlite;
+import com.visva.android.hangman.ultis.ImageResult;
 import com.visva.android.hangman.ultis.SoundEffect;
 import com.visva.android.hangman.ultis.Timer;
 
@@ -92,6 +104,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	public ImageButton gameFinishButtonOK;
 	private TextView txt_mess_dialog;
 	private TextView txt_word_dialog;
+	private ListView listSuggest;
 	private String mChallenge;
 	private HangManSqlite mDatabase;
 	private int word_list;
@@ -106,6 +119,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	private Typeface mFont;
 	private int mFontDefaultColor;
 	private int mFontFoundWordColor;
+	private ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
+	private ImageResultArrayAdapter imageAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +136,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			openHmDatabases();
 			getMapCharButtons();
 			onOnePlayerModeCreated();
+			onImageSearch();
 			Log.e("Tag", "One Plzyer created");
 		} else if (GameSetting._game_mode == TWO_PLAYER_MODE) {
 			setContentView(R.layout.two_player_game_board_screen);
@@ -202,7 +218,9 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		btn_menu_new = (ImageButton) findViewById(R.id.btn_new_gameboard);
 
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
-
+			listSuggest = (ListView) findViewById(R.id.list_suggest);
+			imageAdapter = new ImageResultArrayAdapter(this, imageResults);
+			listSuggest.setAdapter(imageAdapter);
 		} else {
 			// txt_category = (SMTextView) findViewById(R.id.txt_category);
 			txt_player1 = (TextView) findViewById(R.id.player1);
@@ -645,8 +663,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		int gall_owns = GamePreferences.getIntVal(this, GALL_OWNS, SHOW);
 		ImageView gallowns_layout = (ImageView) findViewById(R.id.gallow);
 		if (gall_owns == SHOW) {
-			AnimationDrawable drawable = (AnimationDrawable) getResources()
-					.getDrawable(R.anim.draw_gallow);
+			AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_gallow);
 			gallowns_layout.setBackgroundDrawable(drawable);
 			gallowns_layout.post(drawable);
 
@@ -657,8 +674,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	private void drawHead() {
-		AnimationDrawable drawable = (AnimationDrawable) getResources()
-				.getDrawable(R.anim.draw_head);
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_head);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
@@ -666,32 +682,28 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	private void drawTorso() {
-		AnimationDrawable drawable = (AnimationDrawable) getResources()
-				.getDrawable(R.anim.draw_torso);
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_torso);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
 	private void drawRightArm() {
-		AnimationDrawable drawable = (AnimationDrawable) getResources()
-				.getDrawable(R.anim.draw_right_arm);
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_arm);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
 	private void drawLeftArm() {
-		AnimationDrawable drawable = (AnimationDrawable) getResources()
-				.getDrawable(R.anim.draw_left_arm);
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_arm);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
 	private void drawRightLeg() {
-		AnimationDrawable drawable = (AnimationDrawable) getResources()
-				.getDrawable(R.anim.draw_right_leg);
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_leg);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
@@ -699,8 +711,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	private void drawLeftLeg() {
-		AnimationDrawable drawable = (AnimationDrawable) getResources()
-				.getDrawable(R.anim.draw_left_leg);
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_leg);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
@@ -729,9 +740,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			gameFinishedDialog = new Dialog(this, R.style.Theme_GameDialog) {
 				@Override
 				public boolean onKeyDown(int keyCode, KeyEvent event) {
-					if (keyCode == KeyEvent.KEYCODE_BACK
-							|| keyCode == KeyEvent.KEYCODE_SEARCH
-							|| keyCode == KeyEvent.KEYCODE_MENU) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
 						return true;
 					}
 					return super.onKeyDown(keyCode, event);
@@ -739,28 +748,22 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			};
 			gameFinishedDialog.setContentView(R.layout.dialog_layout);
 			gameFinishedDialog.setCancelable(false);
-			txt_mess_dialog = (TextView) gameFinishedDialog
-					.findViewById(R.id.txtresult);
+			txt_mess_dialog = (TextView) gameFinishedDialog.findViewById(R.id.txtresult);
 			textSizeDialog = txt_mess_dialog.getTextSize();
-			txt_word_dialog = (TextView) gameFinishedDialog
-					.findViewById(R.id.txt_word);
-			imgresult = (ImageView) gameFinishedDialog
-					.findViewById(R.id.imgresult);
+			txt_word_dialog = (TextView) gameFinishedDialog.findViewById(R.id.txt_word);
+			imgresult = (ImageView) gameFinishedDialog.findViewById(R.id.imgresult);
 			txt_mess_dialog.setTypeface(mFont);
 			txt_mess_dialog.setTextColor(mFontDefaultColor);
 			txt_word_dialog.setTypeface(mFont);
 			txt_word_dialog.setTextColor(mFontFoundWordColor);
-			gameFinishButtonOK = (ImageButton) gameFinishedDialog
-					.findViewById(R.id.gamecontinue);
+			gameFinishButtonOK = (ImageButton) gameFinishedDialog.findViewById(R.id.gamecontinue);
 			gameFinishButtonOK.setOnClickListener(onGameFinishedDialogOk);
 			return gameFinishedDialog;
 		case DIALOG_CONFIRMATION:
 			confirmationDialog = new Dialog(this, R.style.Theme_CustomDialog) {
 				@Override
 				public boolean onKeyDown(int keyCode, KeyEvent event) {
-					if (keyCode == KeyEvent.KEYCODE_BACK
-							|| keyCode == KeyEvent.KEYCODE_SEARCH
-							|| keyCode == KeyEvent.KEYCODE_MENU) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
 						return true;
 					}
 					return super.onKeyDown(keyCode, event);
@@ -769,8 +772,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			confirmationDialog.setContentView(R.layout.confirmation_dialog);
 			confirmationDialog.setCancelable(false);
 			btnGameOK = (Button) confirmationDialog.findViewById(R.id.gameok);
-			btnGameCancel = (Button) confirmationDialog
-					.findViewById(R.id.gamecancel);
+			btnGameCancel = (Button) confirmationDialog.findViewById(R.id.gamecancel);
 			btnGameOK.setOnClickListener(onGameOk);
 			btnGameCancel.setOnClickListener(onGameCancel);
 			return confirmationDialog;
@@ -778,9 +780,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			newWordDialog = new Dialog(this, R.style.Theme_CustomDialog) {
 				@Override
 				public boolean onKeyDown(int keyCode, KeyEvent event) {
-					if (keyCode == KeyEvent.KEYCODE_BACK
-							|| keyCode == KeyEvent.KEYCODE_SEARCH
-							|| keyCode == KeyEvent.KEYCODE_MENU) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
 						return true;
 					}
 					return super.onKeyDown(keyCode, event);
@@ -789,8 +789,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			newWordDialog.setContentView(R.layout.confirmation_dialog);
 			newWordDialog.setCancelable(false);
 			btnGameOK = (Button) newWordDialog.findViewById(R.id.gameok);
-			btnGameCancel = (Button) newWordDialog
-					.findViewById(R.id.gamecancel);
+			btnGameCancel = (Button) newWordDialog.findViewById(R.id.gamecancel);
 			btnGameOK.setOnClickListener(onNewWordOk);
 			btnGameCancel.setOnClickListener(onNewWordCancel);
 			return newWordDialog;
@@ -809,8 +808,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				onNewGame();
 			} else {
 				newWordDialog.dismiss();
-				Intent intentEnterWords = new Intent(GameBoardScreen.this,
-						EnterWordToGuessScreen.class);
+				Intent intentEnterWords = new Intent(GameBoardScreen.this, EnterWordToGuessScreen.class);
 				intentEnterWords.putExtra(PLAYER1, txt_player1.getText());
 				intentEnterWords.putExtra(PLAYER2, txt_player2.getText());
 				intentEnterWords.putExtra(PLAYER1_CHALLENGE, player1Challenge);
@@ -834,11 +832,9 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			confirmationDialog.dismiss();
 			Intent intentPlaySetting = null;
 			if (GameSetting._game_mode == ONE_PLAYER_MODE) {
-				intentPlaySetting = new Intent(GameBoardScreen.this,
-						PlayerSettingsScreen.class);
+				intentPlaySetting = new Intent(GameBoardScreen.this, PlayerSettingsScreen.class);
 			} else if (GameSetting._game_mode == TWO_PLAYER_MODE) {
-				intentPlaySetting = new Intent(GameBoardScreen.this,
-						TwoPlayerSettingScreen.class);
+				intentPlaySetting = new Intent(GameBoardScreen.this, TwoPlayerSettingScreen.class);
 			}
 			intentPlaySetting.putExtra(GAME_MODE, GameSetting._game_mode);
 			startActivity(intentPlaySetting);
@@ -881,11 +877,9 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 					txt_mess_dialog.setText(strPlayer1Name + " WINS");
 				} else {
 					if (player1Challenge) {
-						txt_mess_dialog
-								.setText(txt_player2.getText() + " WINS");
+						txt_mess_dialog.setText(txt_player2.getText() + " WINS");
 					} else {
-						txt_mess_dialog
-								.setText(txt_player1.getText() + " WINS");
+						txt_mess_dialog.setText(txt_player1.getText() + " WINS");
 					}
 				}
 				txt_word_dialog.setText("");
@@ -895,11 +889,9 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 					txt_mess_dialog.setText(strPlayer1Name + " LOSES");
 				} else {
 					if (player1Challenge) {
-						txt_mess_dialog.setText(txt_player2.getText()
-								+ " LOSES");
+						txt_mess_dialog.setText(txt_player2.getText() + " LOSES");
 					} else {
-						txt_mess_dialog.setText(txt_player1.getText()
-								+ " LOSES");
+						txt_mess_dialog.setText(txt_player1.getText() + " LOSES");
 					}
 				}
 				txt_word_dialog.setText("WORD: " + mChallenge);
@@ -911,15 +903,13 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			break;
 		case DIALOG_CONFIRMATION:
 			txt_info = (TextView) confirmationDialog.findViewById(R.id.txtinfo);
-			txt_new_word = (TextView) confirmationDialog
-					.findViewById(R.id.txt_new_word);
+			txt_new_word = (TextView) confirmationDialog.findViewById(R.id.txt_new_word);
 			txt_info.setVisibility(View.VISIBLE);
 			txt_new_word.setVisibility(View.GONE);
 			break;
 		case DIALOG_NEW_WORD:
 			txt_info = (TextView) newWordDialog.findViewById(R.id.txtinfo);
-			txt_new_word = (TextView) newWordDialog
-					.findViewById(R.id.txt_new_word);
+			txt_new_word = (TextView) newWordDialog.findViewById(R.id.txt_new_word);
 			txt_info.setVisibility(View.GONE);
 			txt_new_word.setVisibility(View.VISIBLE);
 			break;
@@ -938,8 +928,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				Log.e("tag", "button dialog OK is clicked");
 			} else {
 				gameFinishedDialog.dismiss();
-				Intent intentEnterWords = new Intent(GameBoardScreen.this,
-						EnterWordToGuessScreen.class);
+				Intent intentEnterWords = new Intent(GameBoardScreen.this, EnterWordToGuessScreen.class);
 				intentEnterWords.putExtra(PLAYER1, txt_player1.getText());
 				intentEnterWords.putExtra(PLAYER2, txt_player2.getText());
 				intentEnterWords.putExtra(PLAYER1_CHALLENGE, !player1Challenge);
@@ -960,8 +949,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	private void showAdvBanner() {
-		adView = new AdView(this, AdSize.BANNER,
-				getString(R.string.ADMOB_PUBLISHER_ID));
+		adView = new AdView(this, AdSize.BANNER, getString(R.string.ADMOB_PUBLISHER_ID));
 		LinearLayout layout = (LinearLayout) findViewById(R.id.adv_layout);
 		layout.addView(adView);
 		AdRequest adRequest = new AdRequest();
@@ -1057,4 +1045,52 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		}
 	}
 
+	/**
+	 * 
+	 */
+	public void onImageSearch() {
+		Toast.makeText(this, "Searching for " + mChallenge, Toast.LENGTH_SHORT).show();
+
+		// asyn load the data from Google API
+		AsyncHttpClient client = new AsyncHttpClient();
+
+		// Google Image Search
+		// @see : https://developers.google.com/image-search/v1/jsondevguide
+		// https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android
+		// TODO: Handle no data connection
+		// TODO: Handle timeout
+		// TOOD: Handle empty results
+		// TODO: use YQL?
+		String url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&rsz=3" + "&start=" + 0 + "&v=1.0" + "&q=" + Uri.encode(mChallenge) + "&as_sitesearch=" + Uri.encode("google.com") + "&imgcolor=" + Uri.encode("black") + "&imgtype=" + Uri.encode("photo") + "&imgsz="
+				+ Uri.encode("medium");
+
+		Log.d("DEBUG", "URL " + url);
+		client.get(url, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(JSONObject response) {
+				JSONArray imageJsonResults = null;
+
+				try {
+					imageJsonResults = response.getJSONObject("responseData").getJSONArray("results");
+					ArrayList<ImageResult> imgResults = ImageResult.fromJSONArray(imageJsonResults);
+					if (imgResults != null && imgResults.size() > 0) {
+						imageResults.clear();
+						imageAdapter.addAll(ImageResult.fromJSONArray(imageJsonResults));
+					}
+
+					Log.d("DEBUG", imgResults.toString());
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable arg0, JSONObject arg1) {
+				Log.d("DEBUG", arg1.toString());
+			}
+		}
+
+		);
+	}
 }
