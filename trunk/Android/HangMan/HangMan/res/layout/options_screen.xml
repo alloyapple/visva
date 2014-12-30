@@ -88,14 +88,14 @@
             android:id="@+id/btn_share_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_facebook_selector" />
+            android:background="@drawable/facebook_share_on" />
 
         <Button
             android:id="@+id/btn_share_gg_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/btn_gg_plus_selector" />
+            android:background="@drawable/google_plus_on" />
     </LinearLayout>
 
     <ImageButton
