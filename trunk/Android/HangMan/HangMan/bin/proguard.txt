@@ -1,5 +1,11 @@
+# view res/layout/com_facebook_usersettingsfragment.xml #generated:48
+-keep class com.facebook.widget.LoginButton { <init>(...); }
+
 # view AndroidManifest.xml #generated:91
 -keep class com.google.ads.AdActivity { <init>(...); }
+
+# view res/layout/item_image_result.xml #generated:2
+-keep class com.loopj.android.image.SmartImageView { <init>(...); }
 
 # view AndroidManifest.xml #generated:83
 -keep class com.visva.android.hangman.ui.EnterWordToGuessScreen { <init>(...); }
