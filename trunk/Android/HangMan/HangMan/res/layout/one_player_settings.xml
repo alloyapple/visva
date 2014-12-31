@@ -67,59 +67,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@id/player_two_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10.0dip" >
-
-            <TextView
-                android:id="@id/lbl_player2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/player_2_name_marginleft"
-                android:text="@string/opponent"
-                android:textColor="#ffffffff"
-                android:textStyle="bold"
-                android:typeface="serif" />
-
-            <LinearLayout
-                android:id="@id/LinearLayout01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7.0dip"
-                android:orientation="vertical" >
-
-                <EditText
-                    android:id="@id/txt_player_two"
-                    android:layout_width="@dimen/player_1_name_width"
-                    android:layout_height="@dimen/player_1_name_height"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5.0dip"
-                    android:background="@android:color/transparent"
-                    android:ellipsize="end"
-                    android:gravity="bottom"
-                    android:hint="@string/android"
-                    android:imeOptions="actionDone"
-                    android:inputType="textCapSentences"
-                    android:lines="1"
-                    android:paddingBottom="2.0dip"
-                    android:paddingLeft="2.0dip"
-                    android:textSize="@dimen/txt_player_1_text_size"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
-
-                <ImageView
-                    android:id="@id/ImageView01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_text_field"
-                    android:contentDescription="@string/app_name"
-                    android:soundEffectsEnabled="false" />
-            </LinearLayout>
-        </LinearLayout>
 
         <TextView
             android:id="@+id/lbl_word_list"

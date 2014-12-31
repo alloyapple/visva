@@ -57,7 +57,7 @@
                 android:layout_width="0.0px"
                 android:layout_height="fill_parent"
                 android:layout_gravity="left"
-                android:layout_weight="270.0"
+                android:layout_weight="220.0"
                 android:gravity="bottom|left" >
 
                 <ImageView
@@ -69,16 +69,19 @@
 
             <LinearLayout
                 android:layout_width="0.0px"
-                android:layout_height="fill_parent"
-                android:layout_weight="180.0"
+                android:layout_marginTop="85dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/layout_bg_corner"
+                android:layout_height="wrap_content"
+                android:layout_weight="230.0"
                 android:gravity="center" >
 
                 <ListView
-                    android:layout_marginTop="30dp"
                     android:id="@+id/list_suggest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:dividerHeight="2dp"
+                    android:dividerHeight="5dp"
+                    android:layout_margin="6dp"
                     android:src="@android:drawable/screen_background_light" />
             </LinearLayout>
         </LinearLayout>

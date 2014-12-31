@@ -86,16 +86,16 @@
 
         <Button
             android:id="@+id/btn_share_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/facebook_share_on" />
+            android:layout_width="@dimen/sns_btn_facebook_size"
+            android:layout_height="@dimen/sns_btn_facebook_size"
+            android:background="@drawable/btn_facebook_selector" />
 
         <Button
             android:id="@+id/btn_share_gg_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/sns_btn_gg_plus_size"
+            android:layout_height="@dimen/sns_btn_gg_plus_size"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/google_plus_on" />
+            android:background="@drawable/btn_gg_plus_selector" />
     </LinearLayout>
 
     <ImageButton

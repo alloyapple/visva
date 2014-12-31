@@ -87,5 +87,9 @@
     <dimen name="hangman_height">182dp</dimen>
     <dimen name="player_1_name">16dp</dimen>
     <dimen name="found_word">16dp</dimen>
+    
+    <!-- options -->
+    <dimen name="sns_btn_facebook_size">50dp</dimen>
+    <dimen name="sns_btn_gg_plus_size">60dp</dimen>
 
 </resources>
