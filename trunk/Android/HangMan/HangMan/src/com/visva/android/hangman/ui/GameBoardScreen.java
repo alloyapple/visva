@@ -136,7 +136,6 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			openHmDatabases();
 			getMapCharButtons();
 			onOnePlayerModeCreated();
-			onImageSearch();
 			Log.e("Tag", "One Plzyer created");
 		} else if (GameSetting._game_mode == TWO_PLAYER_MODE) {
 			setContentView(R.layout.two_player_game_board_screen);
@@ -596,6 +595,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		if (gall_owns == HIDE) {
 			mNumberOfTries = 1;
 		}
+		
+		onImageSearch();
 	}
 
 	public void setRightLetter(String mSolution) {
@@ -1061,7 +1062,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		// TODO: Handle timeout
 		// TOOD: Handle empty results
 		// TODO: use YQL?
-		String url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&rsz=3" + "&start=" + 0 + "&v=1.0" + "&q=" + Uri.encode(mChallenge) + "&as_sitesearch=" + Uri.encode("google.com") + "&imgcolor=" + Uri.encode("black") + "&imgtype=" + Uri.encode("photo") + "&imgsz="
+		String url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&rsz=2" + "&start=" + 0 + "&v=1.0" + "&q=" + Uri.encode(mChallenge) + "&as_sitesearch=" + Uri.encode("google.com") + "&imgcolor=" + Uri.encode("black") + "&imgtype=" + Uri.encode("photo") + "&imgsz="
 				+ Uri.encode("medium");
 
 		Log.d("DEBUG", "URL " + url);
