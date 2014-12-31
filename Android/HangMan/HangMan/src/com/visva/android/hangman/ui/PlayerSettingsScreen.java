@@ -24,7 +24,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 	private ImageButton btn_back;
 	private ImageButton btn_start;
 	private EditText edt_player1;
-	private EditText edt_player2;
 	private TextView img_easy;
 	private TextView img_standard;
 	private TextView img_hard;
@@ -35,7 +34,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 	private TextView img_sat;
 	private TextView img_toefl;
 	private TextView lbl_player1;
-	private TextView lbl_player2;
 	private TextView lbl_word_list;
 
 	private Typeface mFont;
@@ -129,7 +127,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 		InputFilter[] FilterArray = new InputFilter[1];
 		FilterArray[0] = new InputFilter.LengthFilter(maxLength);
 		edt_player1.setFilters(FilterArray);
-		edt_player2.setFilters(FilterArray);
 		// BUTTON CLICKED NOTIFICATION
 		/*
 		 * BACK BUTTON
@@ -153,7 +150,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 				GameSetting._game_mode = ONE_PLAYER_MODE;
 				Intent intentGameBoard = new Intent(PlayerSettingsScreen.this, GameBoardScreen.class);
 				setStr_player1(edt_player1.getText().toString());
-				setStr_player2(edt_player2.getText().toString());
 				intentGameBoard.putExtra(WORD_LIST, getWord_list());
 				intentGameBoard.putExtra(PLAYER1, getStr_player1());
 				intentGameBoard.putExtra(PLAYER2, getStr_player2());
@@ -276,9 +272,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 		lbl_player1 = (TextView) findViewById(R.id.lbl_player1);
 		lbl_player1.setTypeface(mFont);
 		lbl_player1.setTextColor(mFontDefaultColor);
-		lbl_player2 = (TextView) findViewById(R.id.lbl_player2);
-		lbl_player2.setTypeface(mFont);
-		lbl_player2.setTextColor(mFontDefaultColor);
 		lbl_word_list = (TextView) findViewById(R.id.lbl_word_list);
 		lbl_word_list.setTypeface(mFont);
 		lbl_word_list.setTextColor(mFontDefaultColor);
@@ -288,9 +281,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 		int txtHintColor = getResources().getColor(R.color.txt_player_name_hint_color);
 		edt_player1.setTextColor(txtColor);
 		edt_player1.setHintTextColor(txtHintColor);
-		edt_player2 = (EditText) findViewById(R.id.txt_player_two);
-		edt_player2.setTextColor(txtColor);
-		edt_player2.setHintTextColor(txtHintColor);
 		img_easy = (TextView) findViewById(R.id.easy);
 		img_easy.setTypeface(mFont);
 		img_easy.setTextColor(mFontDefaultColor);
@@ -342,12 +332,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 				edt_player1.setText(player);
 				edt_player1.setSelection(edt_player1.getText().length());
 			}
-			if (opponent.equalsIgnoreCase(DEF_OPPONENT)) {
-				edt_player2.setHint(opponent);
-			} else {
-				edt_player2.setText(opponent);
-				edt_player2.setSelection(edt_player2.getText().length());
-			}
 			word_list = GamePreferences.getIntVal(this, WORD_LIST, STANDARD);
 			switch (word_list) {
 			case EASY:
@@ -387,12 +371,6 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 				edt_player1.setText(player);
 				edt_player1.setSelection(edt_player1.getText().length());
 
-			}
-			if (player2.equalsIgnoreCase(DEF_PLAYER2)) {
-				edt_player2.setHint(player2);
-			} else {
-				edt_player2.setText(player2);
-				edt_player2.setSelection(edt_player2.getText().length());
 			}
 		}
 	}
