@@ -88,6 +88,7 @@
             android:id="@+id/btn_share_facebook"
             android:layout_width="@dimen/sns_btn_facebook_size"
             android:layout_height="@dimen/sns_btn_facebook_size"
+            android:onClick="onClickShareFacebook"
             android:background="@drawable/btn_facebook_selector" />
 
         <Button
@@ -95,6 +96,7 @@
             android:layout_width="@dimen/sns_btn_gg_plus_size"
             android:layout_height="@dimen/sns_btn_gg_plus_size"
             android:layout_marginLeft="40dp"
+            android:onClick="onClickShareGooglePlus"
             android:background="@drawable/btn_gg_plus_selector" />
     </LinearLayout>
 

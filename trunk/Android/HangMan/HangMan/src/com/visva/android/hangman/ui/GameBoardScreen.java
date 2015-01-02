@@ -596,7 +596,11 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			mNumberOfTries = 1;
 		}
 		
-		onImageSearch();
+		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
+			onImageSearch();
+		} else {
+
+		}
 	}
 
 	public void setRightLetter(String mSolution) {
