@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="facebook_app_id">521214901354685</string>
+
+    <string name="facebook_app_id">521214901354685</string>
     <string name="APPIRATER_MESSAGE">If you enjoy using %s, please support us by taking a minute to rate it. Thanks for your support!</string>
     <string name="APPIRATER_MESSAGE_TITLE">Please Rate %s</string>
     <string name="APPIRATER_CANCEL_BUTTON">No, Thanks</string>
@@ -35,7 +36,18 @@
     <string name="enter_word_for_play_name_to_guess">Enter word for %s to guess</string>
     <string name="enter_word_to_continue">Enter a word to continue.</string>
     <string name="scores">Scores:</string>
-    <string  name="shared_facebook">Shared on facebook</string>
+    <string name="shared_facebook">Shared on facebook</string>
     <string name="share_sns_introduce_project">Try this game to know how smart you are...</string>
+
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 
 </resources>

@@ -76,7 +76,8 @@
                 android:layout_marginTop="85dp"
                 android:layout_weight="230.0"
                 android:background="@drawable/layout_bg_corner"
-                android:gravity="center" >
+                android:gravity="center"
+                android:visibility="gone" >
 
                 <ListView
                     android:id="@+id/list_suggest"
@@ -520,6 +521,43 @@
         android:gravity="center_horizontal"
         android:orientation="vertical" >
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_share_sns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" >
+
+        <LinearLayout
+            android:id="@+id/layout_sns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <Button
+                android:id="@+id/btn_facebook_share"
+                android:layout_width="@dimen/sns_btn_facebook_size"
+                android:layout_height="@dimen/sns_btn_facebook_size"
+                android:background="@drawable/btn_facebook_selector" />
+
+            <Button
+                android:id="@+id/btn_gg_plus_share"
+                android:layout_width="@dimen/sns_btn_gg_plus_size"
+                android:layout_height="@dimen/sns_btn_gg_plus_size"
+                android:background="@drawable/btn_gg_plus_selector" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_arrow_show_sns"
+            android:layout_width="@dimen/sns_btn_facebook_size"
+            android:layout_height="@dimen/sns_btn_facebook_size"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/layout_sns"
+            android:background="@drawable/arrow_right_2" >
+        </Button>
+    </RelativeLayout>
     <!--
          This initially-hidden ImageView will hold the expanded/zoomed version of the
          images above. Without transformations applied, it takes up the entire screen.
@@ -532,8 +570,8 @@
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_margin="10dp"
         android:layout_centerInParent="true"
+        android:layout_margin="10dp"
         android:contentDescription="@string/app_name"
         android:visibility="gone" />
 
