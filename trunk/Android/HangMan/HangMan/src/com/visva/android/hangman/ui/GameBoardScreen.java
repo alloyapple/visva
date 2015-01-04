@@ -30,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -41,12 +42,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.image.SmartImageView;
+import com.visva.android.hangman.MyApplication;
 import com.visva.android.hangman.R;
 import com.visva.android.hangman.adapter.ImageResultArrayAdapter;
 import com.visva.android.hangman.definition.GlobalDef;
@@ -54,6 +56,8 @@ import com.visva.android.hangman.ultis.GamePreferences;
 import com.visva.android.hangman.ultis.GameSetting;
 import com.visva.android.hangman.ultis.HangManSqlite;
 import com.visva.android.hangman.ultis.ImageResult;
+import com.visva.android.hangman.ultis.MyImageView;
+import com.visva.android.hangman.ultis.ProgressDialog;
 import com.visva.android.hangman.ultis.SoundEffect;
 import com.visva.android.hangman.ultis.Timer;
 
@@ -135,6 +139,9 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	private Button mBtnShareSNS;
 	private RelativeLayout mLayoutShareSns;
 	private LinearLayout mLayoutSns;
+	private ProgressDialog mProgressDialog;
+
+	private ImageLoader mImageLoader = MyApplication.getInstance().getImageLoader();
 
 	/**
 	 * Hold a reference to the current animator, so that it can be canceled
@@ -211,6 +218,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	public void initControl() {
+		mProgressDialog = new ProgressDialog(this);
+		
 		char_a = (ImageView) findViewById(R.id.char_a);
 		char_b = (ImageView) findViewById(R.id.char_b);
 		char_c = (ImageView) findViewById(R.id.char_c);
@@ -250,6 +259,11 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					try {
+			            mProgressDialog.show();
+			        } catch (Exception e) {
+
+			        }
 					zoomImageFromThumb(view, imageResults.get(position));
 				}
 			});
@@ -1151,7 +1165,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 	private void onAnimatedLayoutSuggestion(final boolean isShow) {
 		mLayoutSuggestion.setVisibility(View.VISIBLE);
-		mLayoutSuggestion.animate().translationX(isShow ? -90 : 700).alpha(1).setDuration(500).setListener(new AnimatorListenerAdapter() {
+		mLayoutSuggestion.animate().translationX(isShow ? -30/*90*/ : 700).alpha(1).setDuration(500).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				if (!isShow)
@@ -1208,10 +1222,43 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			mCurrentAnimator.cancel();
 		}
 
-		// Load the high-resolution "zoomed-in" image.
-		final SmartImageView expandedImageView = (SmartImageView) findViewById(R.id.expanded_image);
-		expandedImageView.setImageUrl(imageResult.getFullUrl());
+		if (mImageLoader == null)
+			mImageLoader = MyApplication.getInstance().getImageLoader();
 
+		// Load the high-resolution "zoomed-in" image.
+		final MyImageView expandedImageView = (MyImageView) findViewById(R.id.expanded_image);
+		// Feed image
+		if (URLUtil.isValidUrl(imageResult.getFullUrl())) {
+			expandedImageView.setImageUrl(imageResult.getFullUrl(), mImageLoader);
+			expandedImageView.setVisibility(View.GONE);
+			expandedImageView.setResponseObserver(new MyImageView.ResponseObserver() {
+				@Override
+				public void onError() {
+					Log.d("KieuThang", "onError");
+					if (mProgressDialog != null){
+						mProgressDialog.dismiss();
+						mProgressDialog = null;
+			        }
+					expandedImageView.setVisibility(View.INVISIBLE);
+				}
+
+				@Override
+				public void onSuccess() {
+					Log.d("KieuThang", "onSuccess");
+					if (mProgressDialog != null) {
+						mProgressDialog.dismiss();
+						mProgressDialog = null;
+			        }
+					expandedImageView.setVisibility(View.VISIBLE);
+				}
+			});
+		} else {
+			if (mProgressDialog != null){
+				mProgressDialog.dismiss();
+				mProgressDialog = null;
+	        }
+			// feedImageView.setVisibility(View.GONE);
+		}
 		// Calculate the starting and ending bounds for the zoomed-in image.
 		// This step
 		// involves lots of math. Yay, math.
