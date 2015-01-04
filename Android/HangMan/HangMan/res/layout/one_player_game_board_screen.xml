@@ -566,7 +566,7 @@
          of this animation is in the ZoomActivity class.
     -->
 
-    <com.loopj.android.image.SmartImageView
+    <com.visva.android.hangman.ultis.MyImageView
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"

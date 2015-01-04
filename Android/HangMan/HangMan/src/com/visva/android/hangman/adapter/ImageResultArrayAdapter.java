@@ -43,7 +43,7 @@ public class ImageResultArrayAdapter extends ArrayAdapter<ImageResult> {
 			ivImage.setImageResource(android.R.color.transparent);
 		}
 
-		ivImage.setImageUrl(imageInfo.getFullUrl());
+		ivImage.setImageUrl(imageInfo.getThumbUrl());
 		return ivImage;
 	}
 
