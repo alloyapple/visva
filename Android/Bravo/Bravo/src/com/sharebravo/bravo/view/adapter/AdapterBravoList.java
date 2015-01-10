@@ -105,6 +105,7 @@ public class AdapterBravoList extends BaseAdapter {
             } else {
                 holder._recentPostImage.setVisibility(View.VISIBLE);
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.bg_home_cover);
+                mImageLoader.clearCache();
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, holder._recentPostImage, false);
             }
 

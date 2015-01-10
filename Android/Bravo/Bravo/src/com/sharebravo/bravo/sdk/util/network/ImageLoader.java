@@ -35,6 +35,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.sharebravo.bravo.R;
@@ -62,6 +63,7 @@ public class ImageLoader {
         stub_id = loader;
         imageViews.put(imageView, url);
         Bitmap bitmap = memoryCache.get(url);
+        Log.d("KieuThang", "DisplayImage:bitmap=>" + bitmap);
         if (bitmap != null)
             imageView.setImageBitmap(bitmap);
         else

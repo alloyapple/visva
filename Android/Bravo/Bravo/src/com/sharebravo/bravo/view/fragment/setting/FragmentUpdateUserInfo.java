@@ -129,6 +129,13 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                 showDialogChooseImage();
             }
         });
+        mImgUserPicture.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDialogChooseImage();
+            }
+        });
         mBtnBack.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -459,6 +466,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
+                    isChangeImage = true;   
                     mUserProfileImg = photo;
                     mImgUserPicture.setImageBitmap(photo);
                 }
