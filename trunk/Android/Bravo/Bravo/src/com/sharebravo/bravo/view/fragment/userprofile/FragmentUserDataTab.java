@@ -677,8 +677,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         FrameLayout frameLoop = (FrameLayout) dialog_view.findViewById(R.id.flower_loop);
         View view = new GIFView(getActivity());
         view.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT));
-//        mInputStream = getActivity().getResources().openRawResource(R.drawable.flower_anim);
-//        mMovie = Movie.decodeStream(mInputStream);
+        // mInputStream = getActivity().getResources().openRawResource(R.drawable.flower_anim);
+        // mMovie = Movie.decodeStream(mInputStream);
         frameLoop.addView(view);
         TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
         txtContent.setText(getActivity().getResources().getString(R.string.profile_follow_alert).replace("%s", mObGetUserInfo.data.Full_Name));
@@ -699,7 +699,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         window.setAttributes(lp);
         dialog.show();
     }
-    private class GIFView extends View{
+
+    private class GIFView extends View {
 
         public GIFView(Context context) {
             super(context);
@@ -709,7 +710,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
         private Movie       mMovie;
         private InputStream mInputStream = null;
-        private long              mMovieStart;
+        private long        mMovieStart;
 
         @Override
         protected void onDraw(Canvas canvas) {
@@ -723,7 +724,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             int relTime = (int) ((now - mMovieStart) % mMovie.duration());
             mMovie.setTime(relTime);
             double scalex = (double) this.getWidth() / (double) mMovie.width();
-             double scaley = (double) this.getHeight() / (double) mMovie.height();
+            double scaley = (double) this.getHeight() / (double) mMovie.height();
             canvas.scale((float) scalex, (float) scaley);
             mMovie.draw(canvas, 0, 0, paint);
             this.invalidate();

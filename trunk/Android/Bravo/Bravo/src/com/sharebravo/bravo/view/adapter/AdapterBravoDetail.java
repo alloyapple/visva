@@ -5,6 +5,7 @@ import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,6 +53,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     public AdapterBravoDetail(Context context, FragmentBravoDetail fragment) {
         this.mContext = context;
         mImageLoader = new ImageLoader(mContext);
+        mImageLoader.clearCache();
         this.fragment = fragment;
         mLoginBravoViaType = BravoSharePrefs.getInstance(context).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(context, mLoginBravoViaType);
@@ -177,17 +179,20 @@ public class AdapterBravoDetail extends BaseAdapter {
                 }
             });
             String imgSpotUrl = null;
-            if (bravoObj.Bravo_Pics.size() > 0)
-                imgSpotUrl = bravoObj.Bravo_Pics.get(0);
+            int sizeOfBravoPic = bravoObj.Bravo_Pics.size();
+            if (sizeOfBravoPic > 0)
+                imgSpotUrl = bravoObj.Bravo_Pics.get(sizeOfBravoPic - 1);
             if (!URLUtil.isValidUrl(imgSpotUrl))
                 imgSpotUrl = bravoObj.Last_Pic;
-            AIOLog.d("bravoObj.Last_Pic: " + bravoObj.Last_Pic);
+            Log.d("KieuThang","bravoObj.Last_Pic: " + bravoObj.Last_Pic);
+            Log.d("KieuThang", "imgSpotUrl:"+imgSpotUrl);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
             } else {
                 layoutMapview.setVisibility(View.GONE);
                 btnChooseImage.setVisibility(View.GONE);
-                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, false);
+                mImageLoader.clearCache();
+                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, true);
             }
             if (mSpot != null) {
                 txtLikedNumber.setText("" + mSpot.Total_Liked_Users);

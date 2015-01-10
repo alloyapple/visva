@@ -2,6 +2,7 @@ package com.sharebravo.bravo.view.fragment.home;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -206,8 +208,14 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                     return;
                 else {
                     String Last_Pic = obGetBravo.data.Last_Pic;
+                    ArrayList<String> image = obGetBravo.data.Bravo_Pics;
+                    for (int i = 0; i < image.size(); i++) {
+                        Log.d("KieuThang", "image:" + i + ":=>" + image.get(i));
+                    }
+                    Log.d("KieuThang", "Last_Pic:" + Last_Pic);
                     mBravoObj = obGetBravo.data;
                     mBravoObj.Last_Pic = Last_Pic;
+                    mBravoObj.Bravo_Pics = obGetBravo.data.Bravo_Pics;
                     setBravoOb(mBravoObj);
                     requestGetLiked();
                 }
@@ -278,11 +286,12 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             }
         }, FragmentBravoDetail.this);
     }
-//    private static final long TIME_TO_FINISH = 14500;
-//    private Movie             mMovie;
-//    private InputStream       mInputStream   = null;
-//    private long              mMovieStart;
-    
+
+    // private static final long TIME_TO_FINISH = 14500;
+    // private Movie mMovie;
+    // private InputStream mInputStream = null;
+    // private long mMovieStart;
+
     public void showDialogFollowingOK(String fullName) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -293,8 +302,8 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         FrameLayout frameLoop = (FrameLayout) dialog_view.findViewById(R.id.flower_loop);
         View view = new GIFView(getActivity());
         view.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT));
-//        mInputStream = getActivity().getResources().openRawResource(R.drawable.flower_anim);
-//        mMovie = Movie.decodeStream(mInputStream);
+        // mInputStream = getActivity().getResources().openRawResource(R.drawable.flower_anim);
+        // mMovie = Movie.decodeStream(mInputStream);
         frameLoop.addView(view);
         TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
         txtContent.setText(getActivity().getResources().getString(R.string.profile_follow_alert).replace("%s", fullName));
@@ -316,9 +325,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         dialog.show();
     }
 
-  
-
-    private class GIFView extends View{
+    private class GIFView extends View {
 
         public GIFView(Context context) {
             super(context);
@@ -328,7 +335,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
         private Movie       mMovie;
         private InputStream mInputStream = null;
-        private long              mMovieStart;
+        private long        mMovieStart;
 
         @Override
         protected void onDraw(Canvas canvas) {
@@ -342,7 +349,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             int relTime = (int) ((now - mMovieStart) % mMovie.duration());
             mMovie.setTime(relTime);
             double scalex = (double) this.getWidth() / (double) mMovie.width();
-             double scaley = (double) this.getHeight() / (double) mMovie.height();
+            double scaley = (double) this.getHeight() / (double) mMovie.height();
             canvas.scale((float) scalex, (float) scaley);
             mMovie.draw(canvas, 0, 0, paint);
             this.invalidate();
