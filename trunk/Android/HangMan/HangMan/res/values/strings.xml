@@ -7,7 +7,7 @@
     <string name="APPIRATER_CANCEL_BUTTON">No, Thanks</string>
     <string name="APPIRATER_RATE_BUTTON">Rate %s</string>
     <string name="APPIRATER_RATE_LATER">Remind me later</string>
-    <string name="app_name">Hangman</string>
+    <string name="app_name">Hangman 2</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
     <string name="android">Android</string>
@@ -38,6 +38,7 @@
     <string name="scores">Scores:</string>
     <string name="shared_facebook">Shared on facebook</string>
     <string name="share_sns_introduce_project">Try this game to know how smart you are...</string>
+    <string name="can_you_guess_this_word">Can you guess this word?</string>
 
     <string-array name="planets_array">
         <item>Mercury</item>

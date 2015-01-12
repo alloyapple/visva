@@ -1,5 +1,6 @@
 package com.visva.android.hangman.ui;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -17,7 +18,10 @@ import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -28,6 +32,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -52,9 +57,12 @@ import com.facebook.model.GraphObject;
 import com.facebook.model.OpenGraphAction;
 import com.facebook.model.OpenGraphObject;
 import com.facebook.widget.FacebookDialog;
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.PlusShare;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.visva.android.hangman.MyApplication;
@@ -71,7 +79,7 @@ import com.visva.android.hangman.ultis.StringUtility;
 import com.visva.android.hangman.ultis.Timer;
 
 @SuppressLint("UseSparseArrays")
-public class GameBoardScreen extends Activity implements GlobalDef {
+public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCallbacks, OnConnectionFailedListener {
 	/** Called when the activity is first created. */
 	/*
 	 * 
@@ -132,7 +140,6 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	private HangManSqlite mDatabase;
 	private int word_list;
 	private boolean mInSolutionOk;
-	private AdView adView;
 	private long advShowInterval = 0;
 	private GameTimer mGameTimer = new GameTimer();
 	LinearLayout wordImageLayout;
@@ -166,6 +173,20 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 	private UiLifecycleHelper uiHelper;
 
+	/* Request code used to invoke sign in user interactions. */
+	private static final int RC_SIGN_IN = 0;
+	private static final int REQ_SHARE_GG = 1;
+	private static final int REQ_SHARE_FB = 2;
+
+	/* Client used to interact with Google APIs. */
+	private GoogleApiClient mGoogleApiClient;
+
+	/*
+	 * A flag indicating that a PendingIntent is in progress and prevents us
+	 * from starting further intents.
+	 */
+	private boolean mIntentInProgress;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -175,6 +196,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		mFontFoundWordColor = getResources().getColor(R.color.found_word);
 		uiHelper = new UiLifecycleHelper(this, null);
 		uiHelper.onCreate(savedInstanceState);
+
+		mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN).build();
 
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 			setContentView(R.layout.one_player_game_board_screen);
@@ -189,11 +212,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			getMapCharButtons();
 			onTwoPlayerModeCreated();
 		} else {
-			android.os.Process.killProcess(android.os.Process.myPid());
 			Intent data = new Intent();
 			data.putExtra("exit", RESULT_OK);
-			finish();
-			return;
 		}
 		updateHighScore();
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -282,10 +302,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				@Override
 				public void onClick(View v) {
 					if (mLayoutSns.getVisibility() == View.VISIBLE) {
-						mBtnShareSNS.setImageResource(R.drawable.slide_arrow_right);
 						showAnimatedLayoutSNS(false);
 					} else {
-						mBtnShareSNS.setImageResource(R.drawable.slide_arrow_left);
 						showAnimatedLayoutSNS(true);
 					}
 				}
@@ -293,7 +311,6 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 			mLayoutExpand = (RelativeLayout) findViewById(R.id.layout_expand_image);
 		} else {
-			// txt_category = (SMTextView) findViewById(R.id.txt_category);
 			txt_player1 = (TextView) findViewById(R.id.player1);
 			txt_player2 = (TextView) findViewById(R.id.player2);
 			txt_player1.getTextSize();
@@ -679,6 +696,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_right);
 			}
 			mLayoutExpand.setVisibility(View.GONE);
+			mLayoutShareSns.setVisibility(View.VISIBLE);
+			mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_right);
 			onImageSearch();
 		} else {
 
@@ -1035,14 +1054,15 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 	}
 
-	private void showAdvBanner() {
-		adView = new AdView(this, AdSize.BANNER, getString(R.string.ADMOB_PUBLISHER_ID));
-		LinearLayout layout = (LinearLayout) findViewById(R.id.adv_layout);
-		layout.addView(adView);
-		AdRequest adRequest = new AdRequest();
-		adRequest.addTestDevice(AdRequest.TEST_EMULATOR); // Emulator
-		adView.loadAd(adRequest);
-	}
+	// private void showAdvBanner() {
+	// adView = new AdView(this, AdSize.BANNER,
+	// getString(R.string.ADMOB_PUBLISHER_ID));
+	// LinearLayout layout = (LinearLayout) findViewById(R.id.adv_layout);
+	// layout.addView(adView);
+	// AdRequest adRequest = new AdRequest();
+	// adRequest.addTestDevice(AdRequest.TEST_EMULATOR); // Emulator
+	// adView.loadAd(adRequest);
+	// }
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -1058,7 +1078,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		@Override
 		protected boolean step(int count, long time) {
 			if (advShowInterval == 1 * 30 * 1000) {
-				showAdvBanner();
+				// showAdvBanner();
 				advShowInterval = 0;
 			} else {
 				advShowInterval += 1000;
@@ -1084,7 +1104,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 	@Override
 	protected void onDestroy() {
-		finish();
+		// finish();
 		super.onDestroy();
 		uiHelper.onDestroy();
 	}
@@ -1136,7 +1156,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
-			finish();
+			mLayoutShareSns.setVisibility(View.VISIBLE);
+			mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_right);
 		}
 
 		uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
@@ -1150,6 +1171,13 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				Log.i("Activity", "Success!");
 			}
 		});
+		if (requestCode == RC_SIGN_IN) {
+			mIntentInProgress = false;
+
+			if (!mGoogleApiClient.isConnecting()) {
+				mGoogleApiClient.connect();
+			}
+		}
 	}
 
 	/**
@@ -1224,8 +1252,12 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		mLayoutSns.animate().translationX(isShow ? 0 : -10).alpha(1).setDuration(500).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				if (!isShow)
+				if (!isShow) {
 					mLayoutSns.setVisibility(View.GONE);
+					mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_right);
+				} else {
+					mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_left);
+				}
 			}
 
 			@Override
@@ -1403,32 +1435,44 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	public void onClickShareFacebook(View v) {
+		showAnimatedLayoutSNS(false);
+		mLayoutShareSns.setVisibility(View.GONE);
+		mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_right);
 		Bitmap bitmap = loadBitmapFromView(mContainer);
 		List<Bitmap> images = new ArrayList<Bitmap>();
 		images.add(bitmap);
-		OpenGraphObject files = OpenGraphObject.Factory.createForPost("games.other");
-		files.setTitle("Awesome Video");
-		files.setDescription("This video will show you how to make the Opengraph work");
+		OpenGraphObject video = OpenGraphObject.Factory.createForPost("games.other");
+		video.setTitle(getString(R.string.app_name));
+		video.setDescription(getString(R.string.can_you_guess_this_word));
+
 		OpenGraphAction action = GraphObject.Factory.create(OpenGraphAction.class);
-		action.setProperty("meal", "https://example.com/cooking-app/meal/Lamb-Vindaloo.html");
-		action.setProperty("previewPropertyName", true);
-		action.setType("games.achieves");
-		FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, null, "games").setImageAttachmentsForAction(images, true).build();
+		action.setProperty("game", video);
+		action.setType("games.saves");
+
+		FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(GameBoardScreen.this, action, "game").setImageAttachmentsForAction(images, true).build();
 		uiHelper.trackPendingDialogCall(shareDialog.present());
 	}
 
 	public void onClickShareGooglePlus(View v) {
-		 OpenGraphObject video = OpenGraphObject.Factory.createForPost("games.other");
-	        video.setTitle("Awesome Video");
-	        video.setDescription("This video will show you how to make the Opengraph work");
+		showAnimatedLayoutSNS(false);
+		mLayoutShareSns.setVisibility(View.GONE);
+		mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_right);
+		if (mGoogleApiClient == null) {
+			mGoogleApiClient = new GoogleApiClient.Builder(GameBoardScreen.this).addConnectionCallbacks(GameBoardScreen.this).addOnConnectionFailedListener(GameBoardScreen.this).addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+		} else if (mGoogleApiClient.isConnecting()) {
+			Bitmap bitmap = loadBitmapFromView(mContainer);
+			Uri selectedImage = getImageUri(GameBoardScreen.this, bitmap);
+			ContentResolver cr = GameBoardScreen.this.getContentResolver();
+			String mime = cr.getType(selectedImage);
 
-	        OpenGraphAction action = GraphObject.Factory.create(OpenGraphAction.class);
-	        action.setProperty("video", video);
-	        action.setType("games.achieves");            
-
-	        FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, action, "video")
-	                .build();
-	        uiHelper.trackPendingDialogCall(shareDialog.present());
+			PlusShare.Builder share = new PlusShare.Builder(GameBoardScreen.this);
+			share.setText(getString(R.string.can_you_guess_this_word));
+			share.addStream(selectedImage);
+			share.setType(mime);
+			startActivityForResult(share.getIntent(), REQ_SHARE_GG);
+		}else{
+			mGoogleApiClient.connect();
+		}
 	}
 
 	public static Bitmap loadBitmapFromView(View v) {
@@ -1447,4 +1491,61 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			return b;
 		}
 	}
+
+	public Uri getImageUri(Context inContext, Bitmap inImage) {
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+		String path = Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+		return Uri.parse(path);
+	}
+
+	@Override
+	public void onConnected(Bundle bundle) {
+		Bitmap bitmap = loadBitmapFromView(mContainer);
+		Uri selectedImage = getImageUri(GameBoardScreen.this, bitmap);
+		ContentResolver cr = GameBoardScreen.this.getContentResolver();
+		String mime = cr.getType(selectedImage);
+
+		PlusShare.Builder share = new PlusShare.Builder(GameBoardScreen.this);
+		share.setText(getString(R.string.can_you_guess_this_word));
+		share.addStream(selectedImage);
+		share.setType(mime);
+		startActivityForResult(share.getIntent(), REQ_SHARE_GG);
+	}
+
+	@Override
+	public void onConnectionFailed(ConnectionResult connectionResult) {
+		if (!mIntentInProgress && connectionResult.hasResolution()) {
+			try {
+				mIntentInProgress = true;
+				startIntentSenderForResult(connectionResult.getResolution().getIntentSender(), RC_SIGN_IN, null, 0, 0, 0);
+			} catch (SendIntentException e) {
+				// The intent was canceled before it was sent. Return to the
+				// default
+				// state and attempt to connect to get an updated
+				// ConnectionResult.
+				mIntentInProgress = false;
+				//mGoogleApiClient.connect();
+			}
+		}
+	}
+
+	@Override
+	public void onConnectionSuspended(int arg0) {
+		mGoogleApiClient.connect();
+	}
+
+	protected void onStart() {
+		super.onStart();
+		//mGoogleApiClient.connect();
+	}
+
+	protected void onStop() {
+		super.onStop();
+
+		if (mGoogleApiClient.isConnected()) {
+			mGoogleApiClient.disconnect();
+		}
+	}
+
 }
