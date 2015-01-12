@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +26,7 @@ import android.content.IntentSender.SendIntentException;
 import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -135,6 +137,8 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	public ImageButton gameFinishButtonOK;
 	private TextView txt_mess_dialog;
 	private TextView txt_word_dialog;
+	private TextView txt_word_cheer;
+	private TextView txt_scores;
 	private ListView listSuggest;
 	private String mChallenge;
 	private HangManSqlite mDatabase;
@@ -857,11 +861,17 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 			txt_mess_dialog = (TextView) gameFinishedDialog.findViewById(R.id.txtresult);
 			textSizeDialog = txt_mess_dialog.getTextSize();
 			txt_word_dialog = (TextView) gameFinishedDialog.findViewById(R.id.txt_word);
+			txt_word_cheer = (TextView) gameFinishedDialog.findViewById(R.id.txt_cheer_word);
+			txt_scores = (TextView) gameFinishedDialog.findViewById(R.id.txt_scores);
 			imgresult = (ImageView) gameFinishedDialog.findViewById(R.id.imgresult);
 			txt_mess_dialog.setTypeface(mFont);
 			txt_mess_dialog.setTextColor(mFontDefaultColor);
 			txt_word_dialog.setTypeface(mFont);
 			txt_word_dialog.setTextColor(mFontFoundWordColor);
+			txt_word_cheer.setTypeface(mFont);
+			txt_word_cheer.setTextColor(Color.GREEN);
+			txt_scores.setTypeface(mFont);
+			txt_scores.setTextColor(Color.RED);
 			gameFinishButtonOK = (ImageButton) gameFinishedDialog.findViewById(R.id.gamecontinue);
 			gameFinishButtonOK.setOnClickListener(onGameFinishedDialogOk);
 			return gameFinishedDialog;
@@ -988,7 +998,20 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 						txt_mess_dialog.setText(txt_player1.getText() + " WINS");
 					}
 				}
+				String[] cheerWords = getResources().getStringArray(R.array.cheer_words);
+				if (cheerWords != null && cheerWords.length > 0) {
+					txt_word_cheer.setVisibility(View.VISIBLE);
+					txt_scores.setVisibility(View.VISIBLE);
+					Random random = new Random();
+					int pos = random.nextInt(cheerWords.length);
+					txt_word_cheer.setText(cheerWords[pos]);
+					txt_scores.setText(GameSetting._one_mode_player1_hscore+"");
+				} else {
+					txt_scores.setVisibility(View.GONE);
+					txt_word_cheer.setVisibility(View.GONE);
+				}
 				txt_word_dialog.setText("");
+				txt_word_dialog.setVisibility(View.GONE);
 				imgresult.setBackgroundResource(R.drawable.won_game);
 			} else if (mGameCompleted == GAME_OVER) {
 				if (GameSetting._game_mode == ONE_PLAYER_MODE) {
@@ -1000,6 +1023,10 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 						txt_mess_dialog.setText(txt_player1.getText() + " LOSES");
 					}
 				}
+				txt_word_cheer.setText("");
+				txt_word_cheer.setVisibility(View.GONE);
+				txt_scores.setVisibility(View.GONE);
+				txt_word_dialog.setVisibility(View.VISIBLE);
 				txt_word_dialog.setText("WORD: " + mChallenge);
 				Log.e("word_dialog", mChallenge.toString());
 				imgresult.setBackgroundResource(R.drawable.loose_game);
@@ -1127,24 +1154,24 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	public void scoreCounter() {
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 			if (mGameCompleted == GAME_WON) {
-				GameSetting._one_mode_player1_hscore += 100;
+				GameSetting._one_mode_player1_hscore += 1;
 			} else if (mGameCompleted == GAME_OVER) {
-				GameSetting._one_mode_player2_hscore += 100;
+				GameSetting._one_mode_player2_hscore += 1;
 			} else {
 				// do nothing
 			}
 		} else {
 			if (mGameCompleted == GAME_WON) {
 				if (player1Challenge) {
-					GameSetting._two_mode_player2_hscore += 100;
+					GameSetting._two_mode_player2_hscore += 1;
 				} else {
-					GameSetting._two_mode_player1_hscore += 100;
+					GameSetting._two_mode_player1_hscore += 1;
 				}
 			} else if (mGameCompleted == GAME_OVER) {
 				if (player1Challenge) {
-					GameSetting._two_mode_player1_hscore += 100;
+					GameSetting._two_mode_player1_hscore += 1;
 				} else {
-					GameSetting._two_mode_player2_hscore += 100;
+					GameSetting._two_mode_player2_hscore += 1;
 				}
 			} else {
 				// do nothing
@@ -1174,9 +1201,9 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 		if (requestCode == RC_SIGN_IN) {
 			mIntentInProgress = false;
 
-			if (!mGoogleApiClient.isConnecting()) {
-				mGoogleApiClient.connect();
-			}
+//			if (!mGoogleApiClient.isConnecting()) {
+//				mGoogleApiClient.connect();
+//			}
 		}
 	}
 
@@ -1470,7 +1497,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 			share.addStream(selectedImage);
 			share.setType(mime);
 			startActivityForResult(share.getIntent(), REQ_SHARE_GG);
-		}else{
+		} else {
 			mGoogleApiClient.connect();
 		}
 	}
@@ -1525,7 +1552,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 				// state and attempt to connect to get an updated
 				// ConnectionResult.
 				mIntentInProgress = false;
-				//mGoogleApiClient.connect();
+				// mGoogleApiClient.connect();
 			}
 		}
 	}
@@ -1537,7 +1564,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 
 	protected void onStart() {
 		super.onStart();
-		//mGoogleApiClient.connect();
+		// mGoogleApiClient.connect();
 	}
 
 	protected void onStop() {

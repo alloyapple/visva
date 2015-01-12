@@ -95,8 +95,6 @@
     <public id="0x7f02012c" name="o_right_lrg" type="drawable" />
     <public id="0x7f02012e" name="off_lrg" type="drawable" />
     <public id="0x7f020130" name="off_select_lrg" type="drawable" />
-    <public id="0x7f020133" name="ok_lrg" type="drawable" />
-    <public id="0x7f020135" name="ok_select_lrg" type="drawable" />
     <public id="0x7f020137" name="on_lrg" type="drawable" />
     <public id="0x7f020139" name="on_select_lrg" type="drawable" />
     <public id="0x7f02013e" name="p_disabled_lrg" type="drawable" />
