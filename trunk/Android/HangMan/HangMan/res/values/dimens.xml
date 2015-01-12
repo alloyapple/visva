@@ -90,6 +90,6 @@
     
     <!-- options -->
     <dimen name="sns_btn_facebook_size">50dp</dimen>
-    <dimen name="sns_btn_gg_plus_size">60dp</dimen>
+    <dimen name="sns_btn_gg_plus_size">58dp</dimen>
 
 </resources>

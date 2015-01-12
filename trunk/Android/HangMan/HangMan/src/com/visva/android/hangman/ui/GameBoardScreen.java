@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.SQLException;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -39,10 +42,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
+import com.facebook.model.OpenGraphAction;
+import com.facebook.model.OpenGraphObject;
+import com.facebook.widget.FacebookDialog;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
@@ -57,8 +66,8 @@ import com.visva.android.hangman.ultis.GameSetting;
 import com.visva.android.hangman.ultis.HangManSqlite;
 import com.visva.android.hangman.ultis.ImageResult;
 import com.visva.android.hangman.ultis.MyImageView;
-import com.visva.android.hangman.ultis.ProgressDialog;
 import com.visva.android.hangman.ultis.SoundEffect;
+import com.visva.android.hangman.ultis.StringUtility;
 import com.visva.android.hangman.ultis.Timer;
 
 @SuppressLint("UseSparseArrays")
@@ -136,11 +145,11 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	private ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
 	private ImageResultArrayAdapter imageAdapter;
 	private LinearLayout mLayoutSuggestion;
-	private Button mBtnShareSNS;
+	private ImageView mBtnShareSNS;
 	private RelativeLayout mLayoutShareSns;
 	private LinearLayout mLayoutSns;
-	private ProgressDialog mProgressDialog;
-
+	private RelativeLayout mLayoutExpand;
+	private RelativeLayout mContainer;
 	private ImageLoader mImageLoader = MyApplication.getInstance().getImageLoader();
 
 	/**
@@ -155,6 +164,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	 */
 	private int mShortAnimationDuration;
 
+	private UiLifecycleHelper uiHelper;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -162,6 +173,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		mFont = Typeface.createFromAsset(getAssets(), "fonts/SHOWG.TTF");
 		mFontDefaultColor = getResources().getColor(R.color.font_default_color);
 		mFontFoundWordColor = getResources().getColor(R.color.found_word);
+		uiHelper = new UiLifecycleHelper(this, null);
+		uiHelper.onCreate(savedInstanceState);
 
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 			setContentView(R.layout.one_player_game_board_screen);
@@ -218,8 +231,6 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	public void initControl() {
-		mProgressDialog = new ProgressDialog(this);
-		
 		char_a = (ImageView) findViewById(R.id.char_a);
 		char_b = (ImageView) findViewById(R.id.char_b);
 		char_c = (ImageView) findViewById(R.id.char_c);
@@ -250,7 +261,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		wordImageLayout = (LinearLayout) findViewById(R.id.word_layout);
 		btn_menu_gameboard = (ImageButton) findViewById(R.id.btn_menu_gameboard);
 		btn_menu_new = (ImageButton) findViewById(R.id.btn_new_gameboard);
-
+		mContainer = (RelativeLayout) findViewById(R.id.container);
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 			listSuggest = (ListView) findViewById(R.id.list_suggest);
 			imageAdapter = new ImageResultArrayAdapter(this, imageResults);
@@ -259,29 +270,28 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					try {
-			            mProgressDialog.show();
-			        } catch (Exception e) {
-
-			        }
 					zoomImageFromThumb(view, imageResults.get(position));
 				}
 			});
 			mLayoutSuggestion = (LinearLayout) findViewById(R.id.layout_suggestion);
 			mLayoutShareSns = (RelativeLayout) findViewById(R.id.layout_share_sns);
 			mLayoutSns = (LinearLayout) findViewById(R.id.layout_sns);
-			mBtnShareSNS = (Button) findViewById(R.id.btn_arrow_show_sns);
+			mBtnShareSNS = (ImageView) findViewById(R.id.btn_arrow_show_sns);
 			mBtnShareSNS.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					if (mLayoutSns.getVisibility() == View.VISIBLE) {
+						mBtnShareSNS.setImageResource(R.drawable.slide_arrow_right);
 						showAnimatedLayoutSNS(false);
 					} else {
+						mBtnShareSNS.setImageResource(R.drawable.slide_arrow_left);
 						showAnimatedLayoutSNS(true);
 					}
 				}
 			});
+
+			mLayoutExpand = (RelativeLayout) findViewById(R.id.layout_expand_image);
 		} else {
 			// txt_category = (SMTextView) findViewById(R.id.txt_category);
 			txt_player1 = (TextView) findViewById(R.id.player1);
@@ -639,6 +649,9 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 			String categoryName = GameSetting.getCategoryName(word_list);
 			mChallenge = mDatabase.GetRandomWord(categoryName.toLowerCase());
+			while (StringUtility.isEmpty(mChallenge)) {
+				mChallenge = mDatabase.GetRandomWord(categoryName.toLowerCase());
+			}
 		} else {
 
 		}
@@ -659,8 +672,13 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		}
 
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
-			if (mLayoutSuggestion.getVisibility() == View.VISIBLE)
+			if (mLayoutSuggestion.getVisibility() == View.VISIBLE) {
+				mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_left);
 				onAnimatedLayoutSuggestion(false);
+			} else {
+				mBtnShareSNS.setBackgroundResource(R.drawable.slide_arrow_right);
+			}
+			mLayoutExpand.setVisibility(View.GONE);
 			onImageSearch();
 		} else {
 
@@ -1054,18 +1072,27 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	protected void onPause() {
 		mGameTimer.stop();
 		super.onPause();
+		uiHelper.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		mGameTimer.start();
 		super.onResume();
+		uiHelper.onResume();
 	}
 
 	@Override
 	protected void onDestroy() {
 		finish();
 		super.onDestroy();
+		uiHelper.onDestroy();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		uiHelper.onSaveInstanceState(outState);
 	}
 
 	public void updateHighScore() {
@@ -1111,6 +1138,18 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		if (resultCode == Activity.RESULT_OK) {
 			finish();
 		}
+
+		uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+			@Override
+			public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+				Log.e("Activity", String.format("Error: %s", error.toString()));
+			}
+
+			@Override
+			public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+				Log.i("Activity", "Success!");
+			}
+		});
 	}
 
 	/**
@@ -1165,11 +1204,12 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 	private void onAnimatedLayoutSuggestion(final boolean isShow) {
 		mLayoutSuggestion.setVisibility(View.VISIBLE);
-		mLayoutSuggestion.animate().translationX(isShow ? -30/*90*/ : 700).alpha(1).setDuration(500).setListener(new AnimatorListenerAdapter() {
+		mLayoutSuggestion.animate().translationX(isShow ? -30/* 90 */: 700).alpha(1).setDuration(500).setListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				if (!isShow)
+				if (!isShow) {
 					mLayoutSuggestion.setVisibility(View.GONE);
+				}
 			}
 
 			@Override
@@ -1218,6 +1258,8 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	private void zoomImageFromThumb(final View thumbView, ImageResult imageResult) {
 		// If there's an animation in progress, cancel it immediately and
 		// proceed with this one.
+		mLayoutExpand.setVisibility(View.VISIBLE);
+
 		if (mCurrentAnimator != null) {
 			mCurrentAnimator.cancel();
 		}
@@ -1235,28 +1277,16 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				@Override
 				public void onError() {
 					Log.d("KieuThang", "onError");
-					if (mProgressDialog != null){
-						mProgressDialog.dismiss();
-						mProgressDialog = null;
-			        }
 					expandedImageView.setVisibility(View.INVISIBLE);
 				}
 
 				@Override
 				public void onSuccess() {
 					Log.d("KieuThang", "onSuccess");
-					if (mProgressDialog != null) {
-						mProgressDialog.dismiss();
-						mProgressDialog = null;
-			        }
 					expandedImageView.setVisibility(View.VISIBLE);
 				}
 			});
 		} else {
-			if (mProgressDialog != null){
-				mProgressDialog.dismiss();
-				mProgressDialog = null;
-	        }
 			// feedImageView.setVisibility(View.GONE);
 		}
 		// Calculate the starting and ending bounds for the zoomed-in image.
@@ -1354,6 +1384,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 					public void onAnimationEnd(Animator animation) {
 						thumbView.setAlpha(1f);
 						expandedImageView.setVisibility(View.GONE);
+						mLayoutExpand.setVisibility(View.GONE);
 						mCurrentAnimator = null;
 					}
 
@@ -1361,6 +1392,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 					public void onAnimationCancel(Animator animation) {
 						thumbView.setAlpha(1f);
 						expandedImageView.setVisibility(View.GONE);
+						mLayoutExpand.setVisibility(View.GONE);
 						mCurrentAnimator = null;
 					}
 				});
@@ -1368,5 +1400,51 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				mCurrentAnimator = set;
 			}
 		});
+	}
+
+	public void onClickShareFacebook(View v) {
+		Bitmap bitmap = loadBitmapFromView(mContainer);
+		List<Bitmap> images = new ArrayList<Bitmap>();
+		images.add(bitmap);
+		OpenGraphObject files = OpenGraphObject.Factory.createForPost("games.other");
+		files.setTitle("Awesome Video");
+		files.setDescription("This video will show you how to make the Opengraph work");
+		OpenGraphAction action = GraphObject.Factory.create(OpenGraphAction.class);
+		action.setProperty("meal", "https://example.com/cooking-app/meal/Lamb-Vindaloo.html");
+		action.setProperty("previewPropertyName", true);
+		action.setType("games.achieves");
+		FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, null, "games").setImageAttachmentsForAction(images, true).build();
+		uiHelper.trackPendingDialogCall(shareDialog.present());
+	}
+
+	public void onClickShareGooglePlus(View v) {
+		 OpenGraphObject video = OpenGraphObject.Factory.createForPost("games.other");
+	        video.setTitle("Awesome Video");
+	        video.setDescription("This video will show you how to make the Opengraph work");
+
+	        OpenGraphAction action = GraphObject.Factory.create(OpenGraphAction.class);
+	        action.setProperty("video", video);
+	        action.setType("games.achieves");            
+
+	        FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, action, "video")
+	                .build();
+	        uiHelper.trackPendingDialogCall(shareDialog.present());
+	}
+
+	public static Bitmap loadBitmapFromView(View v) {
+		if (v.getMeasuredHeight() <= 0) {
+			v.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			Bitmap b = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+			Canvas c = new Canvas(b);
+			v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+			v.draw(c);
+			return b;
+		} else {
+			Bitmap b = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+			Canvas c = new Canvas(b);
+			v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+			v.draw(c);
+			return b;
+		}
 	}
 }
