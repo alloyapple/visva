@@ -1,10 +1,21 @@
 package com.visva.android.hangman.ui;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,21 +23,24 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.sromku.simple.fb.Permission;
-import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.entities.Profile;
-import com.sromku.simple.fb.listeners.OnLoginListener;
-import com.sromku.simple.fb.listeners.OnProfileListener;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
+import com.facebook.model.OpenGraphAction;
+import com.facebook.model.OpenGraphObject;
+import com.facebook.widget.FacebookDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.PlusShare;
 import com.visva.android.hangman.R;
 import com.visva.android.hangman.definition.GlobalDef;
-import com.visva.android.hangman.ultis.FacebookUtil;
 import com.visva.android.hangman.ultis.GamePreferences;
-import com.visva.android.hangman.ultis.IRequestListener;
 
-public class OptionsScreen extends Activity implements GlobalDef {
+public class OptionsScreen extends Activity implements GlobalDef, ConnectionCallbacks, OnConnectionFailedListener {
 	/** Called when the activity is first created. */
 	private ImageButton btn_back;
 	private TextView img_sound;
@@ -35,12 +49,30 @@ public class OptionsScreen extends Activity implements GlobalDef {
 	private Typeface mFont;
 	private int mFontDefaultColor;
 	private ToggleButton mBtnSoundMode;
-	private SimpleFacebook mSimpleFacebook;
+
+	private UiLifecycleHelper uiHelper;
+
+	/* Request code used to invoke sign in user interactions. */
+	private static final int RC_SIGN_IN = 0;
+	private static final int REQ_SHARE_GG = 1;
+
+	/* Client used to interact with Google APIs. */
+	private GoogleApiClient mGoogleApiClient;
+
+	/*
+	 * A flag indicating that a PendingIntent is in progress and prevents us
+	 * from starting further intents.
+	 */
+	private boolean mIntentInProgress;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mSimpleFacebook = SimpleFacebook.getInstance(this);
+
+		uiHelper = new UiLifecycleHelper(this, null);
+		uiHelper.onCreate(savedInstanceState);
+
+		mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN).build();
 
 		setContentView(R.layout.options_screen);
 		initControl();
@@ -112,103 +144,136 @@ public class OptionsScreen extends Activity implements GlobalDef {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSimpleFacebook = SimpleFacebook.getInstance(this);
+		uiHelper.onResume();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data);
+		uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+			@Override
+			public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+				Log.e("Activity", String.format("Error: %s", error.toString()));
+			}
+
+			@Override
+			public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+				Log.i("Activity", "Success!");
+			}
+		});
+		if (requestCode == RC_SIGN_IN) {
+			mIntentInProgress = false;
+
+			if (!mGoogleApiClient.isConnecting()) {
+				mGoogleApiClient.connect();
+			}
+		}
 	}
 
 	public void onClickShareFacebook(View v) {
-		if (mSimpleFacebook == null || !mSimpleFacebook.isLogin()) {
-			mSimpleFacebook.login(onLoginListener);
-			return;
-		} else {
-			requestUserFacebookInfo();
-		}
-	}
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.big_icon);
+		List<Bitmap> images = new ArrayList<Bitmap>();
+		images.add(bitmap);
+		OpenGraphObject video = OpenGraphObject.Factory.createForPost("games.other");
+		video.setTitle(getString(R.string.app_name));
+		video.setDescription(getString(R.string.share_sns_introduce_project));
 
-	/**
-	 * Login example.
-	 */
-	// Login listener
-	final OnLoginListener onLoginListener = new OnLoginListener() {
+		OpenGraphAction action = GraphObject.Factory.create(OpenGraphAction.class);
+		action.setProperty("game", video);
+		action.setType("games.saves");
 
-		@Override
-		public void onFail(String reason) {
-			Log.d("KieuThang", "Failed to login");
-		}
+		FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, action, "game").setImageAttachmentsForAction(images, true).build();
+		uiHelper.trackPendingDialogCall(shareDialog.present());
 
-		@Override
-		public void onException(Throwable throwable) {
-			Log.d("KieuThang", "Bad thing happened", throwable);
-		}
-
-		@Override
-		public void onThinking() {
-			// show progress bar or something to the user while login is
-			// happening
-		}
-
-		@Override
-		public void onLogin() {
-			// change the state of the button or do whatever you want
-			Log.d("KieuThang", "onLogin");
-			requestUserFacebookInfo();
-		}
-
-		@Override
-		public void onNotAcceptingPermissions(Permission.Type type) {
-			Toast.makeText(OptionsScreen.this, String.format("You didn't accept %s permissions", type.name()), Toast.LENGTH_SHORT).show();
-		}
-	};
-
-	private void requestUserFacebookInfo() {
-		if (mSimpleFacebook == null) {
-			mSimpleFacebook = SimpleFacebook.getInstance(this);
-			return;
-		}
-		SimpleFacebook.getInstance().getProfile(new OnProfileListener() {
-
-			@Override
-			public void onThinking() {
-			}
-
-			@Override
-			public void onException(Throwable throwable) {
-			}
-
-			@Override
-			public void onFail(String reason) {
-			}
-
-			@Override
-			public void onComplete(Profile profile) {
-				onFacebookUserConnected(profile);
-			}
-		});
-
-	}
-
-	private void onFacebookUserConnected(Profile profile) {
-		FacebookUtil.getInstance(this).publishShareInBackground(new IRequestListener() {
-
-			@Override
-			public void onResponse(String response) {
-				String shareDone = getString(R.string.shared_facebook);
-				Toast.makeText(OptionsScreen.this, shareDone, Toast.LENGTH_SHORT).show();
-			}
-
-			@Override
-			public void onErrorResponse(String errorMessage) {
-
-			}
-		});
 	}
 
 	public void onClickShareGooglePlus(View v) {
+		if (mGoogleApiClient == null) {
+			mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+		} else if (mGoogleApiClient.isConnecting()) {
+			Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.big_icon);
+			Uri selectedImage = getImageUri(this, bitmap);
+			ContentResolver cr = this.getContentResolver();
+			String mime = cr.getType(selectedImage);
 
+			PlusShare.Builder share = new PlusShare.Builder(this);
+			share.setText(getString(R.string.share_sns_introduce_project));
+			share.addStream(selectedImage);
+			share.setType(mime);
+			startActivityForResult(share.getIntent(), REQ_SHARE_GG);
+		} else {
+			mGoogleApiClient.connect();
+		}
+
+	}
+
+	@Override
+	public void onConnectionFailed(ConnectionResult connectionResult) {
+		if (!mIntentInProgress && connectionResult.hasResolution()) {
+			try {
+				mIntentInProgress = true;
+				startIntentSenderForResult(connectionResult.getResolution().getIntentSender(), RC_SIGN_IN, null, 0, 0, 0);
+			} catch (SendIntentException e) {
+				// The intent was canceled before it was sent. Return to the
+				// default
+				// state and attempt to connect to get an updated
+				// ConnectionResult.
+				mIntentInProgress = false;
+				// mGoogleApiClient.connect();
+			}
+		}
+	}
+
+	@Override
+	public void onConnected(Bundle arg0) {
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+		Uri selectedImage = getImageUri(OptionsScreen.this, bitmap);
+		ContentResolver cr = this.getContentResolver();
+		String mime = cr.getType(selectedImage);
+
+		PlusShare.Builder share = new PlusShare.Builder(this);
+		share.setText(getString(R.string.can_you_guess_this_word));
+		share.addStream(selectedImage);
+		share.setType(mime);
+		startActivityForResult(share.getIntent(), REQ_SHARE_GG);
+	}
+
+	@Override
+	public void onConnectionSuspended(int arg0) {
+		mGoogleApiClient.connect();
+	}
+
+	protected void onStop() {
+		super.onStop();
+
+		if (mGoogleApiClient.isConnected()) {
+			mGoogleApiClient.disconnect();
+		}
+	}
+
+	public Uri getImageUri(Context inContext, Bitmap inImage) {
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+		String path = Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+		return Uri.parse(path);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		uiHelper.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		// finish();
+		super.onDestroy();
+		uiHelper.onDestroy();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		uiHelper.onSaveInstanceState(outState);
 	}
 }

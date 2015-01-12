@@ -40,15 +40,18 @@
     <string name="share_sns_introduce_project">Try this game to know how smart you are...</string>
     <string name="can_you_guess_this_word">Can you guess this word?</string>
 
-    <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+    <string-array name="cheer_words">
+        <item>Very Smart</item>
+        <item>Awesome</item>
+        <item>Excellent</item>
+        <item>Guru!</item>
+        <item>Intelligent</item>
+        <item>Perfect</item>
+        <item>Great</item>
+        <item>Cool</item>
+        <item>Outstanding</item>
+        <item>Good</item>
+        <item>Unstoppable</item>
     </string-array>
 
 </resources>
