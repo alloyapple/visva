@@ -24,9 +24,10 @@
                 android:layout_width="0.0px"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="110.0"
                 android:background="@null"
-                android:src="@drawable/menu_button" />
+                android:src="@drawable/arrow_left_1" />
 
             <LinearLayout
                 android:layout_width="0.0px"
@@ -73,10 +74,11 @@
                 android:layout_width="0.0px"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="85dp"
+                android:layout_marginTop="80dp"
                 android:layout_weight="230.0"
                 android:background="@drawable/layout_bg_corner"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:visibility="gone" >
 
                 <ListView
@@ -532,6 +534,7 @@
             android:id="@+id/layout_sns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="-3dp"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone" >
@@ -540,39 +543,66 @@
                 android:id="@+id/btn_facebook_share"
                 android:layout_width="@dimen/sns_btn_facebook_size"
                 android:layout_height="@dimen/sns_btn_facebook_size"
-                android:background="@drawable/btn_facebook_selector" />
+                android:background="@drawable/btn_facebook_selector"
+                android:onClick="onClickShareFacebook" />
 
             <Button
                 android:id="@+id/btn_gg_plus_share"
                 android:layout_width="@dimen/sns_btn_gg_plus_size"
                 android:layout_height="@dimen/sns_btn_gg_plus_size"
-                android:background="@drawable/btn_gg_plus_selector" />
+                android:background="@drawable/btn_gg_plus_selector"
+                android:onClick="onClickShareGooglePlus" />
         </LinearLayout>
 
-        <Button
+        <ImageView
             android:id="@+id/btn_arrow_show_sns"
-            android:layout_width="@dimen/sns_btn_facebook_size"
-            android:layout_height="@dimen/sns_btn_facebook_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="-3dp"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/layout_sns"
-            android:background="@drawable/arrow_right_2" >
-        </Button>
+            android:background="@drawable/slide_arrow_right" >
+        </ImageView>
     </RelativeLayout>
-    <!--
+
+    <RelativeLayout
+        android:id="@+id/layout_expand_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/picture_frame"
+        android:visibility="gone" >
+
+        <!--
          This initially-hidden ImageView will hold the expanded/zoomed version of the
          images above. Without transformations applied, it takes up the entire screen.
          To achieve the "zoom" animation, this view's bounds are animated from the
          bounds of the thumbnail buttons above, to its final laid-out bounds. The implementation
          of this animation is in the ZoomActivity class.
-    -->
+        -->
 
-    <com.visva.android.hangman.ultis.MyImageView
-        android:id="@+id/expanded_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/app_name"
-        android:visibility="gone" />
+        <RelativeLayout
+            android:id="@+id/layout_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff" >
+
+            <ProgressBar
+                android:id="@+id/progress_bar_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <com.visva.android.hangman.ultis.MyImageView
+                android:id="@+id/expanded_image"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
