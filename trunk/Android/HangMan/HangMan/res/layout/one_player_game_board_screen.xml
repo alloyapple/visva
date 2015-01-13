@@ -74,7 +74,7 @@
                 android:layout_width="0.0px"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="@dimen/margin_top_layout_suggestion"
                 android:layout_weight="230.0"
                 android:background="@drawable/layout_bg_corner"
                 android:gravity="center"

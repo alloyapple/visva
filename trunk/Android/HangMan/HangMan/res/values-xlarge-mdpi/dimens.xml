@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="adview_top_margin">22.0dip</dimen>
     <dimen name="dialog_text_width">160.0dip</dimen>
     <dimen name="two_player_label_top">15dp</dimen>
@@ -27,7 +28,7 @@
     <dimen name="lines_top">155.0dip</dimen>
     <dimen name="two_player_bottom_btns_top">142.0dip</dimen>
     <dimen name="two_player_label_left">18.0dip</dimen>
-    <dimen name="one_player_main_layout_top">20.0dp</dimen>
+    <dimen name="one_player_main_layout_top">200.0dp</dimen>
     <dimen name="start_left">135.0dip</dimen>
     <dimen name="hangman_gallow_left">3.0dip</dimen>
     <dimen name="game_board_word_top">20.0dip</dimen>
@@ -60,8 +61,11 @@
     <dimen name="gallows_top">0.0dip</dimen>
     <dimen name="hangman_top">20.0dip</dimen>
     <dimen name="score_board_text_size">25.0sp</dimen>
-    
+
     <!-- New Define -->
     <dimen name="hangman_width">118dp</dimen>
     <dimen name="hangman_height">182dp</dimen>
+    <dimen name="height_image_result">100dp</dimen>
+    <dimen name="margin_top_layout_suggestion">80dp</dimen>
+
 </resources>
