@@ -24,7 +24,7 @@
                 android:layout_gravity="top"
                 android:layout_marginLeft="35.0dip"
                 android:layout_marginTop="25.0dip"
-                android:background="@drawable/menu_button"
+                android:background="@drawable/arrow_left_1"
                 android:soundEffectsEnabled="false" />
 
             <ImageButton
@@ -57,7 +57,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/enter_word_for_play_name_to_guess"
             android:textColor="#000000"
-            android:textSize="14sp" >
+            android:textSize="@dimen/text_size_enter_word_to_guess_word" >
         </TextView>
 
         <RelativeLayout

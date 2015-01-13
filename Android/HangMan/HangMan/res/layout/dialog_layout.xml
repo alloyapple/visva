@@ -78,13 +78,13 @@
 
         <ImageButton
             android:id="@+id/gamecontinue"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/width_dialog_btn_ok"
+            android:layout_height="@dimen/height_dialog_btn_ok"
             android:layout_below="@id/txt_scores"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="@dimen/margin_bottom_dialog_btn_ok"
             android:layout_marginLeft="10.0px"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/margin_top_dialog_btn_ok"
             android:background="@drawable/ok_button" />
     </RelativeLayout>
 

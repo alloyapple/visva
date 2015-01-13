@@ -42,8 +42,8 @@
 
                 <EditText
                     android:id="@id/txt_player_one"
-                    android:layout_width="125.0dip"
-                    android:layout_height="28.0dip"
+                    android:layout_width="@dimen/player_1_name_width"
+                    android:layout_height="@dimen/player_1_name_height"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5.0dip"
                     android:background="@android:color/transparent"
@@ -97,8 +97,8 @@
 
                 <EditText
                     android:id="@id/txt_player_two"
-                    android:layout_width="125.0dip"
-                    android:layout_height="28.0dip"
+                    android:layout_width="@dimen/player_1_name_width"
+                    android:layout_height="@dimen/player_1_name_height"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5.0dip"
                     android:background="@android:color/transparent"

@@ -598,7 +598,7 @@
             <com.visva.android.hangman.ultis.MyImageView
                 android:id="@+id/expanded_image"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="@dimen/height_image_preview"
                 android:layout_centerInParent="true"
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitXY" />

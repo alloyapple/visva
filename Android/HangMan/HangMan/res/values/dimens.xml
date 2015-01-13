@@ -93,5 +93,22 @@
     <dimen name="sns_btn_facebook_size">50dp</dimen>
     <dimen name="sns_btn_gg_plus_size">58dp</dimen>
     <dimen name="height_image_result">80dp</dimen>
+    <dimen name="text_size">14sp</dimen>
+    <dimen name="margin_left_sound_mode">60dp</dimen>
+    <dimen name="margin_left_sound_mode_fake">50dp</dimen>
+    <dimen name="margin_top_share_layout">5dp</dimen>
+    <dimen name="margin_top_share_btn">5dp</dimen>
+    <dimen name="margin_left_share_btn">40dp</dimen>
+    <dimen name="margin_top_dialog_btn_ok">5dp</dimen>
+    <dimen name="width_dialog_btn_ok">100dp</dimen>
+    <dimen name="height_dialog_btn_ok">40dp</dimen>
+    <dimen name="margin_bottom_dialog_btn_ok">25dp</dimen>
 
+    <!-- One player settings -->
+    <dimen name="text_category_size">12sp</dimen>
+    <dimen name="height_image_preview">300dp</dimen>
+    
+    <!-- Two player settings -->
+    <dimen name="text_size_enter_word_to_guess_word">14sp</dimen>
+	<dimen name="margin_right_layout_players">50dp</dimen>
 </resources>

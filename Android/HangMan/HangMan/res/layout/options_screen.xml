@@ -21,7 +21,7 @@
             android:layout_marginLeft="10dp"
             android:text="@string/sound"
             android:textColor="#000000"
-            android:textSize="14.0sp"
+            android:textSize="@dimen/text_size"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="@dimen/margin_left_sound_mode"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/switch_btn"
@@ -46,6 +46,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sound_layout"
+        android:layout_marginTop="@dimen/margin_top_share_layout"
         android:gravity="center" >
 
         <TextView
@@ -56,7 +57,7 @@
             android:layout_marginLeft="10dp"
             android:text="@string/share_via"
             android:textColor="#000000"
-            android:textSize="14.0sp"
+            android:textSize="@dimen/text_size"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -67,7 +68,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="@dimen/margin_left_sound_mode_fake"
             android:layout_marginRight="10dp"
             android:background="@drawable/switch_btn"
             android:enabled="true"
@@ -81,23 +82,23 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/share_layout"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/margin_top_share_btn"
         android:gravity="center" >
 
         <Button
             android:id="@+id/btn_share_facebook"
             android:layout_width="@dimen/sns_btn_facebook_size"
             android:layout_height="@dimen/sns_btn_facebook_size"
-            android:onClick="onClickShareFacebook"
-            android:background="@drawable/btn_facebook_selector" />
+            android:background="@drawable/btn_facebook_selector"
+            android:onClick="onClickShareFacebook" />
 
         <Button
             android:id="@+id/btn_share_gg_plus"
             android:layout_width="@dimen/sns_btn_gg_plus_size"
             android:layout_height="@dimen/sns_btn_gg_plus_size"
-            android:layout_marginLeft="40dp"
-            android:onClick="onClickShareGooglePlus"
-            android:background="@drawable/btn_gg_plus_selector" />
+            android:layout_marginLeft="@dimen/margin_left_share_btn"
+            android:background="@drawable/btn_gg_plus_selector"
+            android:onClick="onClickShareGooglePlus" />
     </LinearLayout>
 
     <ImageButton
