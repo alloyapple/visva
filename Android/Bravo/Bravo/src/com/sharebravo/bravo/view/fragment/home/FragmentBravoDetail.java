@@ -217,7 +217,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                     mBravoObj.Last_Pic = Last_Pic;
                     mBravoObj.Bravo_Pics = obGetBravo.data.Bravo_Pics;
                     setBravoOb(mBravoObj);
-                    requestGetLiked();
+                    //requestGetLiked();
                 }
             }
 
@@ -793,7 +793,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
     @Override
     public void goToLiked() {
-        mHomeActionListener.goToLiked(mBravoObj.Spot_ID);
+        mHomeActionListener.goToLiked(mBravoObj.Bravo_ID);
     }
 
     @Override

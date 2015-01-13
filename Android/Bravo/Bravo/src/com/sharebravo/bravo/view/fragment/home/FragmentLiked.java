@@ -45,7 +45,7 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
     private ObGetUsersList     mObGetUserLiked     = null;
 
     private SessionLogin       mSessionLogin       = null;
-    private String             mSpotID             = null;
+    private String             mBravoID             = null;
     private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     Button                     btnBack             = null;
 
@@ -92,7 +92,7 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
         subParams.put("Start", "0");
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
-        String url = BravoWebServiceConfig.URL_GET_LIKED_LIST.replace("{Spot_ID}", mSpotID);
+        String url = BravoWebServiceConfig.URL_GET_LIKED_LIST.replace("{Bravo_ID}", mBravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
@@ -143,12 +143,12 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
         mHomeActionListener.goToUserData(userId);
     }
 
-    public String getSpotID() {
-        return mSpotID;
+    public String getBravoID() {
+        return mBravoID;
     }
 
-    public void setSpotID(String mSpotID) {
-        this.mSpotID = mSpotID;
+    public void setBravoID(String mBravoID) {
+        this.mBravoID = mBravoID;
     }
 
     private void onStopPullAndLoadListView() {

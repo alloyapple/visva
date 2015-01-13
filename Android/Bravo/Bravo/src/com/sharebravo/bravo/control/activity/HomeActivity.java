@@ -902,8 +902,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToLiked(String mSpotID) {
-        mFragmentLiked.setSpotID(mSpotID);
+    public void goToLiked(String mBravoID) {
+        mFragmentLiked.setBravoID(mBravoID);
         showFragment(FRAGMENT_LIKED_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
