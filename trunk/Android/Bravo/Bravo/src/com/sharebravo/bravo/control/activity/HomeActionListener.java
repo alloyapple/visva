@@ -31,7 +31,7 @@ public interface HomeActionListener {
 
     public void goToBack();
 
-    public void goToLiked(String mSpotID);
+    public void goToLiked(String mBravoID);
 
     public void goToSaved(String mSpotID);
 
