@@ -184,8 +184,8 @@ public class AdapterBravoDetail extends BaseAdapter {
                 imgSpotUrl = bravoObj.Bravo_Pics.get(sizeOfBravoPic - 1);
             if (!URLUtil.isValidUrl(imgSpotUrl))
                 imgSpotUrl = bravoObj.Last_Pic;
-            Log.d("KieuThang","bravoObj.Last_Pic: " + bravoObj.Last_Pic);
-            Log.d("KieuThang", "imgSpotUrl:"+imgSpotUrl);
+            Log.d("KieuThang", "bravoObj.Last_Pic: " + bravoObj.Last_Pic);
+            Log.d("KieuThang", "imgSpotUrl:" + imgSpotUrl);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
             } else {
@@ -195,14 +195,19 @@ public class AdapterBravoDetail extends BaseAdapter {
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, true);
             }
             if (mSpot != null) {
-                txtLikedNumber.setText("" + mSpot.Total_Liked_Users);
-                txtNumberLiked.setText("" + mSpot.Total_Liked_Users);
+
                 txtNumberSaved.setText("" + mSpot.Total_Saved_Users);
             }
             else {
+
+                txtNumberSaved.setText("0");
+            }
+            if (bravoObj != null) {
+                txtLikedNumber.setText("" + bravoObj.Total_Tsurete);
+                txtNumberLiked.setText("" + bravoObj.Total_Tsurete);
+            } else {
                 txtLikedNumber.setText("0");
                 txtNumberLiked.setText("0");
-                txtNumberSaved.setText("0");
             }
             txtCommentNumber.setText("" + bravoObj.Total_Comments);
             spotName.setText(bravoObj.Spot_Name);

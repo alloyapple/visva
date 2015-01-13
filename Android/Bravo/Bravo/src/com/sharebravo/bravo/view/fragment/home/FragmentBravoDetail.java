@@ -465,6 +465,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
                 adapterRecentPostDetail.updateLike(false);
+                requestGetBravo();
             }
 
             @Override
@@ -481,6 +482,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
                 adapterRecentPostDetail.updateLike(true);
+                requestGetBravo();
             }
 
             @Override
