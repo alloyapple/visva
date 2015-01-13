@@ -95,4 +95,6 @@
 	<!-- New Define -->
     <dimen name="hangman_width">118dp</dimen>
     <dimen name="hangman_height">182dp</dimen>
+    <dimen name="height_image_result">100dp</dimen>
+    <dimen name="margin_top_layout_suggestion">80dp</dimen>
 </resources>

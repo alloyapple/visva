@@ -45,7 +45,7 @@
     <dimen name="lines_top">110.0dip</dimen>
     <dimen name="two_player_bottom_btns_top">150.0dip</dimen>
     <dimen name="two_player_label_left">0.0dip</dimen>
-    <dimen name="one_player_main_layout_top">20.0dp</dimen>
+    <dimen name="one_player_main_layout_top">150.0dp</dimen>
     <dimen name="start_left">125.0dip</dimen>
     <dimen name="hangman_gallow_left">28.0dip</dimen>
     <dimen name="game_board_word_top">5.0dip</dimen>
@@ -88,9 +88,10 @@
     <dimen name="player_1_name">16dp</dimen>
     <dimen name="found_word">16dp</dimen>
     <dimen name="scores_word">26dp</dimen>
-    
+
     <!-- options -->
     <dimen name="sns_btn_facebook_size">50dp</dimen>
     <dimen name="sns_btn_gg_plus_size">58dp</dimen>
+    <dimen name="height_image_result">80dp</dimen>
 
 </resources>

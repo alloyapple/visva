@@ -27,7 +27,7 @@
     <dimen name="lines_top">50.0dip</dimen>
     <dimen name="two_player_bottom_btns_top">142.0dip</dimen>
     <dimen name="two_player_label_left">18.0dip</dimen>
-    <dimen name="one_player_main_layout_top">20.0dp</dimen>
+    <dimen name="one_player_main_layout_top">150.0dp</dimen>
     <dimen name="start_left">135.0dip</dimen>
     <dimen name="hangman_gallow_left">22.0dip</dimen>
     <dimen name="game_board_word_top">20.0dip</dimen>
@@ -64,4 +64,6 @@
     <!-- New Define -->
     <dimen name="hangman_width">118dp</dimen>
     <dimen name="hangman_height">182dp</dimen>
+    <dimen name="height_image_result">80dp</dimen>
+    <dimen name="margin_top_layout_suggestion">70dp</dimen>
 </resources>

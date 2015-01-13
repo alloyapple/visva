@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:scaleType="fitXY"
     android:layout_gravity="center"
-    android:layout_height="100dp" >
+    android:layout_height="@dimen/height_image_result" >
 
 </com.loopj.android.image.SmartImageView><!--
 ImageResultArrayAdaptor will inflate this
