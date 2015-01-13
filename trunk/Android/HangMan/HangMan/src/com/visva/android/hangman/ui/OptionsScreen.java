@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.facebook.UiLifecycleHelper;
@@ -39,6 +41,7 @@ import com.google.android.gms.plus.PlusShare;
 import com.visva.android.hangman.R;
 import com.visva.android.hangman.definition.GlobalDef;
 import com.visva.android.hangman.ultis.GamePreferences;
+import com.visva.android.hangman.ultis.Utils;
 
 public class OptionsScreen extends Activity implements GlobalDef, ConnectionCallbacks, OnConnectionFailedListener {
 	/** Called when the activity is first created. */
@@ -182,8 +185,16 @@ public class OptionsScreen extends Activity implements GlobalDef, ConnectionCall
 		action.setProperty("game", video);
 		action.setType("games.saves");
 
-		FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, action, "game").setImageAttachmentsForAction(images, true).build();
-		uiHelper.trackPendingDialogCall(shareDialog.present());
+		try {
+			FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, action, "game").setImageAttachmentsForAction(images, true).build();
+			uiHelper.trackPendingDialogCall(shareDialog.present());
+		} catch (Exception e) {
+			Toast.makeText(this, "Facebook is not installed", Toast.LENGTH_SHORT).show();
+			try {
+				startActivity(new Intent(Intent.ACTION_VIEW, Utils.getUrlFacebook()));
+			} catch (ActivityNotFoundException activityNotFoundException1) {
+			}
+		}
 
 	}
 
@@ -257,7 +268,7 @@ public class OptionsScreen extends Activity implements GlobalDef, ConnectionCall
 		String path = Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
 		return Uri.parse(path);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();

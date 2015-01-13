@@ -91,6 +91,7 @@
 	
 	<!-- option setting  -->
 	<dimen name="option_layout_margin_top">200dp</dimen>
+	<dimen name="text_size">14sp</dimen>
 
 	<!-- New Define -->
     <dimen name="hangman_width">118dp</dimen>
