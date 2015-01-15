@@ -1152,7 +1152,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 			mAdView.resume();
 		}
 		uiHelper.onResume();
-		if(_sound_bg == null || !_sound_bg.isPlaying())
+		if(_sound_bg == null)
 			_sound_bg = Helpers.playSound(this, R.raw.cape_breton, true);
 	}
 

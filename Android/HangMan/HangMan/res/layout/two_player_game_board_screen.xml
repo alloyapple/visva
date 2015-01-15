@@ -176,6 +176,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0.0px"
             android:layout_weight="64.0"
+            android:layout_marginRight="10dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:weightSum="480.0" >
@@ -318,6 +319,8 @@
             android:layout_height="0.0px"
             android:layout_weight="64.0"
             android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -452,6 +455,8 @@
             android:layout_height="0.0px"
             android:layout_weight="60.0"
             android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal"
             android:weightSum="450.0" >
 

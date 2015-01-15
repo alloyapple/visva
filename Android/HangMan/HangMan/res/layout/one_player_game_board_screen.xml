@@ -27,21 +27,21 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:layout_weight="110.0"
+                android:layout_weight="120.0"
                 android:background="@null"
                 android:src="@drawable/arrow_left_1" />
 
             <LinearLayout
                 android:layout_width="0.0px"
                 android:layout_height="2.0px"
-                android:layout_weight="260.0" />
+                android:layout_weight="240.0" />
 
             <ImageButton
                 android:id="@id/btn_new_gameboard"
                 android:layout_width="0.0px"
                 android:layout_height="fill_parent"
                 android:layout_gravity="right|center"
-                android:layout_weight="110.0"
+                android:layout_weight="125.0"
                 android:background="@null"
                 android:src="@drawable/new_game_button" />
         </LinearLayout>
@@ -117,6 +117,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0.0px"
             android:layout_weight="64.0"
+            android:layout_marginRight="10dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:weightSum="480.0" >
@@ -259,6 +260,8 @@
             android:layout_height="0.0px"
             android:layout_weight="64.0"
             android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -393,6 +396,8 @@
             android:layout_height="0.0px"
             android:layout_weight="60.0"
             android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal"
             android:weightSum="450.0" >
 

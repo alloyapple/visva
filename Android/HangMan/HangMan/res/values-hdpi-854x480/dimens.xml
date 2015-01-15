@@ -67,4 +67,5 @@
     <dimen name="btn_word_list_margin_left">15dp</dimen>
     <dimen name="height_image_result">95dp</dimen>
     <dimen name="margin_top_layout_suggestion">70dp</dimen>
+    <dimen name="margin_bottom_dialog_btn_ok">250dp</dimen>
 </resources>
