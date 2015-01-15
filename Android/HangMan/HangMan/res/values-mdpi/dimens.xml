@@ -66,4 +66,5 @@
     <dimen name="hangman_height">182dp</dimen>
     <dimen name="height_image_result">80dp</dimen>
     <dimen name="margin_top_layout_suggestion">70dp</dimen>
+    <dimen name="margin_bottom_dialog_btn_ok">20dp</dimen>
 </resources>
