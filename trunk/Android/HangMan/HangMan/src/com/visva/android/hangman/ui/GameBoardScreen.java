@@ -186,7 +186,6 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	/* Request code used to invoke sign in user interactions. */
 	private static final int RC_SIGN_IN = 0;
 	private static final int REQ_SHARE_GG = 1;
-	private static final int REQ_SHARE_FB = 2;
 
 	/* Client used to interact with Google APIs. */
 	private GoogleApiClient mGoogleApiClient;
@@ -248,7 +247,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 				showDialog(DIALOG_NEW_WORD);
 			}
 		});
-		
+
 		_sound_bg = Helpers.playSound(this, R.raw.cape_breton, true);
 	}
 
@@ -349,7 +348,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 
 		mAdView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
-		mAdView.loadAd(adRequest);
+		// mAdView.loadAd(adRequest);
 	}
 
 	public void getMapCharButtons() {
@@ -1019,11 +1018,14 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 				String[] cheerWords = getResources().getStringArray(R.array.cheer_words);
 				if (cheerWords != null && cheerWords.length > 0) {
 					txt_word_cheer.setVisibility(View.VISIBLE);
-					txt_scores.setVisibility(View.VISIBLE);
 					Random random = new Random();
 					int pos = random.nextInt(cheerWords.length);
 					txt_word_cheer.setText(cheerWords[pos]);
 					txt_scores.setText(GameSetting._one_mode_player1_hscore + "");
+					if (GameSetting._game_mode == ONE_PLAYER_MODE)
+						txt_scores.setVisibility(View.VISIBLE);
+					else
+						txt_scores.setVisibility(View.GONE);
 				} else {
 					txt_scores.setVisibility(View.GONE);
 					txt_word_cheer.setVisibility(View.GONE);
@@ -1152,16 +1154,16 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 			mAdView.resume();
 		}
 		uiHelper.onResume();
-		if(_sound_bg == null)
+		if (_sound_bg == null)
 			_sound_bg = Helpers.playSound(this, R.raw.cape_breton, true);
 	}
 
 	@Override
 	protected void onDestroy() {
 		// finish();
-		 if (mAdView != null) {
-             mAdView.destroy();
-         }
+		if (mAdView != null) {
+			mAdView.destroy();
+		}
 		super.onDestroy();
 		uiHelper.onDestroy();
 		Helpers.releaseSound(_sound_bg);
@@ -1242,8 +1244,6 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	 * 
 	 */
 	public void onImageSearch() {
-		Toast.makeText(this, "Searching for " + mChallenge, Toast.LENGTH_SHORT).show();
-
 		// asyn load the data from Google API
 		AsyncHttpClient client = new AsyncHttpClient();
 

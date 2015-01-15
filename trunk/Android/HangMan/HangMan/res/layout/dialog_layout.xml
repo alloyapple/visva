@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="30.0px"
+        android:layout_marginLeft="10.0px"
         android:layout_marginTop="15.0px" >
 
         <LinearLayout
@@ -69,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_word"
             android:layout_marginTop="3dp"
-            android:lines="1"
             android:gravity="center"
+            android:lines="1"
             android:singleLine="true"
             android:text="@string/word"
             android:textColor="@color/found_word"
@@ -85,7 +85,8 @@
             android:layout_marginBottom="@dimen/margin_bottom_dialog_btn_ok"
             android:layout_marginLeft="10.0px"
             android:layout_marginTop="@dimen/margin_top_dialog_btn_ok"
-            android:background="@drawable/ok_button" />
+            android:background="@drawable/ok_button"
+            android:contentDescription="@string/app_name" />
     </RelativeLayout>
 
 </LinearLayout>

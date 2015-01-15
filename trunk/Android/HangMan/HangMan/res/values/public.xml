@@ -15,7 +15,6 @@
     <public id="0x7f020030" name="bg_main_menu_lrg" type="drawable" />
     <public id="0x7f020034" name="bg_player_one_lrg" type="drawable" />
     <public id="0x7f020036" name="bg_player_two_lrg" type="drawable" />
-    <public id="0x7f020039" name="bg_taopbar_lrg" type="drawable" />
     <public id="0x7f02003b" name="bg_text_field_lrg" type="drawable" />
     <public id="0x7f02003e" name="blank_bg_lrg" type="drawable" />
     <public id="0x7f020040" name="blank_char_lrg" type="drawable" />
@@ -24,10 +23,6 @@
     <public id="0x7f020046" name="c_disabled_lrg" type="drawable" />
     <public id="0x7f020047" name="c_lrg" type="drawable" />
     <public id="0x7f020049" name="c_right_lrg" type="drawable" />
-    <public id="0x7f02004d" name="clear_word_lrg" type="drawable" />
-    <public id="0x7f02004f" name="clear_word_select_lrg" type="drawable" />
-    <public id="0x7f020052" name="continue_word_lrg" type="drawable" />
-    <public id="0x7f020054" name="continue_word_select_lrg" type="drawable" />
     <public id="0x7f020057" name="d_disabled_lrg" type="drawable" />
     <public id="0x7f020058" name="d_lrg" type="drawable" />
     <public id="0x7f02005a" name="d_right_lrg" type="drawable" />
@@ -35,8 +30,6 @@
     <public id="0x7f02005e" name="e_lrg" type="drawable" />
     <public id="0x7f020060" name="e_right_lrg" type="drawable" />
     <public id="0x7f020066" name="enter_word_bg_lrg" type="drawable" />
-    <public id="0x7f020069" name="enter_word_line1_lrg" type="drawable" />
-    <public id="0x7f02006b" name="enter_word_line3_lrg" type="drawable" />
     <public id="0x7f02006e" name="f_disabled_lrg" type="drawable" />
     <public id="0x7f02006f" name="f_lrg" type="drawable" />
     <public id="0x7f020071" name="f_right_lrg" type="drawable" />
@@ -48,8 +41,6 @@
     <public id="0x7f020098" name="h_lrg" type="drawable" />
     <public id="0x7f02009a" name="h_right_lrg" type="drawable" />
     <public id="0x7f0200a0" name="head_anim_0_lrg" type="drawable" />
-    <public id="0x7f0200b2" name="hide_lrg" type="drawable" />
-    <public id="0x7f0200b4" name="hide_select_lrg" type="drawable" />
     <public id="0x7f0200bb" name="i_disabled_lrg" type="drawable" />
     <public id="0x7f0200bc" name="i_lrg" type="drawable" />
     <public id="0x7f0200be" name="i_right_lrg" type="drawable" />
@@ -62,11 +53,6 @@
     <public id="0x7f0200d1" name="l_disabled_lrg" type="drawable" />
     <public id="0x7f0200d2" name="l_lrg" type="drawable" />
     <public id="0x7f0200d4" name="l_right_lrg" type="drawable" />
-    <public id="0x7f0200d6" name="label_gallows_lrg" type="drawable" />
-    <public id="0x7f0200d8" name="label_options_lrg" type="drawable" />
-    <public id="0x7f0200da" name="label_player_one_lrg" type="drawable" />
-    <public id="0x7f0200dc" name="label_player_two_lrg" type="drawable" />
-    <public id="0x7f0200de" name="label_sound_lrg" type="drawable" />
     <public id="0x7f0200e1" name="legleft_anim_0_lrg" type="drawable" />
     <public id="0x7f0200e9" name="legright_anim_0_lrg" type="drawable" />
     <public id="0x7f0200f1" name="letters_bg_lrg" type="drawable" />
@@ -75,14 +61,12 @@
     <public id="0x7f0200fc" name="m_disabled_lrg" type="drawable" />
     <public id="0x7f0200fd" name="m_lrg" type="drawable" />
     <public id="0x7f0200ff" name="m_right_lrg" type="drawable" />
-    <public id="0x7f020107" name="menu_inacive_lrg" type="drawable" />
     <public id="0x7f020109" name="menu_more_games_lrg" type="drawable" />
     <public id="0x7f02010b" name="menu_more_games_pressed_lrg" type="drawable" />
     <public id="0x7f02010d" name="menu_one_player_lrg" type="drawable" />
     <public id="0x7f02010f" name="menu_one_player_pressed_lrg" type="drawable" />
     <public id="0x7f020111" name="menu_options_lrg" type="drawable" />
     <public id="0x7f020113" name="menu_options_pressed_lrg" type="drawable" />
-    <public id="0x7f020115" name="menu_select_lrg" type="drawable" />
     <public id="0x7f020117" name="menu_two_player_lrg" type="drawable" />
     <public id="0x7f020119" name="menu_two_player_pressed_lrg" type="drawable" />
     <public id="0x7f02011c" name="n_disabled_lrg" type="drawable" />
@@ -93,15 +77,9 @@
     <public id="0x7f020129" name="o_disabled_lrg" type="drawable" />
     <public id="0x7f02012a" name="o_lrg" type="drawable" />
     <public id="0x7f02012c" name="o_right_lrg" type="drawable" />
-    <public id="0x7f02012e" name="off_lrg" type="drawable" />
-    <public id="0x7f020130" name="off_select_lrg" type="drawable" />
-    <public id="0x7f020137" name="on_lrg" type="drawable" />
-    <public id="0x7f020139" name="on_select_lrg" type="drawable" />
     <public id="0x7f02013e" name="p_disabled_lrg" type="drawable" />
     <public id="0x7f02013f" name="p_lrg" type="drawable" />
     <public id="0x7f020141" name="p_right_lrg" type="drawable" />
-    <public id="0x7f020143" name="player_one_lrg" type="drawable" />
-    <public id="0x7f020145" name="player_two_lrg" type="drawable" />
     <public id="0x7f020148" name="q_disabled_lrg" type="drawable" />
     <public id="0x7f020149" name="q_lrg" type="drawable" />
     <public id="0x7f02014b" name="q_right_lrg" type="drawable" />
@@ -137,10 +115,7 @@
     <public id="0x7f020048" name="c_right" type="drawable" />
     <public id="0x7f02004a" name="chalk" type="drawable" />
     <public id="0x7f02004b" name="clear_word" type="drawable" />
-    <public id="0x7f02004e" name="clear_word_select" type="drawable" />
-    <public id="0x7f020050" name="continue_button" type="drawable" />
     <public id="0x7f020051" name="continue_word" type="drawable" />
-    <public id="0x7f020053" name="continue_word_select" type="drawable" />
     <public id="0x7f020055" name="d" type="drawable" />
     <public id="0x7f020056" name="d_disabled" type="drawable" />
     <public id="0x7f020059" name="d_right" type="drawable" />
@@ -166,8 +141,6 @@
     <public id="0x7f020096" name="h_disabled" type="drawable" />
     <public id="0x7f020099" name="h_right" type="drawable" />
     <public id="0x7f02009f" name="head_anim_0" type="drawable" />
-    <public id="0x7f0200b1" name="hide" type="drawable" />
-    <public id="0x7f0200b3" name="hide_select" type="drawable" />
     <public id="0x7f0200b9" name="i" type="drawable" />
     <public id="0x7f0200ba" name="i_disabled" type="drawable" />
     <public id="0x7f0200bd" name="i_right" type="drawable" />
@@ -182,11 +155,6 @@
     <public id="0x7f0200cf" name="l" type="drawable" />
     <public id="0x7f0200d0" name="l_disabled" type="drawable" />
     <public id="0x7f0200d3" name="l_right" type="drawable" />
-    <public id="0x7f0200d5" name="label_gallows" type="drawable" />
-    <public id="0x7f0200d7" name="label_options" type="drawable" />
-    <public id="0x7f0200d9" name="label_player_one" type="drawable" />
-    <public id="0x7f0200db" name="label_player_two" type="drawable" />
-    <public id="0x7f0200dd" name="label_sound" type="drawable" />
     <public id="0x7f0200df" name="left" type="drawable" />
     <public id="0x7f0200e0" name="legleft_anim_0" type="drawable" />
     <public id="0x7f0200e8" name="legright_anim_0" type="drawable" />
@@ -197,12 +165,10 @@
     <public id="0x7f0200fb" name="m_disabled" type="drawable" />
     <public id="0x7f0200fe" name="m_right" type="drawable" />
     <public id="0x7f020100" name="menu_back_images" type="drawable" />
-    <public id="0x7f020101" name="menu_button" type="drawable" />
     <public id="0x7f020102" name="menu_button_more_games" type="drawable" />
     <public id="0x7f020103" name="menu_button_one_player" type="drawable" />
     <public id="0x7f020104" name="menu_button_options" type="drawable" />
     <public id="0x7f020105" name="menu_button_two_player" type="drawable" />
-    <public id="0x7f020106" name="menu_inacive" type="drawable" />
     <public id="0x7f020108" name="menu_more_games" type="drawable" />
     <public id="0x7f02010a" name="menu_more_games_pressed" type="drawable" />
     <public id="0x7f02010c" name="menu_one_player" type="drawable" />
@@ -221,18 +187,12 @@
     <public id="0x7f020127" name="o" type="drawable" />
     <public id="0x7f020128" name="o_disabled" type="drawable" />
     <public id="0x7f02012b" name="o_right" type="drawable" />
-    <public id="0x7f02012d" name="off" type="drawable" />
-    <public id="0x7f02012f" name="off_select" type="drawable" />
     <public id="0x7f020131" name="ok" type="drawable" />
     <public id="0x7f020132" name="ok_button" type="drawable" />
     <public id="0x7f020134" name="ok_select" type="drawable" />
-    <public id="0x7f020136" name="on" type="drawable" />
-    <public id="0x7f020138" name="on_select" type="drawable" />
     <public id="0x7f02013c" name="p" type="drawable" />
     <public id="0x7f02013d" name="p_disabled" type="drawable" />
     <public id="0x7f020140" name="p_right" type="drawable" />
-    <public id="0x7f020142" name="player_one" type="drawable" />
-    <public id="0x7f020144" name="player_two" type="drawable" />
     <public id="0x7f020146" name="q" type="drawable" />
     <public id="0x7f020147" name="q_disabled" type="drawable" />
     <public id="0x7f02014a" name="q_right" type="drawable" />
