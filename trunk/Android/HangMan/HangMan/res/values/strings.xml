@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- This is an ad unit ID for a test ad. Replace with your own banner ad unit id. -->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="facebook_app_id">521214901354685</string>
     <string name="APPIRATER_MESSAGE">If you enjoy using %s, please support us by taking a minute to rate it. Thanks for your support!</string>
     <string name="APPIRATER_MESSAGE_TITLE">Please Rate %s</string>

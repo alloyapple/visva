@@ -19,6 +19,7 @@ import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -59,6 +60,8 @@ import com.facebook.model.GraphObject;
 import com.facebook.model.OpenGraphAction;
 import com.facebook.model.OpenGraphObject;
 import com.facebook.widget.FacebookDialog;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -79,6 +82,7 @@ import com.visva.android.hangman.ultis.MyImageView;
 import com.visva.android.hangman.ultis.SoundEffect;
 import com.visva.android.hangman.ultis.StringUtility;
 import com.visva.android.hangman.ultis.Timer;
+import com.visva.android.hangman.ultis.Utils;
 
 @SuppressLint("UseSparseArrays")
 public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCallbacks, OnConnectionFailedListener {
@@ -190,6 +194,11 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	 * from starting further intents.
 	 */
 	private boolean mIntentInProgress;
+
+	/**
+	 * admob
+	 */
+	private AdView mAdView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -332,6 +341,10 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 			img_player1_turn = (ImageView) findViewById(R.id.img_player1_turn);
 			img_player2_turn = (ImageView) findViewById(R.id.img_player2_turn);
 		}
+
+		mAdView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		mAdView.loadAd(adRequest);
 	}
 
 	public void getMapCharButtons() {
@@ -1005,7 +1018,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 					Random random = new Random();
 					int pos = random.nextInt(cheerWords.length);
 					txt_word_cheer.setText(cheerWords[pos]);
-					txt_scores.setText(GameSetting._one_mode_player1_hscore+"");
+					txt_scores.setText(GameSetting._one_mode_player1_hscore + "");
 				} else {
 					txt_scores.setVisibility(View.GONE);
 					txt_word_cheer.setVisibility(View.GONE);
@@ -1118,6 +1131,9 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	@Override
 	protected void onPause() {
 		mGameTimer.stop();
+		if (mAdView != null) {
+			mAdView.pause();
+		}
 		super.onPause();
 		uiHelper.onPause();
 	}
@@ -1126,12 +1142,18 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	protected void onResume() {
 		mGameTimer.start();
 		super.onResume();
+		if (mAdView != null) {
+			mAdView.resume();
+		}
 		uiHelper.onResume();
 	}
 
 	@Override
 	protected void onDestroy() {
 		// finish();
+		 if (mAdView != null) {
+             mAdView.destroy();
+         }
 		super.onDestroy();
 		uiHelper.onDestroy();
 	}
@@ -1201,9 +1223,9 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 		if (requestCode == RC_SIGN_IN) {
 			mIntentInProgress = false;
 
-//			if (!mGoogleApiClient.isConnecting()) {
-//				mGoogleApiClient.connect();
-//			}
+			// if (!mGoogleApiClient.isConnecting()) {
+			// mGoogleApiClient.connect();
+			// }
 		}
 	}
 
@@ -1476,8 +1498,16 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 		action.setProperty("game", video);
 		action.setType("games.saves");
 
-		FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(GameBoardScreen.this, action, "game").setImageAttachmentsForAction(images, true).build();
-		uiHelper.trackPendingDialogCall(shareDialog.present());
+		try {
+			FacebookDialog shareDialog = new FacebookDialog.OpenGraphActionDialogBuilder(this, action, "game").setImageAttachmentsForAction(images, true).build();
+			uiHelper.trackPendingDialogCall(shareDialog.present());
+		} catch (Exception e) {
+			Toast.makeText(this, "Facebook is not installed", Toast.LENGTH_SHORT).show();
+			try {
+				startActivity(new Intent(Intent.ACTION_VIEW, Utils.getUrlFacebook()));
+			} catch (ActivityNotFoundException activityNotFoundException1) {
+			}
+		}
 	}
 
 	public void onClickShareGooglePlus(View v) {
