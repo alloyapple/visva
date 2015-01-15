@@ -48,10 +48,13 @@ public class OptionsScreen extends Activity implements GlobalDef, ConnectionCall
 	private ImageButton btn_back;
 	private TextView img_sound;
 	private TextView img_share;
+	private TextView img_music;
 	private int soundEnabled = ON;
+	private int musicEnable = ON;
 	private Typeface mFont;
 	private int mFontDefaultColor;
 	private ToggleButton mBtnSoundMode;
+	private ToggleButton mBtnMusicMode;
 
 	private UiLifecycleHelper uiHelper;
 
@@ -101,6 +104,16 @@ public class OptionsScreen extends Activity implements GlobalDef, ConnectionCall
 					GamePreferences.setIntVal(OptionsScreen.this, SOUND_ON, OFF);
 			}
 		});
+		mBtnMusicMode.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked)
+					GamePreferences.setIntVal(OptionsScreen.this, MUSIC_ON, ON);
+				else
+					GamePreferences.setIntVal(OptionsScreen.this, MUSIC_ON, OFF);
+			}
+		});
 	}
 
 	/*
@@ -117,7 +130,11 @@ public class OptionsScreen extends Activity implements GlobalDef, ConnectionCall
 		img_sound = (TextView) findViewById(R.id.lbl_sound);
 		img_sound.setTypeface(mFont);
 		img_sound.setTextColor(mFontDefaultColor);
+		img_music = (TextView) findViewById(R.id.lbl_music);
+		img_music.setTypeface(mFont);
+		img_music.setTextColor(mFontDefaultColor);
 		mBtnSoundMode = (ToggleButton) findViewById(R.id.toggle_btn_sound_mode);
+		mBtnMusicMode = (ToggleButton) findViewById(R.id.toggle_btn_music_mode);
 	}
 
 	/*
@@ -129,6 +146,11 @@ public class OptionsScreen extends Activity implements GlobalDef, ConnectionCall
 			mBtnSoundMode.setChecked(true);
 		else
 			mBtnSoundMode.setChecked(false);
+		musicEnable = GamePreferences.getIntVal(this, MUSIC_ON, ON);
+		if (musicEnable == ON)
+			mBtnMusicMode.setChecked(true);
+		else
+			mBtnMusicMode.setChecked(false);
 	}
 
 	/*

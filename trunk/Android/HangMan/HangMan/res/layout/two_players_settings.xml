@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_text_field"
-                    android:soundEffectsEnabled="false" />
+                     />
             </LinearLayout>
         </LinearLayout>
 
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_text_field"
-                    android:soundEffectsEnabled="false" />
+                     />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -135,7 +135,7 @@
         android:layout_marginLeft="@dimen/btn_option_margin"
         android:background="@drawable/menu_back_images"
         android:contentDescription="@string/app_name"
-        android:soundEffectsEnabled="false" />
+         />
 
     <ImageButton
         android:id="@id/imgstart"
@@ -147,6 +147,6 @@
         android:layout_marginRight="@dimen/btn_option_margin"
         android:background="@drawable/start_button"
         android:contentDescription="@string/app_name"
-        android:soundEffectsEnabled="false" />
+         />
 
 </RelativeLayout>

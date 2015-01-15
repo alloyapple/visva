@@ -42,10 +42,47 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/share_layout"
+        android:id="@+id/music_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sound_layout"
+        android:layout_marginTop="@dimen/margin_top_share_layout"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/lbl_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="@string/music"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <ToggleButton
+            android:id="@+id/toggle_btn_music_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/margin_left_sound_mode"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/switch_btn"
+            android:enabled="true"
+            android:textOff=""
+            android:textOn="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/music_layout"
         android:layout_marginTop="@dimen/margin_top_share_layout"
         android:gravity="center" >
 
@@ -110,7 +147,6 @@
         android:layout_marginBottom="@dimen/btn_option_margin"
         android:layout_marginLeft="@dimen/btn_option_margin"
         android:background="@drawable/menu_back_images"
-        android:contentDescription="@string/app_name"
-        android:soundEffectsEnabled="false" />
+        android:contentDescription="@string/app_name" />
 
 </RelativeLayout>
