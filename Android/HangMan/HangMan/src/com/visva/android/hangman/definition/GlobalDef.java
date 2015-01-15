@@ -18,6 +18,7 @@ public interface GlobalDef {
 	public static String PLAYER2 = "player_2";
 	public static String OPPONENT = "opponent";
 	public static String SOUND_ON = "sound_on";
+	public static String MUSIC_ON = "music_on";
 	public static String GALL_OWNS = "gall_owns";
 	public static String WORD_LIST = "word_list";
 	public static String CHALLENGE = "challenge";
@@ -87,7 +88,6 @@ public interface GlobalDef {
 	public static final int CHAR_Y = 0x19;
 	public static final int CHAR_Z = 0x1A;
 	public static final int CHAR_DEL = 0x00;
-	public static final Character[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+	public static final Character[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
 }

@@ -24,8 +24,7 @@
                 android:layout_gravity="top"
                 android:layout_marginLeft="35.0dip"
                 android:layout_marginTop="25.0dip"
-                android:background="@drawable/arrow_left_1"
-                android:soundEffectsEnabled="false" />
+                android:background="@drawable/arrow_left_1" />
 
             <ImageButton
                 android:id="@id/btn_new"
@@ -35,8 +34,7 @@
                 android:layout_gravity="top"
                 android:layout_marginRight="35.0dip"
                 android:layout_marginTop="25.0dip"
-                android:background="@drawable/new_game_button"
-                android:soundEffectsEnabled="false" />
+                android:background="@drawable/new_game_button" />
         </RelativeLayout>
 
         <ImageView
@@ -99,7 +97,6 @@
                 android:layout_marginLeft="10.0dip"
                 android:background="@android:color/transparent"
                 android:padding="8.0dip"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/back_arrow"
                 android:visibility="gone" />
         </RelativeLayout>
@@ -122,7 +119,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/a"
                 android:tag="1" />
 
@@ -132,7 +128,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/b"
                 android:tag="2" />
 
@@ -142,7 +137,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/c"
                 android:tag="3" />
 
@@ -152,7 +146,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/d"
                 android:tag="4" />
 
@@ -162,7 +155,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/e"
                 android:tag="5" />
 
@@ -172,7 +164,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/f"
                 android:tag="6" />
 
@@ -182,7 +173,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/g"
                 android:tag="7" />
 
@@ -192,7 +182,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/h"
                 android:tag="8" />
 
@@ -202,7 +191,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/i"
                 android:tag="9" />
         </LinearLayout>
@@ -225,7 +213,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/j"
                 android:tag="10" />
 
@@ -235,7 +222,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/k"
                 android:tag="11" />
 
@@ -245,7 +231,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/l"
                 android:tag="12" />
 
@@ -255,7 +240,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/m"
                 android:tag="13" />
 
@@ -265,7 +249,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/n"
                 android:tag="14" />
 
@@ -275,7 +258,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/o"
                 android:tag="15" />
 
@@ -285,7 +267,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/p"
                 android:tag="16" />
 
@@ -295,7 +276,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/q"
                 android:tag="17" />
 
@@ -305,7 +285,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/r"
                 android:tag="18" />
         </LinearLayout>
@@ -328,7 +307,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/s"
                 android:tag="19" />
 
@@ -338,7 +316,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/t"
                 android:tag="20" />
 
@@ -348,7 +325,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/u"
                 android:tag="21" />
 
@@ -358,7 +334,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/v"
                 android:tag="22" />
 
@@ -368,7 +343,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/w"
                 android:tag="23" />
 
@@ -378,7 +352,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/x"
                 android:tag="24" />
 
@@ -388,7 +361,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/y"
                 android:tag="25" />
 
@@ -398,7 +370,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/blank_letters_bg"
-                android:soundEffectsEnabled="false"
                 android:src="@drawable/z"
                 android:tag="26" />
         </LinearLayout>
@@ -418,8 +389,7 @@
                 android:layout_height="@dimen/btn_option_height"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_clear_selector"
-                android:soundEffectsEnabled="false" />
+                android:background="@drawable/btn_clear_selector" />
 
             <ImageButton
                 android:id="@id/btn_continue"
@@ -427,8 +397,7 @@
                 android:layout_height="@dimen/btn_option_height"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_continue_selector"
-                android:soundEffectsEnabled="false" />
+                android:background="@drawable/btn_continue_selector" />
         </RelativeLayout>
     </LinearLayout>
 

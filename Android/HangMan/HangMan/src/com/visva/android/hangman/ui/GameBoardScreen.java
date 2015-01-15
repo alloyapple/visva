@@ -33,6 +33,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images;
@@ -77,6 +78,7 @@ import com.visva.android.hangman.definition.GlobalDef;
 import com.visva.android.hangman.ultis.GamePreferences;
 import com.visva.android.hangman.ultis.GameSetting;
 import com.visva.android.hangman.ultis.HangManSqlite;
+import com.visva.android.hangman.ultis.Helpers;
 import com.visva.android.hangman.ultis.ImageResult;
 import com.visva.android.hangman.ultis.MyImageView;
 import com.visva.android.hangman.ultis.SoundEffect;
@@ -199,6 +201,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	 * admob
 	 */
 	private AdView mAdView;
+	private MediaPlayer _sound_bg;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -245,6 +248,8 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 				showDialog(DIALOG_NEW_WORD);
 			}
 		});
+		
+		_sound_bg = Helpers.playSound(this, R.raw.cape_breton, true);
 	}
 
 	public void openHmDatabases() {
@@ -1136,6 +1141,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 		}
 		super.onPause();
 		uiHelper.onPause();
+		Helpers.releaseSound(_sound_bg);
 	}
 
 	@Override
@@ -1146,6 +1152,8 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 			mAdView.resume();
 		}
 		uiHelper.onResume();
+		if(_sound_bg == null || !_sound_bg.isPlaying())
+			_sound_bg = Helpers.playSound(this, R.raw.cape_breton, true);
 	}
 
 	@Override
@@ -1156,6 +1164,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
          }
 		super.onDestroy();
 		uiHelper.onDestroy();
+		Helpers.releaseSound(_sound_bg);
 	}
 
 	@Override

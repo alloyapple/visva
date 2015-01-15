@@ -19,8 +19,7 @@
             android:layout_height="@dimen/btn_size_height"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/btn_margin_top"
-            android:background="@drawable/menu_button_one_player"
-            android:soundEffectsEnabled="false" />
+            android:background="@drawable/menu_button_one_player" />
 
         <Button
             android:id="@id/btn_two_players"
@@ -28,8 +27,7 @@
             android:layout_height="@dimen/btn_size_height"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/btn_margin_top"
-            android:background="@drawable/menu_button_two_player"
-            android:soundEffectsEnabled="false" />
+            android:background="@drawable/menu_button_two_player"/>
 
         <Button
             android:id="@id/btn_options"
@@ -37,8 +35,7 @@
             android:layout_height="@dimen/btn_size_height"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/btn_margin_top"
-            android:background="@drawable/menu_button_options"
-            android:soundEffectsEnabled="false" />
+            android:background="@drawable/menu_button_options"/>
 
         <Button
             android:id="@id/btn_more_games"
@@ -46,8 +43,7 @@
             android:layout_height="@dimen/btn_size_height"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/btn_margin_top"
-            android:background="@drawable/menu_button_more_games"
-            android:soundEffectsEnabled="false" />
+            android:background="@drawable/menu_button_more_games"/>
     </LinearLayout>
 
 </LinearLayout>
