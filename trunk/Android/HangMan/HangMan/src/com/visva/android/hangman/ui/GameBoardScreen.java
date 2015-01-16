@@ -348,7 +348,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 
 		mAdView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
-		// mAdView.loadAd(adRequest);
+		mAdView.loadAd(adRequest);
 	}
 
 	public void getMapCharButtons() {

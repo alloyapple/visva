@@ -188,10 +188,6 @@ public class OptionsScreen extends Activity implements GlobalDef, ConnectionCall
 		});
 		if (requestCode == RC_SIGN_IN) {
 			mIntentInProgress = false;
-
-			if (!mGoogleApiClient.isConnecting()) {
-				mGoogleApiClient.connect();
-			}
 		}
 	}
 
