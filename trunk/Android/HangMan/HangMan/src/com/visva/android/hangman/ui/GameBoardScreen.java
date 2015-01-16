@@ -695,7 +695,7 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 		}
 		mNumberOfTries = 0;
 		mChallenge = stringToUper(mChallenge);
-		Log.e("tag", mChallenge.toString());
+		// Log.e("tag", mChallenge.toString());
 		char[] charArray = new char[mChallenge.length()];
 		Arrays.fill(charArray, '_');
 		mSolution = new String(charArray);
