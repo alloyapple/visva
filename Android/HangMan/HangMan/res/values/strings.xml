@@ -3,7 +3,7 @@
     <!-- This is an ad unit ID for a test ad. Replace with your own banner ad unit id. -->
     <string name="banner_ad_unit_id">ca-app-pub-9000469229477804/8475875973 </string>
     <string name="facebook_app_id">521214901354685</string>
-    <string name="app_name">Hangman 2</string>
+    <string name="app_name">Hangman2</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
     <string name="android">Android</string>
