@@ -602,7 +602,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true" />
 
-            <com.visva.android.hangman.ultis.MyImageView
+            <com.gurusolution.android.hangman2.utils.MyImageView
                 android:id="@+id/expanded_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_image_preview"
