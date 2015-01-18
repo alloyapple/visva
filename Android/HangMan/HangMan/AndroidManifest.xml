@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.visva.android.hangman"
     android:installLocation="auto"
-    android:versionCode="20150117"
-    android:versionName="1.2" >
+    android:versionCode="20150118"
+    android:versionName="1.3" >
 
     <supports-screens
         android:anyDensity="true"
