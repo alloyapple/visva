@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.json.JSONArray;
@@ -686,9 +687,9 @@ public class GameBoardScreen extends Activity implements GlobalDef, ConnectionCa
 	public void onNewGame() {
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 			String categoryName = GameSetting.getCategoryName(word_list);
-			mChallenge = mDatabase.GetRandomWord(categoryName.toLowerCase());
+			mChallenge = mDatabase.GetRandomWord(categoryName.toLowerCase(Locale.ENGLISH));
 			while (StringUtility.isEmpty(mChallenge)) {
-				mChallenge = mDatabase.GetRandomWord(categoryName.toLowerCase());
+				mChallenge = mDatabase.GetRandomWord(categoryName.toLowerCase(Locale.ENGLISH));
 			}
 		} else {
 

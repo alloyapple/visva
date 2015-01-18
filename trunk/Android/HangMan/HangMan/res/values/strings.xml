@@ -3,11 +3,6 @@
     <!-- This is an ad unit ID for a test ad. Replace with your own banner ad unit id. -->
     <string name="banner_ad_unit_id">ca-app-pub-9000469229477804/8475875973 </string>
     <string name="facebook_app_id">521214901354685</string>
-    <string name="APPIRATER_MESSAGE">If you enjoy using %s, please support us by taking a minute to rate it. Thanks for your support!</string>
-    <string name="APPIRATER_MESSAGE_TITLE">Please Rate %s</string>
-    <string name="APPIRATER_CANCEL_BUTTON">No, Thanks</string>
-    <string name="APPIRATER_RATE_BUTTON">Rate %s</string>
-    <string name="APPIRATER_RATE_LATER">Remind me later</string>
     <string name="app_name">Hangman 2</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
@@ -32,8 +27,6 @@
     <string name="music">Music</string>
     <string name="gallows">Gallows</string>
     <string name="share_via">Share via</string>
-    <!-- The application's publisher ID assigned by AdMob -->
-    <string name="ADMOB_PUBLISHER_ID">your_id_admod" </string>
     <string name="word">WORD:</string>
     <string name="enter_word_for_play_name_to_guess">Enter word for %s to guess</string>
     <string name="enter_word_to_continue">Enter a word to continue.</string>
@@ -41,6 +34,10 @@
     <string name="shared_facebook">Shared on facebook</string>
     <string name="share_sns_introduce_project">Try this game to know how smart you are...</string>
     <string name="can_you_guess_this_word">Can you guess this word?</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="are_you_want_to_end_game_and_return_main_menu">Are you sure you want to end your game and return to the main menu?</string>
+    <string name="are_you_sure_want_to_create_new_word">Are you sure you want to try a new word?</string>
 
     <string-array name="cheer_words">
         <item>Very Smart</item>
