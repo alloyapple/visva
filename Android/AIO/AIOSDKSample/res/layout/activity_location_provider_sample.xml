@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/label_lat_lng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Lat/Long:"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/lat_lng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/label_lat_lng"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/label_lat_lng"
+        android:textIsSelectable="true"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/label_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/label_lat_lng"
+        android:text="Address:"
+        android:textSize="20sp" />
+
+    <ProgressBar
+        android:id="@+id/address_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lat_lng"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/label_address"
+        android:layout_below="@+id/lat_lng"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/label_address"
+        android:textIsSelectable="true"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/text_connection_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/address"
+        android:text="--Unknown--"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/text_connection_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/text_connection_status"
+        android:text="--Unknown--"
+        android:textIsSelectable="true" />
+
+    <Button
+        android:id="@+id/btn_get_location_by_googlesvc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_connection_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:onClick="getLocationFromGoogleService"
+        android:text="Get Location by Google Service" />
+
+    <Button
+        android:id="@+id/btn_get_location_by_gps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_get_location_by_googlesvc"
+        android:layout_centerHorizontal="true"
+        android:text="Get Location By GPS" />
+
+    <Button
+        android:id="@+id/btn_get_location_by_network"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_get_location_by_gps"
+        android:layout_centerHorizontal="true"
+        android:text="Get Location By Network" />
+
+    <Button
+        android:id="@+id/btn_get_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_get_location_by_network"
+        android:layout_centerHorizontal="true"
+        android:onClick="getAddress"
+        android:text="Get Address" />
+
+    <Button
+        android:id="@+id/start_updates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_get_add"
+        android:layout_centerHorizontal="true"
+        android:onClick="startUpdates"
+        android:text="Start Update" />
+
+    <Button
+        android:id="@+id/stop_updates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_below="@+id/start_updates"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:onClick="stopUpdates"
+        android:text="Stop Update" />
+
+</RelativeLayout>
