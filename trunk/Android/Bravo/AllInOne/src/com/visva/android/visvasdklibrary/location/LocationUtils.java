@@ -1,9 +1,7 @@
-package com.visva.android.visvasdklibrary.util.location;
+package com.visva.android.visvasdklibrary.location;
 
 import android.content.Context;
 import android.location.Location;
-
-import com.visva.android.visvasdklibrary.R;
 
 /**
  * Defines app-wide constants and utilities
@@ -60,14 +58,10 @@ public final class LocationUtils {
      *         location is available.
      */
     public static String getLatLng(Context context, Location currentLocation) {
-        // If the location is valid
         if (currentLocation != null) {
-
+            String result = String.valueOf(currentLocation.getLatitude()) + "," + String.valueOf(currentLocation.getLongitude());
             // Return the latitude and longitude as strings
-            return context.getString(
-                    R.string.action_settings,
-                    currentLocation.getLatitude(),
-                    currentLocation.getLongitude());
+            return result;
         } else {
 
             // Otherwise, return the empty string

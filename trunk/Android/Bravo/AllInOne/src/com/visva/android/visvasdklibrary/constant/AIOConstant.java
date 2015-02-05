@@ -1,12 +1,21 @@
-package com.visva.android.visvasdklibrary.util;
+package com.visva.android.visvasdklibrary.constant;
 
 /**
  * This class define all global values for this sdk
  * 
  * @author kieu.thang
- * 
  */
-public class AllInOneConstant {
+public class AIOConstant {
+    public static final int     NETWORK_TIME_OUT                   = 30000;
+
+    /**
+     * define network error type
+     */
+    public static final int     NETWORK_STATUS_OK                  = 0;
+    public static final int     NETWORK_STATUS_OFF                 = 1;
+    public static final int     NETWORK_STATUS_ERROR               = 2;
+    public static final int     NETWORK_FAILED_TO_CONECT_SERVER    = 3;
+    public static final int     NETWORK_PARSE_JSON_ERROR           = 4;
 
     /**
      * set the value to show the log for sdk

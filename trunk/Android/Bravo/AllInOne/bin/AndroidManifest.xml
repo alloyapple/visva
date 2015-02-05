@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
@@ -22,15 +22,41 @@
                 <category android:name="android.intent.category.INFO" />
             </intent-filter>
         </activity>
-         <service
-            android:name="com.visva.android.visvasdklibrary.service.AllInOneService"
-            android:enabled="true" >
+
+        <service
+            android:name="com.visva.android.visvasdklibrary.remind.AIOService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":aioservice" >
             <intent-filter>
                 <action android:name="com.visva.android.visvasdklibrary.service.AllInOneService.SERVICE_START" />
                 <action android:name="com.visva.android.visvasdklibrary.service.AllInOneService.SERVICE_STOP" />
                 <action android:name="com.visva.android.visvasdklibrary.service.AllInOneService.SERVICE_BIND" />
             </intent-filter>
+            <intent-filter android:priority="9999" >
+                <action android:name="com.visva.android.aiosdk.reminderservice.ACTION_ON_REMINDER" />
+
+                <data android:scheme="reminder" />
+                <data android:host="com.visva.android.aiosdk.reminderservice.ACTION_ON_REMINDER" />
+            </intent-filter>
         </service>
+
+        <receiver
+            android:name="com.visva.android.visvasdklibrary.remind.ReminderReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":cardproviders" >
+            <intent-filter android:priority="9999" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.visva.android.aiosdk.reminderservice.ACTION_CLEAR_DATA" />
+            </intent-filter>
+            <intent-filter android:priority="9999" >
+                <action android:name="com.visva.android.aiosdk.reminderservice.ACTION_ON_REMINDER" />
+
+                <data android:scheme="reminder" />
+                <data android:host="com.visva.android.aiosdk.reminderservice.ACTION_ON_REMINDER" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
