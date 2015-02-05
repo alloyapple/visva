@@ -1,4 +1,4 @@
-package com.visva.android.visvasdklibrary.util.location.svc;
+package com.visva.android.visvasdklibrary.location;
 
 import android.content.Context;
 import android.location.Location;
@@ -9,11 +9,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
+import com.visva.android.visvasdklibrary.constant.AIOConstant;
 import com.visva.android.visvasdklibrary.provider.LocationProvider;
-import com.visva.android.visvasdklibrary.util.AllInOneConstant;
 
 public class LocationRequestManager {
     private static final String         TAG         = "LocationRequestMananager->nobita";
@@ -63,7 +61,7 @@ public class LocationRequestManager {
                 mILocationChangedCallback = null;
                 unRegisterUpdateLocation();
                 setLocation(location);
-                LocationProvider.getInstance(context).getHandler().sendEmptyMessage(AllInOneConstant.MSG_UPDATE_LOCATION);
+                LocationProvider.getInstance(context).getHandler().sendEmptyMessage(AIOConstant.MSG_UPDATE_LOCATION);
             }
         };
 
@@ -72,7 +70,7 @@ public class LocationRequestManager {
 
     public void registerUpdateLocation(int type) {
         Log.d(TAG, "registerUpdateLocaiton, type = " + type);
-        if (type == AllInOneConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE) {
+        if (type == AIOConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE) {
             mILocationClientCallback = new ILocationClientCallback() {
 
                 @Override
@@ -83,9 +81,9 @@ public class LocationRequestManager {
             if (isServicesAvailable()) {
                 mConnectionHelper.startConnection(mILocationClientCallback);
             }
-        } else if ((type == AllInOneConstant.GET_LOCATION_TYPE_GPS)) {
+        } else if ((type == AIOConstant.GET_LOCATION_TYPE_GPS)) {
             addGPSListener();
-        } else if (type == AllInOneConstant.GET_LOCATION_TYPE_NETWORK) {
+        } else if (type == AIOConstant.GET_LOCATION_TYPE_NETWORK) {
             addNetworkListener();
         }
     }
@@ -156,7 +154,9 @@ public class LocationRequestManager {
     private void unRegisterUpdateLocation() {
 
         mILocationClientCallback = null;
+
         removeAllListener();
+
         mConnectionHelper.stopLocationClient();
     }
 
@@ -189,8 +189,7 @@ public class LocationRequestManager {
     }
 
     private boolean isServicesAvailable() {
-        int resultCode = GooglePlayServicesUtil
-                .isGooglePlayServicesAvailable(mContext);
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mContext);
 
         if (ConnectionResult.SUCCESS == resultCode) {
             Log.d(TAG, "Google Play services is available.");
@@ -199,64 +198,6 @@ public class LocationRequestManager {
             Log.d(TAG, "Google Play services was not available for some reason");
             Toast.makeText(mContext, "Google Play services was not available for some reason", Toast.LENGTH_SHORT).show();
             return false;
-        }
-
-    }
-
-    private class LocationClientConnectHelper implements
-            GooglePlayServicesClient.ConnectionCallbacks,
-            GooglePlayServicesClient.OnConnectionFailedListener {
-        private static final String     TAG_LOCATION = TAG + "LocationHelper";
-        private Context                 mContext;
-        private LocationClient          mLocationClient;
-        private ILocationClientCallback mCallback;
-
-        public LocationClientConnectHelper(Context context) {
-            mContext = context;
-        }
-
-        public LocationClient getLocationClient() {
-            Log.d(TAG, "getLocationClient");
-            if (mLocationClient == null) {
-                mLocationClient = new LocationClient(mContext, this, this);
-            }
-            return mLocationClient;
-        }
-
-        public void startConnection(ILocationClientCallback callback) {
-            Log.d(TAG, "startConnectionClient");
-            getLocationClient().connect();
-            mCallback = callback;
-        }
-
-        public void stopLocationClient() {
-            if (mLocationClient != null) {
-                mLocationClient = null;
-            }
-            mCallback = null;
-        }
-
-        @Override
-        public void onConnectionFailed(ConnectionResult arg0) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onConnected(Bundle arg0) {
-            Log.d(TAG_LOCATION, "onConnected");
-            Location loc = null;
-            loc = mLocationClient.getLastLocation();
-            if (loc != null) {
-                Log.d(TAG_LOCATION, "loc != null, return for callback");
-                mCallback.onLocationConnectionChanged(loc);
-            }
-        }
-
-        @Override
-        public void onDisconnected() {
-            // TODO Auto-generated method stub
-
         }
 
     }

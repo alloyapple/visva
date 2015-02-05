@@ -1,11 +1,18 @@
 package com.visva.android.visvasdklibrary.provider;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.Cache.Entry;
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -16,17 +23,14 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.visva.android.visvasdklibrary.R;
+import com.visva.android.visvasdklibrary.constant.AIOConstant;
 import com.visva.android.visvasdklibrary.log.AIOLog;
-import com.visva.android.visvasdklibrary.util.AllInOneConstant;
-import com.visva.android.visvasdklibrary.util.volley.IVolleyResponse;
-import com.visva.android.visvasdklibrary.util.volley.LruBitmapCache;
+import com.visva.android.visvasdklibrary.util.StringUtils;
+import com.visva.android.visvasdklibrary.volley.LruBitmapCache;
 
 /**
- * volley provider supports all methods of volley library includes:
- * 
- * - get Json from url: JsonObject, JsonArray
- * - get image from url
+ * Volley provider supports all methods of volley library includes:GET,POST,PUT,DELETE.
+ * It can handler cache and image loader also.
  * 
  * @author kieu.thang
  * 
@@ -67,8 +71,10 @@ public class VolleyProvider {
      * @return instance
      */
     public static synchronized VolleyProvider getInstance(Context context) {
-        if (mInstance == null)
+        if (mInstance == null){
+            AIOLog.e(AIOConstant.TAG, "opps! mInstance is null.");
             mInstance = new VolleyProvider(context);
+        }
         return mInstance;
     }
 
@@ -100,12 +106,12 @@ public class VolleyProvider {
 
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
-        req.setTag(TextUtils.isEmpty(tag) ? AllInOneConstant.TAG : tag);
+        req.setTag(TextUtils.isEmpty(tag) ? AIOConstant.TAG : tag);
         getRequestQueue().add(req);
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
-        req.setTag(AllInOneConstant.TAG);
+        req.setTag(AIOConstant.TAG);
         getRequestQueue().add(req);
     }
 
@@ -132,19 +138,17 @@ public class VolleyProvider {
      * 
      * @return null
      */
-    public void requestStringFromURL(String url, final IVolleyResponse volleyResponse) {
+    public void requestStringFromURL(String url, final IReponseListener iReponseListener) {
         StringRequest strReq = new StringRequest(Method.GET, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                AIOLog.d("requestStringFromURL onResponse=" + response);
-                volleyResponse.onResponse(response);
+                iReponseListener.onResponse(response);
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                AIOLog.d("requestStringFromURL onErrorResponse=" + error.getMessage());
             }
         });
 
@@ -160,19 +164,21 @@ public class VolleyProvider {
      * 
      * @return null
      */
-    public void requestJsonObjectFromURL(String url, final IVolleyResponse volleyResponse) {
+    public void requestJsonObjectFromURL(String url, final IReponseListener iReponseListener) {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
-                volleyResponse.onResponse(response);
+                if (response == null || StringUtils.isEmpty(response.toString())) {
+                    iReponseListener.onErrorResponse(AIOConstant.NETWORK_PARSE_JSON_ERROR, "");
+                    return;
+                }
+                iReponseListener.onResponse(response.toString());
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
             }
         });
         // {
@@ -211,22 +217,24 @@ public class VolleyProvider {
      * @param volleyResponse
      * @return null
      */
-    public void requestJsonArrayFromURL(String url, final IVolleyResponse volleyResponse) {
+    public void requestJsonArrayFromURL(String url, final IReponseListener iReponseListener) {
         JsonArrayRequest req = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                if (response == null)
-                    volleyResponse.onErrorResponse(mContext.getString(R.string.result_not_found));
+                if (response == null || StringUtils.isEmpty(response.toString())) {
+                    iReponseListener.onErrorResponse(AIOConstant.NETWORK_PARSE_JSON_ERROR, "");
+                    return;
+                }
 
-                AIOLog.d("requestJsonArrayFromURL onResponse=" + response.toString());
-                volleyResponse.onResponse(response.toString());
+                iReponseListener.onResponse(response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (error == null)
-                    volleyResponse.onErrorResponse(mContext.getString(R.string.result_not_found));
-                AIOLog.d("requestJsonArrayFromURL onErrorResponse: " + error.getMessage());
+                if (error == null) {
+                    iReponseListener.onErrorResponse(AIOConstant.NETWORK_PARSE_JSON_ERROR, "");
+                    return;
+                }
             }
         });
 
@@ -234,4 +242,59 @@ public class VolleyProvider {
         VolleyProvider.getInstance(mContext).addToRequestQueue(req, TAG_JSON_ARRAY_REQ);
     }
 
+    public void requestDataFromServerAPI(int requestType, String url, final IReponseListener iReponseListener, final Map<String, String> params) {
+        // We first check for cached request
+        Cache cache = getRequestQueue().getCache();
+        Entry entry = cache.get(url + requestType);
+        if (entry != null) {
+            // fetch the data from cache
+            try {
+                String data = new String(entry.data, "UTF-8");
+                iReponseListener.onResponse(data);
+                return;
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        // making fresh volley request and getting json
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(requestType, url, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response == null || StringUtils.isEmpty(response.toString())) {
+                    iReponseListener.onErrorResponse(AIOConstant.NETWORK_PARSE_JSON_ERROR, "");
+                    return;
+                }
+                iReponseListener.onResponse(response.toString());
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        })
+        {
+            /**
+             * Passing some request headers
+             * 
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                if (params == null)
+                    return null;
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq, url + requestType);
+    }
 }

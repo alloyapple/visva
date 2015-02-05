@@ -6,9 +6,16 @@ import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
 
-import com.visva.android.visvasdklibrary.util.AllInOneConstant;
-import com.visva.android.visvasdklibrary.util.location.svc.LocationRequestManager;
+import com.visva.android.visvasdklibrary.constant.AIOConstant;
+import com.visva.android.visvasdklibrary.location.LocationRequestManager;
 
+/**
+ * LocationProvider supports get and update user's location and address by using google service, gps and network.
+ * It uses a {@link Handler} and {@link LocationRequestManager} to handler location.Therefore, {@link HandlerLeak} can be occured
+ * 
+ * @author kieu.thang
+ * 
+ */
 @SuppressLint("HandlerLeak")
 public class LocationProvider {
     private Context                 mContext;
@@ -21,19 +28,20 @@ public class LocationProvider {
     private ILocationUpdateCallback mILocationUpdateCallback;
 
     /**
-     * Volley constructor
+     * Location constructor
+     * it defines a handler and {@link LocationRequestManager} to request and update location
      * 
      * @param context
      */
     public LocationProvider(Context context) {
         super();
         mContext = context;
-        initMainThreadHandler(mContext);
         mLocationRequestManager = new LocationRequestManager(mContext);
+        initMainThreadHandler(mContext);
     }
 
     /**
-     * get instance of Volley singleton class
+     * get instance of LocationProvider singleton class
      * 
      * @param context
      * @return instance
@@ -50,21 +58,21 @@ public class LocationProvider {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-                case AllInOneConstant.MSG_REQUEST_LOCATION_GOOGLESERVICE:
-                    mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
+                case AIOConstant.MSG_REQUEST_LOCATION_GOOGLESERVICE:
+                    mLocationRequestManager.updateCurrentLocation(context, AIOConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
                     break;
-                case AllInOneConstant.MSG_REQUEST_LOCATION_GPS:
-                    mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GPS);
+                case AIOConstant.MSG_REQUEST_LOCATION_GPS:
+                    mLocationRequestManager.updateCurrentLocation(context, AIOConstant.GET_LOCATION_TYPE_GPS);
                     break;
-                case AllInOneConstant.MSG_REQUEST_LOCATION_NETWORK:
-                    mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_NETWORK);
+                case AIOConstant.MSG_REQUEST_LOCATION_NETWORK:
+                    mLocationRequestManager.updateCurrentLocation(context, AIOConstant.GET_LOCATION_TYPE_NETWORK);
                     break;
-                case AllInOneConstant.MSG_UPDATE_LOCATION:
+                case AIOConstant.MSG_UPDATE_LOCATION:
                     Location location = mLocationRequestManager.getCurrentLocation();
                     mILocationUpdateCallback.onLocationUpdate(location);
                     break;
-                case AllInOneConstant.MSG_REQUEST_GET_ADDRESS:
-                    mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
+                case AIOConstant.MSG_REQUEST_GET_ADDRESS:
+                    mLocationRequestManager.updateCurrentLocation(context, AIOConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
                     break;
                 default:
                     break;

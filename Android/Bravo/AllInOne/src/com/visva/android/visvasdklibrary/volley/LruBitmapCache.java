@@ -1,4 +1,4 @@
-package com.visva.android.visvasdklibrary.util.volley;
+package com.visva.android.visvasdklibrary.volley;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 
