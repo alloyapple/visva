@@ -1,11 +1,41 @@
 <resources>
+
     <style name="AppTheme" parent="android:Theme.Light" />
-	<style name="Theme.Transparent" parent="android:Theme">
-	    <item name="android:windowIsTranslucent">true</item>
-	    <item name="android:windowBackground">@android:color/transparent</item>
-	    <item name="android:windowContentOverlay">@null</item>
-	    <item name="android:windowNoTitle">true</item>
-	    <item name="android:windowIsFloating">true</item>
-	    <item name="android:backgroundDimEnabled">false</item>
-	</style>
+
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="ContactListView">
+        <item name="android:scrollbarStyle">outsideInset</item>
+    </style>
+
+    <style name="listViewActivatedStyle" />
+
+    <style name="quickContactBadgeStyle">
+        <item name="android:background">@drawable/quickcontact_badge_small</item>
+    </style>
+
+    <style name="searchTextHiglight">
+        <item name="android:textColor">@color/holo_blue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="addressHeader" parent="@android:style/TextAppearance.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="addressDetail" parent="@android:style/TextAppearance.Medium"></style>
+
+    <style name="contactNameTitle" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">38sp</item>
+    </style>
+
+    <style name="addressButton" />
+
 </resources>
