@@ -1,7 +1,6 @@
 package com.visva.voicerecorder.contact;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -53,16 +52,11 @@ public class ContactManager {
             list.add(new ContactItem(name, number));
 
         } while (people.moveToNext());
-
-        /* Example inputs for contact list
-
-        list.add(new ExampleContactItem("Lizbeth" , "Lizbeth Crockett" ) );
-        list.add(new ExampleContactItem("Lizbeth" , "Lizbeth Crockett" ) );
-        list.add(new ExampleContactItem("Zachery" , "Zachery Loranger" ) );
-        list.add(new ExampleContactItem("Vada" , "Vada Winegar" ) );
-        list.add(new ExampleContactItem("Essie" , "Essie Pass" ) );
-
-        */
+        
+        if(people != null){
+        	people.close();
+        	people = null;
+        }
         return list;
     }
 }

@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -30,12 +31,12 @@ import android.widget.Toast;
 import com.visva.voicerecorder.dialogs.HelpDialogFragment;
 import com.visva.voicerecorder.dialogs.SettingDialogFragment;
 import com.visva.voicerecorder.fragments.AllRecordingFragment;
-import com.visva.voicerecorder.fragments.ContactFragment;
+import com.visva.voicerecorder.fragments.ContactsListFragment;
 import com.visva.voicerecorder.fragments.SettingFragment;
 import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements ContactsListFragment.OnContactsInteractionListener {
     // ======================Constant Define===============
     private static final int NUMBER_OF_FRAGMENTS = 3;
     public static final int FRAGMENT_BASE_ID = 1000;
@@ -72,6 +73,10 @@ public class MainActivity extends FragmentActivity {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private String[] mPlanetTitles;
+    
+    // True if this activity instance is a search result view (used on pre-HC devices that load
+    // search results in a separate instance of the activity rather than loading results in-line
+    // as the query is typed.
 
     public MainActivity() {
         super();
@@ -125,11 +130,11 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         ArrayList<RecordingSession> sessions = this.helper.getRecordingSessionsFromFile();
         MainActivity.recordingManager = new RecordingManager(this, sessions);
-        
+
         this.overrideUI(savedInstanceState);
     }
 
@@ -236,7 +241,7 @@ public class MainActivity extends FragmentActivity {
             Bundle args = new Bundle();
             switch (i) {
             case 0:
-                fragment = new ContactFragment();
+                fragment = new ContactsListFragment();
                 fragments[0] = fragment;
                 break;
             case 1:
@@ -302,5 +307,43 @@ public class MainActivity extends FragmentActivity {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * This interface callback lets the main contacts list fragment notify
+     * this activity that a contact has been selected.
+     *
+     * @param contactUri The contact Uri to the selected contact.
+     */
+    @Override
+    public void onContactSelected(Uri contactUri) {
+        //        if (isTwoPaneLayout && mContactDetailFragment != null) {
+        //            // If two pane layout then update the detail fragment to show the selected contact
+        //            mContactDetailFragment.setContact(contactUri);
+        //        } else {
+        //            // Otherwise single pane layout, start a new ContactDetailActivity with
+        //            // the contact Uri
+        //            Intent intent = new Intent(this, ContactDetailActivity.class);
+        //            intent.setData(contactUri);
+        //            startActivity(intent);
+        //        }
+    }
+
+    /**
+     * This interface callback lets the main contacts list fragment notify
+     * this activity that a contact is no longer selected.
+     */
+    @Override
+    public void onSelectionCleared() {
+        //        if (isTwoPaneLayout && mContactDetailFragment != null) {
+        //            mContactDetailFragment.setContact(null);
+        //        }
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+        // Don't allow another search if this activity instance is already showing
+        // search results. Only used pre-HC.
+        return super.onSearchRequested();
     }
 }
