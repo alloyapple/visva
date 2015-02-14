@@ -6,4 +6,24 @@
     <dimen name="padding">16dp</dimen>
     <dimen name="listview_item_padding">16dp</dimen>
 
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_size_normal">56dp</dimen>
+    <dimen name="fab_size_mini">30dp</dimen>
+    <dimen name="fab_icon_size">24dp</dimen>
+    <dimen name="fab_plus_icon_size">14dp</dimen>
+    <dimen name="fab_plus_icon_stroke">2dp</dimen>
+    <dimen name="fab_shadow_offset">3dp</dimen>
+    <dimen name="fab_shadow_radius">5dp</dimen>
+    <dimen name="fab_stroke_width">1dp</dimen>
+    <dimen name="fab_actions_spacing">8dp</dimen>
+    <dimen name="fab_labels_margin">8dp</dimen>
+
+    <!-- Home Screen -->
+    <dimen name="footer_height">49dp</dimen>
+    <dimen name="width_btn_tab">64dp</dimen>
+    <dimen name="height_btn_tab">49dp</dimen>
+    <dimen name="text_home_tabs">13sp</dimen>
+
 </resources>

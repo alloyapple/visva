@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.visva.voicerecorder.MainActivity;
-import com.visva.voicerecorder.dialogs.VoiceOptionDialogFragment;
+import com.visva.voicerecorder.view.dialogs.VoiceOptionDialogFragment;
 
 public class RecordingListView extends ListView {
 	public View lastClickedView;

@@ -31,7 +31,7 @@ public final class R {
         public static final int snackbar_show_animation=0x7f040013;
     }
     public static final class array {
-        public static final int planets_array=0x7f080000;
+        public static final int planets_array=0x7f0c0000;
     }
     public static final class attr {
         /**  in float button indicate if must start with animation 
@@ -43,6 +43,25 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int animate=0x7f01000d;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_color=0x7f01001f;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_width=0x7f01001e;
         /**  in switche's view indicate state of view 
          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
@@ -71,6 +90,125 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int clickAfterRipple=0x7f01000f;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_addButtonColorNormal=0x7f010029;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_addButtonColorPressed=0x7f010028;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_addButtonPlusIconColor=0x7f01002a;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_addButtonStrokeVisible=0x7f01002b;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_colorDisabled=0x7f010021;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_colorNormal=0x7f010022;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_colorPressed=0x7f010020;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>up</code></td><td>0</td><td></td></tr>
+<tr><td><code>down</code></td><td>1</td><td></td></tr>
+<tr><td><code>left</code></td><td>2</td><td></td></tr>
+<tr><td><code>right</code></td><td>3</td><td></td></tr>
+</table>
+         */
+        public static final int fab_expandDirection=0x7f01002d;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int fab_icon=0x7f010023;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int fab_labelStyle=0x7f01002c;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_plusIconColor=0x7f010027;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>normal</code></td><td>0</td><td></td></tr>
+<tr><td><code>mini</code></td><td>1</td><td></td></tr>
+</table>
+         */
+        public static final int fab_size=0x7f010024;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_stroke_visible=0x7f010026;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fab_title=0x7f010025;
         /**  in float button indicate icon resource 
          <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
@@ -118,6 +256,129 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int progress=0x7f010006;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsActivateTextColor=0x7f01001c;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsDeactivateTextColor=0x7f01001d;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsDividerColor=0x7f010012;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsDividerPadding=0x7f010015;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsIndicatorColor=0x7f010010;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsIndicatorHeight=0x7f010013;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsScrollOffset=0x7f010017;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsShouldExpand=0x7f010019;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int pstsTabBackground=0x7f010018;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsTabPaddingLeftRight=0x7f010016;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsTabSwitch=0x7f01001b;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsTextAllCaps=0x7f01001a;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsUnderlineColor=0x7f010011;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pstsUnderlineHeight=0x7f010014;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -182,14 +443,80 @@ containing a value of this type.
          */
         public static final int value=0x7f010005;
     }
+    public static final class bool {
+        /**  Default is to use a single pane layout 
+         */
+        public static final int has_two_panes=0x7f070000;
+    }
     public static final class color {
-        public static final int green=0x7f050000;
-        public static final int thumbColor=0x7f050001;
+        public static final int actionbar_background=0x7f06000e;
+        public static final int actionbar_item_background=0x7f06000f;
+        /**  Home 
+         */
+        public static final int background_tab_pressed=0x7f060010;
+        public static final int black=0x7f060005;
+        public static final int black_semi_transparent=0x7f06001a;
+        public static final int click_color=0x7f060016;
+        public static final int dark_slate_gray=0x7f060011;
+        public static final int devider_color=0x7f060017;
+        public static final int divider_listview=0x7f06000a;
+        public static final int gray_1=0x7f060013;
+        public static final int gray_2=0x7f060012;
+        public static final int green=0x7f060000;
+        public static final int grey=0x7f060006;
+        public static final int grey_2=0x7f060007;
+        public static final int grey_3=0x7f060008;
+        public static final int grey_4=0x7f060009;
+        /** 
+         Define a standard holo blue color. Useful as we can refer to it from various other
+         resource files or even code and it only needs to be updated in one place if we wanted
+         to change it.
+    
+         */
+        public static final int holo_blue=0x7f060002;
+        public static final int home_background=0x7f06000d;
+        public static final int login_register_text=0x7f06000c;
+        /**  Login/Register 
+         */
+        public static final int login_regiter_layout=0x7f06000b;
+        public static final int main=0x7f060018;
+        public static final int main_1=0x7f060019;
+        /**  Post Detail 
+         */
+        public static final int postn_detail_button_call_spot_layout=0x7f060014;
+        public static final int postn_detail_button_call_spot_text=0x7f060015;
+        public static final int red=0x7f060004;
+        public static final int thumbColor=0x7f060001;
+        /**  Common 
+         */
+        public static final int white=0x7f060003;
     }
     public static final class dimen {
-        public static final int padding_large=0x7f060002;
-        public static final int padding_medium=0x7f060001;
-        public static final int padding_small=0x7f060000;
+        /**  Default screen margins, per the Android Design guidelines. 
+         */
+        public static final int activity_horizontal_margin=0x7f080005;
+        public static final int activity_vertical_margin=0x7f080006;
+        public static final int fab_actions_spacing=0x7f08000f;
+        public static final int fab_icon_size=0x7f080009;
+        public static final int fab_labels_margin=0x7f080010;
+        public static final int fab_plus_icon_size=0x7f08000a;
+        public static final int fab_plus_icon_stroke=0x7f08000b;
+        public static final int fab_shadow_offset=0x7f08000c;
+        public static final int fab_shadow_radius=0x7f08000d;
+        public static final int fab_size_mini=0x7f080008;
+        public static final int fab_size_normal=0x7f080007;
+        public static final int fab_stroke_width=0x7f08000e;
+        /**  Home Screen 
+         */
+        public static final int footer_height=0x7f080011;
+        public static final int height_btn_tab=0x7f080013;
+        public static final int listview_item_padding=0x7f080004;
+        public static final int padding=0x7f080003;
+        public static final int padding_large=0x7f080002;
+        public static final int padding_medium=0x7f080001;
+        public static final int padding_small=0x7f080000;
+        public static final int text_home_tabs=0x7f080014;
+        public static final int width_btn_tab=0x7f080012;
     }
     public static final class drawable {
         public static final int action_search=0x7f020000;
@@ -201,123 +528,310 @@ containing a value of this type.
         public static final int background_checkbox_uncheck=0x7f020006;
         public static final int background_progress=0x7f020007;
         public static final int background_switch_ball_uncheck=0x7f020008;
-        public static final int background_transparent=0x7f020009;
-        public static final int banner=0x7f02000a;
-        public static final int banner_strip=0x7f02000b;
-        public static final int default_contact_icon=0x7f02000c;
-        public static final int dialog_background=0x7f02000d;
-        public static final int drawer_shadow=0x7f02000e;
-        public static final int float_button1_shadowp=0x7f02000f;
-        public static final int float_button_shadow1=0x7f020010;
-        public static final int header=0x7f020011;
-        public static final int ic_action_search=0x7f020012;
-        public static final int ic_drawer=0x7f020013;
-        public static final int ic_launcher=0x7f020014;
-        public static final int ic_reloj_max=0x7f020015;
-        public static final int incoming=0x7f020016;
-        public static final int outgoing=0x7f020017;
-        public static final int shadow_down=0x7f020018;
-        public static final int shadow_right=0x7f020019;
-        public static final int sprite_check=0x7f02001a;
+        public static final int background_tab=0x7f020009;
+        public static final int background_transparent=0x7f02000a;
+        public static final int banner=0x7f02000b;
+        public static final int banner_strip=0x7f02000c;
+        public static final int bt_home_tab_selected=0x7f02000d;
+        public static final int bt_home_tab_unselected=0x7f02000e;
+        public static final int bt_mydata_tab_selected=0x7f02000f;
+        public static final int bt_mydata_tab_unselected=0x7f020010;
+        public static final int bt_network_tab_selected=0x7f020011;
+        public static final int bt_network_tab_unselected=0x7f020012;
+        public static final int bt_search_tab_selected=0x7f020013;
+        public static final int bt_search_tab_unselected=0x7f020014;
+        public static final int default_contact_icon=0x7f020015;
+        public static final int dialog_background=0x7f020016;
+        public static final int drawer_shadow=0x7f020017;
+        public static final int fab_bg_mini=0x7f020018;
+        public static final int fab_bg_normal=0x7f020019;
+        public static final int fab_label_background=0x7f02001a;
+        public static final int float_button1_shadowp=0x7f02001b;
+        public static final int float_button_shadow1=0x7f02001c;
+        public static final int header=0x7f02001d;
+        public static final int ic_action_add=0x7f02001e;
+        public static final int ic_action_edit=0x7f02001f;
+        public static final int ic_action_map=0x7f020020;
+        public static final int ic_action_new=0x7f020021;
+        public static final int ic_action_search=0x7f020022;
+        public static final int ic_contact_picture_180_holo_light=0x7f020023;
+        public static final int ic_contact_picture_holo_light=0x7f020024;
+        public static final int ic_customer_addimage=0x7f020025;
+        public static final int ic_customer_create=0x7f020026;
+        public static final int ic_customer_edit=0x7f020027;
+        public static final int ic_customer_note=0x7f020028;
+        public static final int ic_customer_register=0x7f020029;
+        public static final int ic_customer_update=0x7f02002a;
+        public static final int ic_drawer=0x7f02002b;
+        public static final int ic_launcher=0x7f02002c;
+        public static final int ic_reloj_max=0x7f02002d;
+        public static final int incoming=0x7f02002e;
+        public static final int outgoing=0x7f02002f;
+        public static final int quickcontact_badge_small=0x7f020030;
+        public static final int quickcontact_badge_small_pressed=0x7f020031;
+        public static final int quickcontact_badge_small_unpressed=0x7f020032;
+        public static final int shadow_down=0x7f020033;
+        public static final int shadow_right=0x7f020034;
+        public static final int sprite_check=0x7f020035;
+        public static final int tab_background=0x7f020036;
+        public static final int tab_feed_off=0x7f020037;
+        public static final int tab_feed_on=0x7f020038;
+        public static final int tab_home_off=0x7f020039;
+        public static final int tab_home_on=0x7f02003a;
+        public static final int tab_mydata_off=0x7f02003b;
+        public static final int tab_mydata_on=0x7f02003c;
+        public static final int tab_search_off=0x7f02003d;
+        public static final int tab_search_on=0x7f02003e;
     }
     public static final class id {
-        public static final int banner_wrapper=0x7f0b0003;
-        public static final int blue=0x7f0b0010;
-        public static final int btn_Cancel=0x7f0b0024;
-        public static final int btn_OK=0x7f0b0023;
-        public static final int btn_OK_voiceoption=0x7f0b002a;
-        public static final int btn_voiceoption_del=0x7f0b0028;
-        public static final int button_accept=0x7f0b0017;
-        public static final int button_cancel=0x7f0b0016;
-        public static final int buttonflat=0x7f0b0026;
-        public static final int callIndicator=0x7f0b001f;
-        public static final int chkb_setting_incoming=0x7f0b0021;
-        public static final int chkb_setting_outgoing=0x7f0b0022;
-        public static final int container=0x7f0b0000;
-        public static final int contentDialog=0x7f0b0012;
-        public static final int contentSelector=0x7f0b000c;
-        public static final int dateTimeTextView=0x7f0b0020;
-        public static final int dialog_rootView=0x7f0b0011;
-        public static final int drawer_layout=0x7f0b0001;
-        public static final int editVoiceLevel_voiceoption=0x7f0b0029;
-        public static final int green=0x7f0b000f;
-        public static final int imageProfile=0x7f0b001c;
-        public static final int imageView1=0x7f0b0004;
-        public static final int imageView2=0x7f0b0005;
-        public static final int image_logo=0x7f0b0009;
-        public static final int layout_drawer=0x7f0b0008;
-        public static final int left_drawer=0x7f0b000a;
-        public static final int main_screen=0x7f0b0002;
-        public static final int menu_help=0x7f0b002d;
-        public static final int menu_settings=0x7f0b002c;
-        public static final int message=0x7f0b0015;
-        public static final int message_scrollView=0x7f0b0014;
-        public static final int number_indicator_spinner_content=0x7f0b001a;
-        public static final int pager=0x7f0b0006;
-        public static final int pager_title_strip=0x7f0b0007;
-        public static final int phoneTextView=0x7f0b001e;
-        public static final int phone_line=0x7f0b001d;
-        public static final int progressBarCircularIndetermininate=0x7f0b001b;
-        public static final int red=0x7f0b000e;
-        public static final int rootSelector=0x7f0b000b;
-        public static final int shape_bacground=0x7f0b002b;
-        public static final int snackbar=0x7f0b0025;
-        public static final int text=0x7f0b0027;
-        public static final int textView1=0x7f0b0018;
-        public static final int textView2=0x7f0b0019;
-        public static final int title=0x7f0b0013;
-        public static final int viewColor=0x7f0b000d;
+        public static final int action_about=0x7f09001b;
+        public static final int action_all_record=0x7f090018;
+        public static final int action_contact=0x7f090017;
+        public static final int action_favourite=0x7f090019;
+        public static final int action_setting=0x7f09001a;
+        public static final int banner_wrapper=0x7f09001e;
+        public static final int blue=0x7f09002b;
+        public static final int bottom_box=0x7f09000a;
+        public static final int btn_Cancel=0x7f090040;
+        public static final int btn_OK=0x7f09003f;
+        public static final int btn_OK_voiceoption=0x7f090046;
+        public static final int btn_all_record=0x7f09000d;
+        public static final int btn_contact=0x7f09000b;
+        public static final int btn_favourite=0x7f09000f;
+        public static final int btn_voiceoption_del=0x7f090044;
+        public static final int button_accept=0x7f090032;
+        public static final int button_cancel=0x7f090031;
+        public static final int buttonflat=0x7f090042;
+        public static final int callIndicator=0x7f09003b;
+        public static final int chkb_setting_incoming=0x7f09003d;
+        public static final int chkb_setting_outgoing=0x7f09003e;
+        public static final int container=0x7f090008;
+        public static final int contentDialog=0x7f09002d;
+        public static final int contentSelector=0x7f090027;
+        public static final int dateTimeTextView=0x7f09003c;
+        public static final int dialog_rootView=0x7f09002c;
+        public static final int down=0x7f090004;
+        public static final int drawer_layout=0x7f09001c;
+        public static final int editVoiceLevel_voiceoption=0x7f090045;
+        public static final int fab_expand_menu_button=0x7f090000;
+        public static final int fab_label=0x7f090001;
+        public static final int fragment_about=0x7f090015;
+        public static final int fragment_all_record=0x7f090012;
+        public static final int fragment_contact=0x7f090011;
+        public static final int fragment_favourite=0x7f090013;
+        public static final int fragment_settings=0x7f090014;
+        public static final int green=0x7f09002a;
+        public static final int imageProfile=0x7f090038;
+        public static final int imageView1=0x7f09001f;
+        public static final int imageView2=0x7f090020;
+        public static final int image_logo=0x7f090024;
+        public static final int layout_drawer=0x7f090023;
+        public static final int left=0x7f090005;
+        public static final int left_drawer=0x7f090025;
+        public static final int lv_all_recorder=0x7f090036;
+        public static final int main_screen=0x7f09001d;
+        public static final int menu_add_contact=0x7f09004c;
+        public static final int menu_edit_contact=0x7f09004a;
+        public static final int menu_help=0x7f090049;
+        public static final int menu_search=0x7f09004b;
+        public static final int menu_settings=0x7f090048;
+        public static final int message=0x7f090030;
+        public static final int message_scrollView=0x7f09002f;
+        public static final int mini=0x7f090002;
+        public static final int multiple_actions=0x7f090016;
+        public static final int normal=0x7f090003;
+        public static final int number_indicator_spinner_content=0x7f090035;
+        public static final int pager=0x7f090021;
+        public static final int pager_title_strip=0x7f090022;
+        public static final int phoneTextView=0x7f09003a;
+        public static final int phone_line=0x7f090039;
+        public static final int progressBarCircularIndetermininate=0x7f090037;
+        public static final int red=0x7f090029;
+        public static final int right=0x7f090006;
+        public static final int rootSelector=0x7f090026;
+        public static final int shape_bacground=0x7f090047;
+        public static final int snackbar=0x7f090041;
+        public static final int tab_host=0x7f090009;
+        public static final int text=0x7f090043;
+        public static final int textView1=0x7f090033;
+        public static final int textView2=0x7f090034;
+        public static final int title=0x7f09002e;
+        public static final int txtview_all_record=0x7f09000e;
+        public static final int txtview_contact=0x7f09000c;
+        public static final int txtview_favourite=0x7f090010;
+        public static final int up=0x7f090007;
+        public static final int viewColor=0x7f090028;
+    }
+    public static final class integer {
+        public static final int contact_detail_info_percent=0x7f0a0001;
+        /**  These are the default percent values that the contact photo and information should take up
+         in the ContactDetailFragment. 
+         */
+        public static final int contact_detail_photo_percent=0x7f0a0000;
     }
     public static final class layout {
         public static final int abstract_activity=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int color_selector=0x7f030002;
-        public static final int contact_fragment=0x7f030003;
-        public static final int dialog=0x7f030004;
-        public static final int drawer_list_item=0x7f030005;
-        public static final int help_fragment=0x7f030006;
-        public static final int number_indicator_spinner=0x7f030007;
-        public static final int progress_dialog=0x7f030008;
-        public static final int recorder_item=0x7f030009;
-        public static final int setting_dialog=0x7f03000a;
-        public static final int setting_fragment=0x7f03000b;
-        public static final int snackbar=0x7f03000c;
-        public static final int voiceoption_dialog=0x7f03000d;
+        public static final int activity_home=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int color_selector=0x7f030003;
+        public static final int contact_fragment=0x7f030004;
+        public static final int contact_list_fragment=0x7f030005;
+        public static final int contact_list_item=0x7f030006;
+        public static final int dialog=0x7f030007;
+        public static final int drawer_list_item=0x7f030008;
+        public static final int help_fragment=0x7f030009;
+        public static final int number_indicator_spinner=0x7f03000a;
+        public static final int page_fragment_about=0x7f03000b;
+        public static final int page_fragment_all_record=0x7f03000c;
+        public static final int page_fragment_contact=0x7f03000d;
+        public static final int page_fragment_favourite=0x7f03000e;
+        public static final int page_fragment_setting=0x7f03000f;
+        public static final int progress_dialog=0x7f030010;
+        public static final int recorder_item=0x7f030011;
+        public static final int setting_dialog=0x7f030012;
+        public static final int setting_fragment=0x7f030013;
+        public static final int snackbar=0x7f030014;
+        public static final int voiceoption_dialog=0x7f030015;
     }
     public static final class menu {
-        public static final int activity_main=0x7f0a0000;
+        public static final int activity_main=0x7f0e0000;
+        public static final int contact_detail_menu=0x7f0e0001;
+        public static final int contact_list_menu=0x7f0e0002;
     }
     public static final class string {
-        public static final int app_name=0x7f070000;
-        public static final int btn_lbl_CANCEL=0x7f070015;
-        public static final int btn_lbl_OK=0x7f070014;
-        public static final int drawer_close=0x7f070017;
-        public static final int drawer_open=0x7f070016;
-        public static final int hello_world=0x7f070003;
-        public static final int label_activation_message=0x7f070008;
-        public static final int label_button_activation=0x7f07000b;
-        public static final int label_enter_activation_code=0x7f07000a;
-        public static final int label_enter_phone=0x7f070009;
-        public static final int label_seperator=0x7f070010;
-        public static final int label_setting_incoming=0x7f070012;
-        public static final int label_setting_outgoing=0x7f070013;
-        public static final int label_voice_clear=0x7f07000f;
-        public static final int label_voice_del=0x7f070011;
-        public static final int menu_active=0x7f07000d;
-        public static final int menu_help=0x7f07000c;
-        public static final int menu_option_del=0x7f07000e;
-        public static final int menu_settings=0x7f070004;
-        public static final int title_activity_main=0x7f070005;
-        public static final int title_section0=0x7f070006;
-        public static final int title_section1=0x7f070002;
-        public static final int title_section2=0x7f070001;
-        public static final int top_banner_description=0x7f070007;
+        public static final int about=0x7f0b0026;
+        public static final int all_record_tab=0x7f0b0023;
+        public static final int alphabet=0x7f0b001f;
+        public static final int app_name=0x7f0b0000;
+        public static final int btn_lbl_CANCEL=0x7f0b0015;
+        public static final int btn_lbl_OK=0x7f0b0014;
+        /**  Home screen 
+         */
+        public static final int contact_tab=0x7f0b0022;
+        public static final int contacts_list_search_results_title=0x7f0b0020;
+        public static final int drawer_close=0x7f0b0017;
+        public static final int drawer_open=0x7f0b0016;
+        public static final int favourite_tab=0x7f0b0024;
+        public static final int hello_world=0x7f0b0003;
+        public static final int label_activation_message=0x7f0b0008;
+        public static final int label_button_activation=0x7f0b000b;
+        public static final int label_enter_activation_code=0x7f0b000a;
+        public static final int label_enter_phone=0x7f0b0009;
+        public static final int label_seperator=0x7f0b0010;
+        public static final int label_setting_incoming=0x7f0b0012;
+        public static final int label_setting_outgoing=0x7f0b0013;
+        public static final int label_voice_clear=0x7f0b000f;
+        public static final int label_voice_del=0x7f0b0011;
+        public static final int menu_active=0x7f0b000d;
+        public static final int menu_add_contact=0x7f0b001d;
+        public static final int menu_edit_contact=0x7f0b001e;
+        public static final int menu_help=0x7f0b000c;
+        public static final int menu_option_del=0x7f0b000e;
+        public static final int menu_search=0x7f0b001c;
+        public static final int menu_settings=0x7f0b0004;
+        public static final int no_address=0x7f0b001a;
+        public static final int no_contacts=0x7f0b0018;
+        public static final int no_intent_found=0x7f0b001b;
+        public static final int search_hint=0x7f0b0021;
+        public static final int search_match_other=0x7f0b0019;
+        public static final int setting=0x7f0b0025;
+        public static final int title_activity_main=0x7f0b0005;
+        public static final int title_section0=0x7f0b0006;
+        public static final int title_section1=0x7f0b0002;
+        public static final int title_section2=0x7f0b0001;
+        public static final int top_banner_description=0x7f0b0007;
     }
     public static final class style {
-        public static final int AppTheme=0x7f090000;
-        public static final int Theme_Transparent=0x7f090001;
+        public static final int AppTheme=0x7f0d0000;
+        public static final int ContactListView=0x7f0d0002;
+        public static final int Theme_Transparent=0x7f0d0001;
+        public static final int addressButton=0x7f0d0009;
+        public static final int addressDetail=0x7f0d0007;
+        public static final int addressHeader=0x7f0d0006;
+        public static final int contactNameTitle=0x7f0d0008;
+        public static final int listViewActivatedStyle=0x7f0d0003;
+        public static final int menu_labels_style=0x7f0d000a;
+        public static final int quickContactBadgeStyle=0x7f0d0004;
+        public static final int searchTextHiglight=0x7f0d0005;
+    }
+    public static final class xml {
+        public static final int searchable_contacts=0x7f050000;
     }
     public static final class styleable {
+        /** Attributes that can be used with a AddFloatingActionButton.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #AddFloatingActionButton_fab_plusIconColor com.visva.voicerecorder:fab_plusIconColor}</code></td><td></td></tr>
+           </table>
+           @see #AddFloatingActionButton_fab_plusIconColor
+         */
+        public static final int[] AddFloatingActionButton = {
+            0x7f010027
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_plusIconColor}
+          attribute's value can be found in the {@link #AddFloatingActionButton} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_plusIconColor
+        */
+        public static final int AddFloatingActionButton_fab_plusIconColor = 0;
+        /** Attributes that can be used with a CircleImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CircleImageView_border_color com.visva.voicerecorder:border_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #CircleImageView_border_width com.visva.voicerecorder:border_width}</code></td><td></td></tr>
+           </table>
+           @see #CircleImageView_border_color
+           @see #CircleImageView_border_width
+         */
+        public static final int[] CircleImageView = {
+            0x7f01001e, 0x7f01001f
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#border_color}
+          attribute's value can be found in the {@link #CircleImageView} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:border_color
+        */
+        public static final int CircleImageView_border_color = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#border_width}
+          attribute's value can be found in the {@link #CircleImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:border_width
+        */
+        public static final int CircleImageView_border_width = 0;
         /** Attributes that can be used with a CustomAttributes.
            <p>Includes the following attributes:</p>
            <table>
@@ -620,5 +1134,492 @@ containing a value of this type.
           @attr name com.visva.voicerecorder:value
         */
         public static final int CustomAttributes_value = 5;
+        /** Attributes that can be used with a FloatingActionButton.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #FloatingActionButton_fab_colorDisabled com.visva.voicerecorder:fab_colorDisabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_fab_colorNormal com.visva.voicerecorder:fab_colorNormal}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_fab_colorPressed com.visva.voicerecorder:fab_colorPressed}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_fab_icon com.visva.voicerecorder:fab_icon}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_fab_size com.visva.voicerecorder:fab_size}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_fab_stroke_visible com.visva.voicerecorder:fab_stroke_visible}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionButton_fab_title com.visva.voicerecorder:fab_title}</code></td><td></td></tr>
+           </table>
+           @see #FloatingActionButton_fab_colorDisabled
+           @see #FloatingActionButton_fab_colorNormal
+           @see #FloatingActionButton_fab_colorPressed
+           @see #FloatingActionButton_fab_icon
+           @see #FloatingActionButton_fab_size
+           @see #FloatingActionButton_fab_stroke_visible
+           @see #FloatingActionButton_fab_title
+         */
+        public static final int[] FloatingActionButton = {
+            0x7f010020, 0x7f010021, 0x7f010022, 0x7f010023,
+            0x7f010024, 0x7f010025, 0x7f010026
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_colorDisabled}
+          attribute's value can be found in the {@link #FloatingActionButton} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_colorDisabled
+        */
+        public static final int FloatingActionButton_fab_colorDisabled = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_colorNormal}
+          attribute's value can be found in the {@link #FloatingActionButton} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_colorNormal
+        */
+        public static final int FloatingActionButton_fab_colorNormal = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_colorPressed}
+          attribute's value can be found in the {@link #FloatingActionButton} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_colorPressed
+        */
+        public static final int FloatingActionButton_fab_colorPressed = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_icon}
+          attribute's value can be found in the {@link #FloatingActionButton} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.visva.voicerecorder:fab_icon
+        */
+        public static final int FloatingActionButton_fab_icon = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_size}
+          attribute's value can be found in the {@link #FloatingActionButton} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>normal</code></td><td>0</td><td></td></tr>
+<tr><td><code>mini</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name com.visva.voicerecorder:fab_size
+        */
+        public static final int FloatingActionButton_fab_size = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_stroke_visible}
+          attribute's value can be found in the {@link #FloatingActionButton} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_stroke_visible
+        */
+        public static final int FloatingActionButton_fab_stroke_visible = 6;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_title}
+          attribute's value can be found in the {@link #FloatingActionButton} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_title
+        */
+        public static final int FloatingActionButton_fab_title = 5;
+        /** Attributes that can be used with a FloatingActionsMenu.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #FloatingActionsMenu_fab_addButtonColorNormal com.visva.voicerecorder:fab_addButtonColorNormal}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionsMenu_fab_addButtonColorPressed com.visva.voicerecorder:fab_addButtonColorPressed}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionsMenu_fab_addButtonPlusIconColor com.visva.voicerecorder:fab_addButtonPlusIconColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionsMenu_fab_addButtonStrokeVisible com.visva.voicerecorder:fab_addButtonStrokeVisible}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionsMenu_fab_expandDirection com.visva.voicerecorder:fab_expandDirection}</code></td><td></td></tr>
+           <tr><td><code>{@link #FloatingActionsMenu_fab_labelStyle com.visva.voicerecorder:fab_labelStyle}</code></td><td></td></tr>
+           </table>
+           @see #FloatingActionsMenu_fab_addButtonColorNormal
+           @see #FloatingActionsMenu_fab_addButtonColorPressed
+           @see #FloatingActionsMenu_fab_addButtonPlusIconColor
+           @see #FloatingActionsMenu_fab_addButtonStrokeVisible
+           @see #FloatingActionsMenu_fab_expandDirection
+           @see #FloatingActionsMenu_fab_labelStyle
+         */
+        public static final int[] FloatingActionsMenu = {
+            0x7f010028, 0x7f010029, 0x7f01002a, 0x7f01002b,
+            0x7f01002c, 0x7f01002d
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_addButtonColorNormal}
+          attribute's value can be found in the {@link #FloatingActionsMenu} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_addButtonColorNormal
+        */
+        public static final int FloatingActionsMenu_fab_addButtonColorNormal = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_addButtonColorPressed}
+          attribute's value can be found in the {@link #FloatingActionsMenu} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_addButtonColorPressed
+        */
+        public static final int FloatingActionsMenu_fab_addButtonColorPressed = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_addButtonPlusIconColor}
+          attribute's value can be found in the {@link #FloatingActionsMenu} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_addButtonPlusIconColor
+        */
+        public static final int FloatingActionsMenu_fab_addButtonPlusIconColor = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_addButtonStrokeVisible}
+          attribute's value can be found in the {@link #FloatingActionsMenu} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:fab_addButtonStrokeVisible
+        */
+        public static final int FloatingActionsMenu_fab_addButtonStrokeVisible = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_expandDirection}
+          attribute's value can be found in the {@link #FloatingActionsMenu} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>up</code></td><td>0</td><td></td></tr>
+<tr><td><code>down</code></td><td>1</td><td></td></tr>
+<tr><td><code>left</code></td><td>2</td><td></td></tr>
+<tr><td><code>right</code></td><td>3</td><td></td></tr>
+</table>
+          @attr name com.visva.voicerecorder:fab_expandDirection
+        */
+        public static final int FloatingActionsMenu_fab_expandDirection = 5;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#fab_labelStyle}
+          attribute's value can be found in the {@link #FloatingActionsMenu} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.visva.voicerecorder:fab_labelStyle
+        */
+        public static final int FloatingActionsMenu_fab_labelStyle = 4;
+        /** Attributes that can be used with a PagerSlidingTabStrip.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsActivateTextColor com.visva.voicerecorder:pstsActivateTextColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsDeactivateTextColor com.visva.voicerecorder:pstsDeactivateTextColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsDividerColor com.visva.voicerecorder:pstsDividerColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsDividerPadding com.visva.voicerecorder:pstsDividerPadding}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsIndicatorColor com.visva.voicerecorder:pstsIndicatorColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsIndicatorHeight com.visva.voicerecorder:pstsIndicatorHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsScrollOffset com.visva.voicerecorder:pstsScrollOffset}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsShouldExpand com.visva.voicerecorder:pstsShouldExpand}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsTabBackground com.visva.voicerecorder:pstsTabBackground}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsTabPaddingLeftRight com.visva.voicerecorder:pstsTabPaddingLeftRight}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsTabSwitch com.visva.voicerecorder:pstsTabSwitch}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsTextAllCaps com.visva.voicerecorder:pstsTextAllCaps}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsUnderlineColor com.visva.voicerecorder:pstsUnderlineColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PagerSlidingTabStrip_pstsUnderlineHeight com.visva.voicerecorder:pstsUnderlineHeight}</code></td><td></td></tr>
+           </table>
+           @see #PagerSlidingTabStrip_pstsActivateTextColor
+           @see #PagerSlidingTabStrip_pstsDeactivateTextColor
+           @see #PagerSlidingTabStrip_pstsDividerColor
+           @see #PagerSlidingTabStrip_pstsDividerPadding
+           @see #PagerSlidingTabStrip_pstsIndicatorColor
+           @see #PagerSlidingTabStrip_pstsIndicatorHeight
+           @see #PagerSlidingTabStrip_pstsScrollOffset
+           @see #PagerSlidingTabStrip_pstsShouldExpand
+           @see #PagerSlidingTabStrip_pstsTabBackground
+           @see #PagerSlidingTabStrip_pstsTabPaddingLeftRight
+           @see #PagerSlidingTabStrip_pstsTabSwitch
+           @see #PagerSlidingTabStrip_pstsTextAllCaps
+           @see #PagerSlidingTabStrip_pstsUnderlineColor
+           @see #PagerSlidingTabStrip_pstsUnderlineHeight
+         */
+        public static final int[] PagerSlidingTabStrip = {
+            0x7f010010, 0x7f010011, 0x7f010012, 0x7f010013,
+            0x7f010014, 0x7f010015, 0x7f010016, 0x7f010017,
+            0x7f010018, 0x7f010019, 0x7f01001a, 0x7f01001b,
+            0x7f01001c, 0x7f01001d
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsActivateTextColor}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsActivateTextColor
+        */
+        public static final int PagerSlidingTabStrip_pstsActivateTextColor = 12;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsDeactivateTextColor}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsDeactivateTextColor
+        */
+        public static final int PagerSlidingTabStrip_pstsDeactivateTextColor = 13;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsDividerColor}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsDividerColor
+        */
+        public static final int PagerSlidingTabStrip_pstsDividerColor = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsDividerPadding}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsDividerPadding
+        */
+        public static final int PagerSlidingTabStrip_pstsDividerPadding = 5;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsIndicatorColor}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsIndicatorColor
+        */
+        public static final int PagerSlidingTabStrip_pstsIndicatorColor = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsIndicatorHeight}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsIndicatorHeight
+        */
+        public static final int PagerSlidingTabStrip_pstsIndicatorHeight = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsScrollOffset}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsScrollOffset
+        */
+        public static final int PagerSlidingTabStrip_pstsScrollOffset = 7;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsShouldExpand}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsShouldExpand
+        */
+        public static final int PagerSlidingTabStrip_pstsShouldExpand = 9;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsTabBackground}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.visva.voicerecorder:pstsTabBackground
+        */
+        public static final int PagerSlidingTabStrip_pstsTabBackground = 8;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsTabPaddingLeftRight}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsTabPaddingLeftRight
+        */
+        public static final int PagerSlidingTabStrip_pstsTabPaddingLeftRight = 6;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsTabSwitch}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsTabSwitch
+        */
+        public static final int PagerSlidingTabStrip_pstsTabSwitch = 11;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsTextAllCaps}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsTextAllCaps
+        */
+        public static final int PagerSlidingTabStrip_pstsTextAllCaps = 10;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsUnderlineColor}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsUnderlineColor
+        */
+        public static final int PagerSlidingTabStrip_pstsUnderlineColor = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.visva.voicerecorder.R.attr#pstsUnderlineHeight}
+          attribute's value can be found in the {@link #PagerSlidingTabStrip} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.visva.voicerecorder:pstsUnderlineHeight
+        */
+        public static final int PagerSlidingTabStrip_pstsUnderlineHeight = 4;
     };
 }
