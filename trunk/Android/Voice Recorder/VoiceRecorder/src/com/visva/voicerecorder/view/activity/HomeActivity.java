@@ -1,0 +1,181 @@
+package com.visva.voicerecorder.view.activity;
+
+import java.util.ArrayList;
+
+import android.os.Build;
+import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.VisvaAbstractFragmentActivity;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.view.fragments.FragmentAbout;
+import com.visva.voicerecorder.view.fragments.FragmentAllRecord;
+import com.visva.voicerecorder.view.fragments.FragmentContact;
+import com.visva.voicerecorder.view.fragments.FragmentFavourite;
+import com.visva.voicerecorder.view.fragments.FragmentSetting;
+
+public class HomeActivity extends VisvaAbstractFragmentActivity implements IHomeActionListener {
+    // ======================Constant Define=====================
+    private static final int NOT_SHOW_FRAGMENT = 0;
+    private static final int SHOW_ANIMATION_TO_LEFT = 1;
+    private static final int SHOW_ANIMATION_TO_RIGHT = 2;
+
+    public static final int FRAGMENT_BASE_ID = 1000;
+    public static final int FRAGMENT_ALL_RECORDING = FRAGMENT_BASE_ID + 1;
+    public static final int FRAGMENT_CONTACT = FRAGMENT_ALL_RECORDING + 1;
+    public static final int FRAGMENT_FAVOURITE = FRAGMENT_CONTACT + 1;
+    public static final int FRAGMENT_SETTING = FRAGMENT_FAVOURITE + 1;
+    public static final int FRAGMENT_ABOUT = FRAGMENT_SETTING + 1;
+    // ======================Control Define =====================
+    private SwipeMenuListView mLvRecords;
+    // =======================Class Define ======================
+    private FragmentManager mFmManager;
+    private FragmentTransaction mTransaction;
+    private FragmentAllRecord mFragmentAllRecord;
+    private FragmentContact mFragmentContact;
+    private FragmentFavourite mFragmentFavourite;
+    private FragmentSetting mFragmentSetting;
+    private FragmentAbout mFragmentAbout;
+
+    // ======================Variable Define=====================
+    private ArrayList<Integer> backstackID = new ArrayList<Integer>();
+    private boolean mBackPressedToExitOnce = false;
+
+    @Override
+    public int contentView() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    public void onCreate() {
+        if (Build.VERSION.SDK_INT >= 11)
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+        initLayout();
+    }
+
+    private void initLayout() {
+        initializeFragments();
+    }
+
+    private void initializeFragments() {
+        mFmManager = getSupportFragmentManager();
+        mFragmentAllRecord = (FragmentAllRecord) mFmManager.findFragmentById(R.id.fragment_all_record);
+        mFragmentContact = (FragmentContact) mFmManager.findFragmentById(R.id.fragment_contact);
+        mFragmentFavourite = (FragmentFavourite) mFmManager.findFragmentById(R.id.fragment_favourite);
+        mFragmentSetting = (FragmentSetting) mFmManager.findFragmentById(R.id.fragment_settings);
+        mFragmentAbout = (FragmentAbout) mFmManager.findFragmentById(R.id.fragment_about);
+
+        showFragment(FRAGMENT_ALL_RECORDING, false, NOT_SHOW_FRAGMENT);
+    }
+
+    private void showFragment(int fragment, boolean isback, int fragmentAnimationType) {
+        mTransaction = hideFragment(fragmentAnimationType);
+        switch (fragment) {
+        case FRAGMENT_ABOUT:
+            mFragmentAbout.setBackStatus(isback);
+            mTransaction.show(mFragmentAbout);
+            break;
+        case FRAGMENT_ALL_RECORDING:
+            mFragmentAllRecord.setBackStatus(isback);
+            mTransaction.show(mFragmentAllRecord);
+            break;
+        case FRAGMENT_CONTACT:
+            mFragmentContact.setBackStatus(isback);
+            mTransaction.show(mFragmentContact);
+            break;
+        case FRAGMENT_FAVOURITE:
+            mFragmentFavourite.setBackStatus(isback);
+            mTransaction.show(mFragmentFavourite);
+            break;
+        case FRAGMENT_SETTING:
+            mFragmentSetting.setBackStatus(isback);
+            mTransaction.show(mFragmentSetting);
+            break;
+        default:
+            break;
+        }
+        if (!isback)
+            addToSBackStack(fragment);
+        mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        mTransaction.commit();
+    }
+
+    public FragmentTransaction hideFragment(int fragmentAnimationType) {
+        mTransaction = mFmManager.beginTransaction();
+        if (fragmentAnimationType == 1)
+            mTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+        else if (fragmentAnimationType == 2)
+            mTransaction.setCustomAnimations(R.anim.slide_out_left, R.anim.slide_in_left);
+        mTransaction.hide(mFragmentAbout);
+        mTransaction.hide(mFragmentAllRecord);
+        mTransaction.hide(mFragmentContact);
+        mTransaction.hide(mFragmentFavourite);
+        mTransaction.hide(mFragmentSetting);
+        return mTransaction;
+    }
+
+    public void addToSBackStack(int ID) {
+        backstackID.add(ID);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+        case KeyEvent.KEYCODE_BACK:
+            goToBack();
+            break;
+
+        default:
+            break;
+        }
+        return false;
+
+    }
+
+    public void goToBack() {
+        int currentIndex = backstackID.size() - 1;
+        int previousView = -1;
+        if (currentIndex > 0)
+            previousView = backstackID.get(currentIndex - 1);
+        try {
+            backstackID.remove(currentIndex);
+            if (backstackID.size() == 0) {
+                onBackPressedToExit();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            onBackPressedToExit();
+            return;
+        }
+        AIOLog.d(MyCallRecorderConstant.TAG, "previousView:" + previousView);
+        if (previousView > 0) {
+            showFragment(previousView, true, SHOW_ANIMATION_TO_RIGHT);
+        }
+    }
+
+    private void onBackPressedToExit() {
+        AIOLog.d(MyCallRecorderConstant.TAG, "onBackPressed:" + mBackPressedToExitOnce);
+        if (mBackPressedToExitOnce) {
+            super.onBackPressed();
+        } else {
+            this.mBackPressedToExitOnce = true;
+            showToast("Press again to exit");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mBackPressedToExitOnce = false;
+                }
+            }, 2000);
+        }
+    }
+
+    private void showToast(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+    }
+}

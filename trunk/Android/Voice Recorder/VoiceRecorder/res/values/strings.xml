@@ -44,4 +44,11 @@
     <string name="contacts_list_search_results_title">Contacts List Search for \"%s\"</string>
     <string name="search_hint">Find contacts</string>
 
+    <!-- Home screen -->
+    <string name="contact_tab">Contact</string>
+    <string name="all_record_tab">All record</string>
+    <string name="favourite_tab">Favourite</string>
+    <string name="setting">Settings</string>
+    <string name="about">About</string>
+
 </resources>

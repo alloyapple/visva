@@ -16,11 +16,13 @@
 
 package com.visva.voicerecorder.utils;
 
-import com.visva.voicerecorder.MainActivity;
-
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
+import android.util.TypedValue;
+
+import com.visva.voicerecorder.MainActivity;
 
 /**
  * This class contains static utility methods.
@@ -97,5 +99,9 @@ public class Utils {
      */
     public static boolean hasICS() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    }
+
+    public static int dp2px(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }

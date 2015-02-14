@@ -28,13 +28,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.visva.voicerecorder.dialogs.HelpDialogFragment;
-import com.visva.voicerecorder.dialogs.SettingDialogFragment;
-import com.visva.voicerecorder.fragments.AllRecordingFragment;
-import com.visva.voicerecorder.fragments.ContactsListFragment;
-import com.visva.voicerecorder.fragments.SettingFragment;
 import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.utils.ProgramHelper;
+import com.visva.voicerecorder.view.dialogs.HelpDialogFragment;
+import com.visva.voicerecorder.view.dialogs.SettingDialogFragment;
+import com.visva.voicerecorder.view.fragments.AllRecordingFragment;
+import com.visva.voicerecorder.view.fragments.ContactsListFragment;
+import com.visva.voicerecorder.view.fragments.SettingFragment;
 
 public class MainActivity extends FragmentActivity implements ContactsListFragment.OnContactsInteractionListener {
     // ======================Constant Define===============
