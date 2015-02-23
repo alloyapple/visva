@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.visva.MyCallRecorderApplication;
 import com.visva.voicerecorder.utils.ProgramHelper;
 
 public class NotificationActivity extends Activity {
@@ -25,7 +26,7 @@ public class NotificationActivity extends Activity {
                 // remove the current newest call in the list
                 ProgramHelper helper = new ProgramHelper();
                 try {
-                    helper.stopMainActivity();
+                    MyCallRecorderApplication.getInstance().stopActivity();
                 } catch (Exception e) {
                 }
                 dialog.cancel();

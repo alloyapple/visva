@@ -53,4 +53,9 @@
     <color name="main_1">#a84a24</color>
     <color name="black_semi_transparent">#B2000000</color>
 
+    <!-- Background color -->
+    <color name="material_design_color_green">#018949</color>
+    <color name="material_design_color_blue">#33b5e7</color>
+    <color name="material_design_color_orange_1">#ff6f43</color>
+     <color name="material_design_color_orange_2">#a84a24</color>
 </resources>

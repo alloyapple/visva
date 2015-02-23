@@ -16,19 +16,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.visva.voicerecorder.MainActivity;
-import com.visva.voicerecorder.record.RecordingSession;
-
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+
+import com.visva.MyCallRecorderApplication;
+import com.visva.voicerecorder.record.RecordingSession;
 
 /**
  * Users can use this application up to 10 times before doing activate it
  * How to check that? Store the number of time opening this application in a private file
  */
 public class ProgramHelper {
-	public static MainActivity activity = null;
 	public final static int NUM_OF_USE = 20;
 	
 	public ProgramHelper(){
@@ -71,14 +70,8 @@ public class ProgramHelper {
 		return numOfUse;
 	}
 	
-	public void stopMainActivity(){
-		if(ProgramHelper.activity != null){
-			ProgramHelper.activity.finish();
-		}
-	}
-	
 	public String getFileNameAndWriteToList(String phoneNo,int callState) throws Exception{
-		String fileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyVoiceRecorder/sessions/";
+		String fileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyCallRecorder/sessions/";
 		String currentDateTimeString = new SimpleDateFormat("d-M-yyyy-HH-mm-ss").format(new Date());
 		String currentDateString = new SimpleDateFormat("d-M-yyyy-HH:mm:ss").format(new Date());
 		fileName += currentDateTimeString+".wav";
@@ -91,7 +84,7 @@ public class ProgramHelper {
 	/**
 	 * A method to append to data file the meta data about a recording session
 	 * Text file to write to has already been created at first, the path is:
-	 * "/sdcard/MyVoiceRecorder/data" {most case}
+	 * "/sdcard/MyCallRecorder/data" {most case}
 	 * Format for meta data:
 	 * filename;phoneNo;callState;date 
 	 * @param fileName
@@ -102,7 +95,7 @@ public class ProgramHelper {
 	 */
 	public boolean writeToList(String fileName, String phoneNo, 
 			String date, int callState) throws Exception{
-		String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyVoiceRecorder/data";
+		String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyCallRecorder/data";
 		File dataFile = new File(dataFilePath);
 		Log.d("GHIAM","phoneNo: "+phoneNo+" <in Helper/writeTo...>");
 		String metaData = fileName+";"+phoneNo+";"+callState+";"+date+"\n";
@@ -142,7 +135,7 @@ public class ProgramHelper {
     public ArrayList<RecordingSession> getRecordingSessionsFromFile(){
     	ArrayList<RecordingSession> result = new ArrayList<RecordingSession>();
     	ArrayList<RecordingSession> finalResult = new ArrayList<RecordingSession>();
-    	String fileDataPath = Environment.getExternalStorageDirectory()+"/MyVoiceRecorder/data";
+    	String fileDataPath = Environment.getExternalStorageDirectory()+"/MyCallRecorder/data";
     	File fileData = new File(fileDataPath);
     	try{
 			BufferedReader br = new BufferedReader(new FileReader(fileData));
@@ -174,7 +167,7 @@ public class ProgramHelper {
     public int isRecordingIncomingCall(){
     	int result = 1;
     	String settingFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+
-    			"/MyVoiceRecorder/setting";
+    			"/MyCallRecorder/setting";
     	File settingFile = new File(settingFilePath);
     	if(settingFile.exists()){
     		// read
@@ -198,7 +191,7 @@ public class ProgramHelper {
     public int isRecordingOutgoingCall(){
     	int result = 1;
     	String settingFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+
-    			"/MyVoiceRecorder/setting";
+    			"/MyCallRecorder/setting";
     	File settingFile = new File(settingFilePath);
     	if(settingFile.exists()){
     		// read
@@ -221,7 +214,7 @@ public class ProgramHelper {
     
     public void writeSettingValue(int incoming, int outgoing){
     	String settingFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+
-    			"/MyVoiceRecorder/setting";
+    			"/MyCallRecorder/setting";
     	File settingFile = new File(settingFilePath);
     	FileReader fileReader;
     	FileWriter fileWriter;
@@ -262,13 +255,13 @@ public class ProgramHelper {
     /**
      * A method to: 
      * - prepare: 
-     * 	+ /sdcard/MyVoiceRecorder/ {folder (most system)}
-     *  + /sdcard/MyVoiceRecorder/data {file to contains all the recording list}
-     *  + /sdcard/MyVoiceRecorder/sessions/ {folder to contain all the recording}
+     * 	+ /sdcard/MyCallRecorder/ {folder (most system)}
+     *  + /sdcard/MyCallRecorder/data {file to contains all the recording list}
+     *  + /sdcard/MyCallRecorder/sessions/ {folder to contain all the recording}
      * - checking activation to show activation dialog
      */
     public void prepare(){
-    	String recorderRootFolderPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyVoiceRecorder/";
+    	String recorderRootFolderPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyCallRecorder/";
     	File recorderRootFolder = new File(recorderRootFolderPath);
     	if(!recorderRootFolder.exists()){
     		recorderRootFolder.mkdirs();
@@ -290,7 +283,7 @@ public class ProgramHelper {
     }
     
     public void removeNewestSession(){
-    	String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyVoiceRecorder/data";
+    	String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MyCallRecorder/data";
 		File dataFile = new File(dataFilePath);
 		String lastFileName = "";
 		String line = null;
@@ -312,7 +305,7 @@ public class ProgramHelper {
 			out.close();
 			File mediaFile = new File(lastFileName);
 			mediaFile.delete();
-			this.stopMainActivity();
+			MyCallRecorderApplication.getInstance().stopActivity();
 		}catch(IOException e){
 			
 		}

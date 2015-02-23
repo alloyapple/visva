@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -15,6 +14,8 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Environment;
 import android.util.Log;
+
+import com.visva.voicerecorder.view.fragments.FragmentAllRecord;
 
 /**
  * A class that manage all recording session
@@ -27,11 +28,43 @@ import android.util.Log;
  *  + void stopAudio()
  */
 public class RecordingManager extends Object implements OnPreparedListener, OnCompletionListener {
+    private static RecordingManager     mInstance;
+
     private ArrayList<RecordingSession> sessions;
-    private MediaPlayer player;
-    private RecordingSession currentSession = null;
-    private Context context;
-    private RecordingListView rlv = null;
+    private MediaPlayer                 player;
+    private RecordingSession            currentSession    = null;
+    private Context                     context;
+    private FragmentAllRecord           fragmentAllRecord = null;
+
+    public static RecordingManager getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new RecordingManager(context);
+        }
+        return mInstance;
+    }
+
+    public RecordingManager(Context _context) {
+        this.context = _context;
+        this.player = new MediaPlayer();
+        this.player.setOnPreparedListener(this);
+        this.player.setOnCompletionListener(this);
+
+        try {
+            player.prepare();
+            /*
+            Intent viewMediaIntent = new Intent();   
+            viewMediaIntent.setAction(android.content.Intent.ACTION_VIEW);   
+            File file = new File(currentSession.fileName);   
+            viewMediaIntent.setDataAndType(Uri.fromFile(file), "audio/*");   
+            viewMediaIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(viewMediaIntent);
+            */
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public RecordingManager(Context _context, ArrayList<RecordingSession> sessions) {
         this.context = _context;
@@ -68,10 +101,10 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
     public void onCompletion(MediaPlayer arg0) {
         // TODO Auto-generated method stub
         //this.postSoundPlayer.start();
-        if (this.rlv != null && this.rlv.lastClickedView != null) {
+        if (this.fragmentAllRecord != null && this.fragmentAllRecord.mLastClickedView != null) {
             // how to change color current view to WHITE
-            this.rlv.lastClickedView.setBackgroundColor(Color.WHITE);
-            this.rlv.lastClickedView = null;
+            this.fragmentAllRecord.mLastClickedView.setBackgroundColor(Color.WHITE);
+            this.fragmentAllRecord.mLastClickedView = null;
         }
     }
 
@@ -199,14 +232,11 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
         return result;
     }
 
-    public int playAudio(RecordingSession session, RecordingListView rlv) throws IOException {
+    public int playAudio(RecordingSession session, FragmentAllRecord fragmentAllRecord) throws IOException {
         AudioManager audio = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
-
-        audio.setStreamVolume(AudioManager.STREAM_MUSIC,
-                audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                AudioManager.FLAG_SHOW_UI);
-        if (rlv != null) {
-            this.rlv = rlv;
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC), AudioManager.FLAG_SHOW_UI);
+        if (fragmentAllRecord != null) {
+            this.fragmentAllRecord = fragmentAllRecord;
         }
         if (this.currentSession != null && this.currentSession.fileName.equals(session.fileName)) {
             return 0;
@@ -226,7 +256,7 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
                 this.player.setDataSource(session.fileName);
             }
             this.player.prepare();
-//            this.player.s
+            //            this.player.s
         } catch (IOException ioe) {
             throw ioe;
         }

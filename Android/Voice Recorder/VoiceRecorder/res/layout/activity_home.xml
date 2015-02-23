@@ -10,101 +10,149 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <FrameLayout
-            android:id="@+id/tab_host"
+        <LinearLayout
+            android:id="@+id/bottom_box"
             android:layout_width="match_parent"
             android:layout_height="@dimen/footer_height"
-            android:background="@null" >
+            android:background="@color/material_design_color_orange_1"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="4" >
 
-            <LinearLayout
-                android:id="@+id/bottom_box"
+            <com.gc.materialdesign.views.LayoutRipple
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/footer_height"
-                android:background="@drawable/tab_background"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="3" >
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                materialdesign:rippleColor="#1E88E5"
+                materialdesign:rippleSpeed="10" >
 
-                <FrameLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/ic_contact"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/contact_tab"
+                    android:src="@drawable/ic_contacts" />
+
+                <TextView
+                    android:id="@+id/txt_contact"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" >
+                    android:layout_below="@id/ic_contact"
+                    android:layout_centerHorizontal="true"
+                    android:singleLine="true"
+                    android:text="@string/contact_tab"
+                    android:textColor="@color/white" />
+            </com.gc.materialdesign.views.LayoutRipple>
 
-                    <Button
-                        android:id="@+id/btn_contact"
-                        android:layout_width="@dimen/width_btn_tab"
-                        android:layout_height="@dimen/height_btn_tab"
-                        android:layout_gravity="center"
-                        android:background="@drawable/bt_home_tab_selected"
-                        android:onClick="onClick" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent" >
+            </View>
 
-                    <TextView
-                        android:id="@+id/txtview_contact"
-                        android:layout_width="@dimen/width_btn_tab"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|bottom"
-                        android:gravity="center_horizontal"
-                        android:singleLine="true"
-                        android:text="@string/contact_tab"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_home_tabs" />
-                </FrameLayout>
+            <com.gc.materialdesign.views.LayoutRipple
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                materialdesign:rippleColor="#1E88E5"
+                materialdesign:rippleSpeed="10" >
 
-                <FrameLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/ic_all_record"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/contact_tab"
+                    android:src="@drawable/ic_call_while" />
+
+                <TextView
+                    android:id="@+id/txt_all_record"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" >
+                    android:layout_below="@id/ic_all_record"
+                    android:layout_centerHorizontal="true"
+                    android:singleLine="true"
+                    android:text="@string/all_record_tab"
+                    android:textColor="@color/white" />
+            </com.gc.materialdesign.views.LayoutRipple>
 
-                    <Button
-                        android:id="@+id/btn_all_record"
-                        android:layout_width="@dimen/width_btn_tab"
-                        android:layout_height="@dimen/height_btn_tab"
-                        android:layout_gravity="center"
-                        android:background="@drawable/bt_network_tab_unselected"
-                        android:onClick="onClick" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent" >
+            </View>
 
-                    <TextView
-                        android:id="@+id/txtview_all_record"
-                        android:layout_width="@dimen/width_btn_tab"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|bottom"
-                        android:gravity="center_horizontal"
-                        android:singleLine="true"
-                        android:text="@string/all_record_tab"
-                        android:textColor="@color/click_color"
-                        android:textSize="@dimen/text_home_tabs" />
-                </FrameLayout>
+            <com.gc.materialdesign.views.LayoutRipple
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                materialdesign:rippleColor="#1E88E5"
+                materialdesign:rippleSpeed="10" >
 
-                <FrameLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/ic_favourite"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/contact_tab"
+                    android:src="@drawable/ic_favourites" />
+
+                <TextView
+                    android:id="@+id/txt_favourites"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" >
+                    android:layout_below="@id/ic_favourite"
+                    android:layout_centerHorizontal="true"
+                    android:singleLine="true"
+                    android:text="@string/favourite_tab"
+                    android:textColor="@color/white" />
+            </com.gc.materialdesign.views.LayoutRipple>
 
-                    <com.gc.materialdesign.views.ButtonRectangle
-                        android:id="@+id/btn_favourite"
-                        android:layout_width="@dimen/width_btn_tab"
-                        android:layout_height="@dimen/height_btn_tab"
-                        android:layout_gravity="center"
-                        android:background="#f25822"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" >
-                    </com.gc.materialdesign.views.ButtonRectangle>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent" >
+            </View>
 
-                    <TextView
-                        android:id="@+id/txtview_favourite"
-                        android:layout_width="@dimen/width_btn_tab"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|bottom"
-                        android:gravity="center_horizontal"
-                        android:singleLine="true"
-                        android:text="@string/favourite_tab"
-                        android:textColor="@color/click_color"
-                        android:textSize="@dimen/text_home_tabs" />
-                </FrameLayout>
-            </LinearLayout>
-        </FrameLayout>
+            <com.gc.materialdesign.views.LayoutRipple
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                materialdesign:rippleColor="#1E88E5"
+                materialdesign:rippleSpeed="10" >
+
+                <ImageView
+                    android:id="@+id/ic_settings"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/contact_tab"
+                    android:src="@drawable/ic_settings" />
+
+                <TextView
+                    android:id="@+id/txt_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ic_settings"
+                    android:layout_centerHorizontal="true"
+                    android:singleLine="true"
+                    android:text="@string/setting_tab"
+                    android:textColor="@color/white" />
+            </com.gc.materialdesign.views.LayoutRipple>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" >
+        </View>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -128,14 +176,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.visva.voicerecorder.view.fragments.FragmentFavourite" />
+
+            <fragment
+                android:id="@+id/fragment_settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.visva.voicerecorder.view.fragments.FragmentSetting" />
         </RelativeLayout>
     </LinearLayout>
-
-    <fragment
-        android:id="@+id/fragment_settings"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.visva.voicerecorder.view.fragments.FragmentSetting" />
 
     <fragment
         android:id="@+id/fragment_about"
@@ -158,9 +206,10 @@
             android:id="@+id/action_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClickFloatingActionButton"
             fab:fab_colorNormal="@color/main"
             fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_customer_register"
+            fab:fab_icon="@drawable/ic_contacts"
             fab:fab_size="mini"
             fab:fab_title="@string/contact_tab" />
 
@@ -168,9 +217,10 @@
             android:id="@+id/action_all_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClickFloatingActionButton"
             fab:fab_colorNormal="@color/main"
             fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_customer_create"
+            fab:fab_icon="@drawable/ic_call_while"
             fab:fab_size="mini"
             fab:fab_title="@string/all_record_tab" />
 
@@ -178,9 +228,10 @@
             android:id="@+id/action_favourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClickFloatingActionButton"
             fab:fab_colorNormal="@color/main"
             fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_customer_update"
+            fab:fab_icon="@drawable/ic_favourites"
             fab:fab_size="mini"
             fab:fab_title="@string/favourite_tab" />
 
@@ -188,21 +239,23 @@
             android:id="@+id/action_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClickFloatingActionButton"
             fab:fab_colorNormal="@color/main"
             fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_customer_addimage"
+            fab:fab_icon="@drawable/ic_settings"
             fab:fab_size="mini"
-            fab:fab_title="@string/setting" />
+            fab:fab_title="@string/setting_tab" />
 
         <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClickFloatingActionButton"
             fab:fab_colorNormal="@color/main"
             fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_customer_note"
+            fab:fab_icon="@drawable/ic_about"
             fab:fab_size="mini"
-            fab:fab_title="@string/about" />
+            fab:fab_title="@string/about_tab" />
     </com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu>
 
 </RelativeLayout>
