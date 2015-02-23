@@ -149,17 +149,14 @@ public class FloatingActionsMenu extends ViewGroup {
 
             @Override
             Drawable getIconDrawable() {
-                final RotatingDrawable rotatingDrawable = new RotatingDrawable(
-                        super.getIconDrawable());
+                final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
                 mRotatingDrawable = rotatingDrawable;
 
                 final OvershootInterpolator interpolator = new OvershootInterpolator();
 
-                final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(
-                        rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION,
+                final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION,
                         COLLAPSED_PLUS_ROTATION);
-                final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(
-                        rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION,
+                final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat( rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION,
                         EXPANDED_PLUS_ROTATION);
 
                 collapseAnimator.setInterpolator(interpolator);

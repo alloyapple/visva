@@ -63,8 +63,6 @@ public class MainActivity extends FragmentActivity implements ContactsListFragme
     /**
      * recordingManger is the data-center of this application
      */
-    public static RecordingManager recordingManager;
-    public ProgramHelper helper;
     public Fragment currentFragment = null;
     public static String toDeleteFilePath = null;
 
@@ -84,9 +82,6 @@ public class MainActivity extends FragmentActivity implements ContactsListFragme
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        this.helper = new ProgramHelper();
-        ProgramHelper.activity = this;
-        this.helper.prepare();
     }
 
     public void updateMainActivity() {
@@ -97,45 +92,11 @@ public class MainActivity extends FragmentActivity implements ContactsListFragme
         this.finish();
     }
 
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        ArrayList<RecordingSession> sessions = this.helper.getRecordingSessionsFromFile();
-        MainActivity.recordingManager.setSessions(sessions);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ArrayList<RecordingSession> sessions = this.helper.getRecordingSessionsFromFile();
-        MainActivity.recordingManager.setSessions(sessions);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ArrayList<RecordingSession> sessions = this.helper.getRecordingSessionsFromFile();
-        MainActivity.recordingManager.setSessions(sessions);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        ArrayList<RecordingSession> sessions = this.helper.getRecordingSessionsFromFile();
-        MainActivity.recordingManager = new RecordingManager(this, sessions);
-
         this.overrideUI(savedInstanceState);
     }
 

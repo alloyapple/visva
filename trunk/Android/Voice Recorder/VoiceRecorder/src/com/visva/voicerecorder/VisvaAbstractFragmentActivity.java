@@ -29,6 +29,7 @@ public abstract class VisvaAbstractFragmentActivity extends FragmentActivity {
         } catch (Exception e) {
 
         }
+        
         setContentView(R.layout.abstract_activity);
         init();
         onCreate();

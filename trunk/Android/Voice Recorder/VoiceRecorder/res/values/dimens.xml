@@ -21,9 +21,10 @@
     <dimen name="fab_labels_margin">8dp</dimen>
 
     <!-- Home Screen -->
-    <dimen name="footer_height">49dp</dimen>
-    <dimen name="width_btn_tab">64dp</dimen>
-    <dimen name="height_btn_tab">49dp</dimen>
-    <dimen name="text_home_tabs">13sp</dimen>
+    <dimen name="footer_height">60dp</dimen>
+    <dimen name="width_btn_tab">40dp</dimen>
+    <dimen name="height_btn_tab">40dp</dimen>
+    <dimen name="text_home_tabs">12sp</dimen>
+    <dimen name="header_height">50dp</dimen>
 
 </resources>

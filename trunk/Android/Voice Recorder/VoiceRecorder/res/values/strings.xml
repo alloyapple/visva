@@ -45,10 +45,10 @@
     <string name="search_hint">Find contacts</string>
 
     <!-- Home screen -->
-    <string name="contact_tab">Contact</string>
-    <string name="all_record_tab">All record</string>
-    <string name="favourite_tab">Favourite</string>
-    <string name="setting">Settings</string>
-    <string name="about">About</string>
+    <string name="contact_tab">Contacts</string>
+    <string name="all_record_tab">Records</string>
+    <string name="favourite_tab">Favourites</string>
+    <string name="setting_tab">Settings</string>
+    <string name="about_tab">About</string>
 
 </resources>

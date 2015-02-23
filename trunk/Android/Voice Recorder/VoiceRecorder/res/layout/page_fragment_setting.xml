@@ -1,8 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+    android:background="@color/white" >
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/layout_auto_saved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txt_when_call_arrived"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="When calls arrive"
+                android:textColor="@color/material_design_color_orange_1"
+                android:textSize="18sp" >
+            </TextView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_when_call_arrived" >
+
+                <TextView
+                    android:id="@+id/txt_autosaved_records"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:text="Auto saved incoming and on going calls"
+                    android:textColor="@color/black" >
+                </TextView>
+
+                <com.gc.materialdesign.views.Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp" >
+                </com.gc.materialdesign.views.Switch>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/material_design_color_orange_1" />
+
+        <RelativeLayout
+            android:id="@+id/layout_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/saved_calls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Saved calls"
+                android:textColor="@color/material_design_color_orange_1"
+                android:textSize="18sp" >
+            </TextView>
+
+            <RelativeLayout
+                android:id="@+id/layout_incoming_calls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/saved_calls" >
+
+                <TextView
+                    android:id="@+id/incomming_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:text="Incomming calls"
+                    android:textColor="@color/black" >
+                </TextView>
+
+                <com.gc.materialdesign.views.Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp" >
+                </com.gc.materialdesign.views.Switch>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_incoming_calls" >
+
+                <TextView
+                    android:id="@+id/ongoing_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:text="Ongoing calls"
+                    android:textColor="@color/black" >
+                </TextView>
+
+                <com.gc.materialdesign.views.Switch
+                    android:id="@+id/switch_ongoing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp" >
+                </com.gc.materialdesign.views.Switch>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/material_design_color_orange_1" />
+
+        <RelativeLayout
+            android:id="@+id/layout_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <TextView
+                android:id="@+id/txt_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Themes"
+                android:textColor="@color/material_design_color_orange_1"
+                android:textSize="18sp" >
+            </TextView>
+
+            <com.gc.materialdesign.views.LayoutRipple
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_theme"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:clickable="true"
+                materialdesign:rippleColor="#1E88E5"
+                materialdesign:rippleSpeed="10" >
+
+                <TextView
+                    android:id="@+id/txt_choose_theme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_theme"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Choose one theme to set background"
+                    android:textColor="@color/black" >
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_choose_theme"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Orange(Default)" >
+                </TextView>
+            </com.gc.materialdesign.views.LayoutRipple>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/material_design_color_orange_1" />
+
+        <RelativeLayout
+            android:id="@+id/layout_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txt_sync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Sync to cloud"
+                android:textColor="@color/material_design_color_orange_1"
+                android:textSize="18sp" >
+            </TextView>
+
+            <RelativeLayout
+                android:id="@+id/layout_dropbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_sync"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/txt_dropbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Dropbox"
+                    android:textColor="@color/black" >
+                </TextView>
+
+                <com.gc.materialdesign.views.Switch
+                    android:id="@+id/switch_dropbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp" >
+                </com.gc.materialdesign.views.Switch>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_google_drive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_dropbox"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TextView
+                    android:id="@+id/txt_google_drive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="Google drive"
+                    android:textColor="@color/black" >
+                </TextView>
+
+                <com.gc.materialdesign.views.Switch
+                    android:id="@+id/switch_google_drive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp" >
+                </com.gc.materialdesign.views.Switch>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

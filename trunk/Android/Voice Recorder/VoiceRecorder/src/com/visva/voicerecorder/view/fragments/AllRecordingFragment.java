@@ -25,15 +25,14 @@ public class AllRecordingFragment extends Fragment {
 
     private View getListView() {
         RecordingListView listView = new RecordingListView(getActivity());
-        RecordingAdapter adapter = new RecordingAdapter(getActivity(), android.R.layout.simple_list_item_activated_1,
-                MainActivity.recordingManager.showAll());
-        listView.setAdapter(adapter);
+        //RecordingAdapter adapter = new RecordingAdapter(getActivity(), android.R.layout.simple_list_item_activated_1,
+          //      MainActivity.recordingManager.showAll());
+        //listView.setAdapter(adapter);
         return listView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return this.getListView();
     }
 }
