@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.visva.voicerecorder.MainActivity;
-import com.visva.voicerecorder.record.RecordingAdapter;
 import com.visva.voicerecorder.record.RecordingListView;
+import com.visva.voicerecorder.view.adapter.RecordingAdapter;
 
 /**
  * A fragment that display all the recording sessions

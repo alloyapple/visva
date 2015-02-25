@@ -8,6 +8,8 @@
         android:id="@+id/lv_all_recorder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="5dp"
         android:cacheColorHint="#00000000" />
 
 </LinearLayout>

@@ -1,7 +1,5 @@
 package com.visva.voicerecorder.view.activity;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -29,10 +27,6 @@ import com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsM
 
 public class HomeActivity extends VisvaAbstractFragmentActivity implements IHomeActionListener,OnContactsInteractionListener {
     // ======================Constant Define=====================
-    private static final int    NOT_SHOW_FRAGMENT       = 0;
-    private static final int    SHOW_ANIMATION_TO_LEFT  = 1;
-    private static final int    SHOW_ANIMATION_TO_RIGHT = 2;
-
     public static final int     FRAGMENT_BASE_ID        = 1000;
     public static final int     FRAGMENT_ALL_RECORDING  = FRAGMENT_BASE_ID + 1;
     public static final int     FRAGMENT_CONTACT        = FRAGMENT_ALL_RECORDING + 1;
@@ -50,7 +44,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
 
     private FloatingActionsMenu mFloatingActionsMenu;
     // ======================Variable Define=====================
-    private ArrayList<Integer>  backstackID             = new ArrayList<Integer>();
+    //private ArrayList<Integer>  backstackID             = new ArrayList<Integer>();
     private boolean             mBackPressedToExitOnce  = false;
 
     @Override
@@ -129,7 +123,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
             break;
         }
         if (!isback)
-            addToSBackStack(fragment);
+           // addToSBackStack(fragment);
         // mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         mTransaction.commit();
     }
@@ -148,42 +142,21 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
         return mTransaction;
     }
 
-    public void addToSBackStack(int ID) {
-        backstackID.add(ID);
-    }
+//    public void addToSBackStack(int ID) {
+//        backstackID.add(ID);
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
         case KeyEvent.KEYCODE_BACK:
-            goToBack();
+            onBackPressedToExit();
             break;
 
         default:
             break;
         }
         return false;
-
-    }
-
-    public void goToBack() {
-        int currentIndex = backstackID.size() - 1;
-        int previousView = -1;
-        if (currentIndex > 0)
-            previousView = backstackID.get(currentIndex - 1);
-        try {
-            backstackID.remove(currentIndex);
-            if (backstackID.size() == 0) {
-                onBackPressedToExit();
-            }
-        } catch (IndexOutOfBoundsException e) {
-            onBackPressedToExit();
-            return;
-        }
-        AIOLog.d(MyCallRecorderConstant.TAG, "previousView:" + previousView);
-        if (previousView > 0) {
-            showFragment(previousView, true);
-        }
     }
 
     private void onBackPressedToExit() {
