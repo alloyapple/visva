@@ -250,6 +250,7 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
             Log.d("GHIAM", "Prepare to reset and start again !");
             this.player.reset();
             File modifiedFile = new File(session.fileName + "-modified.wav");
+            Log.d("KieuThang", "playAudio:"+modifiedFile.getAbsolutePath());
             if (modifiedFile.exists()) {
                 this.player.setDataSource(session.fileName + "-modified.wav");
             } else {

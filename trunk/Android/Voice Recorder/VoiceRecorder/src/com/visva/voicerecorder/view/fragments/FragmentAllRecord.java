@@ -1,6 +1,5 @@
 package com.visva.voicerecorder.view.fragments;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -26,11 +24,12 @@ import com.visva.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
-import com.visva.voicerecorder.record.RecordingAdapter;
 import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.Utils;
+import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
+import com.visva.voicerecorder.view.adapter.RecordingAdapter;
 
 public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickListener {
     // ======================Constant Define=====================
@@ -65,19 +64,19 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             public void create(SwipeMenu menu) {
                 SwipeMenuItem callItem = new SwipeMenuItem(getActivity());
                 callItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
-                callItem.setWidth(Utils.dp2px(getActivity(), 90));
+                callItem.setWidth(Utils.dp2px(getActivity(), 100));
                 callItem.setIcon(R.drawable.ic_call_while);
                 menu.addMenuItem(callItem);
 
                 SwipeMenuItem messageItem = new SwipeMenuItem(getActivity());
                 messageItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                messageItem.setWidth(Utils.dp2px(getActivity(), 90));
+                messageItem.setWidth(Utils.dp2px(getActivity(), 100));
                 messageItem.setIcon(R.drawable.ic_message_while);
                 menu.addMenuItem(messageItem);
 
                 SwipeMenuItem logItem = new SwipeMenuItem(getActivity());
                 logItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                logItem.setWidth(Utils.dp2px(getActivity(), 90));
+                logItem.setWidth(Utils.dp2px(getActivity(), 100));
                 logItem.setIcon(R.drawable.ic_note_while);
                 menu.addMenuItem(logItem);
             }
@@ -93,25 +92,27 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                RecordingSession s = mSessions.get(position);
-                if (mLastClickedView == view) {
-                    mRecordingManager.stopAudio();
-                    mLastClickedView.setBackgroundColor(Color.WHITE);
-                    mLastClickedView = null;
-                    return;
-                }
-                if (mLastClickedView != null) {
-                    mLastClickedView.setBackgroundColor(Color.WHITE);
-                }
-                view.setBackgroundColor(Color.parseColor("#F4A148"));
-                mLastClickedView = view;
-                Log.d("GHIAM", "path: " + s.fileName);
-                try {
-                    mRecordingManager.playAudio(s, FragmentAllRecord.this);
-                } catch (IOException ioe) {
-                    Toast.makeText(getActivity(), "Không mở được file âm thanh !", Toast.LENGTH_LONG).show();
-                }
-
+                Log.d("KieuThang", "onItemClick" + position);
+//                                RecordingSession s = mSessions.get(position);
+//                                if (mLastClickedView == view) {
+//                                    mRecordingManager.stopAudio();
+//                                    mLastClickedView.setBackgroundColor(Color.WHITE);
+//                                    mLastClickedView = null;
+//                                    return;
+//                                }
+//                                if (mLastClickedView != null) {
+//                                    mLastClickedView.setBackgroundColor(Color.WHITE);
+//                                }
+//                                view.setBackgroundColor(Color.parseColor("#F4A148"));
+//                                mLastClickedView = view;
+//                                Log.d("GHIAM", "path: " + s.fileName);
+//                                try {
+//                                    mRecordingManager.playAudio(s, FragmentAllRecord.this);
+//                                } catch (IOException ioe) {
+//                                    Toast.makeText(getActivity(), "Không mở được file âm thanh !", Toast.LENGTH_LONG).show();
+//                                }
+                Intent intent = new Intent(getActivity(), ActivityPlayRecording.class);
+                startActivity(intent);
             }
         });
     }
@@ -154,4 +155,5 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     public void onContactTabClick(View v) {
 
     }
+
 }

@@ -16,13 +16,22 @@
 
 package com.visva.voicerecorder.utils;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.util.TypedValue;
 
 import com.visva.voicerecorder.MainActivity;
+import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.record.RecordingSession;
 
 /**
  * This class contains static utility methods.
@@ -104,4 +113,67 @@ public class Utils {
     public static int dp2px(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
+
+    public static Uri getContactUriTypeFromPhoneNumber(ContentResolver resolver, String phoneNo, int index) {
+        Uri result = null;
+        if (phoneNo == "" || "null".equals(phoneNo)) {
+            phoneNo = "111111111";
+        }
+        String[] projection = { ContactsContract.Contacts._ID, ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup.NUMBER,
+                ContactsContract.PhoneLookup.PHOTO_URI, ContactsContract.PhoneLookup.LOOKUP_KEY };
+        Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNo));
+        Cursor cursor = resolver.query(lookupUri, projection, null, null, null);
+        if (cursor == null)
+            return null;
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(index) != null)
+                result = Uri.parse(cursor.getString(index));
+        }
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
+        return result;
+    }
+
+    public static boolean isShowTextDate(int position, ArrayList<RecordingSession> recordingSessions) {
+        if (recordingSessions == null || recordingSessions.size() == 0)
+            return false;
+        if (position == 0 || recordingSessions.size() == 1)
+            return true;
+        RecordingSession before = recordingSessions.get(position - 1);
+        RecordingSession current = recordingSessions.get(position);
+        int beforeDate, beforeYear, beforeMonth, currentDate, currentYear, currentMonth;
+        beforeDate = Integer.parseInt(before.dateCreated.split("-")[0]);
+        beforeMonth = Integer.parseInt(before.dateCreated.split("-")[1]);
+        beforeYear = Integer.parseInt(before.dateCreated.split("-")[2]);
+        currentDate = Integer.parseInt(current.dateCreated.split("-")[0]);
+        currentMonth = Integer.parseInt(current.dateCreated.split("-")[1]);
+        currentYear = Integer.parseInt(current.dateCreated.split("-")[2]);
+        if (currentYear == beforeYear && currentMonth == beforeMonth && currentDate == beforeDate)
+            return false;
+        else
+            return true;
+    }
+
+    public static String getTextDate(Context context, RecordingSession item) {
+        String textDate = "";
+        int currentDate, currentYear, currentMonth;
+        currentDate = Integer.parseInt(item.dateCreated.split("-")[0]);
+        currentMonth = Integer.parseInt(item.dateCreated.split("-")[1]);
+        currentYear = Integer.parseInt(item.dateCreated.split("-")[2]);
+        Calendar calendar = Calendar.getInstance();
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        if (currentYear == year && (currentMonth - 1 == month) && currentDate == date)
+            textDate = context.getString(R.string.today);
+        else if (currentYear == year && (currentMonth - 1 == month) && currentDate == (date - 1))
+            textDate = context.getString(R.string.yesterday);
+        else {
+            textDate = currentDate + "/" + currentMonth + "/" + currentYear;
+        }
+        return textDate;
+    }
+
 }

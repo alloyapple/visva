@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/material_design_color_orange_1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <com.visva.voicerecorder.view.widget.CircleImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@null"
+            android:src="@null" />
+
+        <TextView
+            android:id="@+id/txt_phone_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="@dimen/padding_large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="@dimen/padding_large"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Progress Bar/Seek bar -->
+
+    <SeekBar
+        android:id="@+id/songProgressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:thumb="@drawable/seek_handler" />
+    <!-- Timer Display -->
+
+    <LinearLayout
+        android:id="@+id/timerDisplay"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/songProgressBar"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" >
+
+        <!-- Current Duration Label -->
+
+        <TextView
+            android:id="@+id/songCurrentDurationLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textColor="#eeeeee"
+            android:textStyle="bold" />
+        <!-- Total Duration Label -->
+
+        <TextView
+            android:id="@+id/songTotalDurationLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="#04cbde"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" >
+    </RelativeLayout>
+
+</LinearLayout>

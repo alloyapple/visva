@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:layout_height="100dp"
+    android:background="@color/white"
+    android:focusable="false"
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/text_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/material_design_color_orange_1"
+        android:background="@color/white"
         android:text="Today"
-        android:textColor="@color/white" >
-    </TextView>
+        android:layout_margin="15dp"
+        android:textColor="@color/material_design_color_orange_1" />
 
-    <RelativeLayout
+   <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="60dp"
+        android:focusable="false"
+        android:background="@color/white" >
 
         <com.visva.voicerecorder.view.widget.CircleImageView
             android:id="@+id/imageProfile"
-            style="@style/quickContactBadgeStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_contact_picture_holo_light" />
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:src="@null" />
 
         <ImageView
             android:id="@+id/img_call"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_call_while" />
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_call" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:layout_toLeftOf="@id/img_call"
             android:layout_toRightOf="@id/imageProfile"
             android:orientation="vertical" >
@@ -74,7 +82,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" >
 
                 <TextView
                     android:id="@+id/phoneTextView"
@@ -93,5 +102,6 @@
                     android:text="TextView" />
             </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
+ </RelativeLayout>
+
 </LinearLayout>

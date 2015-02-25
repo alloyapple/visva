@@ -18,9 +18,9 @@ import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.ListView;
 
 import com.visva.voicerecorder.MainActivity;
-import com.visva.voicerecorder.record.RecordingAdapter;
 import com.visva.voicerecorder.record.RecordingListView;
 import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.view.adapter.RecordingAdapter;
 
 /**
  * A fragment that has two state:

@@ -53,6 +53,11 @@
             android:name=".receiver.notification.NotificationActivity"
             android:theme="@style/Theme.Transparent" >
         </activity>
+         <activity
+            android:name="com.visva.voicerecorder.view.activity.ActivityPlayRecording"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

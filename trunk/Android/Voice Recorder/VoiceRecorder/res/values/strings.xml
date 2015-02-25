@@ -50,5 +50,7 @@
     <string name="favourite_tab">Favourites</string>
     <string name="setting_tab">Settings</string>
     <string name="about_tab">About</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
 
 </resources>

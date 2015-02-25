@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.visva.voicerecorder.MainActivity;
 import com.visva.voicerecorder.utils.ProgramHelper;
+import com.visva.voicerecorder.view.adapter.RecordingAdapter;
 import com.visva.voicerecorder.view.dialogs.VoiceOptionDialogFragment;
 
 public class RecordingListView extends ListView {
