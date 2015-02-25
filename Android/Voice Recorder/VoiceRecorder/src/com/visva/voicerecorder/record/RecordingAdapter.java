@@ -18,6 +18,7 @@ import com.visva.MyCallRecorderApplication;
 import com.visva.voicerecorder.MainActivity;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.utils.ProgramHelper;
+import com.visva.voicerecorder.view.widget.CircleImageView;
 
 /**
  * An adapter used for the list view
@@ -58,7 +59,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         }
         TextView phoneTextView = (TextView) convertView.findViewById(R.id.phoneTextView);
         TextView dateTextView = (TextView) convertView.findViewById(R.id.dateTimeTextView);
-        ImageView profileImage = (ImageView) convertView.findViewById(R.id.imageProfile);
+        CircleImageView profileImage = (CircleImageView) convertView.findViewById(R.id.imageProfile);
         ImageView callStateImage = (ImageView) convertView.findViewById(R.id.callIndicator);
         phoneTextView.setText(this.getItem(position).phoneNo);
         String dateString = this.getItem(position).dateCreated.split("-")[0] +
