@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,26 +91,26 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("KieuThang", "onItemClick" + position);
-//                                RecordingSession s = mSessions.get(position);
-//                                if (mLastClickedView == view) {
-//                                    mRecordingManager.stopAudio();
-//                                    mLastClickedView.setBackgroundColor(Color.WHITE);
-//                                    mLastClickedView = null;
-//                                    return;
-//                                }
-//                                if (mLastClickedView != null) {
-//                                    mLastClickedView.setBackgroundColor(Color.WHITE);
-//                                }
-//                                view.setBackgroundColor(Color.parseColor("#F4A148"));
-//                                mLastClickedView = view;
-//                                Log.d("GHIAM", "path: " + s.fileName);
-//                                try {
-//                                    mRecordingManager.playAudio(s, FragmentAllRecord.this);
-//                                } catch (IOException ioe) {
-//                                    Toast.makeText(getActivity(), "Không mở được file âm thanh !", Toast.LENGTH_LONG).show();
-//                                }
+                RecordingSession session = mSessions.get(position);
+                //                                if (mLastClickedView == view) {
+                //                                    mRecordingManager.stopAudio();
+                //                                    mLastClickedView.setBackgroundColor(Color.WHITE);
+                //                                    mLastClickedView = null;
+                //                                    return;
+                //                                }
+                //                                if (mLastClickedView != null) {
+                //                                    mLastClickedView.setBackgroundColor(Color.WHITE);
+                //                                }
+                //                                view.setBackgroundColor(Color.parseColor("#F4A148"));
+                //                                mLastClickedView = view;
+                //                                Log.d("GHIAM", "path: " + s.fileName);
+                //                                try {
+                //                                    mRecordingManager.playAudio(s, FragmentAllRecord.this);
+                //                                } catch (IOException ioe) {
+                //                                    Toast.makeText(getActivity(), "Không mở được file âm thanh !", Toast.LENGTH_LONG).show();
+                //                                }
                 Intent intent = new Intent(getActivity(), ActivityPlayRecording.class);
+                intent.putExtra("recording_session", session);
                 startActivity(intent);
             }
         });

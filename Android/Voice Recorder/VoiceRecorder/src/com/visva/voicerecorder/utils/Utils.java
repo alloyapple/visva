@@ -52,16 +52,10 @@ public class Utils {
         if (Utils.hasGingerbread()) {
 
             // Enable all thread strict mode policies
-            StrictMode.ThreadPolicy.Builder threadPolicyBuilder =
-                    new StrictMode.ThreadPolicy.Builder()
-                            .detectAll()
-                            .penaltyLog();
+            StrictMode.ThreadPolicy.Builder threadPolicyBuilder = new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog();
 
             // Enable all VM strict mode policies
-            StrictMode.VmPolicy.Builder vmPolicyBuilder =
-                    new StrictMode.VmPolicy.Builder()
-                            .detectAll()
-                            .penaltyLog();
+            StrictMode.VmPolicy.Builder vmPolicyBuilder = new StrictMode.VmPolicy.Builder().detectAll().penaltyLog();
 
             // Honeycomb introduced some additional strict mode features
             if (Utils.hasHoneycomb()) {

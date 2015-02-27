@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="300dp"
+    android:layout_height="420dp"
+    android:background="@color/material_design_color_orange_1"
     android:orientation="vertical" >
 
+    <ImageView
+        android:id="@+id/btn_setting"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:onClick="onClickSettingButton"
+        android:background="@drawable/ic_settings" />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:id="@+id/layout_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_setting"
         android:background="@color/material_design_color_orange_1"
         android:gravity="center"
         android:orientation="vertical" >
@@ -36,53 +48,126 @@
             android:textColor="@color/white"
             android:textSize="@dimen/padding_large"
             android:textStyle="bold" />
-    </LinearLayout>
+        <!-- Progress Bar/Seek bar -->
 
-    <!-- Progress Bar/Seek bar -->
-
-    <SeekBar
-        android:id="@+id/songProgressBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/seekbar_progress"
-        android:thumb="@drawable/seek_handler" />
-    <!-- Timer Display -->
-
-    <LinearLayout
-        android:id="@+id/timerDisplay"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/songProgressBar"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" >
-
-        <!-- Current Duration Label -->
-
-        <TextView
-            android:id="@+id/songCurrentDurationLabel"
+        <SeekBar
+            android:id="@+id/songProgressBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:textColor="#eeeeee"
-            android:textStyle="bold" />
-        <!-- Total Duration Label -->
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/seek_handler" />
+        <!-- Timer Display -->
 
-        <TextView
-            android:id="@+id/songTotalDurationLabel"
+        <LinearLayout
+            android:id="@+id/timerDisplay"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:textColor="#04cbde"
-            android:textStyle="bold" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" >
+
+            <!-- Current Duration Label -->
+
+            <TextView
+                android:id="@+id/songCurrentDurationLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:textColor="#eeeeee"
+                android:textStyle="bold" />
+            <!-- Total Duration Label -->
+
+            <TextView
+                android:id="@+id/songTotalDurationLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="#04cbde"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <ImageView
+                android:id="@+id/btnCall"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="#f25822"
+                android:src="@drawable/ic_call_while"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/btn_message"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_message_while"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/btn_delete"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="#f25822"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" >
+            </ImageView>
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
+        android:layout_below="@id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white" >
+
+        <ImageButton
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:src="@drawable/btn_play" />
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/btnAddCustomer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:onClick="onClickCloseButton"
+            android:background="@color/white" >
+
+            <TextView
+                android:id="@+id/text_close"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="Close"
+                android:textColor="@color/material_design_color_orange_1"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </com.gc.materialdesign.views.LayoutRipple>
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

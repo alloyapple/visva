@@ -117,9 +117,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             }
         }
         mRecordingManager.setSessions(_sessions);
-        // update the view in AllRecordingFragment
         MainActivity.toDeleteFilePath = filePath;
-        // update the physical file
         mRecordingManager.removeFile(filePath);
     }
 
