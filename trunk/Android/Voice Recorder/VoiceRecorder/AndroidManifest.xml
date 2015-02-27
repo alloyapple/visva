@@ -56,7 +56,7 @@
          <activity
             android:name="com.visva.voicerecorder.view.activity.ActivityPlayRecording"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar" >
+            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar.MinWidth" >
         </activity>
     </application>
 
