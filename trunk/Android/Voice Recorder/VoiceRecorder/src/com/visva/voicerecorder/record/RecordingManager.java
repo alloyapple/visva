@@ -8,12 +8,10 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Environment;
-import android.util.Log;
 
 import com.visva.voicerecorder.view.fragments.FragmentAllRecord;
 
@@ -31,9 +29,8 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
     private static RecordingManager     mInstance;
 
     private ArrayList<RecordingSession> sessions;
-    private MediaPlayer                 player;
+//    private MediaPlayer                 player;
     private RecordingSession            currentSession    = null;
-    private Context                     context;
     private FragmentAllRecord           fragmentAllRecord = null;
 
     public static RecordingManager getInstance(Context context) {
@@ -44,54 +41,10 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
     }
 
     public RecordingManager(Context _context) {
-        this.context = _context;
-        this.player = new MediaPlayer();
-        this.player.setOnPreparedListener(this);
-        this.player.setOnCompletionListener(this);
-
-        try {
-            player.prepare();
-            /*
-            Intent viewMediaIntent = new Intent();   
-            viewMediaIntent.setAction(android.content.Intent.ACTION_VIEW);   
-            File file = new File(currentSession.fileName);   
-            viewMediaIntent.setDataAndType(Uri.fromFile(file), "audio/*");   
-            viewMediaIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            context.startActivity(viewMediaIntent);
-            */
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public RecordingManager(Context _context, ArrayList<RecordingSession> sessions) {
-        this.context = _context;
         this.sessions = sessions;
-        this.player = new MediaPlayer();
-        this.player.setOnPreparedListener(this);
-        this.player.setOnCompletionListener(this);
-
-        try {
-            player.prepare();
-            /*
-            Intent viewMediaIntent = new Intent();   
-            viewMediaIntent.setAction(android.content.Intent.ACTION_VIEW);   
-            File file = new File(currentSession.fileName);   
-            viewMediaIntent.setDataAndType(Uri.fromFile(file), "audio/*");   
-            viewMediaIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            context.startActivity(viewMediaIntent);
-            */
-        } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        //			}
-        //		});
     }
 
     public void onPrepared(MediaPlayer mp) {
@@ -99,8 +52,6 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
     }
 
     public void onCompletion(MediaPlayer arg0) {
-        // TODO Auto-generated method stub
-        //this.postSoundPlayer.start();
         if (this.fragmentAllRecord != null && this.fragmentAllRecord.mLastClickedView != null) {
             // how to change color current view to WHITE
             this.fragmentAllRecord.mLastClickedView.setBackgroundColor(Color.WHITE);
@@ -136,7 +87,6 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
             bw.write(dataContent);
             bw.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -146,7 +96,6 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
      */
     public void setSessions(ArrayList<RecordingSession> sessions) {
         this.sessions = sessions;
-        this.player.stop();
         this.currentSession = null;
     }
 
@@ -189,13 +138,11 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
      */
     public ArrayList<RecordingSession> getByDate(int date, int month, int year) {
         ArrayList<RecordingSession> result = new ArrayList<RecordingSession>();
-        //Log.d("GHIAM","to compare, date: "+date+", month:"+month+", year: "+year+";");
         for (int i = 0; i < this.sessions.size(); i++) {
             String dateCreated = this.sessions.get(i).dateCreated;
             int sdate = Integer.parseInt(dateCreated.split("-")[0]);
             int smonth = Integer.parseInt(dateCreated.split("-")[1]);
             int syear = Integer.parseInt(dateCreated.split("-")[2]);
-            //Log.d("GHIAM","compare with, date: "+sdate+", month:"+smonth+", year: "+syear+";");
             if (sdate == date && smonth == month && syear == year) {
                 result.add(this.sessions.get(i));
             }
@@ -232,40 +179,7 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
         return result;
     }
 
-    public int playAudio(RecordingSession session, FragmentAllRecord fragmentAllRecord) throws IOException {
-        AudioManager audio = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
-        audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC), AudioManager.FLAG_SHOW_UI);
-        if (fragmentAllRecord != null) {
-            this.fragmentAllRecord = fragmentAllRecord;
-        }
-        if (this.currentSession != null && this.currentSession.fileName.equals(session.fileName)) {
-            return 0;
-        }
-        this.currentSession = session;
-        if (this.player.isPlaying()) {
-            Log.d("GHIAM", "Prepare to stop and release !");
-            this.player.stop();
-        }
-        try {
-            Log.d("GHIAM", "Prepare to reset and start again !");
-            this.player.reset();
-            File modifiedFile = new File(session.fileName + "-modified.wav");
-            Log.d("KieuThang", "playAudio:"+modifiedFile.getAbsolutePath());
-            if (modifiedFile.exists()) {
-                this.player.setDataSource(session.fileName + "-modified.wav");
-            } else {
-                this.player.setDataSource(session.fileName);
-            }
-            this.player.prepare();
-            //            this.player.s
-        } catch (IOException ioe) {
-            throw ioe;
-        }
-        return 1;
-    }
-
     public void stopAudio() {
-        this.player.stop();
         this.currentSession = null;
     }
 }

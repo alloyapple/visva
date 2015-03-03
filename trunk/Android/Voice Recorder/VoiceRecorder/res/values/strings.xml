@@ -40,7 +40,7 @@
     <string name="menu_search">Search</string>
     <string name="menu_add_contact">Add Contact</string>
     <string name="menu_edit_contact">Edit Contact</string>
-    <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="alphabet">#ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="contacts_list_search_results_title">Contacts List Search for \"%s\"</string>
     <string name="search_hint">Find contacts</string>
 
@@ -52,5 +52,8 @@
     <string name="about_tab">About</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
+    <string name="imageview_description">Image description</string>
+    <string name="no_contact_selected">No contact selected</string>
+    <string name="address_button_description">Location</string>
 
 </resources>

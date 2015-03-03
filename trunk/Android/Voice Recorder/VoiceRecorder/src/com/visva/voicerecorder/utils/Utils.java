@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds;
 import android.util.TypedValue;
 
 import com.visva.voicerecorder.MainActivity;
@@ -128,6 +129,24 @@ public class Utils {
             cursor = null;
         }
         return result;
+    }
+
+    public static ArrayList<String> getContactUriTypeFromContactId(ContentResolver resolver, String contactId) {
+        ArrayList<String> phones = new ArrayList<String>();
+
+        Cursor cursor = resolver.query(
+                CommonDataKinds.Phone.CONTENT_URI,
+                null,
+                CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                new String[] { contactId }, null);
+
+        while (cursor.moveToNext())
+        {
+            phones.add(cursor.getString(cursor.getColumnIndex(CommonDataKinds.Phone.NUMBER)));
+        }
+
+        cursor.close();
+        return (phones);
     }
 
     public static boolean isShowTextDate(int position, ArrayList<RecordingSession> recordingSessions) {

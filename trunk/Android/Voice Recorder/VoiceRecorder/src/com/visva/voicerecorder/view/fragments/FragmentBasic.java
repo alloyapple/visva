@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.visva.voicerecorder.view.activity.HomeActivity;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 import com.visva.voicerecorder.view.activity.IHomeActionListener;
 
 public class FragmentBasic extends Fragment {
@@ -15,7 +15,7 @@ public class FragmentBasic extends Fragment {
     public int mNumLoading = 0;
 
     public FragmentBasic() {
-        mHomeActionListener = (HomeActivity) getActivity();
+        mHomeActionListener = (ActivityHome) getActivity();
     }
 
     @Override

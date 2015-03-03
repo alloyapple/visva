@@ -11,7 +11,6 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
-        android:onClick="onClickSettingButton"
         android:background="@drawable/ic_settings" />
 
     <LinearLayout
@@ -134,7 +133,7 @@
     <RelativeLayout
         android:layout_below="@id/layout_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white" >
 
         <ImageButton

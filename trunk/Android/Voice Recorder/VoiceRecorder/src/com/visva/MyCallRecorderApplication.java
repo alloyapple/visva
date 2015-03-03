@@ -8,13 +8,13 @@ import android.content.Context;
 import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ProgramHelper;
-import com.visva.voicerecorder.view.activity.HomeActivity;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 
 public class MyCallRecorderApplication extends Application {
     private static MyCallRecorderApplication mInstance;
     private static RecordingManager          mRecordingManager;
     private static ProgramHelper             helper;
-    private static HomeActivity              activity;
+    private static ActivityHome              activity;
 
     public static MyCallRecorderApplication getInstance() {
         if (mInstance == null) {
@@ -57,7 +57,7 @@ public class MyCallRecorderApplication extends Application {
         activity.finish();
     }
 
-    public void setActivity(HomeActivity activity) {
+    public void setActivity(ActivityHome activity) {
         MyCallRecorderApplication.activity = activity;
     }
 }

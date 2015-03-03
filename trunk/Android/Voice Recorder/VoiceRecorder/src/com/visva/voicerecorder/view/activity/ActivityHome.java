@@ -5,11 +5,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.provider.ContactsContract.Contacts;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.visva.MyCallRecorderApplication;
@@ -18,34 +24,35 @@ import com.visva.voicerecorder.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.view.fragments.ContactsListFragment.OnContactsInteractionListener;
-import com.visva.voicerecorder.view.fragments.FragmentAbout;
 import com.visva.voicerecorder.view.fragments.FragmentAllRecord;
 import com.visva.voicerecorder.view.fragments.FragmentContact;
 import com.visva.voicerecorder.view.fragments.FragmentFavourite;
 import com.visva.voicerecorder.view.fragments.FragmentSetting;
 import com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity implements IHomeActionListener,OnContactsInteractionListener {
+public class ActivityHome extends VisvaAbstractFragmentActivity implements IHomeActionListener, OnContactsInteractionListener {
     // ======================Constant Define=====================
-    public static final int     FRAGMENT_BASE_ID        = 1000;
-    public static final int     FRAGMENT_ALL_RECORDING  = FRAGMENT_BASE_ID + 1;
-    public static final int     FRAGMENT_CONTACT        = FRAGMENT_ALL_RECORDING + 1;
-    public static final int     FRAGMENT_FAVOURITE      = FRAGMENT_CONTACT + 1;
-    public static final int     FRAGMENT_SETTING        = FRAGMENT_FAVOURITE + 1;
-    public static final int     FRAGMENT_ABOUT          = FRAGMENT_SETTING + 1;
+    public static final int       FRAGMENT_BASE_ID        = 1000;
+    public static final int       FRAGMENT_ALL_RECORDING  = FRAGMENT_BASE_ID + 1;
+    public static final int       FRAGMENT_CONTACT        = FRAGMENT_ALL_RECORDING + 1;
+    public static final int       FRAGMENT_FAVOURITE      = FRAGMENT_CONTACT + 1;
+    public static final int       FRAGMENT_SETTING        = FRAGMENT_FAVOURITE + 1;
+    public static final int       FRAGMENT_ABOUT          = FRAGMENT_SETTING + 1;
     // ======================Control Define =====================
-    private FragmentManager     mFmManager;
-    private FragmentTransaction mTransaction;
-    private FragmentAllRecord   mFragmentAllRecord;
-    private FragmentContact     mFragmentContact;
-    private FragmentFavourite   mFragmentFavourite;
-    private FragmentSetting     mFragmentSetting;
-    private FragmentAbout       mFragmentAbout;
+    private FragmentManager       mFmManager;
+    private FragmentTransaction   mTransaction;
+    private FragmentAllRecord     mFragmentAllRecord;
+    private FragmentContact       mFragmentContact;
+    private FragmentFavourite     mFragmentFavourite;
+    private FragmentSetting       mFragmentSetting;
 
-    private FloatingActionsMenu mFloatingActionsMenu;
+    private FloatingActionsMenu   mFloatingActionsMenu;
+    private RelativeLayout        mLayoutSearch;
+    private EditText              mEditTextSearch;
+    private ImageButton           mBtnClearSearch;
     // ======================Variable Define=====================
-    //private ArrayList<Integer>  backstackID             = new ArrayList<Integer>();
-    private boolean             mBackPressedToExitOnce  = false;
+    private boolean               mBackPressedToExitOnce  = false;
+    private int                   mFragmentShowType       = FRAGMENT_ALL_RECORDING;
 
     @Override
     public int contentView() {
@@ -56,13 +63,49 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
     public void onCreate() {
         if (Build.VERSION.SDK_INT >= 11)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-
+        //Remove title bar
         MyCallRecorderApplication.getInstance().setActivity(this);
         initLayout();
     }
 
     private void initLayout() {
         mFloatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        mLayoutSearch = (RelativeLayout) findViewById(R.id.layout_search);
+        mBtnClearSearch = (ImageButton) findViewById(R.id.btn_clear_search);
+        mEditTextSearch = (EditText) findViewById(R.id.edit_text_search);
+        mBtnClearSearch.setVisibility(View.GONE);
+
+        mEditTextSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO Auto-generated method stub
+                switch (mFragmentShowType) {
+                case FRAGMENT_ALL_RECORDING:
+                    mFragmentAllRecord.onTextSearchChanged(s);
+                    break;
+                case FRAGMENT_CONTACT:
+                    mFragmentContact.onQueryTextChange(s);
+                    break;
+                case FRAGMENT_FAVOURITE:
+                    break;
+                default:
+                    break;
+                }
+
+                mBtnClearSearch.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         initializeFragments();
     }
 
@@ -70,7 +113,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
     // search results in a separate instance of the activity rather than loading results in-line
     // as the query is typed.
 
-    public HomeActivity() {
+    public ActivityHome() {
         super();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -80,7 +123,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
     public void updateHomeActivity() {
         this.onRestart();
         Toast.makeText(this, "do not append to the list", Toast.LENGTH_LONG).show();
-        Intent refresh = new Intent(this, HomeActivity.class);
+        Intent refresh = new Intent(this, ActivityHome.class);
         startActivity(refresh);
         this.finish();
     }
@@ -91,60 +134,56 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
         mFragmentContact = (FragmentContact) mFmManager.findFragmentById(R.id.fragment_contact);
         mFragmentFavourite = (FragmentFavourite) mFmManager.findFragmentById(R.id.fragment_favourite);
         mFragmentSetting = (FragmentSetting) mFmManager.findFragmentById(R.id.fragment_settings);
-        mFragmentAbout = (FragmentAbout) mFmManager.findFragmentById(R.id.fragment_about);
 
         showFragment(FRAGMENT_ALL_RECORDING, false);
+        mFragmentShowType = FRAGMENT_ALL_RECORDING;
     }
 
     private void showFragment(int fragment, boolean isback) {
         mTransaction = hideFragment();
+        mFragmentShowType = fragment;
+        mLayoutSearch.setVisibility(View.VISIBLE);
         switch (fragment) {
         case FRAGMENT_ABOUT:
-            mFragmentAbout.setBackStatus(isback);
-            mTransaction.show(mFragmentAbout);
+            mFloatingActionsMenu.setVisibility(View.GONE);
             break;
         case FRAGMENT_ALL_RECORDING:
             mFragmentAllRecord.setBackStatus(isback);
             mTransaction.show(mFragmentAllRecord);
+            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_CONTACT:
-           // mFragmentContact.setBackStatus(isback);
+            // mFragmentContact.setBackStatus(isback);
             mTransaction.show(mFragmentContact);
+            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_FAVOURITE:
             mFragmentFavourite.setBackStatus(isback);
             mTransaction.show(mFragmentFavourite);
+            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_SETTING:
+            mLayoutSearch.setVisibility(View.GONE);
             mFragmentSetting.setBackStatus(isback);
             mTransaction.show(mFragmentSetting);
+            mFloatingActionsMenu.setVisibility(View.GONE);
             break;
         default:
+            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             break;
         }
         if (!isback)
-           // addToSBackStack(fragment);
-        // mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
-        mTransaction.commit();
+            mTransaction.commit();
     }
 
     public FragmentTransaction hideFragment() {
         mTransaction = mFmManager.beginTransaction();
-        //        if (fragmentAnimationType == 1)
-        //            mTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
-        //        else if (fragmentAnimationType == 2)
-        //            mTransaction.setCustomAnimations(R.anim.slide_out_left, R.anim.slide_in_left);
-        mTransaction.hide(mFragmentAbout);
         mTransaction.hide(mFragmentAllRecord);
         mTransaction.hide(mFragmentContact);
         mTransaction.hide(mFragmentFavourite);
         mTransaction.hide(mFragmentSetting);
         return mTransaction;
     }
-
-//    public void addToSBackStack(int ID) {
-//        backstackID.add(ID);
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -207,13 +246,25 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements IHome
 
     @Override
     public void onContactSelected(Uri contactUri) {
-        // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void onSelectionCleared() {
-        // TODO Auto-generated method stub
-        
+
+    }
+
+    public void onClickSearchButton(View v) {
+
+    }
+
+    public void onClickClearSearchButton(View v) {
+        mBtnClearSearch.setVisibility(View.GONE);
+        mEditTextSearch.setText("");
+    }
+
+    public void onClickAddContactButton(View v) {
+        final Intent intent = new Intent(Intent.ACTION_INSERT, Contacts.CONTENT_URI);
+        startActivity(intent);
     }
 }

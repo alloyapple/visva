@@ -7,16 +7,18 @@ import android.os.Parcelable;
  * A class represent for a recorded session
  */
 public class RecordingSession extends Object implements Parcelable {
-    public String            phoneNo;
-    public String            dateCreated;
-    public int               callState;
-    public String            fileName;
+    public String phoneNo;
+    public String dateCreated;
+    public int    callState;
+    public String fileName;
+    public String phoneName;
 
-    public RecordingSession(String fileName, String phoneNo, String dateCreated, int callState) {
+    public RecordingSession(String fileName, String phoneNo, String dateCreated, int callState,String phoneName) {
         this.phoneNo = phoneNo;
         this.dateCreated = dateCreated;
         this.callState = callState;
         this.fileName = fileName;
+        this.phoneName = phoneName;
     }
 
     public RecordingSession(Parcel in) {
@@ -24,6 +26,7 @@ public class RecordingSession extends Object implements Parcelable {
         this.dateCreated = in.readString();
         this.callState = in.readInt();
         this.fileName = in.readString();
+        this.phoneName = in.readString();
     }
 
     public int describeContents() {
@@ -35,6 +38,7 @@ public class RecordingSession extends Object implements Parcelable {
         out.writeString(dateCreated);
         out.writeInt(callState);
         out.writeString(fileName);
+        out.writeString(phoneName);
     }
 
     public static final Parcelable.Creator<RecordingSession> CREATOR = new Parcelable.Creator<RecordingSession>() {
