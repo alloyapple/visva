@@ -148,6 +148,64 @@
             </com.gc.materialdesign.views.LayoutRipple>
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/material_design_color_orange_1" >
+
+            <ImageButton
+                android:id="@+id/btn_add_contact"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_action_new"
+                android:onClick="onClickAddContactButton" />
+
+            <RelativeLayout
+                android:id="@+id/layout_search_detail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_toLeftOf="@id/btn_add_contact"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/ic_drawer"
+                    android:onClick="onClickSearchButton" />
+
+                <ImageButton
+                    android:id="@+id/btn_clear_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/ic_drawer"
+                    android:onClick="onClickClearSearchButton" />
+
+                <EditText
+                    android:id="@+id/edit_text_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/btn_clear_search"
+                    android:layout_toRightOf="@id/btn_search"
+                    android:background="@null"
+                    android:hint="Search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -184,12 +242,6 @@
                 class="com.visva.voicerecorder.view.fragments.FragmentSetting" />
         </RelativeLayout>
     </LinearLayout>
-
-    <fragment
-        android:id="@+id/fragment_about"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.visva.voicerecorder.view.fragments.FragmentAbout" />
 
     <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"

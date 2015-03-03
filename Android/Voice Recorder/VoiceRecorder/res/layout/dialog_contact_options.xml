@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/text_add_to_favourite_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Add to favourite record"
+        android:textColor="@color/material_design_color_orange_1" />
+
+    <TextView
+        android:id="@+id/text_edit_this_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_add_to_favourite_record"
+        android:gravity="center"
+        android:text="Edit this contact"
+        android:textColor="@color/material_design_color_orange_1" />
+
+    <TextView
+        android:id="@+id/text_delete_this_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_edit_this_contact"
+        android:gravity="center"
+        android:text="Delete this card"
+        android:textColor="@color/material_design_color_orange_1" />
+
+    <TextView
+        android:id="@+id/text_cacnel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="Close"
+        android:textColor="@color/material_design_color_orange_1" />
+
+</RelativeLayout>

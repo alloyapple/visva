@@ -3,14 +3,12 @@ package com.visva.voicerecorder.view.activity;
 import java.io.File;
 import java.io.IOException;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,6 +16,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.record.RecordingSession;
@@ -25,7 +24,7 @@ import com.visva.voicerecorder.utils.TimeUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.widget.CircleImageView;
 
-public class ActivityPlayRecording extends Activity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
+public class ActivityPlayRecording extends VisvaAbstractFragmentActivity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
     // ======================Constant Define=====================
     private static final int _ID          = 0;
     private static final int DISPLAY_NAME = _ID + 1;
@@ -45,30 +44,30 @@ public class ActivityPlayRecording extends Activity implements OnCompletionListe
     private Handler          mHandler     = new Handler();
     private RecordingSession mRecordingSession;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_recording);
-
-        mRecordingSession = (RecordingSession) getIntent().getExtras().get("recording_session");
-        if (mRecordingSession == null) {
-            AIOLog.e(MyCallRecorderConstant.TAG, "recordingSession is null");
-            finish();
-        }
-
-        initLayout();
-
-        // Mediaplayer
-        mMediaPlayer = new MediaPlayer();
-
-        // Listeners
-        songProgressBar.setOnSeekBarChangeListener(this); // Important
-        mMediaPlayer.setOnCompletionListener(this); // Important
-
-        // By default play first song
-        playRecoder();
-
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_play_recording);
+//
+//        mRecordingSession = (RecordingSession) getIntent().getExtras().get("recording_session");
+//        if (mRecordingSession == null) {
+//            AIOLog.e(MyCallRecorderConstant.TAG, "recordingSession is null");
+//            finish();
+//        }
+//
+//        initLayout();
+//
+//        // Mediaplayer
+//        mMediaPlayer = new MediaPlayer();
+//
+//        // Listeners
+//        songProgressBar.setOnSeekBarChangeListener(this); // Important
+//        mMediaPlayer.setOnCompletionListener(this); // Important
+//
+//        // By default play first song
+//        playRecoder();
+//
+//    }
 
     private void initLayout() {
         songProgressBar = (SeekBar) findViewById(R.id.songProgressBar);
@@ -101,25 +100,25 @@ public class ActivityPlayRecording extends Activity implements OnCompletionListe
          * pauses a song and changes button to play image
          * */
         mBtnPlay.setOnClickListener(new View.OnClickListener() {
-
+            
             @Override
             public void onClick(View arg0) {
                 // check for already playing
-                if (mMediaPlayer.isPlaying()) {
-                    if (mMediaPlayer != null) {
+                if(mMediaPlayer.isPlaying()){
+                    if(mMediaPlayer!=null){
                         mMediaPlayer.pause();
                         // Changing button image to play button
                         mBtnPlay.setImageResource(R.drawable.btn_play);
                     }
-                } else {
+                }else{
                     // Resume song
-                    if (mMediaPlayer != null) {
+                    if(mMediaPlayer!=null){
                         mMediaPlayer.start();
                         // Changing button image to pause button
                         mBtnPlay.setImageResource(R.drawable.btn_pause);
                     }
                 }
-
+                
             }
         });
     }
@@ -245,7 +244,8 @@ public class ActivityPlayRecording extends Activity implements OnCompletionListe
      * */
     @Override
     public void onCompletion(MediaPlayer arg0) {
-        mBtnPlay.setImageResource(R.drawable.btn_play);
+
+        // check for repeat is ON or OFF
     }
 
     @Override
@@ -254,11 +254,33 @@ public class ActivityPlayRecording extends Activity implements OnCompletionListe
         mMediaPlayer.release();
     }
 
-    public void onClickCloseButton(View v) {
+    public void onClickCloseButton(View v){
         finish();
     }
 
-    public void onClickSettingButton(View v) {
+    @Override
+    public int contentView() {
+        return R.layout.activity_play_recording;
+    }
 
+    @Override
+    public void onCreate() {
+        mRecordingSession = (RecordingSession) getIntent().getExtras().get("recording_session");
+        if (mRecordingSession == null) {
+            AIOLog.e(MyCallRecorderConstant.TAG, "recordingSession is null");
+            finish();
+        }
+
+        initLayout();
+
+        // Mediaplayer
+        mMediaPlayer = new MediaPlayer();
+
+        // Listeners
+        songProgressBar.setOnSeekBarChangeListener(this); // Important
+        mMediaPlayer.setOnCompletionListener(this); // Important
+
+        // By default play first song
+        playRecoder();        
     }
 }

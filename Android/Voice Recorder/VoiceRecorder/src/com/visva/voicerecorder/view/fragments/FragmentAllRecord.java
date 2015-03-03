@@ -49,7 +49,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_all_record, container);
 
         mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
-        mSessions = mProgramHelper.getRecordingSessionsFromFile();
+        mSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
         mRecordingManager = MyCallRecorderApplication.getInstance().getRecordManager(getActivity(), mSessions);
         initLayout(root);
         return root;
@@ -92,23 +92,6 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RecordingSession session = mSessions.get(position);
-                //                                if (mLastClickedView == view) {
-                //                                    mRecordingManager.stopAudio();
-                //                                    mLastClickedView.setBackgroundColor(Color.WHITE);
-                //                                    mLastClickedView = null;
-                //                                    return;
-                //                                }
-                //                                if (mLastClickedView != null) {
-                //                                    mLastClickedView.setBackgroundColor(Color.WHITE);
-                //                                }
-                //                                view.setBackgroundColor(Color.parseColor("#F4A148"));
-                //                                mLastClickedView = view;
-                //                                Log.d("GHIAM", "path: " + s.fileName);
-                //                                try {
-                //                                    mRecordingManager.playAudio(s, FragmentAllRecord.this);
-                //                                } catch (IOException ioe) {
-                //                                    Toast.makeText(getActivity(), "Không mở được file âm thanh !", Toast.LENGTH_LONG).show();
-                //                                }
                 Intent intent = new Intent(getActivity(), ActivityPlayRecording.class);
                 intent.putExtra("recording_session", session);
                 startActivity(intent);
@@ -153,6 +136,10 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
     public void onContactTabClick(View v) {
 
+    }
+
+    public void onTextSearchChanged(CharSequence s) {
+        mRecordingAdapter.onTextSearchChanged(s);
     }
 
 }
