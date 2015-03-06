@@ -21,7 +21,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
-import com.visva.MyCallRecorderApplication;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.record.RecordingSession;
 
 /**
@@ -94,8 +94,7 @@ public class ProgramHelper {
      * @param callState
      * @return true/false
      */
-    public boolean writeToList(String fileName, String phoneNo,
-            String date, int callState) throws Exception {
+    public boolean writeToList(String fileName, String phoneNo, String date, int callState) throws Exception {
         String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/data";
         File dataFile = new File(dataFilePath);
         Log.d("GHIAM", "phoneNo: " + phoneNo + " <in Helper/writeTo...>");
@@ -147,7 +146,7 @@ public class ProgramHelper {
                 String dateCreated = line.split(";")[3];
                 Uri phoneName = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
                 String phoneNameStr = phoneName != null ? phoneName.toString() : "";
-                RecordingSession s = new RecordingSession(fileName, phoneNo, dateCreated, callState, phoneNameStr);
+                RecordingSession s = new RecordingSession(phoneNo, callState, fileName, phoneNameStr, 0, dateCreated);
                 result.add(s);
             }
             for (int i = result.size() - 1; i >= 0; i--) {

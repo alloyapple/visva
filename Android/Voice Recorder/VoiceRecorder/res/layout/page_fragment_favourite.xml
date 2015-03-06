@@ -1,8 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/text_title_favourite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawableBottom="@color/material_design_color_orange_1"
+        android:drawablePadding="1dp"
+        android:text="@string/favourite_tab"
+        android:textColor="@color/material_design_color_orange_1"
+        android:textSize="20sp" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/text_title_favourite"
+        android:background="@color/material_design_color_orange_1" />
+
+    <com.visva.voicerecorder.view.widget.HorizontalListView
+        android:id="@+id/favourite_list"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/divider1"
+        android:layout_marginTop="10dp" >
+    </com.visva.voicerecorder.view.widget.HorizontalListView>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/favourite_list"
+        android:background="@color/material_design_color_orange_1" />
+
+    <ListView
+        android:id="@+id/list_detail_favourite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider2" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/text_no_favourite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="No favourite contact found" />
+
+</RelativeLayout>

@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.visva.voicerecorder.MyCallRecorderApplication;
+import com.visva.voicerecorder.utils.ProgramHelper;
+import com.visva.voicerecorder.utils.SQLiteHelper;
 import com.visva.voicerecorder.view.activity.ActivityHome;
 import com.visva.voicerecorder.view.activity.IHomeActionListener;
 
@@ -13,6 +16,8 @@ public class FragmentBasic extends Fragment {
     protected IHomeActionListener mHomeActionListener;
     private boolean dataChange = false;
     public int mNumLoading = 0;
+    protected SQLiteHelper mSQLiteHelper;
+    protected ProgramHelper mProgramHelper;
 
     public FragmentBasic() {
         mHomeActionListener = (ActivityHome) getActivity();
@@ -21,6 +26,8 @@ public class FragmentBasic extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSQLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(getActivity());
+        mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
     }
 
 //    public void before() {

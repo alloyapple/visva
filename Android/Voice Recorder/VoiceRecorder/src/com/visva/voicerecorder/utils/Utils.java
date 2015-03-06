@@ -28,16 +28,19 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 
-import com.visva.voicerecorder.MainActivity;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 
 /**
  * This class contains static utility methods.
  */
 public class Utils {
+    public static String REPLACE_NON_DIGITS = "[^0-9]";
 
     // Prevents instantiation.
     private Utils() {
@@ -64,7 +67,7 @@ public class Utils {
                 threadPolicyBuilder.penaltyFlashScreen();
                 // For each activity class, set an instance limit of 1. Any more instances and
                 // there could be a memory leak.
-                vmPolicyBuilder.setClassInstanceLimit(MainActivity.class, 1).setClassInstanceLimit(MainActivity.class, 1);
+                vmPolicyBuilder.setClassInstanceLimit(ActivityHome.class, 1).setClassInstanceLimit(ActivityHome.class, 1);
             }
 
             // Use builders to enable strict mode policies
@@ -189,4 +192,67 @@ public class Utils {
         return textDate;
     }
 
+    public static boolean deleteContact(Context ctx, Uri contactUri) {
+        try {
+            ctx.getContentResolver().delete(contactUri, null, null);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+        return false;
+    }
+
+    public static boolean isSamePhoneNo(Context context, String number1, String number2) {
+        Log.d("KieuThang", "Compare " + number1 + " vs " + number2);
+        if (TextUtils.isEmpty(number1) || TextUtils.isEmpty(number2)) {
+            return false;
+        }
+        number1 = number1.replaceAll(REPLACE_NON_DIGITS, "");
+        number2 = number2.replaceAll(REPLACE_NON_DIGITS, "");
+
+        String longer_no = (number1.length() >= number2.length()) ? number1 : number2;
+        String shorter_no = (number1.length() < number2.length()) ? number1 : number2;
+        int diff = 1;
+        for (diff = 1; diff <= shorter_no.length(); diff++) {
+            if (number1.charAt(number1.length() - diff) != number2.charAt(number2.length() - diff)) {
+                break;
+            }
+        }
+
+        // extract zip code
+        String zip_code_1 = longer_no.substring(0, longer_no.length() - diff + 1);
+        String zip_code_2 = shorter_no.substring(0, shorter_no.length() - diff + 1);
+        zip_code_1 = zip_code_1.startsWith("+") ? zip_code_1.substring(1) : zip_code_1;
+        zip_code_2 = zip_code_2.startsWith("+") ? zip_code_2.substring(1) : zip_code_2;
+        Log.d("KieuThang", "zip_code_1 = " + zip_code_1);
+        Log.d("KieuThang", "zip_code_2 = " + zip_code_2);
+
+        if (TextUtils.isEmpty(zip_code_1) && TextUtils.isEmpty(zip_code_2)) {
+            // longer = 01676245917 & shorter = 01676245917 for example
+            Log.d("KieuThang", "Both have no country code");
+            return number1.equalsIgnoreCase(number2);
+        }
+        else if (TextUtils.isEmpty(zip_code_2) || "0".equalsIgnoreCase(zip_code_2)) {
+            // longer = +841676245917 & shorter = 01676245917 for example
+            // --> just check valid country code for longer number
+            Log.d("KieuThang", "Shorter number have no country code: " + shorter_no);
+            return isValidCountryZipCode(context, zip_code_1);
+        }
+        else {
+            // longer = +841676245917 & shorter = +821676245917 for example
+            // --> check valid country code for both
+            Log.d("KieuThang", "Both have country codes: " + zip_code_1 + " and " + zip_code_2);
+            return isValidCountryZipCode(context, zip_code_1) && isValidCountryZipCode(context, zip_code_2);
+        }
+    }
+
+    public static boolean isValidCountryZipCode(Context context, String zipcode) {
+        String[] zip_list = context.getResources().getStringArray(R.array.CountryCodes);
+        for (String zip : zip_list) {
+            if (zip.startsWith(zipcode)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

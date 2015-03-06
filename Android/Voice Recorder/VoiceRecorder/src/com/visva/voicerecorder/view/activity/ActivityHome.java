@@ -1,7 +1,6 @@
 package com.visva.voicerecorder.view.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -18,19 +17,18 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.visva.MyCallRecorderApplication;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
-import com.visva.voicerecorder.view.fragments.ContactsListFragment.OnContactsInteractionListener;
 import com.visva.voicerecorder.view.fragments.FragmentAllRecord;
 import com.visva.voicerecorder.view.fragments.FragmentContact;
 import com.visva.voicerecorder.view.fragments.FragmentFavourite;
 import com.visva.voicerecorder.view.fragments.FragmentSetting;
 import com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu;
 
-public class ActivityHome extends VisvaAbstractFragmentActivity implements IHomeActionListener, OnContactsInteractionListener {
+public class ActivityHome extends VisvaAbstractFragmentActivity implements IHomeActionListener {
     // ======================Constant Define=====================
     public static final int       FRAGMENT_BASE_ID        = 1000;
     public static final int       FRAGMENT_ALL_RECORDING  = FRAGMENT_BASE_ID + 1;
@@ -79,7 +77,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
                 switch (mFragmentShowType) {
                 case FRAGMENT_ALL_RECORDING:
                     mFragmentAllRecord.onTextSearchChanged(s);
@@ -242,16 +239,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             return;
         if (mFloatingActionsMenu.isExpanded())
             mFloatingActionsMenu.collapse();
-    }
-
-    @Override
-    public void onContactSelected(Uri contactUri) {
-
-    }
-
-    @Override
-    public void onSelectionCleared() {
-
     }
 
     public void onClickSearchButton(View v) {
