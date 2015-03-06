@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.visva.MyCallRecorderApplication;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.utils.ProgramHelper;
 
 public class NotificationActivity extends Activity {

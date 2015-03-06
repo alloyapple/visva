@@ -15,8 +15,7 @@ import android.widget.Filter.FilterListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.visva.MyCallRecorderApplication;
-import com.visva.voicerecorder.MainActivity;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
@@ -123,7 +122,6 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             }
         }
         mRecordingManager.setSessions(_sessions);
-        MainActivity.toDeleteFilePath = filePath;
         mRecordingManager.removeFile(filePath);
     }
 
@@ -164,13 +162,12 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         protected FilterResults performFiltering(CharSequence constraint) {
             constraint = constraint.toString().toLowerCase(Locale.ENGLISH);
             FilterResults result = new FilterResults();
-            Log.d("KieuThang", "constraint:"+ (constraint != null && constraint.toString().length() > 0));
+            Log.d("KieuThang", "constraint:" + (constraint != null && constraint.toString().length() > 0));
             if (constraint != null && constraint.toString().length() > 0)
             {
                 ArrayList<RecordingSession> filteredItems = new ArrayList<RecordingSession>();
 
-                for (int i = 0, l = mRecordingSessions.size(); i < l; i++)
-                {
+                for (int i = 0, l = mRecordingSessions.size(); i < l; i++) {
                     RecordingSession recordingSession = mRecordingSessions.get(i);
                     if (recordingSession.phoneNo.toLowerCase(Locale.ENGLISH).contains(constraint)
                             || recordingSession.phoneName.toLowerCase(Locale.ENGLISH).contains(constraint))
@@ -181,7 +178,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             }
             else
             {
-                Log.d("KieuThang", "mRecordingSessions:"+ mRecordingSessions.size());
+                Log.d("KieuThang", "mRecordingSessions:" + mRecordingSessions.size());
                 mRecordingSessions = MyCallRecorderApplication.getInstance().getProgramHelper().getRecordingSessionsFromFile(mContext);
                 synchronized (this)
                 {
@@ -196,10 +193,8 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             filteredModelItemsArray = (ArrayList<RecordingSession>) results.values;
-            Log.d("KieuThang", "filteredModelItemsArray:"+filteredModelItemsArray.size());
             notifyDataSetChanged();
             clear();
-            //mRecordingSessions = filteredModelItemsArray;
             for (int i = 0, l = filteredModelItemsArray.size(); i < l; i++)
                 add(filteredModelItemsArray.get(i));
             notifyDataSetInvalidated();

@@ -1,44 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/text_contact_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact options"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:layout_margin="15dp" />
+
+    <com.gc.materialdesign.views.LayoutRipple
         android:id="@+id/text_add_to_favourite_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text_contact_options"
+        android:background="@color/white"
+        android:clickable="true"
         android:gravity="center"
-        android:text="Add to favourite record"
-        android:textColor="@color/material_design_color_orange_1" />
+        materialdesign:rippleColor="@color/white"
+        materialdesign:rippleSpeed="50" >
 
-    <TextView
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Add to favourite record"
+            android:textColor="@color/black" />
+    </com.gc.materialdesign.views.LayoutRipple>
+
+    <com.gc.materialdesign.views.LayoutRipple
         android:id="@+id/text_edit_this_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_add_to_favourite_record"
+        android:background="@color/white"
+        android:clickable="true"
         android:gravity="center"
-        android:text="Edit this contact"
-        android:textColor="@color/material_design_color_orange_1" />
+        materialdesign:rippleColor="#1E88E5"
+        materialdesign:rippleSpeed="50" >
 
-    <TextView
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Edit this contact"
+            android:textColor="@color/black" />
+    </com.gc.materialdesign.views.LayoutRipple>
+
+    <com.gc.materialdesign.views.LayoutRipple
         android:id="@+id/text_delete_this_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_edit_this_contact"
+        android:background="@color/white"
+        android:clickable="true"
         android:gravity="center"
-        android:text="Delete this card"
-        android:textColor="@color/material_design_color_orange_1" />
+        materialdesign:rippleColor="#1E88E5"
+        materialdesign:rippleSpeed="50" >
 
-    <TextView
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Delete this contact"
+            android:textColor="@color/black" />
+    </com.gc.materialdesign.views.LayoutRipple>
+
+    <com.gc.materialdesign.views.LayoutRipple
         android:id="@+id/text_cacnel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:text="Close"
-        android:textColor="@color/material_design_color_orange_1" />
+        android:layout_below="@id/text_delete_this_contact"
+        android:background="@color/white"
+        android:clickable="true"
+        materialdesign:rippleColor="#1E88E5"
+        materialdesign:rippleSpeed="5" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Close"
+            android:textColor="@color/black" />
+    </com.gc.materialdesign.views.LayoutRipple>
 
 </RelativeLayout>

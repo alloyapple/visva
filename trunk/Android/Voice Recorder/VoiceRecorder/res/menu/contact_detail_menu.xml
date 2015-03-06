@@ -14,12 +14,22 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-            android:id="@+id/menu_edit_contact"
-            android:title="@string/menu_edit_contact"
-            android:icon="@drawable/ic_action_edit"
-            android:showAsAction="ifRoom"/>
+        android:id="@+id/menu_edit_contact"
+        android:icon="@drawable/ic_action_edit"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_edit_contact"/>
+    <item
+        android:id="@+id/menu_delete_contact"
+        android:icon="@drawable/ic_action_edit"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_edit_contact"/>
+    <item
+        android:id="@+id/menu_add_to_favourite"
+        android:icon="@drawable/ic_action_edit"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_edit_contact"/>
 
 </menu>

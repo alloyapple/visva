@@ -19,7 +19,6 @@ package com.visva.voicerecorder.view.fragments;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -37,14 +36,15 @@ import android.support.v4.widget.CursorAdapter;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AlphabetIndexer;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,11 +54,18 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.gc.materialdesign.widgets.Dialog;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.utils.ContactsQuery;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.activity.ActivityHome;
 import com.visva.voicerecorder.view.widget.CircleImageView;
+import com.visva.voicerecorder.view.widget.quickaction.ActionItem;
+import com.visva.voicerecorder.view.widget.quickaction.QuickAction;
 
 /**
  * This fragment displays a list of contacts stored in the Contacts Provider. Each item in the list
@@ -82,8 +89,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         AdapterView.OnItemLongClickListener,
         OnMenuItemClickListener {
     // ======================Constant Define=====================
-    // Defines a tag for identifying log entries
-    private static final String           TAG                           = "ContactsListFragment";
 
     // Bundle key for saving previously selected search result item
     private static final String           STATE_PREVIOUSLY_SELECTED_KEY =
@@ -91,6 +96,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     // ======================Control Define =====================
     private SwipeMenuListView             mListContact;
     private TextView                      mTextNoContact;
+    private QuickAction                   mQuickAction;
     // =======================Class Define ======================
     // ======================Variable Define=====================
     private ContactsAdapter               mAdapter;                                                                                 // The main query adapter
@@ -109,6 +115,10 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
 
     // Whether or not this fragment is showing in a two-pane layout
     private boolean                       mIsTwoPaneLayout;
+
+    private boolean                       mIsOnItemLongClick;
+
+    private int                           mSelectedPosition;
 
     /**
      * Fragments require an empty constructor.
@@ -163,11 +173,11 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
 
             @Override
             public void create(SwipeMenu menu) {
-                SwipeMenuItem callItem = new SwipeMenuItem(getActivity());
-                callItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
-                callItem.setWidth(Utils.dp2px(getActivity(), 100));
-                callItem.setIcon(R.drawable.ic_call_while);
-                menu.addMenuItem(callItem);
+                SwipeMenuItem logItem = new SwipeMenuItem(getActivity());
+                logItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                logItem.setWidth(Utils.dp2px(getActivity(), 100));
+                logItem.setIcon(R.drawable.delete_image);
+                menu.addMenuItem(logItem);
 
                 SwipeMenuItem messageItem = new SwipeMenuItem(getActivity());
                 messageItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
@@ -175,11 +185,12 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
                 messageItem.setIcon(R.drawable.ic_message_while);
                 menu.addMenuItem(messageItem);
 
-                SwipeMenuItem logItem = new SwipeMenuItem(getActivity());
-                logItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                logItem.setWidth(Utils.dp2px(getActivity(), 100));
-                logItem.setIcon(R.drawable.ic_note_while);
-                menu.addMenuItem(logItem);
+                SwipeMenuItem callItem = new SwipeMenuItem(getActivity());
+                callItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                callItem.setWidth(Utils.dp2px(getActivity(), 100));
+                callItem.setIcon(R.drawable.ic_call_while);
+                menu.addMenuItem(callItem);
+
             }
         };
 
@@ -203,20 +214,136 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             // Initialize the loader, and create a loader identified by ContactsQuery.QUERY_ID
             getLoaderManager().initLoader(ContactsQuery.QUERY_ID, null, this);
         }
+
+        initQuickAction();
+    }
+
+    private void initQuickAction() {
+        String editTitle = getActivity().getString(R.string.edit);
+        String deleteTitle = getActivity().getString(R.string.delete);
+        String favouriteTitle = getActivity().getString(R.string.favourite_tab);
+        ActionItem addAction = new ActionItem();
+
+        addAction.setTitle(editTitle);
+        addAction.setIcon(getResources().getDrawable(R.drawable.ic_action_edit));
+        ActionItem playNormalAction = new ActionItem();
+        playNormalAction.setTitle(deleteTitle);
+        playNormalAction.setIcon(getResources().getDrawable(R.drawable.delete_button));
+        // Accept action item
+        ActionItem accAction = new ActionItem();
+
+        accAction.setTitle(favouriteTitle);
+        accAction.setIcon(getResources().getDrawable(R.drawable.ic_star_outline_grey600_24dp));
+
+        mQuickAction = new QuickAction(getActivity());
+
+        mQuickAction.addActionItem(addAction);
+        mQuickAction.addActionItem(playNormalAction);
+        mQuickAction.addActionItem(accAction);
+
+        // setup the action item click listener
+        mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                switch (pos) {
+                case 0:
+                    editThisContact(mSelectedPosition);
+                    break;
+                case 1:
+                    deleteThisContact(mSelectedPosition);
+                    break;
+                case 2:
+                    makeThisContactFavourite(mSelectedPosition);
+                    break;
+                default:
+                    break;
+                }
+            }
+        });
+        mQuickAction.setOnDismissListener(new OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                mIsOnItemLongClick = false;
+            }
+        });
+    }
+
+    private void makeThisContactFavourite(int selectedPosition) {
+        final Cursor cursor = mAdapter.getCursor();
+        if (cursor == null)
+            return;
+        // Moves to the Cursor row corresponding to the ListView item that was clicked
+        cursor.moveToPosition(selectedPosition);
+
+        // Creates a contact lookup Uri from contact ID and lookup_key
+        final Uri uri = Contacts.getLookupUri(cursor.getLong(ContactsQuery.ID), cursor.getString(ContactsQuery.LOOKUP_KEY));
+        if (mSQLiteHelper == null) {
+            mSQLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(getActivity());
+        }
+    }
+
+    private void deleteThisContact(int selectedPosition) {
+        String deleteTitle = getActivity().getString(R.string.delete);
+        String contentMsg = getActivity().getString(R.string.are_you_sure_to_delete_contact);
+        String cancel = getActivity().getString(R.string.cancel);
+        final Cursor cursor = mAdapter.getCursor();
+        if (cursor == null)
+            return;
+        // Moves to the Cursor row corresponding to the ListView item that was clicked
+        cursor.moveToPosition(selectedPosition);
+
+        // Creates a contact lookup Uri from contact ID and lookup_key
+        final Uri uri = Contacts.getLookupUri(cursor.getLong(ContactsQuery.ID), cursor.getString(ContactsQuery.LOOKUP_KEY));
+
+        Dialog dialog = new Dialog(getActivity(), deleteTitle, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Utils.deleteContact(getActivity(), uri);
+            }
+        });
+
+        dialog.getButtonAccept();
+
+        dialog.show();
+    }
+
+    private void editThisContact(int selectedPosition) {
+        final Cursor cursor = mAdapter.getCursor();
+        if (cursor == null)
+            return;
+        cursor.moveToPosition(selectedPosition);
+
+        final Uri uri = Contacts.getLookupUri(cursor.getLong(ContactsQuery.ID), cursor.getString(ContactsQuery.LOOKUP_KEY));
+
+        // Standard system edit contact intent
+        Intent intent = new Intent(Intent.ACTION_EDIT, uri);
+
+        intent.putExtra("finishActivityOnSaveCompleted", true);
+
+        // Start the edit activity
+        startActivity(intent);
     }
 
     @Override
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-        Log.d("KieuThang", "position:" + position + ",index:" + index);
         switch (index) {
         case 0:
-            mAdapter.onClickCallContact(position);
+            deleteThisContact(mSelectedPosition);
             break;
         case 1:
             mAdapter.onClickSMSContact(position);
             break;
         case 2:
-
+            mAdapter.onClickCallContact(position);
             break;
         default:
             break;
@@ -227,18 +354,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        try {
-            // Assign callback listener which the holding activity must implement. This is used
-            // so that when a contact item is interacted with (selected by the user) the holding
-            // activity will be notified and can take further action such as populating the contact
-            // detail pane (if in multi-pane layout) or starting a new activity with the contact
-            // details (single pane layout).
-            // mOnContactSelectedListener = (OnContactsInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnContactsInteractionListener");
-        }
     }
 
     @Override
@@ -249,7 +364,10 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         // Gets the Cursor object currently bound to the ListView
-        Log.d("KieuThang", "onItemClick");
+        if (mIsOnItemLongClick) {
+            mIsOnItemLongClick = false;
+            return;
+        }
         final Cursor cursor = mAdapter.getCursor();
 
         // Moves to the Cursor row corresponding to the ListView item that was clicked
@@ -259,6 +377,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         final Uri uri = Contacts.getLookupUri(cursor.getLong(ContactsQuery.ID), cursor.getString(ContactsQuery.LOOKUP_KEY));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+        
         if (mIsTwoPaneLayout) {
             mListContact.setItemChecked(position, true);
         }
@@ -280,7 +399,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("KieuThang", "onSaveInstanceState:" + mSearchTerm);
         if (!TextUtils.isEmpty(mSearchTerm)) {
             // Saves the current search string
             outState.putString(SearchManager.QUERY, mSearchTerm);
@@ -292,7 +410,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d("KieuThang", "onCreateLoader:" + mSearchTerm);
         // If this is the loader for finding contacts in the Contacts Provider
         // (the only one supported)
         if (id == ContactsQuery.QUERY_ID) {
@@ -309,23 +426,15 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             } else {
                 // Since there's a search string, use the special content Uri that searches the
                 // Contacts table. The URI consists of a base Uri and the search string.
-                contentUri =
-                        Uri.withAppendedPath(ContactsQuery.FILTER_URI, Uri.encode(mSearchTerm));
+                contentUri = Uri.withAppendedPath(ContactsQuery.FILTER_URI, Uri.encode(mSearchTerm));
             }
 
             // Returns a new CursorLoader for querying the Contacts table. No arguments are used
             // for the selection clause. The search string is either encoded onto the content URI,
             // or no contacts search string is used. The other search criteria are constants. See
             // the ContactsQuery interface.
-            return new CursorLoader(getActivity(),
-                    contentUri,
-                    ContactsQuery.PROJECTION,
-                    ContactsQuery.SELECTION,
-                    null,
-                    ContactsQuery.SORT_ORDER);
+            return new CursorLoader(getActivity(), contentUri, ContactsQuery.PROJECTION, ContactsQuery.SELECTION, null, ContactsQuery.SORT_ORDER);
         }
-
-        Log.e(TAG, "onCreateLoader - incorrect ID provided (" + id + ")");
         return null;
     }
 
@@ -406,18 +515,15 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             if (StringUtility.isEmpty(contactId))
                 return;
 
-            Log.d("KieuThang", " getCursor().getPosition:" + cursor.getPosition());
-            Log.d("KieuThang", " getCursor().getString(ContactsQuery.ID):" + cursor.getString(ContactsQuery.ID));
-            Log.d("KieuThang", " getCursor().getString(ContactsQuery.DISPLAY_NAME):" + cursor.getString(ContactsQuery.DISPLAY_NAME));
-
             ArrayList<String> phones = Utils.getContactUriTypeFromContactId(getActivity().getContentResolver(), contactId);
             if (phones == null || phones.size() == 0) {
                 Toast.makeText(getActivity(), "No phone number", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + phones.get(0)));
-            startActivity(intent);
+            Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+            smsIntent.setType("vnd.android-dir/mms-sms");
+            smsIntent.putExtra("address", phones.get(0));
+            startActivity(smsIntent);
         }
 
         public void onClickCallContact(int position) {
@@ -429,10 +535,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             String contactId = cursor.getString(ContactsQuery.ID);
             if (StringUtility.isEmpty(contactId))
                 return;
-
-            Log.d("KieuThang", " getCursor().getPosition:" + cursor.getPosition());
-            Log.d("KieuThang", " getCursor().getString(ContactsQuery.ID):" + cursor.getString(ContactsQuery.ID));
-            Log.d("KieuThang", " getCursor().getString(ContactsQuery.DISPLAY_NAME):" + cursor.getString(ContactsQuery.DISPLAY_NAME));
 
             ArrayList<String> phones = Utils.getContactUriTypeFromContactId(getActivity().getContentResolver(), contactId);
             if (phones == null || phones.size() == 0) {
@@ -472,9 +574,9 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
 
             final ViewHolder holder = new ViewHolder();
             holder.textAlphabet = (TextView) itemLayout.findViewById(R.id.text_alphabet_character);
-            holder.text1 = (TextView) itemLayout.findViewById(R.id.text_phone_name);
-            holder.text1.setSelected(true);
-            holder.text2 = (TextView) itemLayout.findViewById(R.id.text_match_other_field);
+            holder.textPhoneName = (TextView) itemLayout.findViewById(R.id.text_phone_name);
+            holder.textPhoneName.setSelected(true);
+            holder.textMatchOtherField = (TextView) itemLayout.findViewById(R.id.text_match_other_field);
             holder.icon = (CircleImageView) itemLayout.findViewById(android.R.id.icon);
             holder.divider = (View) itemLayout.findViewById(R.id.divider);
             holder.btnCall = (ImageButton) itemLayout.findViewById(R.id.btn_call);
@@ -505,7 +607,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
 
             final int startIndex = indexOfSearchQuery(displayName);
             final int position = cursor.getPosition();
-            Log.d("KieuThang", "getSesseion:" + mAlphabetIndexer.getSectionForPosition(cursor.getPosition()));
             final int sessionPosition = mAlphabetIndexer.getSectionForPosition(cursor.getPosition());
             int positionOfSession = mAlphabetIndexer.getPositionForSection(sessionPosition);
             if (positionOfSession == cursor.getPosition()) {
@@ -513,7 +614,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
                 holder.divider.setVisibility(View.VISIBLE);
                 final String alphabet = context.getString(R.string.alphabet);
                 char alphabetCharacter = alphabet.charAt(sessionPosition);
-                Log.d("KieuThang", "alphabetCharacter:" + alphabetCharacter);
                 holder.textAlphabet.setText(alphabetCharacter + "");
 
             } else {
@@ -521,20 +621,20 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
                 holder.textAlphabet.setVisibility(View.GONE);
             }
             if (startIndex == -1) {
-                holder.text1.setText(displayName);
+                holder.textPhoneName.setText(displayName);
 
                 if (TextUtils.isEmpty(mSearchTerm)) {
-                    holder.text2.setVisibility(View.GONE);
+                    holder.textMatchOtherField.setVisibility(View.GONE);
                 } else {
-                    holder.text2.setVisibility(View.VISIBLE);
+                    holder.textMatchOtherField.setVisibility(View.VISIBLE);
                 }
             } else {
                 final SpannableString highlightedName = new SpannableString(displayName);
                 highlightedName.setSpan(highlightTextSpan, startIndex, startIndex + mSearchTerm.length(), 0);
 
-                holder.text1.setText(highlightedName);
+                holder.textPhoneName.setText(highlightedName);
 
-                holder.text2.setVisibility(View.GONE);
+                holder.textMatchOtherField.setVisibility(View.GONE);
             }
 
             final Uri contactUri = Contacts.getLookupUri(cursor.getLong(ContactsQuery.ID), cursor.getString(ContactsQuery.LOOKUP_KEY));
@@ -615,8 +715,8 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
          */
         private class ViewHolder {
             TextView        textAlphabet;
-            TextView        text1;
-            TextView        text2;
+            TextView        textPhoneName;
+            TextView        textMatchOtherField;
             CircleImageView icon;
             View            divider;
             ImageButton     btnCall;
@@ -642,76 +742,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         public void onSelectionCleared();
     }
 
-    /**
-     * This interface defines constants for the Cursor and CursorLoader, based on constants defined
-     * in the {@link android.provider.ContactsContract.Contacts} class.
-     */
-    public interface ContactsQuery {
-
-        // An identifier for the loader
-        final static int      QUERY_ID             = 1;
-
-        // A content URI for the Contacts table
-        final static Uri      CONTENT_URI          = Contacts.CONTENT_URI;
-
-        // The search/filter query Uri
-        final static Uri      FILTER_URI           = Contacts.CONTENT_FILTER_URI;
-
-        // The selection clause for the CursorLoader query. The search criteria defined here
-        // restrict results to contacts that have a display name and are linked to visible groups.
-        // Notice that the search on the string provided by the user is implemented by appending
-        // the search string to CONTENT_FILTER_URI.
-        @SuppressLint("InlinedApi")
-        final static String   SELECTION            =
-                                                           (Utils.hasHoneycomb() ? Contacts.DISPLAY_NAME_PRIMARY : Contacts.DISPLAY_NAME) +
-                                                                   "<>''" + " AND " + Contacts.IN_VISIBLE_GROUP + "=1";
-
-        // The desired sort order for the returned Cursor. In Android 3.0 and later, the primary
-        // sort key allows for localization. In earlier versions. use the display name as the sort
-        // key.
-        @SuppressLint("InlinedApi")
-        final static String   SORT_ORDER           =
-                                                           Utils.hasHoneycomb() ? Contacts.SORT_KEY_PRIMARY : Contacts.DISPLAY_NAME;
-
-        // The projection for the CursorLoader query. This is a list of columns that the Contacts
-        // Provider should return in the Cursor.
-        @SuppressLint("InlinedApi")
-        final static String[] PROJECTION           = {
-
-                                                           // The contact's row id
-                                                           Contacts._ID,
-
-                                                           // A pointer to the contact that is guaranteed to be more permanent than _ID. Given
-                                                           // a contact's current _ID value and LOOKUP_KEY, the Contacts Provider can generate
-                                                           // a "permanent" contact URI.
-                                                           Contacts.LOOKUP_KEY,
-
-                                                           // In platform version 3.0 and later, the Contacts table contains
-                                                           // DISPLAY_NAME_PRIMARY, which either contains the contact's displayable name or
-                                                           // some other useful identifier such as an email address. This column isn't
-                                                           // available in earlier versions of Android, so you must use Contacts.DISPLAY_NAME
-                                                           // instead.
-                                                           Utils.hasHoneycomb() ? Contacts.DISPLAY_NAME_PRIMARY : Contacts.DISPLAY_NAME,
-
-                                                           // In Android 3.0 and later, the thumbnail image is pointed to by
-                                                           // PHOTO_THUMBNAIL_URI. In earlier versions, there is no direct pointer; instead,
-                                                           // you generate the pointer from the contact's ID value and constants defined in
-                                                           // android.provider.ContactsContract.Contacts.
-                                                           Utils.hasHoneycomb() ? Contacts.PHOTO_THUMBNAIL_URI : Contacts._ID,
-
-                                                           // The sort order column for the returned Cursor, used by the AlphabetIndexer
-                                                           SORT_ORDER,
-
-                                                   };
-
-        // The query column numbers which map to each value in the projection
-        final static int      ID                   = 0;
-        final static int      LOOKUP_KEY           = 1;
-        final static int      DISPLAY_NAME         = 2;
-        final static int      PHOTO_THUMBNAIL_DATA = 3;
-        final static int      SORT_KEY             = 4;
-    }
-
     public void onQueryTextChange(CharSequence s) {
         String searchText = s == null ? "" : s.toString();
         mSearchTerm = searchText;
@@ -721,7 +751,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
 
             // Don't do anything if the filter is empty
             if (mSearchTerm == null && newFilter == null) {
-                Log.d("KieuThang", "newFilter == null");
+                AIOLog.e(MyCallRecorderConstant.TAG, "newFilter == null");
                 return;
             }
 
@@ -747,13 +777,13 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("KieuThang", "onItemLongClick");
-        final Cursor cursor = mAdapter.getCursor();
+        mIsOnItemLongClick = true;
+        mSelectedPosition = position;
 
-        // Moves to the Cursor row corresponding to the ListView item that was clicked
-        cursor.moveToPosition(position);
-
-        // Creates a contact lookup Uri from contact ID and lookup_key
+        CircleImageView image = (CircleImageView) view.findViewById(android.R.id.icon);
+        if (mQuickAction == null)
+            return false;
+        mQuickAction.show(view, image);
         return false;
     }
 }
