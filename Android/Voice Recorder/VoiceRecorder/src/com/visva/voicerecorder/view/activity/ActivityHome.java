@@ -22,10 +22,11 @@ import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
-import com.visva.voicerecorder.view.fragments.FragmentAllRecord;
+import com.visva.voicerecorder.view.common.IHomeActionListener;
+import com.visva.voicerecorder.view.favourite.FragmentFavourite;
 import com.visva.voicerecorder.view.fragments.FragmentContact;
-import com.visva.voicerecorder.view.fragments.FragmentFavourite;
 import com.visva.voicerecorder.view.fragments.FragmentSetting;
+import com.visva.voicerecorder.view.recording.FragmentAllRecord;
 import com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu;
 
 public class ActivityHome extends VisvaAbstractFragmentActivity implements IHomeActionListener {
@@ -143,27 +144,31 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         switch (fragment) {
         case FRAGMENT_ABOUT:
             mFloatingActionsMenu.setVisibility(View.GONE);
+            mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_ALL_RECORDING:
             mFragmentAllRecord.setBackStatus(isback);
             mTransaction.show(mFragmentAllRecord);
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
+            mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_CONTACT:
-            // mFragmentContact.setBackStatus(isback);
             mTransaction.show(mFragmentContact);
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
+            mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_FAVOURITE:
             mFragmentFavourite.setBackStatus(isback);
             mTransaction.show(mFragmentFavourite);
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
+            mLayoutSearch.setVisibility(View.GONE);
             break;
         case FRAGMENT_SETTING:
             mLayoutSearch.setVisibility(View.GONE);
             mFragmentSetting.setBackStatus(isback);
             mTransaction.show(mFragmentSetting);
             mFloatingActionsMenu.setVisibility(View.GONE);
+            mLayoutSearch.setVisibility(View.GONE);
             break;
         default:
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
@@ -253,5 +258,29 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     public void onClickAddContactButton(View v) {
         final Intent intent = new Intent(Intent.ACTION_INSERT, Contacts.CONTENT_URI);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClickItemListener(View view, int position, int fragment, int listViewType) {
+        switch (fragment) {
+        case FRAGMENT_FAVOURITE:
+            mFragmentFavourite.onClickItemListener(view,position,listViewType);
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    @Override
+    public void onLongClickItemListener(View view, int position, int fragment, int listViewType) {
+        switch (fragment) {
+        case FRAGMENT_FAVOURITE:
+            mFragmentFavourite.onLongClickItemListener(view,position,listViewType);
+            break;
+
+        default:
+            break;
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.view.common.FragmentBasic;
 
 public class FragmentAbout extends FragmentBasic{
     @Override

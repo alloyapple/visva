@@ -227,13 +227,13 @@
                 android:id="@+id/fragment_all_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.visva.voicerecorder.view.fragments.FragmentAllRecord" />
+                class="com.visva.voicerecorder.view.recording.FragmentAllRecord" />
 
             <fragment
                 android:id="@+id/fragment_favourite"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.visva.voicerecorder.view.fragments.FragmentFavourite" />
+                class="com.visva.voicerecorder.view.favourite.FragmentFavourite" />
 
             <fragment
                 android:id="@+id/fragment_settings"

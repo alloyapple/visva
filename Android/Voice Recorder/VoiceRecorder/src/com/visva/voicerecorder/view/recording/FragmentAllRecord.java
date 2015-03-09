@@ -1,4 +1,4 @@
-package com.visva.voicerecorder.view.fragments;
+package com.visva.voicerecorder.view.recording;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
-import com.visva.voicerecorder.view.adapter.RecordingAdapter;
+import com.visva.voicerecorder.view.common.FragmentBasic;
 
 public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickListener {
     // ======================Constant Define=====================
