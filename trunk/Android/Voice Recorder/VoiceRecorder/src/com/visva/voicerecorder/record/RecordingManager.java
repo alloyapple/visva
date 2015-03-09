@@ -13,7 +13,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Environment;
 
-import com.visva.voicerecorder.view.fragments.FragmentAllRecord;
+import com.visva.voicerecorder.view.recording.FragmentAllRecord;
 
 /**
  * A class that manage all recording session

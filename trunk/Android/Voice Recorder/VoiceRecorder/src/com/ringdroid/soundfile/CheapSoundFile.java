@@ -16,6 +16,7 @@
 
 package com.ringdroid.soundfile;
 
+import android.annotation.SuppressLint;
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
@@ -76,9 +77,9 @@ public class CheapSoundFile {
 	 * Static method to create the appropriate CheapSoundFile subclass
 	 * given a filename.
 	 *
-	 * TODO: make this more modular rather than hardcoding the logic
+	 * make this more modular rather than hardcoding the logic
 	 */
-    public static CheapSoundFile create(String fileName,
+    @SuppressLint("DefaultLocale") public static CheapSoundFile create(String fileName,
                                         ProgressListener progressListener)
         throws java.io.FileNotFoundException,
                java.io.IOException {
@@ -101,7 +102,7 @@ public class CheapSoundFile {
         return soundFile;
     }
 
-    public static boolean isFilenameSupported(String filename) {
+    @SuppressLint("DefaultLocale") public static boolean isFilenameSupported(String filename) {
         String[] components = filename.toLowerCase().split("\\.");
         if (components.length < 2) {
             return false;

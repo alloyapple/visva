@@ -247,7 +247,6 @@ public class ProgramHelper {
             fileWriter.write(str);
             fileWriter.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

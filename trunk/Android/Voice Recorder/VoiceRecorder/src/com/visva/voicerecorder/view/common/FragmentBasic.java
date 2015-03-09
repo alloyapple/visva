@@ -1,4 +1,4 @@
-package com.visva.voicerecorder.view.fragments;
+package com.visva.voicerecorder.view.common;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,19 +8,18 @@ import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.SQLiteHelper;
 import com.visva.voicerecorder.view.activity.ActivityHome;
-import com.visva.voicerecorder.view.activity.IHomeActionListener;
 
 public class FragmentBasic extends Fragment {
     private boolean backStatus = false;
     protected Object mData = null;
-    protected IHomeActionListener mHomeActionListener;
+    protected IHomeActionListener iHomeActionListener;
     private boolean dataChange = false;
     public int mNumLoading = 0;
     protected SQLiteHelper mSQLiteHelper;
     protected ProgramHelper mProgramHelper;
 
     public FragmentBasic() {
-        mHomeActionListener = (ActivityHome) getActivity();
+        iHomeActionListener = (ActivityHome) getActivity();
     }
 
     @Override
@@ -28,41 +27,8 @@ public class FragmentBasic extends Fragment {
         super.onCreate(savedInstanceState);
         mSQLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(getActivity());
         mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
+        iHomeActionListener = (ActivityHome) getActivity();
     }
-
-//    public void before() {
-//        // Show waiting dialog during connection
-//        if (mNumLoading == 0) {
-//            // Show waiting dialog during connection
-//            mProgressDialog = new VisvaDialog(getActivity(), R.style.ProgressHUD);
-//            try {
-//                mProgressDialog.setCancelable(false);
-//                mProgressDialog.show();
-//            } catch (Exception e) {
-//                mProgressDialog = null;
-//            }
-//        }
-//
-//        mNumLoading++;
-//    }
-//
-//    public void after() {
-//        // Process server response
-//        mNumLoading--;
-//
-//        if (mNumLoading == 0) {
-//            if (mProgressDialog != null)
-//            {
-//                try {
-//                    mProgressDialog.dismiss();
-//                    mProgressDialog = null;
-//                } catch (Exception e) {
-//
-//                }
-//            }
-//        }
-//
-//    }
 
     public void refreshUI() {
 

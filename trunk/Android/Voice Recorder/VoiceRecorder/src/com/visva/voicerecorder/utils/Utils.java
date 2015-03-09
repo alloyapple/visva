@@ -29,7 +29,6 @@ import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 
 import com.visva.voicerecorder.R;
@@ -203,7 +202,6 @@ public class Utils {
     }
 
     public static boolean isSamePhoneNo(Context context, String number1, String number2) {
-        Log.d("KieuThang", "Compare " + number1 + " vs " + number2);
         if (TextUtils.isEmpty(number1) || TextUtils.isEmpty(number2)) {
             return false;
         }
@@ -224,24 +222,14 @@ public class Utils {
         String zip_code_2 = shorter_no.substring(0, shorter_no.length() - diff + 1);
         zip_code_1 = zip_code_1.startsWith("+") ? zip_code_1.substring(1) : zip_code_1;
         zip_code_2 = zip_code_2.startsWith("+") ? zip_code_2.substring(1) : zip_code_2;
-        Log.d("KieuThang", "zip_code_1 = " + zip_code_1);
-        Log.d("KieuThang", "zip_code_2 = " + zip_code_2);
 
         if (TextUtils.isEmpty(zip_code_1) && TextUtils.isEmpty(zip_code_2)) {
-            // longer = 01676245917 & shorter = 01676245917 for example
-            Log.d("KieuThang", "Both have no country code");
             return number1.equalsIgnoreCase(number2);
         }
         else if (TextUtils.isEmpty(zip_code_2) || "0".equalsIgnoreCase(zip_code_2)) {
-            // longer = +841676245917 & shorter = 01676245917 for example
-            // --> just check valid country code for longer number
-            Log.d("KieuThang", "Shorter number have no country code: " + shorter_no);
             return isValidCountryZipCode(context, zip_code_1);
         }
         else {
-            // longer = +841676245917 & shorter = +821676245917 for example
-            // --> check valid country code for both
-            Log.d("KieuThang", "Both have country codes: " + zip_code_1 + " and " + zip_code_2);
             return isValidCountryZipCode(context, zip_code_1) && isValidCountryZipCode(context, zip_code_2);
         }
     }

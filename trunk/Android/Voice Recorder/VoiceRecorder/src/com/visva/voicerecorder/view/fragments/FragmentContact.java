@@ -63,6 +63,7 @@ import com.visva.voicerecorder.utils.ContactsQuery;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.activity.ActivityHome;
+import com.visva.voicerecorder.view.common.FragmentBasic;
 import com.visva.voicerecorder.view.widget.CircleImageView;
 import com.visva.voicerecorder.view.widget.quickaction.ActionItem;
 import com.visva.voicerecorder.view.widget.quickaction.QuickAction;
@@ -151,7 +152,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
                     savedInstanceState.getInt(STATE_PREVIOUSLY_SELECTED_KEY, 0);
         }
 
-        mHomeActionListener = (ActivityHome) getActivity();
+        iHomeActionListener = (ActivityHome) getActivity();
     }
 
     @Override
