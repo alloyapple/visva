@@ -5,7 +5,7 @@
     android:focusable="true"
     android:orientation="vertical" >
 
-    <com.visva.voicerecorder.view.widget.CircleImageView
+    <com.visva.voicerecorder.view.widget.FavouriteCircleImage
         android:id="@+id/phone_avatar"
         android:layout_width="?android:attr/listPreferredItemHeight"
         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -29,6 +29,6 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

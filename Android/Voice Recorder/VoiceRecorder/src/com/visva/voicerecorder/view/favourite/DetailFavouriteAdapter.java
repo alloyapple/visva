@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import android.R.bool;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.CheckBox;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.StringUtility;
+import com.visva.voicerecorder.utils.Utils;
 
 public class DetailFavouriteAdapter extends BaseAdapter {
     // ======================Constant Define=====================
@@ -24,11 +28,16 @@ public class DetailFavouriteAdapter extends BaseAdapter {
     // ======================Variable Define=====================
     LayoutInflater                      layoutInflater;
     private Context                     mContext;
+    private boolean                     mIsLongClick       = false;
+    private ArrayList<Boolean>          mSeletedList       = new ArrayList<Boolean>();
     private ArrayList<RecordingSession> mRecordingSessions = new ArrayList<RecordingSession>();
 
     public DetailFavouriteAdapter(Context context, ArrayList<RecordingSession> recordingSessions) {
         this.mContext = context;
         this.mRecordingSessions = recordingSessions;
+        for (int i = 0; i < mRecordingSessions.size(); i++) {
+            mSeletedList.add(false);
+        }
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Collections.sort(mRecordingSessions, new MyComparator());
     }
@@ -50,26 +59,40 @@ public class DetailFavouriteAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup arg2) {
+        ViewHolder holder = null;
         if (convertView == null) {
             convertView = this.layoutInflater.inflate(R.layout.layout_detail_favourite, null);
+            holder = new ViewHolder();
+            holder.textDate = (TextView) convertView.findViewById(R.id.text_date);
+            holder.textTime = (TextView) convertView.findViewById(R.id.text_time);
+            holder.textDuration = (TextView) convertView.findViewById(R.id.text_duration);
+            holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox_select_favourite_detail_item);
+            convertView.setTag(holder);
         }
-        ViewHolder holder = new ViewHolder();
+        holder = (ViewHolder) (convertView).getTag();
         RecordingSession recordingSession = mRecordingSessions.get(position);
-        holder.textDateTime = (TextView) convertView.findViewById(R.id.text_date_time);
-        holder.textPhoneName = (TextView) convertView.findViewById(R.id.text_name);
-        holder.textDuration = (TextView) convertView.findViewById(R.id.text_duration);
-        if (StringUtility.isEmpty(recordingSession.phoneName))
-            holder.textPhoneName.setText(recordingSession.phoneNo);
-        else
-            holder.textPhoneName.setText(recordingSession.phoneName);
-        holder.textDateTime.setText(recordingSession.dateCreated);
+
+        boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);
+        if (isShowTextDate) {
+            holder.textDate.setTypeface(null, Typeface.BOLD);
+        } else
+            holder.textDate.setTypeface(null, Typeface.NORMAL);
+        holder.textDate.setText(Utils.getTextDate(mContext, recordingSession));
+        holder.textTime.setText(Utils.getTextTime(mContext, recordingSession));
+        holder.textDuration.setText(Utils.getDurationTime(mContext, recordingSession));
+        if (mIsLongClick) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+        } else
+            holder.checkBox.setVisibility(View.GONE);
+
         return convertView;
     }
 
     static class ViewHolder {
-        TextView textPhoneName;
-        TextView textDateTime;
+        TextView textDate;
+        TextView textTime;
         TextView textDuration;
+        CheckBox checkBox;
     }
 
     public class MyComparator implements Comparator<RecordingSession> {
@@ -81,7 +104,21 @@ public class DetailFavouriteAdapter extends BaseAdapter {
 
     public void updateDetailRecordingSession(ArrayList<RecordingSession> favouriteRecordingSessions) {
         mRecordingSessions.clear();
+        mSeletedList.clear();
         mRecordingSessions = favouriteRecordingSessions;
+        for (int i = 0; i < mRecordingSessions.size(); i++) {
+            mSeletedList.add(false);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setLongClickStateView(boolean isLongClick) {
+        mIsLongClick = isLongClick;
+        notifyDataSetChanged();
+    }
+
+    public void setSelectedPosition(int position) {
+        mSeletedList.set(position, true);
         notifyDataSetChanged();
     }
 }

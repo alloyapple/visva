@@ -69,9 +69,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
 
         holder = (ViewHolder) convertView.getTag();
         holder.textPhoneNo.setText(this.getItem(position).phoneNo);
-        String timeString = this.getItem(position).dateCreated.split("-")[3];
-        String finalTimeString = timeString.split(":")[0] + ":" + timeString.split(":")[1];
-        holder.textTime.setText(finalTimeString);
+        holder.textTime.setText(Utils.getTextTime(mContext, getItem(position)));
 
         boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);
         if (isShowTextDate) {
