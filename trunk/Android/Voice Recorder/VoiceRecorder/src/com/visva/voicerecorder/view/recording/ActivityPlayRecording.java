@@ -255,6 +255,12 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
     }
 
     public void onClickCloseButton(View v){
+        if(mMediaPlayer!=null){
+            if(mMediaPlayer.isPlaying())
+                mMediaPlayer.stop();
+            mMediaPlayer.reset();
+            mMediaPlayer.release();
+        }
         finish();
     }
 

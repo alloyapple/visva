@@ -16,6 +16,8 @@
 
 package com.visva.voicerecorder.utils;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -23,6 +25,7 @@ import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
@@ -31,6 +34,7 @@ import android.provider.ContactsContract.CommonDataKinds;
 import android.text.TextUtils;
 import android.util.TypedValue;
 
+import com.ringdroid.soundfile.CheapSoundFile;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.view.activity.ActivityHome;
@@ -242,5 +246,58 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static String getTextTime(Context context, RecordingSession item) {
+        String timeString = item.dateCreated.split("-")[3];
+        String finalTimeString = timeString.split(":")[0] + ":" + timeString.split(":")[1];
+        return finalTimeString;
+    }
+
+    public static String getDurationTime(Context mContext, RecordingSession recordingSession) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        String durationTime = "";
+        long duration = 0L;
+        try {
+            mediaPlayer.setDataSource(recordingSession.fileName);
+            mediaPlayer.prepare();
+            duration = mediaPlayer.getDuration();
+            durationTime = "" + TimeUtility.milliSecondsToTimer(duration);
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (duration == 0)
+            return null;
+        return durationTime;
+    }
+
+    public static long getDuration(CheapSoundFile cheapSoundFile) {
+        if (cheapSoundFile == null)
+            return -1;
+        int sampleRate = cheapSoundFile.getSampleRate();
+        int samplesPerFrame = cheapSoundFile.getSamplesPerFrame();
+        int frames = cheapSoundFile.getNumFrames();
+        cheapSoundFile = null;
+        return 1000 * (frames * samplesPerFrame) / sampleRate;
+    }
+
+    public static String getDurationTime(RecordingSession recordingSession) {
+        String durationTime = "";
+        if (recordingSession.fileName != null && recordingSession.fileName.length() > 0)
+            try {
+                long totalDuration = getDuration(CheapSoundFile.create(recordingSession.fileName, null));
+                durationTime = "" + TimeUtility.milliSecondsToTimer(totalDuration);
+            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
+            }
+        return durationTime;
     }
 }

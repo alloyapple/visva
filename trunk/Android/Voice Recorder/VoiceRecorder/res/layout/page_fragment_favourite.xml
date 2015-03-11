@@ -72,6 +72,7 @@
             android:layout_alignParentRight="true"
             android:background="@color/white"
             android:clickable="true"
+            android:onClick="onClickLayoutMsg"
             materialdesign:rippleColor="#1E88E5"
             materialdesign:rippleSpeed="10" >
 
@@ -91,6 +92,7 @@
             android:layout_toLeftOf="@id/layout_msg"
             android:background="@color/white"
             android:clickable="true"
+            android:onClick="onClickLayoutCall"
             materialdesign:rippleColor="#1E88E5"
             materialdesign:rippleSpeed="50" >
 
@@ -142,11 +144,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_options" >
 
-        <ListView
+        <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/list_detail_favourite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-        </ListView>
+        </com.baoyz.swipemenulistview.SwipeMenuListView>
 
         <TextView
             android:id="@+id/text_no_favourite"

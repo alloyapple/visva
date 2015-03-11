@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content" >
+
+    <com.gc.materialdesign.views.CheckBox
+        android:id="@+id/checkBox_select_favourite_detail_item"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:visibility="gone"
+        android:layout_centerVertical="true" />
 
     <TextView
-        android:id="@+id/text_name"
+        android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="Test"
+        android:layout_toRightOf="@id/checkBox_select_favourite_detail_item"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/text_date_time"
+        android:id="@+id/text_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_name"
+        android:layout_below="@id/text_date"
+        android:layout_marginLeft="10dp"
         android:text="Test"
-        android:textColor="@color/black" />
+        android:layout_toRightOf="@id/checkBox_select_favourite_detail_item"
+        android:textColor="@color/gray_1" />
 
     <TextView
         android:id="@+id/text_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
-        android:layout_below="@id/text_name"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:textColor="@color/black" />
+        android:layout_marginRight="10dp"
+        android:text="Test"
+        android:textColor="@color/gray_2" />
 
 </RelativeLayout>

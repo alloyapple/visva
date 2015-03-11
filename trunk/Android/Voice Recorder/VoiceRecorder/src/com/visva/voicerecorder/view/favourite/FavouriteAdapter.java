@@ -6,8 +6,6 @@ import java.util.Comparator;
 
 import android.content.Context;
 import android.net.Uri;
-import android.provider.ContactsContract.Profile;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -21,7 +19,7 @@ import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.activity.ActivityHome;
 import com.visva.voicerecorder.view.common.IHomeActionListener;
-import com.visva.voicerecorder.view.widget.CircleImageView;
+import com.visva.voicerecorder.view.widget.FavouriteCircleImage;
 
 public class FavouriteAdapter extends BaseAdapter {
     // ======================Constant Define=====================
@@ -53,7 +51,7 @@ public class FavouriteAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int arg0) {
+    public long getItemId(int position) {
         return 0;
     }
 
@@ -63,7 +61,7 @@ public class FavouriteAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = this.layoutInflater.inflate(R.layout.favourite_item, null);
             holder = new ViewHolder();
-            holder.avatar = (CircleImageView) convertView.findViewById(R.id.phone_avatar);
+            holder.avatar = (FavouriteCircleImage) convertView.findViewById(R.id.phone_avatar);
             holder.textPhoneName = (TextView) convertView.findViewById(R.id.text_name);
             convertView.setTag(holder);
         }
@@ -77,22 +75,6 @@ public class FavouriteAdapter extends BaseAdapter {
         } else {
             holder.avatar.setImageResource(R.drawable.ic_contact_picture_holo_light);
         }
-        holder.avatar.setFocusable(false);
-        holder.avatar.setOnLongClickListener(new OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                iHomeActionListener.onLongClickItemListener(view, position, ActivityHome.FRAGMENT_FAVOURITE, 0);
-                return false;
-            }
-        });
-        holder.avatar.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                iHomeActionListener.onClickItemListener(view, position, ActivityHome.FRAGMENT_FAVOURITE, 0);
-            }
-        });
         holder.textPhoneName.setFocusable(false);
         holder.textPhoneName.setOnLongClickListener(new OnLongClickListener() {
 
@@ -119,7 +101,7 @@ public class FavouriteAdapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView        textPhoneName;
-        CircleImageView avatar;
+        FavouriteCircleImage avatar;
     }
 
     public void setListener(IHomeActionListener iHomeActionListener) {
