@@ -31,11 +31,14 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.TypedValue;
 
 import com.ringdroid.soundfile.CheapSoundFile;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.view.activity.ActivityHome;
 
@@ -299,5 +302,14 @@ public class Utils {
             } catch (IOException e) {
             }
         return durationTime;
+    }
+
+    public static boolean isCheckFavouriteContact(FragmentActivity activity, String contactId) {
+        SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(activity);
+        FavouriteItem favouriteItem = sqLiteHelper.getFavouriteItem(contactId);
+        if (favouriteItem == null)
+            return false;
+        else
+            return true;
     }
 }

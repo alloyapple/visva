@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.LayoutRipple;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.VisvaAbstractFragmentActivity;
@@ -31,27 +33,31 @@ import com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsM
 
 public class ActivityHome extends VisvaAbstractFragmentActivity implements IHomeActionListener {
     // ======================Constant Define=====================
-    public static final int       FRAGMENT_BASE_ID        = 1000;
-    public static final int       FRAGMENT_ALL_RECORDING  = FRAGMENT_BASE_ID + 1;
-    public static final int       FRAGMENT_CONTACT        = FRAGMENT_ALL_RECORDING + 1;
-    public static final int       FRAGMENT_FAVOURITE      = FRAGMENT_CONTACT + 1;
-    public static final int       FRAGMENT_SETTING        = FRAGMENT_FAVOURITE + 1;
-    public static final int       FRAGMENT_ABOUT          = FRAGMENT_SETTING + 1;
+    public static final int     FRAGMENT_BASE_ID       = 1000;
+    public static final int     FRAGMENT_ALL_RECORDING = FRAGMENT_BASE_ID + 1;
+    public static final int     FRAGMENT_CONTACT       = FRAGMENT_ALL_RECORDING + 1;
+    public static final int     FRAGMENT_FAVOURITE     = FRAGMENT_CONTACT + 1;
+    public static final int     FRAGMENT_SETTING       = FRAGMENT_FAVOURITE + 1;
+    public static final int     FRAGMENT_ABOUT         = FRAGMENT_SETTING + 1;
     // ======================Control Define =====================
-    private FragmentManager       mFmManager;
-    private FragmentTransaction   mTransaction;
-    private FragmentAllRecord     mFragmentAllRecord;
-    private FragmentContact       mFragmentContact;
-    private FragmentFavourite     mFragmentFavourite;
-    private FragmentSetting       mFragmentSetting;
+    private FragmentManager     mFmManager;
+    private FragmentTransaction mTransaction;
+    private FragmentAllRecord   mFragmentAllRecord;
+    private FragmentContact     mFragmentContact;
+    private FragmentFavourite   mFragmentFavourite;
+    private FragmentSetting     mFragmentSetting;
 
-    private FloatingActionsMenu   mFloatingActionsMenu;
-    private RelativeLayout        mLayoutSearch;
-    private EditText              mEditTextSearch;
-    private ImageButton           mBtnClearSearch;
+    private FloatingActionsMenu mFloatingActionsMenu;
+    private RelativeLayout      mLayoutSearch;
+    private EditText            mEditTextSearch;
+    private ImageButton         mBtnClearSearch;
+    private LayoutRipple        mLayoutContact;
+    private LayoutRipple        mLayoutRecord;
+    private LayoutRipple        mLayoutFavourite;
+    private LayoutRipple        mLayoutSetting;
     // ======================Variable Define=====================
-    private boolean               mBackPressedToExitOnce  = false;
-    private int                   mFragmentShowType       = FRAGMENT_ALL_RECORDING;
+    private boolean             mBackPressedToExitOnce = false;
+    private int                 mFragmentShowType      = FRAGMENT_ALL_RECORDING;
 
     @Override
     public int contentView() {
@@ -72,6 +78,10 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         mLayoutSearch = (RelativeLayout) findViewById(R.id.layout_search);
         mBtnClearSearch = (ImageButton) findViewById(R.id.btn_clear_search);
         mEditTextSearch = (EditText) findViewById(R.id.edit_text_search);
+        mLayoutContact = (LayoutRipple) findViewById(R.id.btn_contact);
+        mLayoutFavourite = (LayoutRipple) findViewById(R.id.btn_favourite);
+        mLayoutRecord = (LayoutRipple) findViewById(R.id.btn_all_record);
+        mLayoutSetting = (LayoutRipple) findViewById(R.id.btn_settings);
         mBtnClearSearch.setVisibility(View.GONE);
 
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
@@ -90,8 +100,10 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
                 default:
                     break;
                 }
-
-                mBtnClearSearch.setVisibility(View.VISIBLE);
+                if (s != null && !"".equals(s.toString()))
+                    mBtnClearSearch.setVisibility(View.VISIBLE);
+                else
+                    mBtnClearSearch.setVisibility(View.GONE);
             }
 
             @Override
@@ -226,16 +238,16 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             showFragment(FRAGMENT_ABOUT, false);
             break;
         case R.id.action_all_record:
-            showFragment(FRAGMENT_ALL_RECORDING, false);
+            onClickRecordTab(v);
             break;
         case R.id.action_contact:
-            showFragment(FRAGMENT_CONTACT, false);
+            onClickContactTab(v);
             break;
         case R.id.action_favourite:
-            showFragment(FRAGMENT_FAVOURITE, false);
+            onClickFavouriteTab(v);
             break;
         case R.id.action_setting:
-            showFragment(FRAGMENT_SETTING, false);
+            onClickSettingTab(v);
             break;
         default:
             break;
@@ -264,7 +276,7 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     public void onClickItemListener(View view, int position, int fragment, int listViewType) {
         switch (fragment) {
         case FRAGMENT_FAVOURITE:
-            mFragmentFavourite.onClickItemListener(view,position,listViewType);
+            mFragmentFavourite.onClickItemListener(view, position, listViewType);
             break;
 
         default:
@@ -276,11 +288,52 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     public void onLongClickItemListener(View view, int position, int fragment, int listViewType) {
         switch (fragment) {
         case FRAGMENT_FAVOURITE:
-            mFragmentFavourite.onLongClickItemListener(view,position,listViewType);
+            mFragmentFavourite.onLongClickItemListener(view, position, listViewType);
             break;
 
         default:
             break;
         }
+    }
+
+    // hold onClick tabs action
+    public void onClickSettingTab(View v) {
+        Log.d("KieuThang", "onClickSettingTab");
+        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        
+        showFragment(FRAGMENT_SETTING, false);
+    }
+
+    public void onClickFavouriteTab(View v) {
+        Log.d("KieuThang", "onClickFavouriteTab");
+        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        
+        showFragment(FRAGMENT_FAVOURITE, false);
+    }
+
+    public void onClickRecordTab(View v) {
+        Log.d("KieuThang", "onClickRecordTab");
+        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        
+        showFragment(FRAGMENT_ALL_RECORDING, false);
+    }
+
+    public void onClickContactTab(View v) {
+        Log.d("KieuThang", "onClickContactTab");
+        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+        
+        showFragment(FRAGMENT_CONTACT, false);
     }
 }

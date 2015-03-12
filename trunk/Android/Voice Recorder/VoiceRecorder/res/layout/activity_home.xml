@@ -21,13 +21,15 @@
             android:weightSum="4" >
 
             <com.gc.materialdesign.views.LayoutRipple
+                android:id="@+id/btn_contact"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:gravity="center"
+                android:onClick="onClickContactTab"
                 materialdesign:rippleColor="#1E88E5"
-                materialdesign:rippleSpeed="10" >
+                materialdesign:rippleSpeed="20" >
 
                 <ImageView
                     android:id="@+id/ic_contact"
@@ -54,13 +56,15 @@
             </View>
 
             <com.gc.materialdesign.views.LayoutRipple
+                android:id="@+id/btn_all_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:onClick="onClickRecordTab"
                 android:gravity="center"
                 materialdesign:rippleColor="#1E88E5"
-                materialdesign:rippleSpeed="10" >
+                materialdesign:rippleSpeed="20" >
 
                 <ImageView
                     android:id="@+id/ic_all_record"
@@ -87,13 +91,15 @@
             </View>
 
             <com.gc.materialdesign.views.LayoutRipple
+                android:id="@+id/btn_favourite"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:onClick="onClickFavouriteTab"
                 android:gravity="center"
                 materialdesign:rippleColor="#1E88E5"
-                materialdesign:rippleSpeed="10" >
+                materialdesign:rippleSpeed="20" >
 
                 <ImageView
                     android:id="@+id/ic_favourite"
@@ -120,13 +126,15 @@
             </View>
 
             <com.gc.materialdesign.views.LayoutRipple
+                android:id="@+id/btn_settings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="onClickSettingTab"
                 android:clickable="true"
                 android:gravity="center"
                 materialdesign:rippleColor="#1E88E5"
-                materialdesign:rippleSpeed="10" >
+                materialdesign:rippleSpeed="20" >
 
                 <ImageView
                     android:id="@+id/ic_settings"
@@ -177,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
-                    android:background="@drawable/ic_drawer"
+                    android:background="@drawable/btn_search"
                     android:onClick="onClickSearchButton" />
 
                 <ImageButton
@@ -187,7 +195,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
-                    android:background="@drawable/ic_drawer"
+                    android:background="@drawable/btn_close"
                     android:onClick="onClickClearSearchButton" />
 
                 <EditText

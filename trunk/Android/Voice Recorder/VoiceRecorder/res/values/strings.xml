@@ -50,6 +50,21 @@
     <string name="edit">Edit</string>
     <string name="are_you_sure_to_delete_contact">Are you sure to delete this contact?</string>
 	<string name="share">Share</string>
+	<string name="name">Name:</string>
+	<string name="phone_no">Phone No:</string>
+	<string name="share_contact">Share contact</string>
+	<string name="added_to_favourite">Added %s to favourites</string>
+	<string name="removed_from_favourite">Removed %s from favourites</string>
+	<string name="when_call_arrive">When calls arrive</string>
+	<string name="auto_saved_incoming_and_out_going_calls">Auto saved incoming and on going calls</string>
+	<string name="saved_calls">Saved calls</string>
+	<string name="incoming_calls">Incomming calls</string>
+	<string name="ongoing_calls">Ongoing calls</string>
+	<string name="themes">Themes</string>
+	<string name="choose_one_theme_to_set_background">Choose one theme to set background</string>
+	<string name="sync_to_cloud">Sync to cloud</string>
+	<string name="dropbox">Dropbox</string>
+	<string name="google_drive">Google drive</string>
 	
     <string-array name="CountryCodes">
         <item>93,AF</item>

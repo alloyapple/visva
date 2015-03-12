@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import android.R.bool;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.gc.materialdesign.views.CheckBox;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.record.RecordingSession;
-import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 
 public class DetailFavouriteAdapter extends BaseAdapter {
@@ -68,10 +66,10 @@ public class DetailFavouriteAdapter extends BaseAdapter {
             holder.textDuration = (TextView) convertView.findViewById(R.id.text_duration);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox_select_favourite_detail_item);
             convertView.setTag(holder);
-        } else
-            holder = (ViewHolder) (convertView).getTag();
-        
+        }
+        holder = (ViewHolder) (convertView).getTag();
         RecordingSession recordingSession = mRecordingSessions.get(position);
+
         boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);
         if (isShowTextDate) {
             holder.textDate.setTypeface(null, Typeface.BOLD);

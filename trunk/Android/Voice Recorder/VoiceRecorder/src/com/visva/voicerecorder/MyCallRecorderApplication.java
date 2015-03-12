@@ -12,6 +12,7 @@ import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ContactsQuery;
+import com.visva.voicerecorder.utils.MyCallRecorderSharePrefs;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.SQLiteHelper;
 import com.visva.voicerecorder.utils.StringUtility;
@@ -24,6 +25,7 @@ public class MyCallRecorderApplication extends Application {
     private static SQLiteHelper              mSqLiteHelper;
     private static ProgramHelper             helper;
     private static ActivityHome              activity;
+    private static MyCallRecorderSharePrefs  mMyCallRecorderSharePrefs;
 
     public static MyCallRecorderApplication getInstance() {
         if (mInstance == null) {
@@ -39,8 +41,6 @@ public class MyCallRecorderApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("KieuThang", "MyCallRecorderApplication:onCreate");
-
         checkFavouriteContactApplication();
     }
 
@@ -85,7 +85,6 @@ public class MyCallRecorderApplication extends Application {
                     }
                 }
                 // contact's ID to the Contacts table content Uri
-                Log.d("KieuThang", "compare:" + favouriteItems.contains(contactId) + ",contactId:" + contactId);
                 FavouriteItem item = new FavouriteItem();
                 item.contactId = contactId;
                 boolean isItemContain = false;
@@ -143,5 +142,12 @@ public class MyCallRecorderApplication extends Application {
 
     public void setActivity(ActivityHome activity) {
         MyCallRecorderApplication.activity = activity;
+    }
+
+    public MyCallRecorderSharePrefs getMyCallRecorderSharePref() {
+        if (mMyCallRecorderSharePrefs == null) {
+            mMyCallRecorderSharePrefs = MyCallRecorderSharePrefs.getInstance(getAndroidContext());
+        }
+        return mMyCallRecorderSharePrefs;
     }
 }
