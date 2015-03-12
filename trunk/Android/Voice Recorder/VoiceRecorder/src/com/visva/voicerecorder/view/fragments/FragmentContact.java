@@ -24,8 +24,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
@@ -49,11 +47,6 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
@@ -87,15 +80,14 @@ import com.visva.voicerecorder.view.widget.quickaction.QuickAction;
  * displays the filtered list and disables the search feature to prevent furthering searching.
  */
 public class FragmentContact extends FragmentBasic implements AdapterView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor>,
-        AdapterView.OnItemLongClickListener,
-        OnMenuItemClickListener {
+        AdapterView.OnItemLongClickListener {
     // ======================Constant Define=====================
 
     // Bundle key for saving previously selected search result item
     private static final String           STATE_PREVIOUSLY_SELECTED_KEY =
                                                                                 "com.example.android.contactslist.ui.SELECTED_ITEM";
     // ======================Control Define =====================
-    private SwipeMenuListView             mListContact;
+    private ListView                      mListContact;
     private TextView                      mTextNoContact;
     private QuickAction                   mQuickAction;
     // =======================Class Define ======================
@@ -159,7 +151,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the list fragment layout
         View view = inflater.inflate(R.layout.contact_list_fragment, container, false);
-        mListContact = (SwipeMenuListView) view.findViewById(R.id.list_contacts);
+        mListContact = (ListView) view.findViewById(R.id.list_contacts);
         mTextNoContact = (TextView) view.findViewById(R.id.text_no_contact);
         return view;
     }
@@ -168,37 +160,8 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Set up ListView, assign adapter and set some listeners. The adapter was previously
-        // created in onCreate().
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-
-            @Override
-            public void create(SwipeMenu menu) {
-                SwipeMenuItem logItem = new SwipeMenuItem(getActivity());
-                logItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
-                logItem.setWidth(Utils.dp2px(getActivity(), 100));
-                logItem.setIcon(R.drawable.delete_image);
-                menu.addMenuItem(logItem);
-
-                SwipeMenuItem messageItem = new SwipeMenuItem(getActivity());
-                messageItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                messageItem.setWidth(Utils.dp2px(getActivity(), 100));
-                messageItem.setIcon(R.drawable.ic_message_while);
-                menu.addMenuItem(messageItem);
-
-                SwipeMenuItem callItem = new SwipeMenuItem(getActivity());
-                callItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                callItem.setWidth(Utils.dp2px(getActivity(), 100));
-                callItem.setIcon(R.drawable.ic_call_while);
-                menu.addMenuItem(callItem);
-
-            }
-        };
-
-        mListContact.setMenuCreator(creator);
         mListContact.setAdapter(mAdapter);
         mListContact.setOnItemClickListener(this);
-        mListContact.setOnMenuItemClickListener(this);
         mListContact.setOnItemLongClickListener(this);
 
         if (mIsTwoPaneLayout) {
@@ -222,25 +185,31 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     private void initQuickAction() {
         String editTitle = getActivity().getString(R.string.edit);
         String deleteTitle = getActivity().getString(R.string.delete);
-        String favouriteTitle = getActivity().getString(R.string.favourite_tab);
-        ActionItem addAction = new ActionItem();
-
-        addAction.setTitle(editTitle);
-        addAction.setIcon(getResources().getDrawable(R.drawable.ic_action_edit));
-        ActionItem playNormalAction = new ActionItem();
-        playNormalAction.setTitle(deleteTitle);
-        playNormalAction.setIcon(getResources().getDrawable(R.drawable.delete_button));
-        // Accept action item
-        ActionItem accAction = new ActionItem();
-
-        accAction.setTitle(favouriteTitle);
-        accAction.setIcon(getResources().getDrawable(R.drawable.ic_star_outline_grey600_24dp));
+        String favouriteTitle = getActivity().getString(R.string.favourite);
+        String shareTitle = getActivity().getString(R.string.share);
+        
+        ActionItem editAction = new ActionItem();
+        editAction.setTitle(editTitle);
+        editAction.setIcon(getResources().getDrawable(R.drawable.ic_action_edit));
+        
+        ActionItem deleteAction = new ActionItem();
+        deleteAction.setTitle(deleteTitle);
+        deleteAction.setIcon(getResources().getDrawable(R.drawable.delete_button));
+        
+        ActionItem favouriteAction = new ActionItem();
+        favouriteAction.setTitle(favouriteTitle);
+        favouriteAction.setIcon(getResources().getDrawable(R.drawable.ic_star_outline_grey600_24dp));
+        
+        ActionItem shareAction = new ActionItem();
+        shareAction.setTitle(shareTitle);
+        shareAction.setIcon(getResources().getDrawable(R.drawable.ic_share_variant_grey600_48dp));
 
         mQuickAction = new QuickAction(getActivity());
 
-        mQuickAction.addActionItem(addAction);
-        mQuickAction.addActionItem(playNormalAction);
-        mQuickAction.addActionItem(accAction);
+        mQuickAction.addActionItem(editAction);
+        mQuickAction.addActionItem(deleteAction);
+        mQuickAction.addActionItem(favouriteAction);
+        mQuickAction.addActionItem(shareAction);
 
         // setup the action item click listener
         mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
@@ -335,24 +304,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
     }
 
     @Override
-    public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-        switch (index) {
-        case 0:
-            deleteThisContact(mSelectedPosition);
-            break;
-        case 1:
-            mAdapter.onClickSMSContact(position);
-            break;
-        case 2:
-            mAdapter.onClickCallContact(position);
-            break;
-        default:
-            break;
-        }
-        return false;
-    }
-
-    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
@@ -378,7 +329,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         final Uri uri = Contacts.getLookupUri(cursor.getLong(ContactsQuery.ID), cursor.getString(ContactsQuery.LOOKUP_KEY));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
-        
+
         if (mIsTwoPaneLayout) {
             mListContact.setItemChecked(position, true);
         }
@@ -504,27 +455,6 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             final String alphabet = context.getString(R.string.alphabet);
             mAlphabetIndexer = new AlphabetIndexer(getCursor(), ContactsQuery.SORT_KEY, alphabet);
             highlightTextSpan = new TextAppearanceSpan(getActivity(), R.style.searchTextHiglight);
-        }
-
-        public void onClickSMSContact(int position) {
-            Cursor cursor = mAdapter.getCursor();
-
-            // Moves to the Cursor row corresponding to the ListView item that was clicked
-            cursor.moveToPosition(position);
-
-            String contactId = cursor.getString(ContactsQuery.ID);
-            if (StringUtility.isEmpty(contactId))
-                return;
-
-            ArrayList<String> phones = Utils.getContactUriTypeFromContactId(getActivity().getContentResolver(), contactId);
-            if (phones == null || phones.size() == 0) {
-                Toast.makeText(getActivity(), "No phone number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
-            smsIntent.setType("vnd.android-dir/mms-sms");
-            smsIntent.putExtra("address", phones.get(0));
-            startActivity(smsIntent);
         }
 
         public void onClickCallContact(int position) {

@@ -68,10 +68,10 @@ public class DetailFavouriteAdapter extends BaseAdapter {
             holder.textDuration = (TextView) convertView.findViewById(R.id.text_duration);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox_select_favourite_detail_item);
             convertView.setTag(holder);
-        }
-        holder = (ViewHolder) (convertView).getTag();
+        } else
+            holder = (ViewHolder) (convertView).getTag();
+        
         RecordingSession recordingSession = mRecordingSessions.get(position);
-
         boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);
         if (isShowTextDate) {
             holder.textDate.setTypeface(null, Typeface.BOLD);

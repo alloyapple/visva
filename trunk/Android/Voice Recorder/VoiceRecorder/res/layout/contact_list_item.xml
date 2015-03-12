@@ -62,6 +62,16 @@
          visibility set to gone
         -->
 
+        <ImageButton
+            android:id="@+id/btn_call"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_call"
+            android:focusable="false" />
+
         <TextView
             android:id="@+id/text_match_other_field"
             android:layout_width="match_parent"
@@ -89,29 +99,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/text_match_other_field"
-            android:layout_alignParentRight="true"
             android:layout_alignWithParentIfMissing="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@id/btn_call"
             android:layout_toRightOf="@android:id/icon"
             android:ellipsize="marquee"
+            android:focusable="false"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/listview_item_padding"
-            android:paddingRight="@dimen/listview_item_padding"
             android:singleLine="true"
-            android:focusable="false"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black" />
-
-        <ImageButton
-            android:id="@+id/btn_call"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:focusable="false"
-            android:background="@drawable/btn_call" />
     </RelativeLayout>
 
 </RelativeLayout>
