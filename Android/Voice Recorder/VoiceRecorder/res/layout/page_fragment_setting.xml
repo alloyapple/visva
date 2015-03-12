@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="When calls arrive"
+                android:text="@string/when_call_arrive"
                 android:textColor="@color/material_design_color_orange_1"
                 android:textSize="18sp" >
             </TextView>
@@ -36,11 +36,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_margin="10dp"
-                    android:text="Auto saved incoming and on going calls"
+                    android:text="@string/auto_saved_incoming_and_out_going_calls"
                     android:textColor="@color/black" >
                 </TextView>
 
                 <com.gc.materialdesign.views.Switch
+                    android:id="@+id/switch_auto_saved_record_call"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -65,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Saved calls"
+                android:text="@string/saved_calls"
                 android:textColor="@color/material_design_color_orange_1"
                 android:textSize="18sp" >
             </TextView>
@@ -82,11 +83,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_margin="10dp"
-                    android:text="Incomming calls"
+                    android:text="@string/incoming_calls"
                     android:textColor="@color/black" >
                 </TextView>
 
                 <com.gc.materialdesign.views.Switch
+                    android:id="@+id/switch_incoming_calls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -106,12 +108,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_margin="10dp"
-                    android:text="Ongoing calls"
+                    android:text="@string/ongoing_calls"
                     android:textColor="@color/black" >
                 </TextView>
 
                 <com.gc.materialdesign.views.Switch
-                    android:id="@+id/switch_ongoing"
+                    android:id="@+id/switch_ongoing_calls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -137,12 +139,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Themes"
+                android:text="@string/themes"
                 android:textColor="@color/material_design_color_orange_1"
                 android:textSize="18sp" >
             </TextView>
 
             <com.gc.materialdesign.views.LayoutRipple
+                android:id="@+id/layout_themes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txt_theme"
@@ -151,7 +154,7 @@
                 android:background="@color/white"
                 android:clickable="true"
                 materialdesign:rippleColor="#1E88E5"
-                materialdesign:rippleSpeed="10" >
+                materialdesign:rippleSpeed="50" >
 
                 <TextView
                     android:id="@+id/txt_choose_theme"
@@ -160,7 +163,7 @@
                     android:layout_below="@id/txt_theme"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="Choose one theme to set background"
+                    android:text="@string/choose_one_theme_to_set_background"
                     android:textColor="@color/black" >
                 </TextView>
 
@@ -191,7 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Sync to cloud"
+                android:text="@string/sync_to_cloud"
                 android:textColor="@color/material_design_color_orange_1"
                 android:textSize="18sp" >
             </TextView>
@@ -210,7 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="Dropbox"
+                    android:text="@string/dropbox"
                     android:textColor="@color/black" >
                 </TextView>
 
@@ -238,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
-                    android:text="Google drive"
+                    android:text="@string/google_drive"
                     android:textColor="@color/black" >
                 </TextView>
 

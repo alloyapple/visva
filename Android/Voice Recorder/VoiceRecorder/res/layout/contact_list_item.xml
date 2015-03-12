@@ -56,6 +56,14 @@
             android:layout_marginLeft="10dp"
             android:src="@drawable/ic_contact_picture_holo_light" />
 
+        <ImageView
+            android:id="@+id/ic_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_star"
+            android:visibility="gone"
+            android:contentDescription="@string/imageview_description" />
         <!--
          Use standard android.R class text2 id instead of app specific id. This is just useful for
          consistency. This is secondary text and not always visible so by default is has its

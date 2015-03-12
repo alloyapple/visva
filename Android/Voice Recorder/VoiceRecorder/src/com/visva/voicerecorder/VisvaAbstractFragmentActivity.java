@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -19,7 +20,8 @@ public abstract class VisvaAbstractFragmentActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
             Class strictModeClass = Class.forName("android.os.StrictMode");
             Class strictModeThreadPolicyClass = Class.forName("android.os.StrictMode$ThreadPolicy");

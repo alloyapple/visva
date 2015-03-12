@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AlphabetIndexer;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SectionIndexer;
@@ -52,6 +54,7 @@ import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.utils.ContactsQuery;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
@@ -187,19 +190,19 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         String deleteTitle = getActivity().getString(R.string.delete);
         String favouriteTitle = getActivity().getString(R.string.favourite);
         String shareTitle = getActivity().getString(R.string.share);
-        
+
         ActionItem editAction = new ActionItem();
         editAction.setTitle(editTitle);
         editAction.setIcon(getResources().getDrawable(R.drawable.ic_action_edit));
-        
+
         ActionItem deleteAction = new ActionItem();
         deleteAction.setTitle(deleteTitle);
         deleteAction.setIcon(getResources().getDrawable(R.drawable.delete_button));
-        
+
         ActionItem favouriteAction = new ActionItem();
         favouriteAction.setTitle(favouriteTitle);
         favouriteAction.setIcon(getResources().getDrawable(R.drawable.ic_star_outline_grey600_24dp));
-        
+
         ActionItem shareAction = new ActionItem();
         shareAction.setTitle(shareTitle);
         shareAction.setIcon(getResources().getDrawable(R.drawable.ic_share_variant_grey600_48dp));
@@ -223,7 +226,10 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
                     deleteThisContact(mSelectedPosition);
                     break;
                 case 2:
-                    makeThisContactFavourite(mSelectedPosition);
+                    updateThisContactFavourite(mSelectedPosition);
+                    break;
+                case 3:
+                    shareThisContactAction(mSelectedPosition);
                     break;
                 default:
                     break;
@@ -239,18 +245,75 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         });
     }
 
-    private void makeThisContactFavourite(int selectedPosition) {
+    private void shareThisContactAction(int selectedPosition) {
+        Cursor cursor = mAdapter.getCursor();
+
+        // Moves to the Cursor row corresponding to the ListView item that was clicked
+        cursor.moveToPosition(selectedPosition);
+
+        String contactId = cursor.getString(ContactsQuery.ID);
+        if (StringUtility.isEmpty(contactId))
+            return;
+
+        ArrayList<String> phones = Utils.getContactUriTypeFromContactId(getActivity().getContentResolver(), contactId);
+        String phone = "";
+        if (phones == null || phones.size() == 0) {
+            phone = "";
+        } else
+            phone = phones.get(0);
+        String displayName = cursor.getString(ContactsQuery.DISPLAY_NAME);
+        Resources res = getActivity().getResources();
+        StringBuilder builder = new StringBuilder();
+        if (!phone.equals(displayName))
+            builder.append(res.getString(R.string.name)).append(displayName + "\n");
+
+        if (!StringUtility.isEmpty(phone)) {
+            builder.append(res.getString(R.string.phone_no)).append(phone);
+        }
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, res.getString(R.string.share_contact));
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, builder.toString());
+        startActivity(Intent.createChooser(sharingIntent, displayName));
+    }
+
+    // This method will check this contact is favourite contact or not first,
+    // the checking action includes checking in the contact app. After that, it will add or 
+    // remove (if the contact is already existed in favourites) in the contact and my call recorder database application
+    private void updateThisContactFavourite(int selectedPosition) {
         final Cursor cursor = mAdapter.getCursor();
+        Resources res = getActivity().getResources();
         if (cursor == null)
             return;
         // Moves to the Cursor row corresponding to the ListView item that was clicked
         cursor.moveToPosition(selectedPosition);
-
-        // Creates a contact lookup Uri from contact ID and lookup_key
-        final Uri uri = Contacts.getLookupUri(cursor.getLong(ContactsQuery.ID), cursor.getString(ContactsQuery.LOOKUP_KEY));
         if (mSQLiteHelper == null) {
             mSQLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(getActivity());
         }
+
+        String contactId = cursor.getString(ContactsQuery.ID);
+        if (StringUtility.isEmpty(contactId))
+            return;
+
+        ArrayList<String> phones = Utils.getContactUriTypeFromContactId(getActivity().getContentResolver(), contactId);
+        String phoneNo = "";
+        if (phones == null || phones.size() == 0) {
+            phoneNo = "";
+        }
+        phoneNo = phones.get(0);
+        String phoneName = cursor.getString(ContactsQuery.DISPLAY_NAME);
+        FavouriteItem favouriteItem = new FavouriteItem(phoneNo, phoneName, 1, contactId);
+        if (Utils.isCheckFavouriteContact(getActivity(), contactId)) {
+            String removedFavouriteContact = res.getString(R.string.removed_from_favourite, phoneName);
+            mSQLiteHelper.deleteFavouriteItem(favouriteItem);
+            Toast.makeText(getActivity(), removedFavouriteContact, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String addFavouriteContact = res.getString(R.string.added_to_favourite, phoneName);
+            mSQLiteHelper.addNewRecordingSession(favouriteItem);
+            Toast.makeText(getActivity(), addFavouriteContact, Toast.LENGTH_SHORT).show();
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     private void deleteThisContact(int selectedPosition) {
@@ -511,6 +574,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             holder.icon = (CircleImageView) itemLayout.findViewById(android.R.id.icon);
             holder.divider = (View) itemLayout.findViewById(R.id.divider);
             holder.btnCall = (ImageButton) itemLayout.findViewById(R.id.btn_call);
+            holder.icStar = (ImageView) itemLayout.findViewById(R.id.ic_star);
             holder.btnCall.setSelected(false);
             itemLayout.setTag(holder);
             // Returns the item layout view
@@ -533,7 +597,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             } else
                 mTextNoContact.setVisibility(View.GONE);
             final String photoUri = cursor.getString(ContactsQuery.PHOTO_THUMBNAIL_DATA);
-
+            final String contactId = cursor.getString(ContactsQuery.ID);
             final String displayName = cursor.getString(ContactsQuery.DISPLAY_NAME);
 
             final int startIndex = indexOfSearchQuery(displayName);
@@ -576,6 +640,16 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             }
             holder.icon.assignContactUri(contactUri);
 
+            ArrayList<String> phones = Utils.getContactUriTypeFromContactId(getActivity().getContentResolver(), contactId);
+            String phoneNo = "";
+            if (phones == null || phones.size() == 0) {
+                phoneNo = "";
+            } else
+                phoneNo = phones.get(0);
+            if ("".equals(phoneNo)) {
+                holder.btnCall.setVisibility(View.GONE);
+            } else
+                holder.btnCall.setVisibility(View.VISIBLE);
             holder.btnCall.setFocusable(false);
             holder.btnCall.setOnClickListener(new View.OnClickListener() {
 
@@ -584,6 +658,12 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
                     onClickCallContact(position);
                 }
             });
+
+            boolean isFavourite = Utils.isCheckFavouriteContact(getActivity(), contactId);
+            if (isFavourite)
+                holder.icStar.setVisibility(View.VISIBLE);
+            else
+                holder.icStar.setVisibility(View.GONE);
         }
 
         /**
@@ -651,6 +731,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             CircleImageView icon;
             View            divider;
             ImageButton     btnCall;
+            ImageView       icStar;
         }
     }
 

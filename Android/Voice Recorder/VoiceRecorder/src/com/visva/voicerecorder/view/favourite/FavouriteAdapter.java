@@ -64,10 +64,9 @@ public class FavouriteAdapter extends BaseAdapter {
             holder.avatar = (FavouriteCircleImage) convertView.findViewById(R.id.phone_avatar);
             holder.textPhoneName = (TextView) convertView.findViewById(R.id.text_name);
             convertView.setTag(holder);
-        } else
-            holder = (ViewHolder) convertView.getTag();
+        }
         final View view = convertView;
-
+        holder = (ViewHolder) convertView.getTag();
         FavouriteItem favouriteItem = mFavouriteItems.get(position);
 
         Uri photoUri = Utils.getContactUriTypeFromPhoneNumber(mContext.getContentResolver(), favouriteItem.phoneNo, PHOTO_URI);
@@ -101,7 +100,7 @@ public class FavouriteAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView             textPhoneName;
+        TextView        textPhoneName;
         FavouriteCircleImage avatar;
     }
 

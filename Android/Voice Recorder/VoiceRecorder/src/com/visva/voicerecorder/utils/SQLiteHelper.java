@@ -87,15 +87,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     // get a recording session
-    public FavouriteItem getFavouriteItem(String contactUri) {
+    public FavouriteItem getFavouriteItem(String contactID) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(TABLE_FAVOURITE, null, CONTACT_ID + " = ?", new String[] { String.valueOf(contactUri) }, null, null, null);
-        if (cursor != null) {
+        Cursor cursor = db.query(TABLE_FAVOURITE, null, CONTACT_ID + " = ?", new String[] { String.valueOf(contactID) }, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             FavouriteItem favouriteItem = new FavouriteItem(cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
                     cursor.getString(4));
-            cursor.close();
             return favouriteItem;
+        }
+        if(cursor != null){
+            cursor.close();
+            cursor = null;
         }
         db.close();
         return null;
