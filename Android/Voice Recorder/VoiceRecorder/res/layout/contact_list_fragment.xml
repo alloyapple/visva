@@ -23,7 +23,7 @@
          consistency.
     -->
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
+    <ListView
         android:id="@+id/list_contacts"
         style="@style/ContactListView"
         android:divider="@null"

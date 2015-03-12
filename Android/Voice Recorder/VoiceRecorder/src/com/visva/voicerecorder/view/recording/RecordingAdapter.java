@@ -65,9 +65,9 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             holder.textPhoneName = (TextView) convertView.findViewById(R.id.txt_phone_name);
             holder.textDate = (TextView) convertView.findViewById(R.id.text_date);
             convertView.setTag(holder);
-        }
-
-        holder = (ViewHolder) convertView.getTag();
+        } else
+            holder = (ViewHolder) convertView.getTag();
+        
         holder.textPhoneNo.setText(this.getItem(position).phoneNo);
         holder.textTime.setText(Utils.getTextTime(mContext, getItem(position)));
 
