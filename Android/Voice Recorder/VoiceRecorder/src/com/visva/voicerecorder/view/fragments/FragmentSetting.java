@@ -65,5 +65,7 @@ public class FragmentSetting extends FragmentBasic {
                 
             }
         });
+        
+        
     }
 }
