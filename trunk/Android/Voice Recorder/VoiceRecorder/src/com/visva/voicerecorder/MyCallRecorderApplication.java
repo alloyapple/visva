@@ -144,9 +144,9 @@ public class MyCallRecorderApplication extends Application {
         MyCallRecorderApplication.activity = activity;
     }
 
-    public MyCallRecorderSharePrefs getMyCallRecorderSharePref() {
+    public MyCallRecorderSharePrefs getMyCallRecorderSharePref(Context context) {
         if (mMyCallRecorderSharePrefs == null) {
-            mMyCallRecorderSharePrefs = MyCallRecorderSharePrefs.getInstance(getAndroidContext());
+            mMyCallRecorderSharePrefs = MyCallRecorderSharePrefs.getInstance(context);
         }
         return mMyCallRecorderSharePrefs;
     }

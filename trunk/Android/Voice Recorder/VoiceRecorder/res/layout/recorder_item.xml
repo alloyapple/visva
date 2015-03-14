@@ -3,24 +3,23 @@
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@color/white"
     android:focusable="false"
+    android:background="?android:attr/activatedBackgroundIndicator"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/text_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:text="Today"
+        android:visibility="gone"
         android:layout_margin="15dp"
         android:textColor="@color/material_design_color_orange_1" />
 
    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:focusable="false"
-        android:background="@color/white" >
+        android:focusable="false" >
 
         <com.visva.voicerecorder.view.widget.CircleImageView
             android:id="@+id/imageProfile"
@@ -58,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    android:textColor="#525252"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/padding_large"
                     android:textStyle="bold" />
 
@@ -69,14 +68,6 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/padding_small"
                     android:layout_toRightOf="@id/txt_phone_name"
-                    android:src="@drawable/incoming" />
-
-                <ImageView
-                    android:id="@+id/img_favourite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/padding_small"
                     android:src="@drawable/incoming" />
             </RelativeLayout>
 
@@ -90,9 +81,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    android:textColor="#525252"
-                    android:textSize="@dimen/padding_large"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/padding_large" />
 
                 <TextView
                     android:id="@+id/dateTimeTextView"

@@ -18,11 +18,6 @@ import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.Utils;
 
 public class DetailFavouriteAdapter extends BaseAdapter {
-    // ======================Constant Define=====================
-    private static final int            _ID                = 0;
-    private static final int            DISPLAY_NAME       = _ID + 1;
-    private static final int            NUMBER             = DISPLAY_NAME + 1;
-    private static final int            PHOTO_URI          = NUMBER + 1;
     // ======================Variable Define=====================
     LayoutInflater                      layoutInflater;
     private Context                     mContext;
@@ -66,8 +61,8 @@ public class DetailFavouriteAdapter extends BaseAdapter {
             holder.textDuration = (TextView) convertView.findViewById(R.id.text_duration);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox_select_favourite_detail_item);
             convertView.setTag(holder);
-        }
-        holder = (ViewHolder) (convertView).getTag();
+        } else
+            holder = (ViewHolder) (convertView).getTag();
         RecordingSession recordingSession = mRecordingSessions.get(position);
 
         boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);

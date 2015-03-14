@@ -6,6 +6,7 @@ import java.util.Locale;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,13 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
     private ArrayList<RecordingSession> mRecordingSessions      = new ArrayList<RecordingSession>();
     private ArrayList<RecordingSession> filteredModelItemsArray = new ArrayList<RecordingSession>();
     private Context                     mContext;
+    private SparseBooleanArray          mSelectedItemsIds;
 
     public RecordingAdapter(Context context, int textViewResourceId, ArrayList<RecordingSession> recordingSessions) {
         super(context, textViewResourceId, recordingSessions);
         mContext = context;
         mRecordingSessions = recordingSessions;
+        mSelectedItemsIds = new SparseBooleanArray();
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRecordingManager = MyCallRecorderApplication.getInstance().getRecordManager(context, mRecordingSessions);
     }
@@ -65,16 +68,15 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             holder.textPhoneName = (TextView) convertView.findViewById(R.id.txt_phone_name);
             holder.textDate = (TextView) convertView.findViewById(R.id.text_date);
             convertView.setTag(holder);
-        }
-
-        holder = (ViewHolder) convertView.getTag();
+        } else
+            holder = (ViewHolder) convertView.getTag();
         holder.textPhoneNo.setText(this.getItem(position).phoneNo);
-        holder.textTime.setText(Utils.getTextTime(mContext, getItem(position)));
+        String textDate = Utils.getTextDate(mContext, getItem(position));
+        holder.textTime.setText(Utils.getTextTime(mContext, getItem(position)) + " " + textDate);
 
         boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);
         if (isShowTextDate) {
-            holder.textDate.setVisibility(View.VISIBLE);
-            String textDate = Utils.getTextDate(mContext, getItem(position));
+            holder.textDate.setVisibility(View.GONE);
             holder.textDate.setText(textDate);
         } else {
             holder.textDate.setVisibility(View.GONE);
@@ -201,5 +203,30 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
                 add(filteredModelItemsArray.get(i));
             notifyDataSetInvalidated();
         }
+    }
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+    public void removeSelection() {
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemsIds.put(position, value);
+        else
+            mSelectedItemsIds.delete(position);
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedCount() {
+        return mSelectedItemsIds.size();
+    }
+
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemsIds;
     }
 }

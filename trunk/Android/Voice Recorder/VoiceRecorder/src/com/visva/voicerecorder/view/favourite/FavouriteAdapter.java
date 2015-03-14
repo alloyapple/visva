@@ -100,7 +100,7 @@ public class FavouriteAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView        textPhoneName;
+        TextView             textPhoneName;
         FavouriteCircleImage avatar;
     }
 
