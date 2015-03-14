@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/welcome_intro_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_design_color_orange_1"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="15dp"
+            android:includeFontPadding="false"
+            android:text="@string/app_name"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/welcome_desc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:includeFontPadding="false"
+            android:text="@string/do_you_want_save_this_record"
+            android:textColor="#ffffff"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/intro_next_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:focusable="true"
+        android:orientation="horizontal" >
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/button_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:onClick="onClickButtonAccept"
+            android:text="@string/accept"
+            android:textSize="16sp" />
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:onClick="onClickButtonCancel"
+            android:text="@string/cancel"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</LinearLayout>

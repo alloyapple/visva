@@ -21,7 +21,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
-import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.record.RecordingSession;
 
 /**
@@ -308,7 +307,6 @@ public class ProgramHelper {
             out.close();
             File mediaFile = new File(lastFileName);
             mediaFile.delete();
-            MyCallRecorderApplication.getInstance().stopActivity();
         } catch (IOException e) {
 
         }

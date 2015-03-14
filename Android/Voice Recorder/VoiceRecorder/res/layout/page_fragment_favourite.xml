@@ -20,8 +20,7 @@
         android:id="@+id/favourite_list"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
-        android:layout_below="@id/text_title_favourite"
-        android:layout_marginTop="10dp" >
+        android:layout_below="@id/text_title_favourite" >
     </com.visva.voicerecorder.view.widget.HorizontalListView>
 
     <LinearLayout
@@ -62,8 +61,7 @@
         android:id="@+id/layout_call_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_options"
-        android:visibility="gone" >
+        android:layout_below="@id/layout_options" >
 
         <com.gc.materialdesign.views.LayoutRipple
             android:id="@+id/layout_msg"

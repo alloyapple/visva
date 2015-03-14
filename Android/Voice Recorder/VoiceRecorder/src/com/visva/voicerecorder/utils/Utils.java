@@ -16,7 +16,12 @@
 
 package com.visva.voicerecorder.utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +33,7 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
@@ -311,5 +317,49 @@ public class Utils {
             return false;
         else
             return true;
+    }
+
+    // This method is used to checking the valid duration time from the last call
+    // The valid duration time is at least equal or more than 2 seconds for the length of a call.
+    // After checking, this method also delete the file which is not valid with the duration time.
+    public static boolean isCheckValidDurationTime() {
+        String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/data";
+        File dataFile = new File(dataFilePath);
+        String lastFileName = "";
+        String line = null;
+        long durationTime = 0L;
+        ArrayList<String> lines = new ArrayList<String>();
+        String finalStringToWriteOut = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(dataFile));
+            while ((line = br.readLine()) != null) {
+                lastFileName = line.split(";")[0];
+                lines.add(line);
+            }
+            br.close();
+            for (int i = 0; i < lines.size() - 1; i++) {
+                finalStringToWriteOut += lines.get(i) + "\n";
+            }
+            FileWriter fileWriter = new FileWriter(dataFile, false);
+            BufferedWriter out = new BufferedWriter(fileWriter);
+            out.append(finalStringToWriteOut);
+            out.close();
+            try {
+                durationTime = getDuration(CheapSoundFile.create(lastFileName, null));
+            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
+            }
+        } catch (IOException e) {
+
+        }
+        // The valid duration time is at least equal or more than 2 seconds for the length of a call.
+        if (durationTime > 2000) {
+            return true;
+        } else {
+            File mediaFile = new File(lastFileName);
+            mediaFile.delete();
+            MyCallRecorderApplication.getInstance().stopActivity();
+            return false;
+        }
     }
 }

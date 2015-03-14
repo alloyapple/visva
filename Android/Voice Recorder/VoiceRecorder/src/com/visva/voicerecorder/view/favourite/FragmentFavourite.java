@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -40,17 +43,16 @@ import com.visva.voicerecorder.view.common.FragmentBasic;
 import com.visva.voicerecorder.view.widget.HorizontalListView;
 
 public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickListener {
-    // ======================Constant Define=====================
     // ======================Control Define =====================
     private HorizontalListView          mFavouriteList;
     private SwipeMenuListView           mDetailFavouriteList;
     private TextView                    mTextPhoneNo;
     private RelativeLayout              mLayoutConversation;
-    private RelativeLayout              mLayoutCallMsg;
-    private TextView                    mTextDetail;
-    private TextView                    mTextRecord;
+    //    private TextView                    mTextDetail;
+    //    private TextView                    mTextRecord;
     private LayoutRipple                mLayoutCall;
     private LayoutRipple                mLayoutMsg;
+    private RelativeLayout              mLayoutUserInfo;
     // ======================Variable Define=====================
     private FavouriteAdapter            mFavouriteAdapter;
     private DetailFavouriteAdapter      mDetailFavouriteAdapter;
@@ -60,10 +62,12 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     private boolean                     mIsLongClickFavouriteItem       = false;
     private boolean                     mIsLongClickDetailFavouriteItem = false;
     private int                         mFavouritePosition;
+    private Animation                   mContentUpAnime;
+    private Animation                   mFadeOutAnime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_favourite, container);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_favourite2, container);
 
         initData();
 
@@ -80,15 +84,17 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
         }
         mRecordingSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
+
+        mContentUpAnime = AnimationUtils.loadAnimation(getActivity(), R.anim.layout_content_up);
+        mFadeOutAnime = AnimationUtils.loadAnimation(getActivity(), R.anim.welcome_intro_fade_out);
+        mFadeOutAnime.setAnimationListener(fadeOutAniListener);
     }
 
     private void initLayout(View root) {
         Log.d("KieuThang", "iHomeActionListener:" + iHomeActionListener);
         mLayoutConversation = (RelativeLayout) root.findViewById(R.id.layout_conversation);
-        mLayoutCallMsg = (RelativeLayout) root.findViewById(R.id.layout_call_msg);
         mTextPhoneNo = (TextView) root.findViewById(R.id.text_phone_no);
-        mTextDetail = (TextView) root.findViewById(R.id.text_detail);
-        mTextRecord = (TextView) root.findViewById(R.id.text_record);
+        mLayoutUserInfo = (RelativeLayout) root.findViewById(R.id.layout_user_info);
         mLayoutCall = (LayoutRipple) root.findViewById(R.id.layout_call);
         mLayoutMsg = (LayoutRipple) root.findViewById(R.id.layout_msg);
         mLayoutCall.setOnClickListener(new View.OnClickListener() {
@@ -105,24 +111,29 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 onClickLayoutMsg(v);
             }
         });
-        mTextDetail.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                onClickTextDetail(v);
-            }
-        });
-        mTextRecord.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                onClickTextRecord(v);
-            }
-        });
+        //        mTextDetail.setOnClickListener(new View.OnClickListener() {
+        //
+        //            @Override
+        //            public void onClick(View v) {
+        //                onClickTextDetail(v);
+        //            }
+        //        });
+        //        mTextRecord.setOnClickListener(new View.OnClickListener() {
+        //
+        //            @Override
+        //            public void onClick(View v) {
+        //                onClickTextRecord(v);
+        //            }
+        //        });
         mFavouriteList = (HorizontalListView) root.findViewById(R.id.favourite_list);
+
         mFavouriteAdapter = new FavouriteAdapter(getActivity(), mFavouriteItems);
         mFavouriteAdapter.setListener(iHomeActionListener);
         mFavouriteList.setAdapter(mFavouriteAdapter);
+
+        //start animation for layout user info options
+        mLayoutUserInfo.startAnimation(mContentUpAnime);
+
         mFavouriteList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -138,7 +149,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 return false;
             }
         });
-
         mDetailFavouriteList = (SwipeMenuListView) root.findViewById(R.id.list_detail_favourite);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
@@ -175,7 +185,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
                 return false;
             }
         });
@@ -239,14 +248,10 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     private void onClickFavouriteItem(View view, int position) {
         Log.d("KieuThang", "onClickFavouriteItemListener:" + position);
         mFavouritePosition = position;
-        if (mIsLongClickFavouriteItem) {
-            mDetailFavouriteAdapter.setSelectedPosition(position);
-        } else
-            refreshListViewData(position);
+        mLayoutUserInfo.startAnimation(mFadeOutAnime);
     }
 
     private void onClickDetailFavouriteItem(View view, int position) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -257,8 +262,8 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         case 0:
             onLongClickFavouriteItem(view, position);
             break;
-        case 1: 
-            onLongClickDetailFavouriteItem(view,position);
+        case 1:
+            onLongClickDetailFavouriteItem(view, position);
             break;
         default:
             break;
@@ -266,8 +271,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     }
 
     private void onLongClickDetailFavouriteItem(View view, int position) {
-        // TODO Auto-generated method stub
-        
+
     }
 
     /**
@@ -282,17 +286,17 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mDetailFavouriteAdapter.setLongClickStateView(mIsLongClickFavouriteItem);
     }
 
-    public void onClickTextRecord(View v) {
-        Log.d("KieuThang", "mTextRecord");
-        mLayoutCallMsg.setVisibility(View.GONE);
-        mLayoutConversation.setVisibility(View.VISIBLE);
-    }
-
-    public void onClickTextDetail(View v) {
-        Log.d("KieuThang", "mTextDetail");
-        mLayoutCallMsg.setVisibility(View.VISIBLE);
-        mLayoutConversation.setVisibility(View.GONE);
-    }
+    //    public void onClickTextRecord(View v) {
+    //        Log.d("KieuThang", "mTextRecord");
+    //        mLayoutCallMsg.setVisibility(View.GONE);
+    //        mLayoutConversation.setVisibility(View.VISIBLE);
+    //    }
+    //
+    //    public void onClickTextDetail(View v) {
+    //        Log.d("KieuThang", "mTextDetail");
+    //        mLayoutCallMsg.setVisibility(View.VISIBLE);
+    //        mLayoutConversation.setVisibility(View.GONE);
+    //    }
 
     @Override
     public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
@@ -359,4 +363,25 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         smsIntent.putExtra("address", mFavouriteItems.get(mFavouritePosition).phoneNo);
         startActivity(smsIntent);
     }
+
+    private AnimationListener fadeOutAniListener = new AnimationListener() {
+
+                                                     @Override
+                                                     public void onAnimationStart(Animation animation) {
+                                                     }
+
+                                                     @Override
+                                                     public void onAnimationRepeat(Animation animation) {
+                                                     }
+
+                                                     @Override
+                                                     public void onAnimationEnd(Animation animation) {
+                                                         mLayoutUserInfo.startAnimation(mContentUpAnime);
+                                                         if (mIsLongClickFavouriteItem) {
+                                                             mDetailFavouriteAdapter.setSelectedPosition(mFavouritePosition);
+                                                         } else
+                                                             refreshListViewData(mFavouritePosition);
+                                                     }
+                                                 };
+
 }
