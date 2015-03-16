@@ -1,35 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:background="@drawable/cover_selector"
-    android:orientation="vertical" >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/cover_width"
+    android:layout_height="@dimen/cover_height"
+    android:clickable="true"
+    android:foreground="@drawable/cover_selector" >
 
     <ImageView
         android:id="@+id/phone_avatar"
-        android:layout_width="?android:attr/listPreferredItemHeight"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_centerHorizontal="true"
-        android:focusable="false"
-        android:src="@drawable/ic_contact_picture_holo_light" />
+        android:layout_width="@dimen/cover_width"
+        android:layout_height="@dimen/cover_height"
+        android:contentDescription="@string/imageview_description"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/image_1" />
 
-    <TextView
-        android:id="@+id/text_name"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/phone_avatar"
-        android:layout_centerHorizontal="true"
-        android:focusable="false"
-        android:gravity="center"
-        android:lines="2"
-        android:textColor="@color/black" />
-
-    <com.gc.materialdesign.views.CheckBox
-        android:id="@+id/checkBox_select_favourite_contact"
-        android:layout_width="20dp"
-        android:visibility="gone"
-        android:layout_height="20dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
-
-</RelativeLayout>
+</FrameLayout>

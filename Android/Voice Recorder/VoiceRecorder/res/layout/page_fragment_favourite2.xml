@@ -5,44 +5,37 @@
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/text_title_favourite"
+    <include
+        android:id="@+id/layout_favourite_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:drawableBottom="@color/material_design_color_orange_1"
-        android:drawablePadding="1dp"
-        android:text="@string/favourite_tab"
-        android:textColor="@color/material_design_color_orange_1"
-        android:textSize="20sp" />
-
-    <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-        android:id="@+id/coverflow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_title_favourite"
-        coverflow:coverHeight="@dimen/cover_height"
-        coverflow:coverWidth="@dimen/cover_width"
-        coverflow:maxScaleFactor="1"
-        coverflow:reflectionGap="0px"
-        coverflow:rotationThreshold="1"
-        coverflow:scalingThreshold="0.5"
-        coverflow:spacing="0.5" />
-
+        layout="@layout/layout_favourite_header" />
     <include
         android:id="@+id/layout_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/coverflow"
-        layout="@layout/layout_user_info_options" />
+        android:layout_below="@id/layout_favourite_header"
+        layout="@layout/layout_favourite_contact" />
+
+    <TextView
+        android:id="@+id/text_record_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_user_info"
+        android:background="@color/material_design_color_orange_1"
+        android:textColor="@color/white"
+        android:paddingLeft="10dp"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:id="@+id/layout_conversation"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_user_info" >
+        android:layout_below="@id/text_record_title" >
 
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/list_detail_favourite"
