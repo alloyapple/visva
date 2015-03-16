@@ -310,7 +310,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         }
         else {
             String addFavouriteContact = res.getString(R.string.added_to_favourite, phoneName);
-            mSQLiteHelper.addNewRecordingSession(favouriteItem);
+            mSQLiteHelper.addNewFavoriteItem(favouriteItem);
             Toast.makeText(getActivity(), addFavouriteContact, Toast.LENGTH_SHORT).show();
         }
         mAdapter.notifyDataSetChanged();

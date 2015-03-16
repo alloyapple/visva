@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">My Call Recorder</string>
-    <string name="title_section2">Favourite</string>
+    <string name="title_section2">Favorite</string>
     <string name="title_section1">All</string>
     <string name="title_activity_main">My Call Recorder</string>
     <string name="title_section0">Contact</string>
@@ -36,8 +36,8 @@
     <!-- Home screen -->
     <string name="contact_tab">Contacts</string>
     <string name="all_record_tab">Records</string>
-    <string name="favourite_tab">Favourites</string>
-    <string name="favourite">Favourite</string>
+    <string name="favourite_tab">Favorites</string>
+    <string name="favourite">Favorite</string>
     <string name="setting_tab">Settings</string>
     <string name="about_tab">About</string>
     <string name="today">Today</string>
@@ -53,8 +53,8 @@
     <string name="name">Name:</string>
     <string name="phone_no">Phone No:</string>
     <string name="share_contact">Share contact</string>
-    <string name="added_to_favourite">Added %s to favourites</string>
-    <string name="removed_from_favourite">Removed %s from favourites</string>
+    <string name="added_to_favourite">Added %s to favorites</string>
+    <string name="removed_from_favourite">Removed %s from favorites</string>
     <string name="when_call_arrive">When calls arrive</string>
     <string name="auto_saved_incoming_and_out_going_calls">Auto saved incoming and on going calls</string>
     <string name="saved_calls">Saved calls</string>
@@ -67,11 +67,14 @@
     <string name="google_drive">Google drive</string>
     <string name="do_you_want_save_this_record">Do you want to save this record?</string>
     <string name="accept">Accept</string>
-    
     <string name="start_record">Start recording: </string>
     <string name="end_record">End recording</string>
     <string name="cannot_record">Cannot start recording</string>
-
+    <string name="record_withs">Records with %s</string>
+    <string name="remove_from_favorite">Remove from Favorites</string>
+	<string name="view_favorite_contact_detail">View detail</string>
+	<string name="share_this_contact_info">Share</string>
+    
     <string-array name="CountryCodes">
         <item>93,AF</item>
         <item>355,AL</item>

@@ -96,7 +96,7 @@ public class MyCallRecorderApplication extends Application {
                 }
                 if (!isItemContain) {
                     FavouriteItem favouriteItem = new FavouriteItem(phoneNo, phoneName, 2, contactId);
-                    mSqLiteHelper.addNewRecordingSession(favouriteItem);
+                    mSqLiteHelper.addNewFavoriteItem(favouriteItem);
                 }
 
             } while (cursor.moveToNext());

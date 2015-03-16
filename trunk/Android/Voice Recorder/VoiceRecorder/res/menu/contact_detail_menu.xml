@@ -17,19 +17,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_edit_contact"
+        android:id="@+id/remove_from_favourite"
         android:icon="@drawable/ic_action_edit"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_edit_contact"/>
+        android:title="@string/remove_from_favorite"/>
     <item
-        android:id="@+id/menu_delete_contact"
+        android:id="@+id/view_favorite_contact_detail"
         android:icon="@drawable/ic_action_edit"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_edit_contact"/>
+        android:title="@string/view_favorite_contact_detail"/>
     <item
-        android:id="@+id/menu_add_to_favourite"
+        android:id="@+id/share_this_contact_info"
         android:icon="@drawable/ic_action_edit"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_edit_contact"/>
+        android:title="@string/share_this_contact_info"/>
 
 </menu>
