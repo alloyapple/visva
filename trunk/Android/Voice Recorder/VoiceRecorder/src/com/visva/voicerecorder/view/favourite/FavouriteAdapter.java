@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.visva.voicerecorder.R;
@@ -61,7 +62,7 @@ public class FavouriteAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = this.layoutInflater.inflate(R.layout.favourite_item, null);
             holder = new ViewHolder();
-            holder.avatar = (FavouriteCircleImage) convertView.findViewById(R.id.phone_avatar);
+            holder.avatar = (ImageView) convertView.findViewById(R.id.phone_avatar);
             holder.textPhoneName = (TextView) convertView.findViewById(R.id.text_name);
             convertView.setTag(holder);
         }
@@ -100,8 +101,8 @@ public class FavouriteAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView             textPhoneName;
-        FavouriteCircleImage avatar;
+        TextView  textPhoneName;
+        ImageView avatar;
     }
 
     public void setListener(IHomeActionListener iHomeActionListener) {

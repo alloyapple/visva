@@ -23,124 +23,18 @@
         android:layout_below="@id/text_title_favourite" >
     </com.visva.voicerecorder.view.widget.HorizontalListView>
 
-    <LinearLayout
-        android:id="@+id/layout_options"
+    <include
+        android:id="@+id/layout_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/favourite_list"
-        android:background="@color/material_design_color_orange_1"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/text_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:onClick="onClickTextRecord"
-            android:text="Record"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/divider5"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:background="@color/white" />
-
-        <TextView
-            android:id="@+id/text_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:onClick="onClickTextDetail"
-            android:text="Detail"
-            android:textColor="@color/gray_1" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/layout_call_msg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_options" >
-
-        <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/layout_msg"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@color/white"
-            android:clickable="true"
-            android:onClick="onClickLayoutMsg"
-            materialdesign:rippleColor="#1E88E5"
-            materialdesign:rippleSpeed="10" >
-
-            <Button
-                android:id="@+id/btn_msg"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/btn_call" />
-        </com.gc.materialdesign.views.LayoutRipple>
-
-        <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/layout_call"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/layout_msg"
-            android:background="@color/white"
-            android:clickable="true"
-            android:onClick="onClickLayoutCall"
-            materialdesign:rippleColor="#1E88E5"
-            materialdesign:rippleSpeed="50" >
-
-            <TextView
-                android:id="@+id/divider4"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="2dp"
-                android:background="@color/material_design_color_orange_1" />
-
-            <Button
-                android:id="@+id/btn_call"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/divider4"
-                android:background="@drawable/btn_call" />
-
-            <RelativeLayout
-                android:id="@+id/layout_phone_no"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp" >
-
-                <TextView
-                    android:id="@+id/text_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Phone No"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/text_phone_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text_phone"
-                    android:text="Phone No"
-                    android:textColor="@color/black" />
-            </RelativeLayout>
-        </com.gc.materialdesign.views.LayoutRipple>
-    </RelativeLayout>
+        layout="@layout/layout_user_info_options" />
 
     <RelativeLayout
         android:id="@+id/layout_conversation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_options" >
+        android:layout_below="@id/layout_user_info" >
 
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/list_detail_favourite"

@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:focusable="true"
+    android:background="@drawable/cover_selector"
     android:orientation="vertical" >
 
-    <com.visva.voicerecorder.view.widget.FavouriteCircleImage
+    <ImageView
         android:id="@+id/phone_avatar"
         android:layout_width="?android:attr/listPreferredItemHeight"
         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -27,6 +27,7 @@
     <com.gc.materialdesign.views.CheckBox
         android:id="@+id/checkBox_select_favourite_contact"
         android:layout_width="20dp"
+        android:visibility="gone"
         android:layout_height="20dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
