@@ -16,7 +16,6 @@ import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.receiver.notification.NotificationActivity;
 import com.visva.voicerecorder.utils.MyCallRecorderSharePrefs;
 import com.visva.voicerecorder.utils.ProgramHelper;
-import com.visva.voicerecorder.utils.Utils;
 
 public class OutGoingCallReceiver extends BroadcastReceiver {
     public static ExtAudioRecorder recorder = null;
@@ -52,8 +51,8 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                 MyCallRecorderSharePrefs myCallRecorderSharePrefs = MyCallRecorderApplication.getInstance().getMyCallRecorderSharePref(context);
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedIncomingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_INCOMING_CALL);
-                boolean isValidDurationTime = Utils.isCheckValidDurationTime();
-                if (isAutoSavedIncomingCall && !isAutoSavedRecordCall && isValidDurationTime) {
+                //                boolean isValidDurationTime = Utils.isCheckValidDurationTime();
+                if (isAutoSavedIncomingCall && !isAutoSavedRecordCall) {
                     Intent i = new Intent(context, NotificationActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);

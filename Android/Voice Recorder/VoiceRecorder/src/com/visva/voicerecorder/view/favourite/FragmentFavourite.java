@@ -1,5 +1,7 @@
 package com.visva.voicerecorder.view.favourite;
 
+import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -37,14 +39,12 @@ import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.Utils;
-import com.visva.voicerecorder.view.activity.ActivityHome;
 import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
 import com.visva.voicerecorder.view.common.FragmentBasic;
-import com.visva.voicerecorder.view.widget.HorizontalListView;
 
 public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickListener {
     // ======================Control Define =====================
-    private HorizontalListView          mFavouriteList;
+    private FeatureCoverFlow            mFavouriteList;
     private SwipeMenuListView           mDetailFavouriteList;
     private TextView                    mTextPhoneNo;
     private RelativeLayout              mLayoutConversation;
@@ -111,44 +111,33 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 onClickLayoutMsg(v);
             }
         });
-        //        mTextDetail.setOnClickListener(new View.OnClickListener() {
-        //
-        //            @Override
-        //            public void onClick(View v) {
-        //                onClickTextDetail(v);
-        //            }
-        //        });
-        //        mTextRecord.setOnClickListener(new View.OnClickListener() {
-        //
-        //            @Override
-        //            public void onClick(View v) {
-        //                onClickTextRecord(v);
-        //            }
-        //        });
-        mFavouriteList = (HorizontalListView) root.findViewById(R.id.favourite_list);
+        mFavouriteList = (FeatureCoverFlow) root.findViewById(R.id.coverflow);
 
         mFavouriteAdapter = new FavouriteAdapter(getActivity(), mFavouriteItems);
         mFavouriteAdapter.setListener(iHomeActionListener);
         mFavouriteList.setAdapter(mFavouriteAdapter);
-
+        mFavouriteList.setReflectionBackgroundColor(0);
+        mFavouriteList.setReflectionGap(2);
+        mFavouriteList.setReflectionHeight(0);
+        
         //start animation for layout user info options
         mLayoutUserInfo.startAnimation(mContentUpAnime);
 
-        mFavouriteList.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                iHomeActionListener.onClickItemListener(view, position, ActivityHome.FRAGMENT_FAVOURITE, 0);
-            }
-        });
-        mFavouriteList.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                iHomeActionListener.onLongClickItemListener(view, position, ActivityHome.FRAGMENT_FAVOURITE, 0);
-                return false;
-            }
-        });
+        //        mFavouriteList.setOnItemClickListener(new OnItemClickListener() {
+        //
+        //            @Override
+        //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //                iHomeActionListener.onClickItemListener(view, position, ActivityHome.FRAGMENT_FAVOURITE, 0);
+        //            }
+        //        });
+        //        mFavouriteList.setOnItemLongClickListener(new OnItemLongClickListener() {
+        //
+        //            @Override
+        //            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        //                iHomeActionListener.onLongClickItemListener(view, position, ActivityHome.FRAGMENT_FAVOURITE, 0);
+        //                return false;
+        //            }
+        //        });
         mDetailFavouriteList = (SwipeMenuListView) root.findViewById(R.id.list_detail_favourite);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 

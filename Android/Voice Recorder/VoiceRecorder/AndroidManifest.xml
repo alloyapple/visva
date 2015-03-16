@@ -22,7 +22,7 @@
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_name" 
         android:theme="@style/Theme.Transparent"
         android:name="com.visva.voicerecorder.MyCallRecorderApplication" >
         <activity
@@ -57,7 +57,7 @@
 
         <activity
             android:name=".receiver.notification.NotificationActivity"
-            android:theme="@style/Theme.Transparent" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
             android:name="com.visva.voicerecorder.view.activity.ActivityPlayRecording"
