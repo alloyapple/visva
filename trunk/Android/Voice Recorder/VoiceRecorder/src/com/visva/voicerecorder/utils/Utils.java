@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -387,7 +388,9 @@ public class Utils {
         String makeANote = res.getString(R.string.make_note);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_launcher)
                 .setAutoCancel(true).setContentTitle(phoneName).setContentText(newRecord);
-
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
+        
         int isFavourite = Utils.isCheckFavouriteContactByPhoneNo(context, phoneNo);
         if (isFavourite == 0) {
             //favorite intent

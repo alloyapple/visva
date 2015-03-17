@@ -22,6 +22,7 @@ public class MyRecordCallReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        AIOLog.d(MyCallRecorderConstant.TAG, "MyRecordCallReceiver");
         if (intent == null || intent.getAction() == null) {
             AIOLog.e(MyCallRecorderConstant.TAG, "intent or action is null");
             return;
