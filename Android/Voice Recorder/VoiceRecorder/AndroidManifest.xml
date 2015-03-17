@@ -56,7 +56,7 @@
         </receiver>
         <receiver
             android:name=".receiver.MyRecordCallReceiver"
-            android:exported="false" >
+            android:exported="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.visva.android.myrecordcall.favorite_intent" />
                 <action android:name="com.visva.android.myrecordcall.make_note_intent" />

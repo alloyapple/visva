@@ -7,13 +7,13 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.ringdroid.soundfile.ExtAudioRecorder;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.receiver.notification.NotificationActivity;
 import com.visva.voicerecorder.utils.MyCallRecorderSharePrefs;
 import com.visva.voicerecorder.utils.ProgramHelper;
@@ -49,7 +49,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedIncomingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_INCOMING_CALL);
                 //                boolean isValidDurationTime = Utils.isCheckValidDurationTime();
-                Log.d("KieuThang", "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedIncomingCall:" + isAutoSavedIncomingCall);
+                AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedIncomingCall:" + isAutoSavedIncomingCall);
                 if (isAutoSavedIncomingCall && !isAutoSavedRecordCall) {
                     Intent i = new Intent(context, NotificationActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -77,17 +77,17 @@ public class InCommingCallReceiver extends BroadcastReceiver {
         if (tm.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK) {
             //if (mRecorder != null){
             if (recorder != null) {
-                Log.d("GHIAM", "try to stop, line 40");
+                AIOLog.d(MyCallRecorderConstant.TAG, "try to stop, line 40");
                 stopRecording();
             }
             try {
-                Log.d("GHIAM", "incoming offhook useThisApp");
+                AIOLog.d(MyCallRecorderConstant.TAG, "incoming offhook useThisApp");
                 if (InCommingCallReceiver.phoneNo != null) {
                     startRecording(InCommingCallReceiver.phoneNo, 1);
                     Toast.makeText(context, startRecording + InCommingCallReceiver.phoneNo, Toast.LENGTH_SHORT).show();
                 } else {
                     //Toast.makeText(context, "ChÆ°a Ä‘Æ°Æ¡c active, khÃ´ng ghi Ã¢m", Toast.LENGTH_LONG).show();
-                    //Log.d("GHIAM", "Activated fail, no record conversation with "+phoneNo);
+                    //AIOLog.d(MyCallRecorderConstant.TAG, "Activated fail, no record conversation with "+phoneNo);
                 }
             } catch (Exception e) {
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -96,7 +96,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
     }
 
     private void startRecording(String phoneNo, int callState) {
-        Log.d("GHIAM", "in start recording");
+        AIOLog.d(MyCallRecorderConstant.TAG, "in start recording");
         Resources res = rcontext.getResources();
         String cannotRecord = res.getString(R.string.cannot_record);
         recorder = ExtAudioRecorder.getInstanse(false);
@@ -106,7 +106,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         */
         try {
-            Log.d("GHIAM", "in start recording - write to file, phoneNo: " + phoneNo);
+            AIOLog.d(MyCallRecorderConstant.TAG, "in start recording - write to file, phoneNo: " + phoneNo);
             recorder.setOutputFile(helper.getFileNameAndWriteToList(rcontext, phoneNo, callState));
         } catch (Exception e) {
             Toast.makeText(this.rcontext, cannotRecord + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -122,7 +122,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
             Toast.makeText(this.rcontext, cannotRecord, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        Log.d("GHIAM", " Bat dau ghi");
+        AIOLog.d(MyCallRecorderConstant.TAG, " Bat dau ghi");
     }
 
     private void stopRecording() {
