@@ -29,7 +29,6 @@ public class RecordingManager extends Object implements OnPreparedListener, OnCo
     private static RecordingManager     mInstance;
 
     private ArrayList<RecordingSession> sessions;
-//    private MediaPlayer                 player;
     private RecordingSession            currentSession    = null;
     private FragmentAllRecord           fragmentAllRecord = null;
 

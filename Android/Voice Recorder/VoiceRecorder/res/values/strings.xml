@@ -74,6 +74,8 @@
     <string name="remove_from_favorite">Remove from Favorites</string>
 	<string name="view_favorite_contact_detail">View detail</string>
 	<string name="share_this_contact_info">Share</string>
+	<string name="you_have_new_record">You have a new record</string>
+    <string name="make_note">Make note</string>
     
     <string-array name="CountryCodes">
         <item>93,AF</item>

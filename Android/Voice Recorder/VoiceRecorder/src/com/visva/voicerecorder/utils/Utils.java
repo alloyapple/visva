@@ -27,23 +27,31 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.TypedValue;
 
 import com.ringdroid.soundfile.CheapSoundFile;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.view.activity.ActivityHome;
@@ -361,5 +369,56 @@ public class Utils {
             MyCallRecorderApplication.getInstance().stopActivity();
             return false;
         }
+    }
+
+    public static int isCheckFavouriteContactByPhoneNo(Context context, String phoneNo) {
+        SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
+        FavouriteItem favouriteItem = sqLiteHelper.getFavouriteItemFromPhoneNo(phoneNo);
+        if (favouriteItem == null || favouriteItem.isFavourite == 0)
+            return 0;
+        else
+            return favouriteItem.isFavourite;
+    }
+
+    public static void showNotificationAfterCalling(Context context, String phoneName, String phoneNo) {
+        Resources res = context.getResources();
+        String newRecord = res.getString(R.string.you_have_new_record);
+        String favorite = res.getString(R.string.favourite);
+        String makeANote = res.getString(R.string.make_note);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_launcher)
+                .setAutoCancel(true).setContentTitle(phoneName).setContentText(newRecord);
+
+        int isFavourite = Utils.isCheckFavouriteContactByPhoneNo(context, phoneNo);
+        if (isFavourite == 0) {
+            //favorite intent
+            Intent favoriteIntent = new Intent();
+            favoriteIntent.setAction(MyCallRecorderConstant.FAVORITE_INTENT);
+            Bundle favoriteBundle = new Bundle();
+            favoriteBundle.putString("phone_name", phoneName);
+            favoriteBundle.putString("phone_no", phoneNo);
+            favoriteIntent.putExtras(favoriteBundle);
+            PendingIntent pendingFavoriteIntent = PendingIntent.getBroadcast(context, MyCallRecorderConstant.NOTIFICATION_ID, favoriteIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(R.drawable.ic_favourites, favorite, pendingFavoriteIntent);
+        }
+        //Make a note intent
+        Intent makeNoteIntent = new Intent();
+        makeNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
+        Bundle makeNoteBundle = new Bundle();
+        makeNoteBundle.putInt("userAnswer", 3);//This is the value I want to pass
+        makeNoteIntent.putExtras(makeNoteBundle);
+        PendingIntent pendingMakeNoteIntent = PendingIntent.getBroadcast(context, MyCallRecorderConstant.NOTIFICATION_ID, makeNoteIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(R.drawable.ic_customer_create, makeANote, pendingMakeNoteIntent);
+
+        Intent resultIntent = new Intent(context, ActivityHome.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(ActivityHome.class);
+        stackBuilder.addNextIntent(resultIntent);
+
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(MyCallRecorderConstant.NOTIFICATION_ID, builder.build());
     }
 }

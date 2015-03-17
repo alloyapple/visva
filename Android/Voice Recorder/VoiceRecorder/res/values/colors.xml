@@ -59,5 +59,6 @@
     <color name="material_design_color_orange_1">#ff6f43</color>
     <color name="material_design_color_orange_2">#a84a24</color>
     <color name="material_design_color_orange_pressed">#DD2C00</color>
+    <color name="divider_grey">#eeeeee</color>
 
 </resources>

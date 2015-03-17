@@ -1,6 +1,7 @@
 package com.visva.voicerecorder.view.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class FragmentSetting extends FragmentBasic {
 
             @Override
             public void onCheck(boolean check) {
+                Log.d("KieuThang", "mSwitchAutoSavedRecordCall:"+check);
                 mMyRecorderCallSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED, check);
             }
         });

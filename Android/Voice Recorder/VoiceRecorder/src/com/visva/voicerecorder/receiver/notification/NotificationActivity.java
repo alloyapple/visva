@@ -1,6 +1,7 @@
 package com.visva.voicerecorder.receiver.notification;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,6 +15,8 @@ import android.widget.RelativeLayout;
 
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.utils.ProgramHelper;
+import com.visva.voicerecorder.utils.StringUtility;
+import com.visva.voicerecorder.utils.Utils;
 
 public class NotificationActivity extends Activity {
     private LinearLayout   mBottomLayout;
@@ -22,6 +25,7 @@ public class NotificationActivity extends Activity {
     private Animation      mFadeInAnime;
     private Animation      mFadeOutAnime;
     private boolean        isAccept = false;
+    private String         phoneNo;
 
     public NotificationActivity() {
     }
@@ -40,6 +44,7 @@ public class NotificationActivity extends Activity {
             mFadeInAnime.setAnimationListener(fadeInAniListener);
         }
 
+        phoneNo = getIntent().getExtras().getString("phone_number");
         mBottomLayout.setVisibility(View.VISIBLE);
         mBottomLayout.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
         mBottomLayout.startAnimation(mContentUpAnime);
@@ -80,8 +85,15 @@ public class NotificationActivity extends Activity {
                                                          if (!isAccept) {
                                                              ProgramHelper helper = new ProgramHelper();
                                                              helper.removeNewestSession();
-                                                             
+
                                                          } else {
+                                                             Uri phoneUri = Utils.getContactUriTypeFromPhoneNumber(getContentResolver(), phoneNo, 1);
+                                                             String phoneName = "";
+                                                             if (phoneUri == null || StringUtility.isEmpty(phoneUri.toString()))
+                                                                 phoneName = phoneNo;
+                                                             else
+                                                                 phoneName = phoneUri.toString();
+                                                             Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo);
                                                          }
                                                          finish();
                                                      }
@@ -97,7 +109,7 @@ public class NotificationActivity extends Activity {
 
     public void onClickButtonAccept(View v) {
         isAccept = true;
-        
+
         mNextBtnLayout.setSoundEffectsEnabled(false);
         mFadeOutAnime = AnimationUtils.loadAnimation(this, R.anim.welcome_intro_fade_out);
         if (mFadeOutAnime != null) {
@@ -111,7 +123,7 @@ public class NotificationActivity extends Activity {
 
     public void onClickButtonCancel(View v) {
         isAccept = false;
-        
+
         mNextBtnLayout.setSoundEffectsEnabled(false);
         mFadeOutAnime = AnimationUtils.loadAnimation(this, R.anim.welcome_intro_fade_out);
         if (mFadeOutAnime != null) {

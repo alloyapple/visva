@@ -56,13 +56,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String DATE_CREATED     = "date_created";
 
     /****************************Value constant*******************************/
-    private static final int    _RECORD_ID    = 0;
+    private static final int    _RECORD_ID       = 0;
     private static final int    _PHONE_NO        = _RECORD_ID + 1;
-    private static final int    _CALL_STATE      = _RECORD_ID + 6;
-    private static final int    _FILE_NAME       = _RECORD_ID + 7;
-    private static final int    _PHONE_NAME      = _RECORD_ID + 2;
-    private static final int    _IS_FAVORITED    = _RECORD_ID + 3;
-    private static final int    _DATE_CREATED    = _RECORD_ID + 8;
+    private static final int    _CALL_STATE      = _RECORD_ID + 2;
+    private static final int    _FILE_NAME       = _RECORD_ID + 3;
+    private static final int    _PHONE_NAME      = _RECORD_ID + 4;
+    private static final int    _IS_FAVORITED    = _RECORD_ID + 5;
+    private static final int    _DATE_CREATED    = _RECORD_ID + 6;
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -124,6 +124,24 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public FavouriteItem getFavouriteItem(String contactID) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(TABLE_FAVOURITE, null, CONTACT_ID + " = ?", new String[] { String.valueOf(contactID) }, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            FavouriteItem favouriteItem = new FavouriteItem(cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
+                    cursor.getString(4));
+            return favouriteItem;
+        }
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
+        db.close();
+        return null;
+    }
+
+    // get a favorite item
+    public FavouriteItem getFavouriteItemFromPhoneNo(String phoneNo) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(TABLE_FAVOURITE, null, PHONE_NO + " = ?", new String[] { String.valueOf(phoneNo) }, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             FavouriteItem favouriteItem = new FavouriteItem(cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
@@ -238,8 +256,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_RECORD, null, DATE_CREATED + " = ?", new String[] { String.valueOf(dateCreated) }, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)), cursor.getString(_FILE_NAME),
-                    cursor.getString(_PHONE_NAME),Integer.parseInt(cursor.getString(_IS_FAVORITED)),cursor.getString(_DATE_CREATED));
+            RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)),
+                    cursor.getString(_FILE_NAME),
+                    cursor.getString(_PHONE_NAME), Integer.parseInt(cursor.getString(_IS_FAVORITED)), cursor.getString(_DATE_CREATED));
             return session;
         }
         if (cursor != null) {
@@ -257,8 +276,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)), cursor.getString(_FILE_NAME),
-                        cursor.getString(_PHONE_NAME),Integer.parseInt(cursor.getString(_IS_FAVORITED)),cursor.getString(_DATE_CREATED));
+                RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)),
+                        cursor.getString(_FILE_NAME), cursor.getString(_PHONE_NAME), Integer.parseInt(cursor.getString(_IS_FAVORITED)),
+                        cursor.getString(_DATE_CREATED));
                 recordingSessions.add(session);
             } while (cursor.moveToNext());
         }
