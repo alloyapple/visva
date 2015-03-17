@@ -3,9 +3,7 @@ package com.visva.voicerecorder.utils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,6 +19,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.record.RecordingSession;
 
 /**
@@ -33,51 +32,14 @@ public class ProgramHelper {
     public ProgramHelper() {
     }
 
-    public int getNumOfUsed(Context context) {
-        String FILENAME = "privateInfo";
-        FileInputStream fis;
-        int numOfUse = 0;
-        try {
-            fis = context.openFileInput(FILENAME);
-            numOfUse = fis.read();
-            fis.close();
-            Log.d("GHIAM", "doc file " + numOfUse);
-        } catch (Exception e) {
-            Log.d("GHIAM", "khong doc duoc file " + numOfUse + ", file chua ton tai");
-            e.printStackTrace();
-        }
-        return numOfUse;
-    }
-
-    public int useThisApp(Context context) {
-        String FILENAME = "privateInfo";
-        FileOutputStream fos;
-        int numOfUse = getNumOfUsed(context);
-        numOfUse++;
-        Log.d("GHIAM", "so lan su dung: " + numOfUse);
-        try {
-            fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            fos.write(numOfUse);
-            fos.close();
-            Log.d("GHIAM", "ghi ra file: " + numOfUse);
-        } catch (FileNotFoundException e) {
-            Log.d("GHIAM", "useThisApp - FileNotFoundException");
-            e.printStackTrace();
-        } catch (IOException e) {
-            Log.d("GHIAM", "useThisApp - IOException");
-            e.printStackTrace();
-        }
-        return numOfUse;
-    }
-
-    public String getFileNameAndWriteToList(String phoneNo, int callState) throws Exception {
+    public String getFileNameAndWriteToList(Context context, String phoneNo, int callState) throws Exception {
         String fileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/sessions/";
         String currentDateTimeString = new SimpleDateFormat("d-M-yyyy-HH-mm-ss").format(new Date());
         String currentDateString = new SimpleDateFormat("d-M-yyyy-HH:mm:ss").format(new Date());
         fileName += currentDateTimeString + ".wav";
         Log.d("GHIAM", fileName);
         Log.d("GHIAM", "phoneNo: " + phoneNo + " <in Helper/getFi...>");
-        this.writeToList(fileName, phoneNo, currentDateString, callState);
+        this.writeToList(context, fileName, phoneNo, currentDateString, callState);
         return fileName;
     }
 
@@ -93,19 +55,29 @@ public class ProgramHelper {
      * @param callState
      * @return true/false
      */
-    public boolean writeToList(String fileName, String phoneNo, String date, int callState) throws Exception {
-        String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/data";
-        File dataFile = new File(dataFilePath);
-        Log.d("GHIAM", "phoneNo: " + phoneNo + " <in Helper/writeTo...>");
-        String metaData = fileName + ";" + phoneNo + ";" + callState + ";" + date + "\n";
-        try {
-            FileWriter fileWriter = new FileWriter(dataFile, true);
-            BufferedWriter out = new BufferedWriter(fileWriter);
-            out.append(metaData);
-            out.close();
-        } catch (IOException e) {
-            throw new Exception("Ghi được file, kiểm tra thẻ nhớ !");
-        }
+    public boolean writeToList(Context context, String fileName, String phoneNo, String date, int callState) throws Exception {
+        //        String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/data";
+        //        File dataFile = new File(dataFilePath);
+        //        Log.d("GHIAM", "phoneNo: " + phoneNo + " <in Helper/writeTo...>");
+        //        String metaData = fileName + ";" + phoneNo + ";" + callState + ";" + date + "\n";
+        //        try {
+        //            FileWriter fileWriter = new FileWriter(dataFile, true);
+        //            BufferedWriter out = new BufferedWriter(fileWriter);
+        //            out.append(metaData);
+        //            out.close();
+        //        } catch (IOException e) {
+        //            throw new Exception("Ghi được file, kiểm tra thẻ nhớ !");
+        //        }
+        String phoneName = "";
+        Uri phoneNameUri = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
+        if (phoneNameUri == null || StringUtility.isEmpty(phoneNameUri.toString())) {
+            phoneName = "";
+        } else
+            phoneName = phoneNameUri.toString();
+        int isFavorite = Utils.isCheckFavouriteContactByPhoneNo(context, phoneNo);
+        RecordingSession session = new RecordingSession(phoneNo, callState, fileName, phoneName, isFavorite, date);
+        SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
+        sqLiteHelper.addNewRecordingSession(session);
         return true;
     }
 
@@ -133,27 +105,32 @@ public class ProgramHelper {
     public ArrayList<RecordingSession> getRecordingSessionsFromFile(Context context) {
         ArrayList<RecordingSession> result = new ArrayList<RecordingSession>();
         ArrayList<RecordingSession> finalResult = new ArrayList<RecordingSession>();
-        String fileDataPath = Environment.getExternalStorageDirectory() + "/MyCallRecorder/data";
-        File fileData = new File(fileDataPath);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(fileData));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String fileName = line.split(";")[0];
-                String phoneNo = line.split(";")[1];
-                int callState = Integer.parseInt(line.split(";")[2]);
-                String dateCreated = line.split(";")[3];
-                Uri phoneName = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
-                String phoneNameStr = phoneName != null ? phoneName.toString() : "";
-                RecordingSession s = new RecordingSession(phoneNo, callState, fileName, phoneNameStr, 0, dateCreated);
-                result.add(s);
-            }
-            for (int i = result.size() - 1; i >= 0; i--) {
-                finalResult.add(result.get(i));
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
+        result = sqLiteHelper.getAllRecordItem();
+        //        String fileDataPath = Environment.getExternalStorageDirectory() + "/MyCallRecorder/data";
+        //        File fileData = new File(fileDataPath);
+        //        try {
+        //            BufferedReader br = new BufferedReader(new FileReader(fileData));
+        //            String line;
+        //            while ((line = br.readLine()) != null) {
+        //                String fileName = line.split(";")[0];
+        //                String phoneNo = line.split(";")[1];
+        //                int callState = Integer.parseInt(line.split(";")[2]);
+        //                String dateCreated = line.split(";")[3];
+        //                Uri phoneName = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
+        //                String phoneNameStr = phoneName != null ? phoneName.toString() : "";
+        //                RecordingSession s = new RecordingSession(phoneNo, callState, fileName, phoneNameStr, 0, dateCreated);
+        //                result.add(s);
+        //            }
+        //            for (int i = result.size() - 1; i >= 0; i--) {
+        //                finalResult.add(result.get(i));
+        //            }
+        //            br.close();
+        //        } catch (IOException e) {
+        //            e.printStackTrace();
+        //        }
+        for (int i = result.size() - 1; i >= 0; i--) {
+            finalResult.add(result.get(i));
         }
         return finalResult;
     }
