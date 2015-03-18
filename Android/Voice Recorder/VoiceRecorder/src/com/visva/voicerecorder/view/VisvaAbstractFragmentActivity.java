@@ -1,6 +1,11 @@
-package com.visva.voicerecorder;
+package com.visva.voicerecorder.view;
 
 import java.lang.reflect.Method;
+
+import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.R.anim;
+import com.visva.voicerecorder.R.id;
+import com.visva.voicerecorder.R.layout;
 
 import android.content.Context;
 import android.content.Intent;

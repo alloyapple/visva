@@ -16,12 +16,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.visva.voicerecorder.R;
-import com.visva.voicerecorder.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.TimeUtility;
 import com.visva.voicerecorder.utils.Utils;
+import com.visva.voicerecorder.view.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.view.widget.CircleImageView;
 
 public class ActivityPlayRecording extends VisvaAbstractFragmentActivity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
