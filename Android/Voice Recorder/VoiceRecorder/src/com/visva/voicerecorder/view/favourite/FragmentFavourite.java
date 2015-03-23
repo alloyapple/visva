@@ -65,7 +65,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_favourite2, container);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_favourite, container);
 
         initData();
 

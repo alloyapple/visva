@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
@@ -26,6 +28,7 @@ public class NotificationActivity extends Activity {
     private Animation      mFadeOutAnime;
     private boolean        isAccept = false;
     private String         phoneNo;
+    private String         mCreatedDate;
 
     public NotificationActivity() {
     }
@@ -45,6 +48,11 @@ public class NotificationActivity extends Activity {
         }
 
         phoneNo = getIntent().getExtras().getString("phone_number");
+        mCreatedDate=getIntent().getExtras().getString("created_date");
+        if(StringUtility.isEmpty(mCreatedDate)){
+            AIOLog.e(MyCallRecorderConstant.TAG, "created date time is null");
+            finish();
+        }
         mBottomLayout.setVisibility(View.VISIBLE);
         mBottomLayout.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
         mBottomLayout.startAnimation(mContentUpAnime);
@@ -93,7 +101,7 @@ public class NotificationActivity extends Activity {
                                                                  phoneName = phoneNo;
                                                              else
                                                                  phoneName = phoneUri.toString();
-                                                             Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo);
+                                                             Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo,mCreatedDate);
                                                          }
                                                          finish();
                                                      }

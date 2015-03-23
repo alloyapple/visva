@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.model.FavouriteItem;
+import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 
 public class FavouriteAdapter extends BaseAdapter {
@@ -58,11 +59,14 @@ public class FavouriteAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.avatar = (ImageView) convertView.findViewById(R.id.phone_avatar);
             convertView.setTag(holder);
-        }
-        holder = (ViewHolder) convertView.getTag();
+        } else
+            holder = (ViewHolder) convertView.getTag();
         FavouriteItem favouriteItem = mFavouriteItems.get(position);
-
-        Uri photoUri = Utils.getContactUriTypeFromPhoneNumber(mContext.getContentResolver(), favouriteItem.phoneNo, PHOTO_URI);
+        Uri photoUri = null;
+        if (StringUtility.isEmpty(favouriteItem.phoneNo)) {
+            holder.avatar.setImageResource(R.drawable.ic_contact_picture_holo_light);
+        } else
+            photoUri = Utils.getContactUriTypeFromPhoneNumber(mContext.getContentResolver(), favouriteItem.phoneNo, PHOTO_URI);
         if (photoUri != null) {
             holder.avatar.setImageURI(photoUri);
         } else {

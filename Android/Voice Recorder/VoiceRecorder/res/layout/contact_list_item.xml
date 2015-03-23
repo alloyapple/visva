@@ -15,6 +15,7 @@
   limitations under the License.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     style="@style/listViewActivatedStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
@@ -62,30 +63,50 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:background="@drawable/ic_star"
-            android:visibility="gone"
-            android:contentDescription="@string/imageview_description" />
+            android:contentDescription="@string/imageview_description"
+            android:visibility="gone" />
         <!--
          Use standard android.R class text2 id instead of app specific id. This is just useful for
          consistency. This is secondary text and not always visible so by default is has its
          visibility set to gone
         -->
 
-        <ImageButton
-            android:id="@+id/btn_call"
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/layout_call"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@color/white"
+            materialdesign:rippleColor="#1E88E5"
+            materialdesign:rippleSpeed="10" >
+
+            <ImageButton
+                android:id="@+id/btn_call"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_call"
+                android:contentDescription="@string/imageview_description"
+                android:focusable="false" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <View
+            android:id="@+id/divider_call"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/btn_call"
-            android:focusable="false" />
+            android:layout_toLeftOf="@id/layout_call"
+            android:background="@color/material_design_color_orange_1" />
 
         <TextView
             android:id="@+id/text_match_other_field"
             android:layout_width="match_parent"
             android:layout_height="26dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
             android:layout_toRightOf="@android:id/icon"
             android:ellipsize="marquee"
             android:paddingLeft="@dimen/listview_item_padding"
@@ -110,7 +131,7 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
-            android:layout_toLeftOf="@id/btn_call"
+            android:layout_toLeftOf="@id/divider_call"
             android:layout_toRightOf="@android:id/icon"
             android:ellipsize="marquee"
             android:focusable="false"

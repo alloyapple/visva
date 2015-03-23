@@ -71,8 +71,8 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         } else
             holder = (ViewHolder) convertView.getTag();
         holder.textPhoneNo.setText(this.getItem(position).phoneNo);
-        String textDate = Utils.getTextDate(mContext, getItem(position));
-        holder.textTime.setText(Utils.getTextTime(mContext, getItem(position)) + " " + textDate);
+        String textDate = Utils.getTextDate(mContext, Long.valueOf(getItem(position).dateCreated));
+        holder.textTime.setText(Utils.getTextTime(mContext, Long.valueOf(getItem(position).dateCreated)) + " " + textDate);
 
         boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);
         if (isShowTextDate) {
@@ -228,5 +228,11 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
 
     public SparseBooleanArray getSelectedIds() {
         return mSelectedItemsIds;
+    }
+
+    public void updateRecordingSession(ArrayList<RecordingSession> sessions) {
+        mRecordingSessions.clear();
+        mRecordingSessions = sessions;
+        notifyDataSetChanged();
     }
 }

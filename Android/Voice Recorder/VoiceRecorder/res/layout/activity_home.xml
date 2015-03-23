@@ -61,8 +61,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="onClickRecordTab"
                 android:gravity="center"
+                android:onClick="onClickRecordTab"
                 materialdesign:rippleColor="#1E88E5"
                 materialdesign:rippleSpeed="20" >
 
@@ -96,8 +96,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="onClickFavouriteTab"
                 android:gravity="center"
+                android:onClick="onClickFavouriteTab"
                 materialdesign:rippleColor="#1E88E5"
                 materialdesign:rippleSpeed="20" >
 
@@ -130,9 +130,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onClickSettingTab"
                 android:clickable="true"
                 android:gravity="center"
+                android:onClick="onClickSettingTab"
                 materialdesign:rippleColor="#1E88E5"
                 materialdesign:rippleSpeed="20" >
 
@@ -162,20 +162,30 @@
             android:layout_height="50dp"
             android:background="@color/material_design_color_orange_1" >
 
-            <ImageButton
-                android:id="@+id/btn_add_contact"
+            <com.gc.materialdesign.views.LayoutRipple
+                android:id="@+id/layout_add_contact"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/ic_action_new"
-                android:onClick="onClickAddContactButton" />
+                android:layout_centerVertical="true"
+                android:background="@color/material_design_color_orange_1"
+                android:onClick="onClickAddContactButton" >
+
+                <ImageButton
+                    android:id="@+id/btn_add_contact"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_action_new"
+                    android:contentDescription="@string/imageview_description"
+                    android:onClick="onClickAddContactButton" />
+            </com.gc.materialdesign.views.LayoutRipple>
 
             <RelativeLayout
                 android:id="@+id/layout_search_detail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="3dp"
-                android:layout_toLeftOf="@id/btn_add_contact"
+                android:layout_toLeftOf="@id/layout_add_contact"
                 android:background="@color/white"
                 android:orientation="horizontal" >
 
@@ -183,6 +193,7 @@
                     android:id="@+id/btn_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/imageview_description"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/btn_search"
@@ -193,6 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:contentDescription="@string/imageview_description"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/btn_close"
@@ -207,7 +219,7 @@
                     android:layout_toLeftOf="@id/btn_clear_search"
                     android:layout_toRightOf="@id/btn_search"
                     android:background="@null"
-                    android:hint="Search"
+                    android:hint="@string/search"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:singleLine="true" />

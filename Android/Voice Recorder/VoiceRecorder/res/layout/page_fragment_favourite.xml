@@ -9,10 +9,15 @@
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/layout_favourite_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_favourite_header" />
+    <include
         android:id="@+id/layout_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/coverflow"
+        android:layout_below="@id/layout_favourite_header"
         layout="@layout/layout_favourite_contact" />
 
     <TextView
@@ -22,11 +27,13 @@
         android:layout_below="@id/layout_user_info"
         android:background="@color/material_design_color_orange_1"
         android:textColor="@color/white"
+        android:paddingLeft="10dp"
         android:textStyle="bold" />
 
     <RelativeLayout
         android:id="@+id/layout_conversation"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_record_title" >
 

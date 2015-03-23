@@ -19,6 +19,7 @@ import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -27,9 +28,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
-import com.visva.voicerecorder.constant.MyCallRecorderConstant;
-import com.visva.voicerecorder.log.AIOLog;
-import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.Utils;
@@ -42,9 +40,8 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     // ======================Control Define =====================
     private SwipeMenuListView           mLvRecords;
     private RecordingAdapter            mRecordingAdapter;
-
+    private TextView                    mTextNoRecord;
     // =======================Class Define ======================
-    private RecordingManager            mRecordingManager;
     private ProgramHelper               mProgramHelper;
     // ======================Variable Define=====================
     private ArrayList<RecordingSession> mSessions = new ArrayList<RecordingSession>();
@@ -56,12 +53,17 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
         mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
         mSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
-        mRecordingManager = MyCallRecorderApplication.getInstance().getRecordManager(getActivity(), mSessions);
         initLayout(root);
         return root;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+    
     private void initLayout(View root) {
+        mTextNoRecord = (TextView) root.findViewById(R.id.text_no_record_found);
         mLvRecords = (SwipeMenuListView) root.findViewById(R.id.lv_all_recorder);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
@@ -90,8 +92,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         mLvRecords.setMenuCreator(creator);
         mLvRecords.setOnMenuItemClickListener(this);
 
-        AIOLog.d(MyCallRecorderConstant.TAG, "HomeActivity.recordingManager:" + mRecordingManager);
-        mRecordingAdapter = new RecordingAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, mRecordingManager.showAll());
+        mRecordingAdapter = new RecordingAdapter(getActivity(), android.R.layout.simple_list_item_activated_1,mSessions);
         mLvRecords.setAdapter(mRecordingAdapter);
         mLvRecords.setOnItemClickListener(new OnItemClickListener() {
 
@@ -103,7 +104,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
                 startActivity(intent);
             }
         });
-        
+
         mLvRecords.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         // Capture ListView item click
         mLvRecords.setMultiChoiceModeListener(new MultiChoiceModeListener() {
@@ -124,16 +125,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
                 switch (item.getItemId()) {
                 case R.id.delete:
                     // Calls getSelectedIds method from ListViewAdapter Class
-                    SparseBooleanArray selected = mRecordingAdapter .getSelectedIds();
-//                    // Captures all selected ids with a loop
-//                    for (int i = (selected.size() - 1); i >= 0; i--) {
-//                        if (selected.valueAt(i)) {
-//                            WorldPopulation selecteditem = listviewadapter
-//                                    .getItem(selected.keyAt(i));
-//                            // Remove selected items following the ids
-//                            listviewadapter.remove(selecteditem);
-//                        }
-//                    }
+                    SparseBooleanArray selected = mRecordingAdapter.getSelectedIds();
                     // Close CAB
                     mode.finish();
                     return true;
@@ -158,7 +150,14 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
                 return false;
             }
         });
-        
+
+        if(mSessions.size() == 0){
+            mLvRecords.setVisibility(View.GONE);
+            mTextNoRecord.setVisibility(View.VISIBLE);
+        }else{
+            mLvRecords.setVisibility(View.VISIBLE);
+            mTextNoRecord.setVisibility(View.GONE);
+        }
     }
 
     @Override

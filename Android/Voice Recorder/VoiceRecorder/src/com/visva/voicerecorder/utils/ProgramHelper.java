@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;
@@ -32,14 +33,13 @@ public class ProgramHelper {
     public ProgramHelper() {
     }
 
-    public String getFileNameAndWriteToList(Context context, String phoneNo, int callState) throws Exception {
+    public String getFileNameAndWriteToList(Context context, String phoneNo, int callState, String createdDate) throws Exception {
         String fileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/sessions/";
-        String currentDateTimeString = new SimpleDateFormat("d-M-yyyy-HH-mm-ss").format(new Date());
-        String currentDateString = new SimpleDateFormat("d-M-yyyy-HH:mm:ss").format(new Date());
+        String currentDateTimeString = new SimpleDateFormat("d-M-yyyy-HH-mm-ss", Locale.ENGLISH).format(new Date());
         fileName += currentDateTimeString + ".wav";
         Log.d("GHIAM", fileName);
         Log.d("GHIAM", "phoneNo: " + phoneNo + " <in Helper/getFi...>");
-        this.writeToList(context, fileName, phoneNo, currentDateString, callState);
+        this.writeToList(context, fileName, phoneNo, createdDate, callState);
         return fileName;
     }
 
@@ -56,18 +56,6 @@ public class ProgramHelper {
      * @return true/false
      */
     public boolean writeToList(Context context, String fileName, String phoneNo, String date, int callState) throws Exception {
-        //        String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/data";
-        //        File dataFile = new File(dataFilePath);
-        //        Log.d("GHIAM", "phoneNo: " + phoneNo + " <in Helper/writeTo...>");
-        //        String metaData = fileName + ";" + phoneNo + ";" + callState + ";" + date + "\n";
-        //        try {
-        //            FileWriter fileWriter = new FileWriter(dataFile, true);
-        //            BufferedWriter out = new BufferedWriter(fileWriter);
-        //            out.append(metaData);
-        //            out.close();
-        //        } catch (IOException e) {
-        //            throw new Exception("Ghi được file, kiểm tra thẻ nhớ !");
-        //        }
         String phoneName = "";
         Uri phoneNameUri = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
         if (phoneNameUri == null || StringUtility.isEmpty(phoneNameUri.toString())) {
