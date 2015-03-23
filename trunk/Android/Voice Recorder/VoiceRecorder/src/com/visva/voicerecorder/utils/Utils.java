@@ -178,37 +178,46 @@ public class Utils {
             return false;
         if (position == 0 || recordingSessions.size() == 1)
             return true;
+        int beforeDate, beforeYear, beforeMonth, currentDate, currentYear, currentMonth;
         RecordingSession before = recordingSessions.get(position - 1);
         RecordingSession current = recordingSessions.get(position);
-        int beforeDate, beforeYear, beforeMonth, currentDate, currentYear, currentMonth;
-        beforeDate = Integer.parseInt(before.dateCreated.split("-")[0]);
-        beforeMonth = Integer.parseInt(before.dateCreated.split("-")[1]);
-        beforeYear = Integer.parseInt(before.dateCreated.split("-")[2]);
-        currentDate = Integer.parseInt(current.dateCreated.split("-")[0]);
-        currentMonth = Integer.parseInt(current.dateCreated.split("-")[1]);
-        currentYear = Integer.parseInt(current.dateCreated.split("-")[2]);
+        Calendar calendar = Calendar.getInstance();
+        long beforeTime = Long.valueOf(before.dateCreated);
+        calendar.setTimeInMillis(beforeTime);
+        beforeDate = calendar.get(Calendar.DAY_OF_MONTH);
+        beforeMonth = calendar.get(Calendar.MONTH);
+        beforeYear = calendar.get(Calendar.YEAR);
+
+        long afterTime = Long.valueOf(current.dateCreated);
+        calendar.setTimeInMillis(afterTime);
+        currentDate = calendar.get(Calendar.DAY_OF_MONTH);
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentYear = calendar.get(Calendar.YEAR);
+
         if (currentYear == beforeYear && currentMonth == beforeMonth && currentDate == beforeDate)
             return false;
         else
             return true;
     }
 
-    public static String getTextDate(Context context, RecordingSession item) {
+    public static String getTextDate(Context context, long createdDate) {
         String textDate = "";
-        int currentDate, currentYear, currentMonth;
-        currentDate = Integer.parseInt(item.dateCreated.split("-")[0]);
-        currentMonth = Integer.parseInt(item.dateCreated.split("-")[1]);
-        currentYear = Integer.parseInt(item.dateCreated.split("-")[2]);
         Calendar calendar = Calendar.getInstance();
+        int currentDate, currentYear, currentMonth;
+        currentDate = calendar.get(Calendar.DAY_OF_MONTH);
+        currentYear = calendar.get(Calendar.YEAR);
+        currentMonth = calendar.get(Calendar.MONTH);
+
+        calendar.setTimeInMillis(createdDate);
         int date = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
-        if (currentYear == year && (currentMonth - 1 == month) && currentDate == date)
+        if (currentYear == year && (currentMonth == month) && currentDate == date)
             textDate = context.getString(R.string.today);
-        else if (currentYear == year && (currentMonth - 1 == month) && currentDate == (date - 1))
+        else if (currentYear == year && (currentMonth == month) && currentDate == (date - 1))
             textDate = context.getString(R.string.yesterday);
         else {
-            textDate = currentDate + "/" + currentMonth + "/" + currentYear;
+            textDate = currentDate + "/" + (currentMonth + 1) + "/" + currentYear;
         }
         return textDate;
     }
@@ -266,10 +275,11 @@ public class Utils {
         return false;
     }
 
-    public static String getTextTime(Context context, RecordingSession item) {
-        String timeString = item.dateCreated.split("-")[3];
-        String finalTimeString = timeString.split(":")[0] + ":" + timeString.split(":")[1];
-        return finalTimeString;
+    public static String getTextTime(Context context, long createdTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(createdTime);
+        String timeString = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+        return timeString;
     }
 
     public static String getDurationTime(Context mContext, RecordingSession recordingSession) {
@@ -381,38 +391,38 @@ public class Utils {
             return favouriteItem.isFavourite;
     }
 
-    public static void showNotificationAfterCalling(Context context, String phoneName, String phoneNo) {
+    public static void showNotificationAfterCalling(Context context, String phoneName, String phoneNo, String createdDate) {
         Resources res = context.getResources();
         String newRecord = res.getString(R.string.you_have_new_record);
         String favorite = res.getString(R.string.favourite);
-        String makeANote = res.getString(R.string.make_note);
+        String addNote = res.getString(R.string.add_note);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_launcher)
                 .setAutoCancel(true).setContentTitle(phoneName).setContentText(newRecord);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSound(alarmSound);
-        
+
         int isFavourite = Utils.isCheckFavouriteContactByPhoneNo(context, phoneNo);
+        Bundle bundle = new Bundle();
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NAME, phoneName);
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NO, phoneNo);
+        bundle.putString(MyCallRecorderConstant.EXTRA_CREATED_DATE, createdDate);
         if (isFavourite == 0) {
             //favorite intent
             Intent favoriteIntent = new Intent();
             favoriteIntent.setAction(MyCallRecorderConstant.FAVORITE_INTENT);
-            Bundle favoriteBundle = new Bundle();
-            favoriteBundle.putString("phone_name", phoneName);
-            favoriteBundle.putString("phone_no", phoneNo);
-            favoriteIntent.putExtras(favoriteBundle);
+            favoriteIntent.putExtras(bundle);
             PendingIntent pendingFavoriteIntent = PendingIntent.getBroadcast(context, MyCallRecorderConstant.NOTIFICATION_ID, favoriteIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             builder.addAction(R.drawable.ic_favourites, favorite, pendingFavoriteIntent);
         }
+
         //Make a note intent
         Intent makeNoteIntent = new Intent();
         makeNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
-        Bundle makeNoteBundle = new Bundle();
-        makeNoteBundle.putInt("userAnswer", 3);//This is the value I want to pass
-        makeNoteIntent.putExtras(makeNoteBundle);
+        makeNoteIntent.putExtras(bundle);
         PendingIntent pendingMakeNoteIntent = PendingIntent.getBroadcast(context, MyCallRecorderConstant.NOTIFICATION_ID, makeNoteIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(R.drawable.ic_customer_create, makeANote, pendingMakeNoteIntent);
+        builder.addAction(R.drawable.ic_customer_create, addNote, pendingMakeNoteIntent);
 
         Intent resultIntent = new Intent(context, ActivityHome.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

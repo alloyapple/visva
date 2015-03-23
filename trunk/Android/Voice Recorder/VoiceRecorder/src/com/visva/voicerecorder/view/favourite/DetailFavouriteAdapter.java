@@ -70,8 +70,8 @@ public class DetailFavouriteAdapter extends BaseAdapter {
             holder.textDate.setTypeface(null, Typeface.BOLD);
         } else
             holder.textDate.setTypeface(null, Typeface.NORMAL);
-        holder.textDate.setText(Utils.getTextDate(mContext, recordingSession));
-        holder.textTime.setText(Utils.getTextTime(mContext, recordingSession));
+        holder.textDate.setText(Utils.getTextDate(mContext, Long.valueOf(recordingSession.dateCreated)));
+        holder.textTime.setText(Utils.getTextTime(mContext, Long.valueOf(recordingSession.dateCreated)));
         holder.textDuration.setText(Utils.getDurationTime(mContext, recordingSession));
         if (mIsLongClick) {
             holder.checkBox.setVisibility(View.VISIBLE);

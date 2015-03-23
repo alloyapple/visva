@@ -1,12 +1,5 @@
 package com.visva.voicerecorder.receiver;
 
-import com.visva.voicerecorder.MyCallRecorderApplication;
-import com.visva.voicerecorder.R;
-import com.visva.voicerecorder.constant.MyCallRecorderConstant;
-import com.visva.voicerecorder.log.AIOLog;
-import com.visva.voicerecorder.model.FavouriteItem;
-import com.visva.voicerecorder.utils.SQLiteHelper;
-
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,6 +8,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.visva.voicerecorder.MyCallRecorderApplication;
+import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.model.FavouriteItem;
+import com.visva.voicerecorder.note.ActivityNoteEditor;
+import com.visva.voicerecorder.utils.SQLiteHelper;
+
 public class MyRecordCallReceiver extends BroadcastReceiver {
     private String mPhoneNo;
     private String mPhoneName;
@@ -22,11 +23,11 @@ public class MyRecordCallReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AIOLog.d(MyCallRecorderConstant.TAG, "MyRecordCallReceiver");
         if (intent == null || intent.getAction() == null) {
             AIOLog.e(MyCallRecorderConstant.TAG, "intent or action is null");
             return;
         }
+        AIOLog.e(MyCallRecorderConstant.TAG, "intent:" + intent.getAction());
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         notificationManager.cancel(MyCallRecorderConstant.NOTIFICATION_ID);
@@ -36,8 +37,9 @@ public class MyRecordCallReceiver extends BroadcastReceiver {
             AIOLog.e(MyCallRecorderConstant.TAG, "bundle is null");
             return;
         }
-        Resources res = context.getResources();
+        AIOLog.e(MyCallRecorderConstant.TAG, "bundle:" + bundle);
         if (MyCallRecorderConstant.FAVORITE_INTENT.equals(action)) {
+            Resources res = context.getResources();
             mPhoneNo = bundle.getString("phone_no");
             mPhoneName = bundle.getString("phone_name");
             FavouriteItem favouriteItem = new FavouriteItem(mPhoneNo, mPhoneName, 1, mContactId);
@@ -47,8 +49,11 @@ public class MyRecordCallReceiver extends BroadcastReceiver {
             String addFavouriteContact = res.getString(R.string.added_to_favourite, phoneName);
             Toast.makeText(context, addFavouriteContact, Toast.LENGTH_SHORT).show();
         } else if (MyCallRecorderConstant.MAKE_NOTE_INTENT.equals(action)) {
-
+            Intent addNoteIntent = new Intent(context, ActivityNoteEditor.class);
+            addNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
+            addNoteIntent.putExtras(bundle);
+            addNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(addNoteIntent);
         }
     }
-
 }

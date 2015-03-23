@@ -21,11 +21,12 @@ import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 
 public class OutGoingCallReceiver extends BroadcastReceiver {
-    public static ExtAudioRecorder recorder = null;
+    public static ExtAudioRecorder recorder     = null;
     public Context                 rcontext;
     TelephonyManager               tm;
-    public static ProgramHelper    helper   = new ProgramHelper();
-    public static String           phoneNo  = null;
+    public static ProgramHelper    helper       = new ProgramHelper();
+    public static String           phoneNo      = null;
+    public static String           mCreatedDate = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -37,22 +38,26 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
         AIOLog.d(MyCallRecorderConstant.TAG, "OutGoingCallReceiver: " + _tmp);
         if (_tmp != null) {
             OutGoingCallReceiver.phoneNo = _tmp;
+            long currentTime = System.currentTimeMillis();
+            OutGoingCallReceiver.mCreatedDate = String.valueOf(currentTime);
         }
         tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-       AIOLog.d(MyCallRecorderConstant.TAG, "TelephonyManager.getCallState: " + tm.getCallState());
+        AIOLog.d(MyCallRecorderConstant.TAG, "TelephonyManager.getCallState: " + tm.getCallState());
         if (tm.getCallState() == TelephonyManager.CALL_STATE_IDLE) {
-           AIOLog.d(MyCallRecorderConstant.TAG, "recorder:" + recorder);
+            AIOLog.d(MyCallRecorderConstant.TAG, "recorder:" + recorder);
             if (recorder != null) {
                 Toast.makeText(context, endRecording, Toast.LENGTH_LONG).show(); // show when call ended
                 stopRecording();
                 MyCallRecorderSharePrefs myCallRecorderSharePrefs = MyCallRecorderApplication.getInstance().getMyCallRecorderSharePref(context);
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedOutGoingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_OUTGOING_CALL);
-               AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedOutGoingCall:" + isAutoSavedOutGoingCall);
+                AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedOutGoingCall:"
+                        + isAutoSavedOutGoingCall);
                 if (isAutoSavedOutGoingCall && !isAutoSavedRecordCall) {
                     Intent i = new Intent(context, NotificationActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("phone_number", phoneNo);
+                    i.putExtra("created_date", mCreatedDate);
                     context.startActivity(i);
                 } else {
                     Uri phoneUri = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
@@ -61,22 +66,23 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                         phoneName = phoneNo;
                     else
                         phoneName = phoneUri.toString();
-                    Utils.showNotificationAfterCalling(context, phoneName, phoneNo);
+                    Utils.showNotificationAfterCalling(context, phoneName, phoneNo, mCreatedDate);
                 }
                 OutGoingCallReceiver.phoneNo = null;
+                OutGoingCallReceiver.mCreatedDate = null;
             } else {
 
             }
         }
         if (tm.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK) {
-           AIOLog.d(MyCallRecorderConstant.TAG, "CALL_STATE_OFFHOOK" + phoneNo);
+            AIOLog.d(MyCallRecorderConstant.TAG, "CALL_STATE_OFFHOOK" + phoneNo);
             if (recorder != null) {
                 stopRecording();
             }
             try {
-               AIOLog.d(MyCallRecorderConstant.TAG, "CALL_STATE_OFFHOOK" + phoneNo);
+                AIOLog.d(MyCallRecorderConstant.TAG, "CALL_STATE_OFFHOOK" + phoneNo);
                 if (OutGoingCallReceiver.phoneNo != null) {
-                   AIOLog.d(MyCallRecorderConstant.TAG, "outgoing offhook useThisApp");
+                    AIOLog.d(MyCallRecorderConstant.TAG, "outgoing offhook useThisApp");
                     startRecording(OutGoingCallReceiver.phoneNo, TelephonyManager.CALL_STATE_OFFHOOK);
                     Toast.makeText(context, startRecording + OutGoingCallReceiver.phoneNo, Toast.LENGTH_SHORT).show();
                 }
@@ -91,8 +97,8 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
         String cannotRecording = res.getString(R.string.cannot_record);
         recorder = ExtAudioRecorder.getInstanse(false);
         try {
-           AIOLog.d(MyCallRecorderConstant.TAG, "in start recording - write to file, phoneNo: " + phoneNo);
-            recorder.setOutputFile(helper.getFileNameAndWriteToList(rcontext, phoneNo, callState));
+            AIOLog.d(MyCallRecorderConstant.TAG, "in start recording - write to file, phoneNo: " + phoneNo);
+            recorder.setOutputFile(helper.getFileNameAndWriteToList(rcontext, phoneNo, callState, mCreatedDate));
         } catch (Exception e) {
             Toast.makeText(this.rcontext, cannotRecording + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
         }

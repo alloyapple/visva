@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@null"
+        android:hint="Subject"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <com.visva.voicerecorder.note.LinedEditText
+        android:id="@+id/note"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/subject"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        android:capitalize="sentences"
+        android:fadingEdge="vertical"
+        android:gravity="top"
+        android:hint="Note here"
+        android:imeOptions="flagNoEnterAction"
+        android:scrollbars="vertical"
+        android:textColorHint="@color/divider_listview"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/phone_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/note"
+        android:layout_marginLeft="10dp"
+        android:text="S2"
+        android:textColor="@color/gray_1"
+        android:textSize="10sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phone_name"
+        android:layout_marginLeft="10dp"
+        android:text="0123456798"
+        android:textColor="@color/gray_1"
+        android:textSize="10sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/phone_name"
+        android:layout_marginRight="10dp"
+        android:text="20-03-2015 15:00"
+        android:textColor="@color/gray_1"
+        android:textSize="10sp"
+        android:textStyle="italic" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/date_time"
+        android:layout_margin="10dp"
+        android:background="@color/material_design_color_orange_1" />
+
+</RelativeLayout>

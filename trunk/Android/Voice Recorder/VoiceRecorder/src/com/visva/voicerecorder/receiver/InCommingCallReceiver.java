@@ -24,11 +24,12 @@ import com.visva.voicerecorder.utils.Utils;
  * record in-coming call only
  */
 public class InCommingCallReceiver extends BroadcastReceiver {
-    public static ExtAudioRecorder recorder = null;
+    public static ExtAudioRecorder recorder     = null;
     public Context                 rcontext;
     TelephonyManager               tm;
-    public static ProgramHelper    helper   = new ProgramHelper();
-    public static String           phoneNo  = null;
+    public static ProgramHelper    helper       = new ProgramHelper();
+    public static String           phoneNo      = null;
+    public static String           mCreatedDate = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -49,11 +50,13 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedIncomingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_INCOMING_CALL);
                 //                boolean isValidDurationTime = Utils.isCheckValidDurationTime();
-                AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedIncomingCall:" + isAutoSavedIncomingCall);
+                AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedIncomingCall:"
+                        + isAutoSavedIncomingCall);
                 if (isAutoSavedIncomingCall && !isAutoSavedRecordCall) {
                     Intent i = new Intent(context, NotificationActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("phone_number", phoneNo);
+                    i.putExtra("created_date", mCreatedDate);
                     context.startActivity(i);
                 } else {
 
@@ -63,16 +66,18 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                         phoneName = phoneNo;
                     else
                         phoneName = phoneUri.toString();
-                    Utils.showNotificationAfterCalling(context, phoneName, phoneNo);
-
+                    Utils.showNotificationAfterCalling(context, phoneName, phoneNo, mCreatedDate);
                 }
             } else {
             }
             InCommingCallReceiver.phoneNo = null;
+            InCommingCallReceiver.mCreatedDate = null;
         }
 
         if (tm.getCallState() == TelephonyManager.CALL_STATE_RINGING) {
             InCommingCallReceiver.phoneNo = bundle.getString("incoming_number");
+            long currentTime = System.currentTimeMillis();
+            InCommingCallReceiver.mCreatedDate = String.valueOf(currentTime);
         }
         if (tm.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK) {
             //if (mRecorder != null){
@@ -107,7 +112,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
         */
         try {
             AIOLog.d(MyCallRecorderConstant.TAG, "in start recording - write to file, phoneNo: " + phoneNo);
-            recorder.setOutputFile(helper.getFileNameAndWriteToList(rcontext, phoneNo, callState));
+            recorder.setOutputFile(helper.getFileNameAndWriteToList(rcontext, phoneNo, callState, mCreatedDate));
         } catch (Exception e) {
             Toast.makeText(this.rcontext, cannotRecord + e.getMessage(), Toast.LENGTH_LONG).show();
         }

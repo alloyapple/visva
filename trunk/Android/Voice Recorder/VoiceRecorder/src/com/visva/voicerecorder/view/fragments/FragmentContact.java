@@ -41,7 +41,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AlphabetIndexer;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow.OnDismissListener;
@@ -49,6 +48,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.LayoutRipple;
 import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
@@ -143,8 +143,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             // retrieve previous search term and previously selected search
             // result.
             mSearchTerm = savedInstanceState.getString(SearchManager.QUERY);
-            mPreviouslySelectedSearchItem =
-                    savedInstanceState.getInt(STATE_PREVIOUSLY_SELECTED_KEY, 0);
+            mPreviouslySelectedSearchItem = savedInstanceState.getInt(STATE_PREVIOUSLY_SELECTED_KEY, 0);
         }
 
         iHomeActionListener = (ActivityHome) getActivity();
@@ -299,8 +298,8 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         String phoneNo = "";
         if (phones == null || phones.size() == 0) {
             phoneNo = "";
-        }
-        phoneNo = phones.get(0);
+        } else
+            phoneNo = phones.get(0);
         String phoneName = cursor.getString(ContactsQuery.DISPLAY_NAME);
         FavouriteItem favouriteItem = new FavouriteItem(phoneNo, phoneName, 1, contactId);
         if (Utils.isCheckFavouriteContact(getActivity(), contactId)) {
@@ -573,9 +572,9 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             holder.textMatchOtherField = (TextView) itemLayout.findViewById(R.id.text_match_other_field);
             holder.icon = (CircleImageView) itemLayout.findViewById(android.R.id.icon);
             holder.divider = (View) itemLayout.findViewById(R.id.divider);
-            holder.btnCall = (ImageButton) itemLayout.findViewById(R.id.btn_call);
+            holder.layoutCall = (LayoutRipple) itemLayout.findViewById(R.id.layout_call);
             holder.icStar = (ImageView) itemLayout.findViewById(R.id.ic_star);
-            holder.btnCall.setSelected(false);
+            holder.dividerCall = (View) itemLayout.findViewById(R.id.divider_call);
             itemLayout.setTag(holder);
             // Returns the item layout view
             return itemLayout;
@@ -647,11 +646,14 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             } else
                 phoneNo = phones.get(0);
             if ("".equals(phoneNo)) {
-                holder.btnCall.setVisibility(View.GONE);
-            } else
-                holder.btnCall.setVisibility(View.VISIBLE);
-            holder.btnCall.setFocusable(false);
-            holder.btnCall.setOnClickListener(new View.OnClickListener() {
+                holder.layoutCall.setVisibility(View.GONE);
+                holder.dividerCall.setVisibility(View.GONE);
+            } else {
+                holder.layoutCall.setVisibility(View.VISIBLE);
+                holder.dividerCall.setVisibility(View.VISIBLE);
+            }
+            holder.layoutCall.setFocusable(false);
+            holder.layoutCall.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -730,8 +732,9 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             TextView        textMatchOtherField;
             CircleImageView icon;
             View            divider;
-            ImageButton     btnCall;
             ImageView       icStar;
+            View            dividerCall;
+            LayoutRipple    layoutCall;
         }
     }
 
