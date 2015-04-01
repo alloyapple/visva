@@ -2,7 +2,6 @@ package com.visva.voicerecorder.view.favourite;
 
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Intent;
@@ -37,8 +36,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
-import com.visva.voicerecorder.constant.MyCallRecorderConstant;
-import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.StringUtility;
@@ -88,7 +85,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     }
 
     private void initLayout(View root) {
-        Log.d("KieuThang", "iHomeActionListener:" + iHomeActionListener);
         mTextSwitcherPhoneName = (TextSwitcher) root.findViewById(R.id.text_switch_favourite_name);
         mTextSwitcherPhoneName.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -298,29 +294,14 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         switch (index) {
         // when user click on delete action, dialog showed to confirm to delete recording file
         case 0:
-            String deleteTitle = getActivity().getString(R.string.delete);
-            String contentMsg = getActivity().getString(R.string.are_you_sure_to_delete_contact);
-            String cancel = getActivity().getString(R.string.cancel);
-            Dialog dialog = new Dialog(getActivity(), deleteTitle, contentMsg);
-            dialog.addCancelButton(cancel, new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                }
-            });
-            dialog.setOnAcceptButtonClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), "Delete:" + position, Toast.LENGTH_SHORT).show();
-                }
-            });
-            dialog.show();
+            deleteRecordingSessionAction(position);
             break;
         case 1:
-            shareRecordingSessionAction(mFavouriteRecordingSessions.get(position));
-            break;
-        case 2:
+            RecordingSession recordingSession = mFavouriteRecordingSessions.get(position);
+            if (recordingSession == null) {
+                return false;
+            }
+            Utils.shareRecordingSessionAction(getActivity(), recordingSession.fileName);
             break;
         default:
             break;
@@ -328,30 +309,40 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         return false;
     }
 
-    private void shareRecordingSessionAction(RecordingSession recordingSession) {
-        if (recordingSession == null)
-            return;
-        File file = new File(recordingSession.fileName);
-        if (!file.exists()) {
-            AIOLog.e(MyCallRecorderConstant.TAG, "file not found");
+    private void deleteRecordingSessionAction(final int position) {
+        final RecordingSession recordingSession = mFavouriteRecordingSessions.get(position);
+        String title = recordingSession.phoneName;
+        if(StringUtility.isEmpty(title)){
+            title = recordingSession.phoneNo;
         }
-        Uri uri = Uri.fromFile(file);
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        shareIntent.setType("*/*");
-        startActivity(Intent.createChooser(shareIntent, "Share via"));
+        String contentMsg = getActivity().getString(R.string.are_you_sure_to_delete_record);
+        String cancel = getActivity().getString(R.string.cancel);
+        Dialog dialog = new Dialog(getActivity(), title, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Delete:" + position, Toast.LENGTH_SHORT).show();
+                Utils.deleteRecordingSesstionAction(getActivity(), recordingSession);
+                mRecordingFavouriteAdapter.removeRecord(position);
+            }
+        });
+        dialog.show();
     }
 
     public void onClickLayoutCall(View v) {
-        Log.d("KieuThang", "mLayoutCall");
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:" + mFavouriteItems.get(mFavouritePosition).phoneNo));
         startActivity(intent);
     }
 
     public void onClickLayoutMsg(View v) {
-        Log.d("KieuThang", "onClickLayoutMsg");
         Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
         smsIntent.setType("vnd.android-dir/mms-sms");
         smsIntent.putExtra("address", mFavouriteItems.get(mFavouritePosition).phoneNo);
@@ -377,7 +368,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                     break;
                 }
                 return true;
-            
+
             }
         });
         popup.show();

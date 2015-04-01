@@ -1,97 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:focusable="false"
+    android:layout_height="80dp"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:orientation="vertical" >
+    android:focusable="false" >
 
-    <TextView
-        android:id="@+id/text_date"
+    <com.visva.voicerecorder.view.widget.CircleImageView
+        android:id="@+id/imageProfile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:background="@null"
+        android:src="@null" />
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_star"
+        android:contentDescription="@string/imageview_description"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/layout_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Today"
-        android:visibility="gone"
-        android:layout_margin="15dp"
-        android:textColor="@color/material_design_color_orange_1" />
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/imageProfile" >
 
-   <RelativeLayout
+        <TextView
+            android:id="@+id/txt_phone_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_small"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="@dimen/padding_large"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:focusable="false" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/layout_up"
+        android:layout_toRightOf="@id/imageProfile"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-        <com.visva.voicerecorder.view.widget.CircleImageView
-            android:id="@+id/imageProfile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:background="@null"
-            android:src="@null" />
-
-        <ImageView
-            android:id="@+id/img_call"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/btn_call" />
-
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/layout_note"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_toLeftOf="@id/img_call"
-            android:layout_toRightOf="@id/imageProfile"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone" >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+            <ImageView
+                android:id="@+id/img_note"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:background="@drawable/ic_note_while"
+                android:contentDescription="@string/imageview_description"
+                android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/txt_phone_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/padding_large"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/callIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/padding_small"
-                    android:layout_toRightOf="@id/txt_phone_name"
-                    android:src="@drawable/incoming" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/text_note"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" >
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@id/img_note"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="TextView"
+                android:textColor="@color/material_design_color_orange_1" />
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/phoneTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/padding_large" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp" >
 
-                <TextView
-                    android:id="@+id/dateTimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="TextView" />
-            </RelativeLayout>
-        </LinearLayout>
- </RelativeLayout>
+            <ImageView
+                android:id="@+id/callIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:contentDescription="@string/imageview_description"
+                android:src="@drawable/incoming" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/phoneTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/callIndicator"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="@dimen/padding_large" />
+
+            <TextView
+                android:id="@+id/dateTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:text="TextView" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

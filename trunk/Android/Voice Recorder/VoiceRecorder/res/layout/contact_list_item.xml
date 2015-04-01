@@ -71,35 +71,24 @@
          visibility set to gone
         -->
 
-        <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/layout_call"
+        <Button
+            android:id="@+id/btn_call"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/btn_call"
             android:layout_alignParentRight="true"
-            android:clickable="true"
-            android:gravity="center"
-            android:background="@color/white"
-            materialdesign:rippleColor="#1E88E5"
-            materialdesign:rippleSpeed="10" >
-
-            <ImageButton
-                android:id="@+id/btn_call"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/btn_call"
-                android:contentDescription="@string/imageview_description"
-                android:focusable="false" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            android:contentDescription="@string/imageview_description" />
 
         <View
             android:id="@+id/divider_call"
             android:layout_width="1dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/layout_call"
-            android:background="@color/material_design_color_orange_1" />
+            android:layout_toLeftOf="@id/btn_call"
+            android:background="@color/material_design_color_orange_1"
+            android:focusable="false" />
 
         <TextView
             android:id="@+id/text_match_other_field"

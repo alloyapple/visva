@@ -29,6 +29,7 @@ public class NotificationActivity extends Activity {
     private boolean        isAccept = false;
     private String         phoneNo;
     private String         mCreatedDate;
+    private String         mFileName;
 
     public NotificationActivity() {
     }
@@ -47,9 +48,15 @@ public class NotificationActivity extends Activity {
             mFadeInAnime.setAnimationListener(fadeInAniListener);
         }
 
-        phoneNo = getIntent().getExtras().getString("phone_number");
-        mCreatedDate=getIntent().getExtras().getString("created_date");
-        if(StringUtility.isEmpty(mCreatedDate)){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null){
+            finish();
+            return;
+        }
+        phoneNo = bundle.getString(MyCallRecorderConstant.EXTRA_PHONE_NO);
+        mCreatedDate = bundle.getString(MyCallRecorderConstant.EXTRA_CREATED_DATE);
+        mFileName = bundle.getString(MyCallRecorderConstant.EXTRA_FILE_NAME);
+        if (StringUtility.isEmpty(mCreatedDate)) {
             AIOLog.e(MyCallRecorderConstant.TAG, "created date time is null");
             finish();
         }
@@ -92,7 +99,7 @@ public class NotificationActivity extends Activity {
                                                          mBottomLayout.setVisibility(View.GONE);
                                                          if (!isAccept) {
                                                              ProgramHelper helper = new ProgramHelper();
-                                                             helper.removeNewestSession();
+                                                             helper.removeNewestSession(mFileName);
 
                                                          } else {
                                                              Uri phoneUri = Utils.getContactUriTypeFromPhoneNumber(getContentResolver(), phoneNo, 1);
@@ -101,7 +108,8 @@ public class NotificationActivity extends Activity {
                                                                  phoneName = phoneNo;
                                                              else
                                                                  phoneName = phoneUri.toString();
-                                                             Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo,mCreatedDate);
+                                                             Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo,
+                                                                     mCreatedDate);
                                                          }
                                                          finish();
                                                      }

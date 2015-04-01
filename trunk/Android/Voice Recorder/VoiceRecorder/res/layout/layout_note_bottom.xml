@@ -8,8 +8,8 @@
         android:id="@+id/layout_date_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:visibility="gone" >
 
         <Button
@@ -24,14 +24,14 @@
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
             android:layout_toRightOf="@id/btn_clock"
+            android:background="@color/transparent"
             android:focusable="false"
+            android:hint="Date"
             android:inputType="date"
             android:singleLine="true"
-            android:background="@null"
-            android:hint="Date"
-            android:layout_centerVertical="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -39,14 +39,14 @@
             android:id="@+id/txtTime"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtDate"
-            android:focusable="false"
-            android:inputType="time"
-            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:singleLine="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/txtDate"
+            android:background="@color/transparent"
+            android:focusable="false"
             android:hint="Time"
-            android:background="@null"
+            android:inputType="time"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -54,8 +54,8 @@
             android:id="@+id/btn_close_remind"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/txtTime"
             android:background="@drawable/ic_close_circle_outline_grey600_24dp"
             android:onClick="onClickCloseRemindMe" />
@@ -65,8 +65,8 @@
         android:id="@+id/layout_remind_me"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickRemindMe"
         android:gravity="center_vertical"
+        android:onClick="onClickRemindMe"
         android:orientation="horizontal" >
 
         <Button

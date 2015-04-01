@@ -26,16 +26,14 @@ import com.visva.voicerecorder.utils.Utils;
 public class InCommingCallReceiver extends BroadcastReceiver {
     public static ExtAudioRecorder recorder     = null;
     public Context                 rcontext;
-    TelephonyManager               tm;
-    public static ProgramHelper    helper       = new ProgramHelper();
-    public static String           phoneNo      = null;
-    public static String           mCreatedDate = null;
+    private TelephonyManager       tm;
+    private static ProgramHelper   helper       = new ProgramHelper();
+    private static String          phoneNo      = null;
+    private static String          mCreatedDate = null;
+    private static String          mFileName    = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (helper.isRecordingIncomingCall() == 0) {
-            return;
-        }
         this.rcontext = context;
         Resources res = rcontext.getResources();
         String startRecording = res.getString(R.string.start_record);
@@ -49,14 +47,15 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                 MyCallRecorderSharePrefs myCallRecorderSharePrefs = MyCallRecorderApplication.getInstance().getMyCallRecorderSharePref(context);
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedIncomingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_INCOMING_CALL);
-                //                boolean isValidDurationTime = Utils.isCheckValidDurationTime();
+                boolean isValidDurationTime = Utils.isCheckValidDurationTime(mFileName);
                 AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedIncomingCall:"
-                        + isAutoSavedIncomingCall);
-                if (isAutoSavedIncomingCall && !isAutoSavedRecordCall) {
+                        + isAutoSavedIncomingCall + ",isValidDurationTime:" + isValidDurationTime);
+                if (isAutoSavedIncomingCall && !isAutoSavedRecordCall && isValidDurationTime) {
                     Intent i = new Intent(context, NotificationActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("phone_number", phoneNo);
-                    i.putExtra("created_date", mCreatedDate);
+                    i.putExtra(MyCallRecorderConstant.EXTRA_PHONE_NO, phoneNo);
+                    i.putExtra(MyCallRecorderConstant.EXTRA_CREATED_DATE, mCreatedDate);
+                    i.putExtra(MyCallRecorderConstant.EXTRA_FILE_NAME, mFileName);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 } else {
 
@@ -72,6 +71,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
             }
             InCommingCallReceiver.phoneNo = null;
             InCommingCallReceiver.mCreatedDate = null;
+            InCommingCallReceiver.mFileName = null;
         }
 
         if (tm.getCallState() == TelephonyManager.CALL_STATE_RINGING) {
@@ -80,7 +80,6 @@ public class InCommingCallReceiver extends BroadcastReceiver {
             InCommingCallReceiver.mCreatedDate = String.valueOf(currentTime);
         }
         if (tm.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK) {
-            //if (mRecorder != null){
             if (recorder != null) {
                 AIOLog.d(MyCallRecorderConstant.TAG, "try to stop, line 40");
                 stopRecording();
@@ -91,8 +90,6 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                     startRecording(InCommingCallReceiver.phoneNo, 1);
                     Toast.makeText(context, startRecording + InCommingCallReceiver.phoneNo, Toast.LENGTH_SHORT).show();
                 } else {
-                    //Toast.makeText(context, "ChÆ°a Ä‘Æ°Æ¡c active, khÃ´ng ghi Ã¢m", Toast.LENGTH_LONG).show();
-                    //AIOLog.d(MyCallRecorderConstant.TAG, "Activated fail, no record conversation with "+phoneNo);
                 }
             } catch (Exception e) {
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -105,14 +102,10 @@ public class InCommingCallReceiver extends BroadcastReceiver {
         Resources res = rcontext.getResources();
         String cannotRecord = res.getString(R.string.cannot_record);
         recorder = ExtAudioRecorder.getInstanse(false);
-        /*
-        mRecorder = new MediaRecorder();
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        */
         try {
             AIOLog.d(MyCallRecorderConstant.TAG, "in start recording - write to file, phoneNo: " + phoneNo);
-            recorder.setOutputFile(helper.getFileNameAndWriteToList(rcontext, phoneNo, callState, mCreatedDate));
+            mFileName = helper.getFileNameAndWriteToList(rcontext, phoneNo, callState, mCreatedDate);
+            recorder.setOutputFile(mFileName);
         } catch (Exception e) {
             Toast.makeText(this.rcontext, cannotRecord + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -127,7 +120,6 @@ public class InCommingCallReceiver extends BroadcastReceiver {
             Toast.makeText(this.rcontext, cannotRecord, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        AIOLog.d(MyCallRecorderConstant.TAG, " Bat dau ghi");
     }
 
     private void stopRecording() {

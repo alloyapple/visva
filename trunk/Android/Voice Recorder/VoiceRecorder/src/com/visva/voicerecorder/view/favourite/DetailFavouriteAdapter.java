@@ -51,7 +51,7 @@ public class DetailFavouriteAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup arg2) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = this.layoutInflater.inflate(R.layout.layout_detail_favourite, null);
@@ -72,7 +72,7 @@ public class DetailFavouriteAdapter extends BaseAdapter {
             holder.textDate.setTypeface(null, Typeface.NORMAL);
         holder.textDate.setText(Utils.getTextDate(mContext, Long.valueOf(recordingSession.dateCreated)));
         holder.textTime.setText(Utils.getTextTime(mContext, Long.valueOf(recordingSession.dateCreated)));
-        holder.textDuration.setText(Utils.getDurationTime(mContext, recordingSession));
+        holder.textDuration.setText(Utils.getDurationTime(mContext, recordingSession.fileName));
         if (mIsLongClick) {
             holder.checkBox.setVisibility(View.VISIBLE);
         } else
@@ -112,6 +112,11 @@ public class DetailFavouriteAdapter extends BaseAdapter {
 
     public void setSelectedPosition(int position) {
         mSeletedList.set(position, true);
+        notifyDataSetChanged();
+    }
+
+    public void removeRecord(int position) {
+        mRecordingSessions.remove(position);
         notifyDataSetChanged();
     }
 }
