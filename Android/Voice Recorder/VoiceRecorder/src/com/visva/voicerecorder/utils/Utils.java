@@ -53,7 +53,10 @@ import com.ringdroid.soundfile.CheapSoundFile;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.model.FavouriteItem;
+import com.visva.voicerecorder.note.NoteItem;
+import com.visva.voicerecorder.note.NotePad;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.view.activity.ActivityHome;
 
@@ -214,10 +217,12 @@ public class Utils {
         int year = calendar.get(Calendar.YEAR);
         if (currentYear == year && (currentMonth == month) && currentDate == date)
             textDate = context.getString(R.string.today);
-        else if (currentYear == year && (currentMonth == month) && currentDate == (date - 1))
+        else if (currentYear == year && (currentMonth == month) && (currentDate - 1) == date)
             textDate = context.getString(R.string.yesterday);
-        else {
-            textDate = currentDate + "/" + (currentMonth + 1) + "/" + currentYear;
+        else if (currentYear == year && (currentMonth == month) && (currentDate + 1) == date) {
+            textDate = context.getString(R.string.tomorrow);
+        } else {
+            textDate = date + "/" + (month + 1) + "/" + year;
         }
         return textDate;
     }
@@ -278,16 +283,22 @@ public class Utils {
     public static String getTextTime(Context context, long createdTime) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(createdTime);
-        String timeString = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        String timeString = "";
+        if (minute >= 10)
+            timeString = hour + ":" + minute;
+        else
+            timeString = hour + ":0" + minute;
         return timeString;
     }
 
-    public static String getDurationTime(Context mContext, RecordingSession recordingSession) {
+    public static String getDurationTime(Context mContext, String filePath) {
         MediaPlayer mediaPlayer = new MediaPlayer();
         String durationTime = "";
         long duration = 0L;
         try {
-            mediaPlayer.setDataSource(recordingSession.fileName);
+            mediaPlayer.setDataSource(filePath);
             mediaPlayer.prepare();
             duration = mediaPlayer.getDuration();
             durationTime = "" + TimeUtility.milliSecondsToTimer(duration);
@@ -383,12 +394,15 @@ public class Utils {
     }
 
     public static int isCheckFavouriteContactByPhoneNo(Context context, String phoneNo) {
+        int favourite = 0;
         SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
-        FavouriteItem favouriteItem = sqLiteHelper.getFavouriteItemFromPhoneNo(phoneNo);
-        if (favouriteItem == null || favouriteItem.isFavourite == 0)
-            return 0;
-        else
-            return favouriteItem.isFavourite;
+        ArrayList<FavouriteItem> favouriteItems = sqLiteHelper.getAllFavouriteItem();
+        for (FavouriteItem favouriteItem : favouriteItems) {
+            if (isSamePhoneNo(context, phoneNo, favouriteItem.phoneNo)) {
+                return favouriteItem.isFavourite;
+            }
+        }
+        return favourite;
     }
 
     public static void showNotificationAfterCalling(Context context, String phoneName, String phoneNo, String createdDate) {
@@ -413,7 +427,7 @@ public class Utils {
             favoriteIntent.putExtras(bundle);
             PendingIntent pendingFavoriteIntent = PendingIntent.getBroadcast(context, MyCallRecorderConstant.NOTIFICATION_ID, favoriteIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(R.drawable.ic_favourites, favorite, pendingFavoriteIntent);
+            builder.addAction(R.drawable.ic_star_outline_white_36dp, favorite, pendingFavoriteIntent);
         }
 
         //Make a note intent
@@ -431,7 +445,113 @@ public class Utils {
 
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(resultPendingIntent);
+
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        builder.setWhen(0);
+
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(MyCallRecorderConstant.NOTIFICATION_ID, builder.build());
     }
+
+    public static void showNotificationAtReminderTime(Context context, String title, String note) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_launcher)
+                .setAutoCancel(true).setContentTitle(title).setContentText(note);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
+
+        Intent resultIntent = new Intent(context, ActivityHome.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(ActivityHome.class);
+        stackBuilder.addNextIntent(resultIntent);
+
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, builder.build());
+    }
+
+    public static boolean isCheckValidDurationTime(String filePath) {
+        if (StringUtility.isEmpty(filePath)) {
+            AIOLog.e(MyCallRecorderConstant.TAG, "filePath is null");
+            return false;
+        }
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        long duration = 0L;
+        try {
+            mediaPlayer.setDataSource(filePath);
+            mediaPlayer.prepare();
+            duration = mediaPlayer.getDuration();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //the valid time we offer to save at least more than 1s
+        if (duration > 1000) {
+            AIOLog.d(MyCallRecorderConstant.TAG, "Valid time:" + duration);
+            return true;
+        }
+        AIOLog.d(MyCallRecorderConstant.TAG, "Invalid time:" + duration);
+        return false;
+    }
+
+    public static void shareRecordingSessionAction(Context context, String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            AIOLog.e(MyCallRecorderConstant.TAG, "file not found");
+        }
+        Uri uri = Uri.fromFile(file);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("*/*");
+        context.startActivity(Intent.createChooser(shareIntent, "Share via"));
+    }
+
+    public static void deleteRecordingSesstionAction(Context context, RecordingSession recordingSession) {
+        if (recordingSession == null)
+            return;
+        File file = new File(recordingSession.fileName);
+        if (!file.exists()) {
+            AIOLog.e(MyCallRecorderConstant.TAG, "file not found");
+        } else {
+            file.delete();
+        }
+
+        SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
+        sqLiteHelper.deleteARecordItem(recordingSession);
+    }
+
+    public static NoteItem getNoteItemFromRecordSession(Context context, String createdDate) {
+        NoteItem noteItem = new NoteItem();
+        Uri uri = NotePad.Notes.CONTENT_URI;
+        final String[] projection = new String[] { NotePad.Notes._ID, NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_NOTE };
+        Cursor cursor = context.getContentResolver().query(uri, projection, NotePad.Notes.COLUMN_NAME_CREATE_DATE + " = " + createdDate, null,
+                NotePad.Notes.DEFAULT_SORT_ORDER);
+        if (cursor == null) {
+            AIOLog.e(MyCallRecorderConstant.TAG, "cursor is null");
+            return null;
+        }
+        if (cursor.moveToFirst()) {
+            int colTitleIndex = cursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_TITLE);
+            int noteIndex = cursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_NOTE);
+            String title = cursor.getString(colTitleIndex);
+            String note = cursor.getString(noteIndex);
+            noteItem.title = title;
+            noteItem.note = note;
+        }
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
+        return noteItem;
+    }
+
 }

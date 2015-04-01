@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingSession;
@@ -176,18 +177,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public ArrayList<FavouriteItem> getAllFavouriteItem() {
         SQLiteDatabase db = getReadableDatabase();
+        Log.d("KieuThang", "SQLiteDatabase:"+db.isOpen());
         ArrayList<FavouriteItem> storyItemList = new ArrayList<FavouriteItem>();
         String sql = "Select * from " + TABLE_FAVOURITE;
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                FavouriteItem favouriteItem = new FavouriteItem(cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
-                        cursor.getString(4));
-                storyItemList.add(favouriteItem);
-            } while (cursor.moveToNext());
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(sql, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    FavouriteItem favouriteItem = new FavouriteItem(cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
+                            cursor.getString(4));
+                    storyItemList.add(favouriteItem);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
         }
-
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
         db.close();
         return storyItemList;
     }
@@ -273,17 +281,24 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<RecordingSession> recordingSessions = new ArrayList<RecordingSession>();
         String sql = "Select * from " + TABLE_RECORD;
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)),
-                        cursor.getString(_FILE_NAME), cursor.getString(_PHONE_NAME), Integer.parseInt(cursor.getString(_IS_FAVORITED)),
-                        cursor.getString(_DATE_CREATED));
-                recordingSessions.add(session);
-            } while (cursor.moveToNext());
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(sql, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)),
+                            cursor.getString(_FILE_NAME), cursor.getString(_PHONE_NAME), Integer.parseInt(cursor.getString(_IS_FAVORITED)),
+                            cursor.getString(_DATE_CREATED));
+                    recordingSessions.add(session);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
         }
-
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
         db.close();
         return recordingSessions;
     }

@@ -15,21 +15,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.note.ActivityNoteEditor;
+import com.visva.voicerecorder.note.NoteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ProgramHelper;
+import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
 import com.visva.voicerecorder.view.common.FragmentBasic;
@@ -61,7 +68,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
     }
-    
+
     private void initLayout(View root) {
         mTextNoRecord = (TextView) root.findViewById(R.id.text_no_record_found);
         mLvRecords = (SwipeMenuListView) root.findViewById(R.id.lv_all_recorder);
@@ -69,30 +76,36 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public void create(SwipeMenu menu) {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                deleteItem.setWidth(Utils.dp2px(getActivity(), 80));
+                deleteItem.setIcon(R.drawable.delete_image);
+                menu.addMenuItem(deleteItem);
+
+                SwipeMenuItem noteItem = new SwipeMenuItem(getActivity());
+                noteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                noteItem.setWidth(Utils.dp2px(getActivity(), 80));
+                noteItem.setIcon(R.drawable.ic_customer_note);
+                menu.addMenuItem(noteItem);
+
+                SwipeMenuItem shareItem = new SwipeMenuItem(getActivity());
+                shareItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                shareItem.setWidth(Utils.dp2px(getActivity(), 80));
+                shareItem.setIcon(R.drawable.ic_share);
+                menu.addMenuItem(shareItem);
+
                 SwipeMenuItem callItem = new SwipeMenuItem(getActivity());
-                callItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
-                callItem.setWidth(Utils.dp2px(getActivity(), 100));
+                callItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                callItem.setWidth(Utils.dp2px(getActivity(), 80));
                 callItem.setIcon(R.drawable.ic_call_while);
                 menu.addMenuItem(callItem);
-
-                SwipeMenuItem messageItem = new SwipeMenuItem(getActivity());
-                messageItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                messageItem.setWidth(Utils.dp2px(getActivity(), 100));
-                messageItem.setIcon(R.drawable.ic_message_while);
-                menu.addMenuItem(messageItem);
-
-                SwipeMenuItem logItem = new SwipeMenuItem(getActivity());
-                logItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                logItem.setWidth(Utils.dp2px(getActivity(), 100));
-                logItem.setIcon(R.drawable.ic_note_while);
-                menu.addMenuItem(logItem);
             }
         };
 
         mLvRecords.setMenuCreator(creator);
         mLvRecords.setOnMenuItemClickListener(this);
 
-        mRecordingAdapter = new RecordingAdapter(getActivity(), android.R.layout.simple_list_item_activated_1,mSessions);
+        mRecordingAdapter = new RecordingAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, mSessions);
         mLvRecords.setAdapter(mRecordingAdapter);
         mLvRecords.setOnItemClickListener(new OnItemClickListener() {
 
@@ -110,8 +123,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         mLvRecords.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 
             @Override
-            public void onItemCheckedStateChanged(ActionMode mode,
-                    int position, long id, boolean checked) {
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 // Capture total checked items
                 final int checkedCount = mLvRecords.getCheckedItemCount();
                 // Set the CAB title according to total checked items
@@ -151,10 +163,10 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             }
         });
 
-        if(mSessions.size() == 0){
+        if (mSessions.size() == 0) {
             mLvRecords.setVisibility(View.GONE);
             mTextNoRecord.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mLvRecords.setVisibility(View.VISIBLE);
             mTextNoRecord.setVisibility(View.GONE);
         }
@@ -164,27 +176,81 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
         switch (index) {
         case 0:
+            deleteRecordingSessionAction(position);
+            break;
+        case 1:
+            updateRecordSessionNote(position);
+            break;
+        case 2:
+            RecordingSession recordingSession = mSessions.get(position);
+            if (recordingSession == null) {
+                return false;
+            }
+            Utils.shareRecordingSessionAction(getActivity(), recordingSession.fileName);
+            break;
+        case 3:
             if (mSessions.size() > 0 && isTelephonyEnabled()) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + mSessions.get(position).phoneNo));
                 startActivity(intent);
             }
-            break;
-        case 1:
-            if (mSessions.size() > 0) {
-                Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
-                smsIntent.setType("vnd.android-dir/mms-sms");
-                smsIntent.putExtra("address", mSessions.get(position).phoneNo);
-                startActivity(smsIntent);
-            }
-            break;
-        case 2:
-
             break;
         default:
             break;
         }
         return false;
+    }
+
+    private void updateRecordSessionNote(int position) {
+        RecordingSession recordingSession = mSessions.get(position);
+        if (recordingSession == null) {
+            return;
+        }
+        int state = MyCallRecorderConstant.STATE_INSERT;
+        NoteItem noteItem = Utils.getNoteItemFromRecordSession(getActivity(), recordingSession.dateCreated);
+        if (noteItem == null || (StringUtility.isEmpty(noteItem.note) && StringUtility.isEmpty(noteItem.title))) {
+            state = MyCallRecorderConstant.STATE_INSERT;
+        } else {
+            state = MyCallRecorderConstant.STATE_EDIT;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyCallRecorderConstant.EXTRA_STATE, state);
+        bundle.putString(MyCallRecorderConstant.EXTRA_CREATED_DATE, recordingSession.dateCreated);
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NAME, recordingSession.phoneName);
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NO, recordingSession.phoneNo);
+        
+        Intent updateNoteIntent = new Intent(getActivity(), ActivityNoteEditor.class);
+        updateNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
+        updateNoteIntent.putExtras(bundle);
+        updateNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(updateNoteIntent);
+    }
+
+    private void deleteRecordingSessionAction(final int position) {
+        final RecordingSession recordingSession = mSessions.get(position);
+        String title = recordingSession.phoneName;
+        if (StringUtility.isEmpty(title)) {
+            title = recordingSession.phoneNo;
+        }
+        String contentMsg = getActivity().getString(R.string.are_you_sure_to_delete_record);
+        String cancel = getActivity().getString(R.string.cancel);
+        Dialog dialog = new Dialog(getActivity(), title, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Delete:" + position, Toast.LENGTH_SHORT).show();
+                Utils.deleteRecordingSesstionAction(getActivity(), recordingSession);
+                mRecordingAdapter.removeRecord(position);
+            }
+        });
+        dialog.show();
     }
 
     private boolean isTelephonyEnabled() {

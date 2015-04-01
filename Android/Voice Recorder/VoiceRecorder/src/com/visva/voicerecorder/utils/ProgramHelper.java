@@ -1,26 +1,18 @@
 package com.visva.voicerecorder.utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 
 import com.visva.voicerecorder.MyCallRecorderApplication;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.record.RecordingSession;
 
 /**
@@ -35,10 +27,7 @@ public class ProgramHelper {
 
     public String getFileNameAndWriteToList(Context context, String phoneNo, int callState, String createdDate) throws Exception {
         String fileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/sessions/";
-        String currentDateTimeString = new SimpleDateFormat("d-M-yyyy-HH-mm-ss", Locale.ENGLISH).format(new Date());
-        fileName += currentDateTimeString + ".wav";
-        Log.d("GHIAM", fileName);
-        Log.d("GHIAM", "phoneNo: " + phoneNo + " <in Helper/getFi...>");
+        fileName += phoneNo + ";" + callState + ";" + createdDate + ";" + "1" + MyCallRecorderConstant.AMR_RECORD_TYPE;
         this.writeToList(context, fileName, phoneNo, createdDate, callState);
         return fileName;
     }
@@ -95,124 +84,10 @@ public class ProgramHelper {
         ArrayList<RecordingSession> finalResult = new ArrayList<RecordingSession>();
         SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
         result = sqLiteHelper.getAllRecordItem();
-        //        String fileDataPath = Environment.getExternalStorageDirectory() + "/MyCallRecorder/data";
-        //        File fileData = new File(fileDataPath);
-        //        try {
-        //            BufferedReader br = new BufferedReader(new FileReader(fileData));
-        //            String line;
-        //            while ((line = br.readLine()) != null) {
-        //                String fileName = line.split(";")[0];
-        //                String phoneNo = line.split(";")[1];
-        //                int callState = Integer.parseInt(line.split(";")[2]);
-        //                String dateCreated = line.split(";")[3];
-        //                Uri phoneName = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
-        //                String phoneNameStr = phoneName != null ? phoneName.toString() : "";
-        //                RecordingSession s = new RecordingSession(phoneNo, callState, fileName, phoneNameStr, 0, dateCreated);
-        //                result.add(s);
-        //            }
-        //            for (int i = result.size() - 1; i >= 0; i--) {
-        //                finalResult.add(result.get(i));
-        //            }
-        //            br.close();
-        //        } catch (IOException e) {
-        //            e.printStackTrace();
-        //        }
         for (int i = result.size() - 1; i >= 0; i--) {
             finalResult.add(result.get(i));
         }
         return finalResult;
-    }
-
-    /**
-     * Check if setting file is existed, if not, the value is set to default: 1
-     * else, read from the file with format:
-     * x;x (x=0,1)
-     * @return true/false
-     */
-    public int isRecordingIncomingCall() {
-        int result = 1;
-        String settingFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/MyCallRecorder/setting";
-        File settingFile = new File(settingFilePath);
-        if (settingFile.exists()) {
-            // read
-            try {
-                FileReader fileReader = new FileReader(settingFile);
-                BufferedReader bf = new BufferedReader(fileReader);
-                String str = bf.readLine();
-                result = Integer.parseInt(str.split(";")[0]);
-                bf.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            writeSettingValue(1, 1);
-        }
-        return result;
-    }
-
-    public int isRecordingOutgoingCall() {
-        int result = 1;
-        String settingFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/MyCallRecorder/setting";
-        File settingFile = new File(settingFilePath);
-        if (settingFile.exists()) {
-            // read
-            try {
-                FileReader fileReader = new FileReader(settingFile);
-                BufferedReader bf = new BufferedReader(fileReader);
-                String str = bf.readLine();
-                result = Integer.parseInt(str.split(";")[1]);
-                bf.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            writeSettingValue(1, 1);
-        }
-        return result;
-    }
-
-    public void writeSettingValue(int incoming, int outgoing) {
-        String settingFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/MyCallRecorder/setting";
-        File settingFile = new File(settingFilePath);
-        FileReader fileReader;
-        FileWriter fileWriter;
-        int oldIncoming = -1, oldOutgoing = -1;
-        String str = "";
-        if (settingFile.exists()) {
-            try {
-                fileReader = new FileReader(settingFile);
-                BufferedReader bf = new BufferedReader(fileReader);
-                str = bf.readLine();
-                oldIncoming = Integer.parseInt(str.split(";")[0]);
-                oldOutgoing = Integer.parseInt(str.split(";")[1]);
-                if (incoming != -1)
-                    oldIncoming = incoming;
-                if (outgoing != -1)
-                    oldOutgoing = outgoing;
-                str = oldIncoming + ";" + oldOutgoing;
-                bf.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            str = "1;1";
-        }
-        try {
-            fileWriter = new FileWriter(settingFile);
-            fileWriter.write(str);
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -223,7 +98,6 @@ public class ProgramHelper {
      * A method to: 
      * - prepare: 
      * 	+ /sdcard/MyCallRecorder/ {folder (most system)}
-     *  + /sdcard/MyCallRecorder/data {file to contains all the recording list}
      *  + /sdcard/MyCallRecorder/sessions/ {folder to contain all the recording}
      * - checking activation to show activation dialog
      */
@@ -238,42 +112,13 @@ public class ProgramHelper {
         if (!sessionRecordingFolder.exists()) {
             sessionRecordingFolder.mkdirs();
         }
-        String sessionDataFilePath = recorderRootFolderPath + "data";
-        File sessionDataFile = new File(sessionDataFilePath);
-        if (!sessionDataFile.exists()) {
-            try {
-                sessionDataFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
-    public void removeNewestSession() {
-        String dataFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/data";
-        File dataFile = new File(dataFilePath);
-        String lastFileName = "";
-        String line = null;
-        ArrayList<String> lines = new ArrayList<String>();
-        String finalStringToWriteOut = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(dataFile));
-            while ((line = br.readLine()) != null) {
-                lastFileName = line.split(";")[0];
-                lines.add(line);
-            }
-            br.close();
-            for (int i = 0; i < lines.size() - 1; i++) {
-                finalStringToWriteOut += lines.get(i) + "\n";
-            }
-            FileWriter fileWriter = new FileWriter(dataFile, false);
-            BufferedWriter out = new BufferedWriter(fileWriter);
-            out.append(finalStringToWriteOut);
-            out.close();
-            File mediaFile = new File(lastFileName);
-            mediaFile.delete();
-        } catch (IOException e) {
-
+    public void removeNewestSession(String filePath) {
+        File dataFile = new File(filePath);
+        if (dataFile.exists()) {
+            AIOLog.d(MyCallRecorderConstant.TAG, "delete the last record file");
+            dataFile.delete();
         }
     }
 }

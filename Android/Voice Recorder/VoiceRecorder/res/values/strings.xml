@@ -6,10 +6,8 @@
     <string name="title_activity_main">My Call Recorder</string>
     <string name="title_section0">Contact</string>
     <string name="top_banner_description">Top banner for the app, just for decoration</string>
-    <string name="menu_help">Trợ giúp</string>
     <string name="label_voice_clear">Làm rõ tiếng, tăng (lần): </string>
     <string name="label_seperator">-</string>
-    <string name="label_voice_del">Xóa cuộc hội thoại trên?               </string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="no_contacts">No Contacts Found</string>
@@ -22,6 +20,8 @@
     <string name="alphabet">#ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="contacts_list_search_results_title">Contacts List Search for \"%s\"</string>
     <string name="search_hint">Find contacts</string>
+    <string name="app_name_reminder">Reminder</string>
+    <string name="you_have_new_reminder">You have new reminder</string>
 
     <!-- Home screen -->
     <string name="contact_tab">Contacts</string>
@@ -32,6 +32,7 @@
     <string name="about_tab">About</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
+    <string name="tomorrow">Tomorrow</string>
     <string name="imageview_description">Image description</string>
     <string name="no_contact_selected">No contact selected</string>
     <string name="address_button_description">Location</string>
@@ -39,6 +40,7 @@
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="are_you_sure_to_delete_contact">Are you sure to delete this contact?</string>
+    <string name="are_you_sure_to_delete_record">Are you sure to delete this record?</string>
     <string name="share">Share</string>
     <string name="name">Name:</string>
     <string name="phone_no">Phone No:</string>

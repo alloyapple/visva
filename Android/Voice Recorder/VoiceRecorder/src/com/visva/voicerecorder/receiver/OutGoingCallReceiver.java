@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.ringdroid.soundfile.ExtAudioRecorder;
@@ -27,6 +26,7 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
     public static ProgramHelper    helper       = new ProgramHelper();
     public static String           phoneNo      = null;
     public static String           mCreatedDate = null;
+    public static String           mFileName    = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -51,13 +51,15 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                 MyCallRecorderSharePrefs myCallRecorderSharePrefs = MyCallRecorderApplication.getInstance().getMyCallRecorderSharePref(context);
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedOutGoingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_OUTGOING_CALL);
+                boolean isValidDurationTime = Utils.isCheckValidDurationTime(mFileName);
                 AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedOutGoingCall:"
-                        + isAutoSavedOutGoingCall);
-                if (isAutoSavedOutGoingCall && !isAutoSavedRecordCall) {
+                        + isAutoSavedOutGoingCall + ",isValidDurationTime:" + isValidDurationTime);
+                if (isAutoSavedOutGoingCall && !isAutoSavedRecordCall && isValidDurationTime) {
                     Intent i = new Intent(context, NotificationActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("phone_number", phoneNo);
-                    i.putExtra("created_date", mCreatedDate);
+                    i.putExtra(MyCallRecorderConstant.EXTRA_PHONE_NO, phoneNo);
+                    i.putExtra(MyCallRecorderConstant.EXTRA_CREATED_DATE, mCreatedDate);
+                    i.putExtra(MyCallRecorderConstant.EXTRA_FILE_NAME, mFileName);
                     context.startActivity(i);
                 } else {
                     Uri phoneUri = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
@@ -70,6 +72,7 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                 }
                 OutGoingCallReceiver.phoneNo = null;
                 OutGoingCallReceiver.mCreatedDate = null;
+                OutGoingCallReceiver.mFileName = null;
             } else {
 
             }
@@ -98,7 +101,8 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
         recorder = ExtAudioRecorder.getInstanse(false);
         try {
             AIOLog.d(MyCallRecorderConstant.TAG, "in start recording - write to file, phoneNo: " + phoneNo);
-            recorder.setOutputFile(helper.getFileNameAndWriteToList(rcontext, phoneNo, callState, mCreatedDate));
+            mFileName = helper.getFileNameAndWriteToList(rcontext, phoneNo, callState, mCreatedDate);
+            recorder.setOutputFile(mFileName);
         } catch (Exception e) {
             Toast.makeText(this.rcontext, cannotRecording + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -108,10 +112,10 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
             recorder.start();
         } catch (IllegalStateException e) {
             Toast.makeText(this.rcontext, cannotRecording, Toast.LENGTH_SHORT).show();
-            Log.e("KieuThang", "unable to record " + e.getMessage());
+            AIOLog.e(MyCallRecorderConstant.TAG, "unable to record " + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
-            Log.e("KieuThang", "unable to record " + e.getMessage());
+            AIOLog.e(MyCallRecorderConstant.TAG, "unable to record " + e.getMessage());
             Toast.makeText(this.rcontext, cannotRecording, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }

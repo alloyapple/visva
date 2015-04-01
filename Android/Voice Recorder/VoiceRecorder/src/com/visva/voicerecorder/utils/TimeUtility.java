@@ -15,6 +15,9 @@ import android.annotation.SuppressLint;
 @SuppressLint("SimpleDateFormat")
 public class TimeUtility {
 
+    public static final int HOUR_IN_MILIS   = 60 * 60 * 1000;
+    public static final int MINUTE_IN_MILIS = 60 * 1000;
+
     public static String getCurTimeStamp() {
         Calendar calendar = Calendar.getInstance();
         java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
@@ -119,45 +122,46 @@ public class TimeUtility {
      * Timer Format
      * Hours:Minutes:Seconds
      * */
-    public static String milliSecondsToTimer(long milliseconds){
+    public static String milliSecondsToTimer(long milliseconds) {
         String finalTimerString = "";
         String secondsString = "";
-        
+
         // Convert total duration into time
-           int hours = (int)( milliseconds / (1000*60*60));
-           int minutes = (int)(milliseconds % (1000*60*60)) / (1000*60);
-           int seconds = (int) ((milliseconds % (1000*60*60)) % (1000*60) / 1000);
-           // Add hours if there
-           if(hours > 0){
-               finalTimerString = hours + ":";
-           }
-           
-           // Prepending 0 to seconds if it is one digit
-           if(seconds < 10){ 
-               secondsString = "0" + seconds;
-           }else{
-               secondsString = "" + seconds;}
-           
-           finalTimerString = finalTimerString + minutes + ":" + secondsString;
-        
+        int hours = (int) (milliseconds / (1000 * 60 * 60));
+        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        // Add hours if there
+        if (hours > 0) {
+            finalTimerString = hours + ":";
+        }
+
+        // Prepending 0 to seconds if it is one digit
+        if (seconds < 10) {
+            secondsString = "0" + seconds;
+        } else {
+            secondsString = "" + seconds;
+        }
+
+        finalTimerString = finalTimerString + minutes + ":" + secondsString;
+
         // return timer string
         return finalTimerString;
     }
-    
+
     /**
      * Function to get Progress percentage
      * @param currentDuration
      * @param totalDuration
      * */
-    public static int getProgressPercentage(long currentDuration, long totalDuration){
+    public static int getProgressPercentage(long currentDuration, long totalDuration) {
         Double percentage = (double) 0;
-        
+
         long currentSeconds = (int) (currentDuration / 1000);
         long totalSeconds = (int) (totalDuration / 1000);
-        
+
         // calculating percentage
-        percentage =(((double)currentSeconds)/totalSeconds)*100;
-        
+        percentage = (((double) currentSeconds) / totalSeconds) * 100;
+
         // return percentage
         return percentage.intValue();
     }
@@ -171,9 +175,51 @@ public class TimeUtility {
     public static int progressToTimer(int progress, int totalDuration) {
         int currentDuration = 0;
         totalDuration = (int) (totalDuration / 1000);
-        currentDuration = (int) ((((double)progress) / 100) * totalDuration);
-        
+        currentDuration = (int) ((((double) progress) / 100) * totalDuration);
+
         // return current duration in milliseconds
         return currentDuration * 1000;
+    }
+
+    public static String pad(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
+    }
+
+    public static String pad2(int c) {
+        if (c == 12)
+            return String.valueOf(c);
+        if (c == 00)
+            return String.valueOf(c + 12);
+        if (c > 12)
+            return String.valueOf(c - 12);
+        else
+            return String.valueOf(c);
+    }
+
+    public static String pad3(int c) {
+        if (c == 12)
+            return " PM";
+        if (c == 00)
+            return " AM";
+        if (c > 12)
+            return " PM";
+        else
+            return " AM";
+    }
+
+    public static long getDateInMilisFromTime(long checkedTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(checkedTime);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(year, month, day, 0, 0, 0);
+        return calendar2.getTimeInMillis();
+
     }
 }

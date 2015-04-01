@@ -14,12 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filter.FilterListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
-import com.visva.voicerecorder.record.RecordingManager;
+import com.visva.voicerecorder.note.NoteItem;
 import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.widget.CircleImageView;
 
@@ -37,8 +39,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
     // =======================Class Define ======================
     private SearchFilter                filter;
     // ======================Variable Define=====================
-    LayoutInflater                      layoutInflater;
-    private RecordingManager            mRecordingManager;
+    private LayoutInflater              layoutInflater;
     private ArrayList<RecordingSession> mRecordingSessions      = new ArrayList<RecordingSession>();
     private ArrayList<RecordingSession> filteredModelItemsArray = new ArrayList<RecordingSession>();
     private Context                     mContext;
@@ -50,7 +51,6 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         mRecordingSessions = recordingSessions;
         mSelectedItemsIds = new SparseBooleanArray();
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mRecordingManager = MyCallRecorderApplication.getInstance().getRecordManager(context, mRecordingSessions);
     }
 
     @Override
@@ -59,35 +59,39 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = this.layoutInflater.inflate(R.layout.recorder_item, null);
-            holder.call = (ImageView) convertView.findViewById(R.id.img_call);
-            holder.favourite = (ImageView) convertView.findViewById(R.id.img_favourite);
             holder.callStateImage = (ImageView) convertView.findViewById(R.id.callIndicator);
             holder.avatar = (CircleImageView) convertView.findViewById(R.id.imageProfile);
             holder.textTime = (TextView) convertView.findViewById(R.id.dateTimeTextView);
-            holder.textPhoneNo = (TextView) convertView.findViewById(R.id.phoneTextView);
+            holder.textDuration = (TextView) convertView.findViewById(R.id.phoneTextView);
             holder.textPhoneName = (TextView) convertView.findViewById(R.id.txt_phone_name);
-            holder.textDate = (TextView) convertView.findViewById(R.id.text_date);
+            holder.favorite = (ImageView) convertView.findViewById(R.id.favorite);
+            holder.layoutNote = (RelativeLayout) convertView.findViewById(R.id.layout_note);
+            holder.textNote = (TextView) convertView.findViewById(R.id.text_note);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
-        holder.textPhoneNo.setText(this.getItem(position).phoneNo);
-        String textDate = Utils.getTextDate(mContext, Long.valueOf(getItem(position).dateCreated));
-        holder.textTime.setText(Utils.getTextTime(mContext, Long.valueOf(getItem(position).dateCreated)) + " " + textDate);
-
-        boolean isShowTextDate = Utils.isShowTextDate(position, mRecordingSessions);
-        if (isShowTextDate) {
-            holder.textDate.setVisibility(View.GONE);
-            holder.textDate.setText(textDate);
-        } else {
-            holder.textDate.setVisibility(View.GONE);
+        RecordingSession recordingSession = getItem(position);
+        if (recordingSession == null) {
+            return null;
         }
-        Uri photoUri = Utils.getContactUriTypeFromPhoneNumber(getContext().getContentResolver(), this.getItem(position).phoneNo, PHOTO_URI);
+        String durationTime = Utils.getDurationTime(mContext, recordingSession.fileName);
+        holder.textDuration.setText(durationTime);
+        String textDate = Utils.getTextDate(mContext, Long.valueOf(recordingSession.dateCreated));
+        holder.textTime.setText(Utils.getTextTime(mContext, Long.valueOf(recordingSession.dateCreated)) + " " + textDate);
+
+        Uri photoUri = Utils.getContactUriTypeFromPhoneNumber(getContext().getContentResolver(), recordingSession.phoneNo, PHOTO_URI);
         if (photoUri != null) {
             holder.avatar.setImageURI(photoUri);
         } else {
             holder.avatar.setImageResource(R.drawable.ic_contact_picture_holo_light);
         }
 
+        int isFavorite = Utils.isCheckFavouriteContactByPhoneNo(mContext, recordingSession.phoneNo);
+        if (isFavorite > 0) {
+            holder.favorite.setVisibility(View.VISIBLE);
+        } else {
+            holder.favorite.setVisibility(View.GONE);
+        }
         String contactName = getItem(position).phoneName;
         if (contactName == null || com.visva.voicerecorder.utils.StringUtility.isEmpty(contactName.toString())) {
             holder.textPhoneName.setText("Unknown");
@@ -100,45 +104,31 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             holder.callStateImage.setImageResource(R.drawable.outgoing);
         }
 
-        holder.avatar.assignContactFromPhone(this.getItem(position).phoneNo, true);
-        holder.call.setOnClickListener(new View.OnClickListener() {
+        holder.avatar.assignContactFromPhone(recordingSession.phoneNo, true);
 
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        return convertView;
-    }
-
-    public void removeAt(int position) {
-        // update the view
-        String filePath = this.getItem(position).fileName;
-        this.remove(this.getItem(position));
-        this.notifyDataSetChanged();
-        // update MainActivity.recordingManger
-        ArrayList<RecordingSession> _sessions = mRecordingManager.getSessions();
-        for (int i = 0; i < _sessions.size(); i++) {
-            if (_sessions.get(i).fileName.equals(filePath)) {
-                _sessions.remove(i);
-                break;
-            }
+        // note information
+        NoteItem noteItem = Utils.getNoteItemFromRecordSession(mContext, recordingSession.dateCreated);
+        if (noteItem == null || (StringUtility.isEmpty(noteItem.note) && StringUtility.isEmpty(noteItem.title))) {
+            holder.layoutNote.setVisibility(View.GONE);
+        } else {
+            holder.layoutNote.setVisibility(View.VISIBLE);
+            String note = noteItem.title;
+            if (StringUtility.isEmpty(note))
+                note = noteItem.note;
+            holder.textNote.setText(note);
         }
-        mRecordingManager.setSessions(_sessions);
-        mRecordingManager.removeFile(filePath);
+        return convertView;
     }
 
     private class ViewHolder {
         TextView        textPhoneName;
-        TextView        textPhoneNo;
+        TextView        textDuration;
         TextView        textTime;
-        TextView        textDate;
-        ImageView       favourite;
         ImageView       callStateImage;
-        ImageView       call;
         CircleImageView avatar;
-
+        ImageView       favorite;
+        RelativeLayout  layoutNote;
+        TextView        textNote;
     }
 
     public void onTextSearchChanged(CharSequence s) {
@@ -146,7 +136,6 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
 
             @Override
             public void onFilterComplete(int count) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -167,8 +156,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             constraint = constraint.toString().toLowerCase(Locale.ENGLISH);
             FilterResults result = new FilterResults();
             Log.d("KieuThang", "constraint:" + (constraint != null && constraint.toString().length() > 0));
-            if (constraint != null && constraint.toString().length() > 0)
-            {
+            if (constraint != null && constraint.toString().length() > 0) {
                 ArrayList<RecordingSession> filteredItems = new ArrayList<RecordingSession>();
 
                 for (int i = 0, l = mRecordingSessions.size(); i < l; i++) {
@@ -179,9 +167,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
                 }
                 result.count = filteredItems.size();
                 result.values = filteredItems;
-            }
-            else
-            {
+            } else {
                 Log.d("KieuThang", "mRecordingSessions:" + mRecordingSessions.size());
                 mRecordingSessions = MyCallRecorderApplication.getInstance().getProgramHelper().getRecordingSessionsFromFile(mContext);
                 synchronized (this)
@@ -233,6 +219,11 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
     public void updateRecordingSession(ArrayList<RecordingSession> sessions) {
         mRecordingSessions.clear();
         mRecordingSessions = sessions;
+        notifyDataSetChanged();
+    }
+
+    public void removeRecord(int position) {
+        mRecordingSessions.remove(position);
         notifyDataSetChanged();
     }
 }

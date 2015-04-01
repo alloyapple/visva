@@ -31,6 +31,11 @@ public class MyRecordCallReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         notificationManager.cancel(MyCallRecorderConstant.NOTIFICATION_ID);
+
+        //hide status bar after clicking notification action
+        Intent closeStatusBarIntent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        context.sendBroadcast(closeStatusBarIntent);
+
         String action = intent.getAction();
         Bundle bundle = intent.getExtras();
         if (bundle == null) {
@@ -51,6 +56,7 @@ public class MyRecordCallReceiver extends BroadcastReceiver {
         } else if (MyCallRecorderConstant.MAKE_NOTE_INTENT.equals(action)) {
             Intent addNoteIntent = new Intent(context, ActivityNoteEditor.class);
             addNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
+            bundle.putInt(MyCallRecorderConstant.EXTRA_STATE, MyCallRecorderConstant.STATE_INSERT);
             addNoteIntent.putExtras(bundle);
             addNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(addNoteIntent);
