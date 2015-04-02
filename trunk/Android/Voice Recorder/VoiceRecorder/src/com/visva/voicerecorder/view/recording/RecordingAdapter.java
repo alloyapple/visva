@@ -99,9 +99,9 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
             holder.textPhoneName.setText(contactName.toString());
         }
         if (this.getItem(position).callState == 1) {
-            holder.callStateImage.setImageResource(R.drawable.incoming);
+            holder.callStateImage.setImageResource(R.drawable.ic_incoming);
         } else {
-            holder.callStateImage.setImageResource(R.drawable.outgoing);
+            holder.callStateImage.setImageResource(R.drawable.ic_outgoing);
         }
 
         holder.avatar.assignContactFromPhone(recordingSession.phoneNo, true);
@@ -224,6 +224,11 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
 
     public void removeRecord(int position) {
         mRecordingSessions.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void addNewRecord(RecordingSession recordingSession) {
+        mRecordingSessions.add(0, recordingSession);
         notifyDataSetChanged();
     }
 }

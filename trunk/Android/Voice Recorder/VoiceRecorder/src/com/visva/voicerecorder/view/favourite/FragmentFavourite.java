@@ -5,7 +5,7 @@ import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -147,23 +147,23 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public void create(SwipeMenu menu) {
+                Resources res = getResources();
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                deleteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_delete)));
                 deleteItem.setWidth(Utils.dp2px(getActivity(), 100));
-                deleteItem.setIcon(R.drawable.delete_image);
+                deleteItem.setIcon(R.drawable.btn_delete);
                 menu.addMenuItem(deleteItem);
 
                 SwipeMenuItem shareItem = new SwipeMenuItem(getActivity());
-                shareItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
                 shareItem.setWidth(Utils.dp2px(getActivity(), 100));
-                shareItem.setIcon(R.drawable.ic_share);
+                shareItem.setIcon(R.drawable.btn_share);
                 menu.addMenuItem(shareItem);
             }
         };
 
         mRecordingFavouriteList.setMenuCreator(creator);
         mRecordingFavouriteList.setOnMenuItemClickListener(this);
-
         mRecordingFavouriteList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -275,18 +275,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mIsLongClickFavouriteItem = true;
         mRecordingFavouriteAdapter.setLongClickStateView(mIsLongClickFavouriteItem);
     }
-
-    //    public void onClickTextRecord(View v) {
-    //        Log.d("KieuThang", "mTextRecord");
-    //        mLayoutCallMsg.setVisibility(View.GONE);
-    //        mLayoutConversation.setVisibility(View.VISIBLE);
-    //    }
-    //
-    //    public void onClickTextDetail(View v) {
-    //        Log.d("KieuThang", "mTextDetail");
-    //        mLayoutCallMsg.setVisibility(View.VISIBLE);
-    //        mLayoutConversation.setVisibility(View.GONE);
-    //    }
 
     @Override
     public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {

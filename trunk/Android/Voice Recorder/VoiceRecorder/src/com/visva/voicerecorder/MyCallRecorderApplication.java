@@ -1,13 +1,18 @@
 package com.visva.voicerecorder;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingManager;
 import com.visva.voicerecorder.record.RecordingSession;
@@ -42,6 +47,13 @@ public class MyCallRecorderApplication extends Application {
     public void onCreate() {
         super.onCreate();
         checkFavouriteContactApplication();
+        mMyCallRecorderSharePrefs = getMyCallRecorderSharePref(this);
+        Log.d("KieuThang", "KEY_FIRST_TIME_RUNNING:" + (mMyCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING)));
+        if (mMyCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING)) {
+            AsyncCheckRecordFolder asyncCheckRecordFolder = new AsyncCheckRecordFolder(this);
+            asyncCheckRecordFolder.execute();
+            mMyCallRecorderSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING, false);
+        }
     }
 
     private void checkFavouriteContactApplication() {
@@ -101,7 +113,10 @@ public class MyCallRecorderApplication extends Application {
 
             } while (cursor.moveToNext());
         }
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
 
         Log.d("KieuThang", "getNumberFavourite:" + mSqLiteHelper.countAllFavouriteItem());
 
@@ -133,6 +148,10 @@ public class MyCallRecorderApplication extends Application {
         activity.finish();
     }
 
+    public ActivityHome getActivity() {
+        return activity;
+    }
+
     public SQLiteHelper getSQLiteHelper(Context context) {
         if (mSqLiteHelper == null) {
             mSqLiteHelper = new SQLiteHelper(context);
@@ -149,5 +168,55 @@ public class MyCallRecorderApplication extends Application {
             mMyCallRecorderSharePrefs = MyCallRecorderSharePrefs.getInstance(context);
         }
         return mMyCallRecorderSharePrefs;
+    }
+
+    private class AsyncCheckRecordFolder extends AsyncTask<Void, Void, Integer> {
+        private Context mContext;
+
+        public AsyncCheckRecordFolder(Context context) {
+            this.mContext = context;
+            if (mSqLiteHelper == null) {
+                mSqLiteHelper = getSQLiteHelper(context);
+            }
+            if (helper == null) {
+                helper = getProgramHelper();
+            }
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            String fileDataPath = Environment.getExternalStorageDirectory() + "/MyCallRecorder/sessions";
+            File fileHome = new File(fileDataPath);
+            if (fileHome == null || !fileHome.exists() || fileHome.list().length == 0) {
+                AIOLog.e(MyCallRecorderConstant.TAG, "fileHome is not valid");
+                return 0;
+            }
+            String fileData[] = fileHome.list();
+            Log.d("KieuThang", "fileData:" + fileData.length);
+            for (String line : fileData) {
+                String content[] = line.split(";");
+                if (content == null || content.length == 0) {
+                    continue;
+                }
+                try {
+                    String phoneNo = content[0];
+                    int callState = Integer.parseInt(content[1]);
+                    String createdDate = content[2];
+                    helper.getFileNameAndWriteToList(getApplicationContext(), phoneNo, callState, createdDate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return 1;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            Log.d("KieuThang", "onPostExecute:" + activity + ",result:" + result);
+            if (activity != null && result != 0) {
+                activity.requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+            }
+        }
     }
 }
