@@ -41,6 +41,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AlphabetIndexer;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow.OnDismissListener;
@@ -48,7 +49,6 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gc.materialdesign.views.LayoutRipple;
 import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
@@ -572,7 +572,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             holder.textMatchOtherField = (TextView) itemLayout.findViewById(R.id.text_match_other_field);
             holder.icon = (CircleImageView) itemLayout.findViewById(android.R.id.icon);
             holder.divider = (View) itemLayout.findViewById(R.id.divider);
-            holder.layoutCall = (LayoutRipple) itemLayout.findViewById(R.id.layout_call);
+            holder.btnButton = (Button) itemLayout.findViewById(R.id.btn_call);
             holder.icStar = (ImageView) itemLayout.findViewById(R.id.ic_star);
             holder.dividerCall = (View) itemLayout.findViewById(R.id.divider_call);
             itemLayout.setTag(holder);
@@ -646,14 +646,16 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             } else
                 phoneNo = phones.get(0);
             if ("".equals(phoneNo)) {
-                holder.layoutCall.setVisibility(View.GONE);
+                holder.btnButton.setVisibility(View.GONE);
                 holder.dividerCall.setVisibility(View.GONE);
             } else {
-                holder.layoutCall.setVisibility(View.VISIBLE);
+                holder.btnButton.setVisibility(View.VISIBLE);
                 holder.dividerCall.setVisibility(View.VISIBLE);
             }
-            holder.layoutCall.setFocusable(false);
-            holder.layoutCall.setOnClickListener(new View.OnClickListener() {
+            holder.btnButton.setFocusable(false);
+            holder.dividerCall.setFocusable(false);
+            holder.divider.setFocusable(false);
+            holder.btnButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -734,7 +736,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             View            divider;
             ImageView       icStar;
             View            dividerCall;
-            LayoutRipple    layoutCall;
+            Button          btnButton;
         }
     }
 

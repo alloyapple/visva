@@ -55,6 +55,10 @@ public class ProgramHelper {
         RecordingSession session = new RecordingSession(phoneNo, callState, fileName, phoneName, isFavorite, date);
         SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
         sqLiteHelper.addNewRecordingSession(session);
+
+        if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+            MyCallRecorderApplication.getInstance().getActivity().addNewRecord(session);
+        }
         return true;
     }
 

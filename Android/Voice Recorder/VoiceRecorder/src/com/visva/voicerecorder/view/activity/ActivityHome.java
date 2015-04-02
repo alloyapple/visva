@@ -23,6 +23,8 @@ import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.view.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.view.common.IHomeActionListener;
 import com.visva.voicerecorder.view.favourite.FragmentFavourite;
@@ -122,12 +124,10 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     // True if this activity instance is a search result view (used on pre-HC devices that load
     // search results in a separate instance of the activity rather than loading results in-line
     // as the query is typed.
-
     public ActivityHome() {
         super();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
     }
 
     public void updateHomeActivity() {
@@ -150,32 +150,62 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     }
 
     private void showFragment(int fragment, boolean isback) {
+        resetSearchLayout();
         mTransaction = hideFragment();
         mFragmentShowType = fragment;
         mLayoutSearch.setVisibility(View.VISIBLE);
+        if (fragment != FRAGMENT_ALL_RECORDING) {
+            if (mFragmentAllRecord.getActionMode() != null) {
+                mFragmentAllRecord.getActionMode().finish();
+            }
+        }
         switch (fragment) {
         case FRAGMENT_ABOUT:
             mFloatingActionsMenu.setVisibility(View.GONE);
             mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_ALL_RECORDING:
+            Log.d("KieuThang", "onClickRecordTab");
+            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+
             mFragmentAllRecord.setBackStatus(isback);
             mTransaction.show(mFragmentAllRecord);
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
             mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_CONTACT:
+            Log.d("KieuThang", "onClickContactTab");
+            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+
             mTransaction.show(mFragmentContact);
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
             mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_FAVOURITE:
+            Log.d("KieuThang", "onClickFavouriteTab");
+            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+
             mFragmentFavourite.setBackStatus(isback);
             mTransaction.show(mFragmentFavourite);
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
             mLayoutSearch.setVisibility(View.GONE);
             break;
         case FRAGMENT_SETTING:
+            Log.d("KieuThang", "onClickSettingTab");
+            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+
             mLayoutSearch.setVisibility(View.GONE);
             mFragmentSetting.setBackStatus(isback);
             mTransaction.show(mFragmentSetting);
@@ -188,6 +218,15 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         }
         if (!isback)
             mTransaction.commit();
+    }
+
+    private void resetSearchLayout() {
+        if (StringUtility.isEmpty(mEditTextSearch)) {
+            return;
+        } else {
+            mEditTextSearch.setText("");
+            mBtnClearSearch.setVisibility(View.GONE);
+        }
     }
 
     public FragmentTransaction hideFragment() {
@@ -298,42 +337,39 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
 
     // hold onClick tabs action
     public void onClickSettingTab(View v) {
-        Log.d("KieuThang", "onClickSettingTab");
-        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
-        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        
         showFragment(FRAGMENT_SETTING, false);
     }
 
     public void onClickFavouriteTab(View v) {
-        Log.d("KieuThang", "onClickFavouriteTab");
-        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
-        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        
         showFragment(FRAGMENT_FAVOURITE, false);
     }
 
     public void onClickRecordTab(View v) {
-        Log.d("KieuThang", "onClickRecordTab");
-        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
-        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        
         showFragment(FRAGMENT_ALL_RECORDING, false);
     }
 
     public void onClickContactTab(View v) {
-        Log.d("KieuThang", "onClickContactTab");
-        mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-        mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
-        
         showFragment(FRAGMENT_CONTACT, false);
+    }
+
+    public void requestToRefreshView(int fragmentAllRecording) {
+        switch (fragmentAllRecording) {
+        case FRAGMENT_ALL_RECORDING:
+            if (mFragmentAllRecord == null)
+                return;
+            mFragmentAllRecord.refreshView();
+            break;
+
+        default:
+            break;
+        }
+    }
+    
+    public void addNewRecord(RecordingSession recordingSession){
+        mFragmentAllRecord.addNewRecord(recordingSession);
+    }
+
+    public void updateRecordList(int fragmentAllRecording) {
+        mFragmentAllRecord.updateRecordList();        
     }
 }

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingSession;
@@ -122,7 +121,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     // get a favorite item
-    public FavouriteItem getFavouriteItem(String contactID) {
+    public FavouriteItem getFavouriteItemByContactId(String contactID) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(TABLE_FAVOURITE, null, CONTACT_ID + " = ?", new String[] { String.valueOf(contactID) }, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
@@ -177,7 +176,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public ArrayList<FavouriteItem> getAllFavouriteItem() {
         SQLiteDatabase db = getReadableDatabase();
-        Log.d("KieuThang", "SQLiteDatabase:"+db.isOpen());
         ArrayList<FavouriteItem> storyItemList = new ArrayList<FavouriteItem>();
         String sql = "Select * from " + TABLE_FAVOURITE;
         Cursor cursor = null;

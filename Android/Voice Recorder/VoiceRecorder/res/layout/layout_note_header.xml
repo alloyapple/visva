@@ -26,6 +26,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginRight="10dp"
+            android:onClick="onClickDeleteNoteBtn"
             android:background="@drawable/ic_delete_white_24dp"
             android:visibility="gone" />
 

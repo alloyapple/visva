@@ -3,19 +3,19 @@ package com.visva.voicerecorder.view.recording;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -32,12 +32,14 @@ import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.note.ActivityNoteEditor;
 import com.visva.voicerecorder.note.NoteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
 import com.visva.voicerecorder.view.common.FragmentBasic;
 
@@ -53,6 +55,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     // ======================Variable Define=====================
     private ArrayList<RecordingSession> mSessions = new ArrayList<RecordingSession>();
     public View                         mLastClickedView;
+    private ActionMode                  mActionMode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,27 +80,28 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             @Override
             public void create(SwipeMenu menu) {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                Resources res = getActivity().getResources();
+                deleteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_delete)));
                 deleteItem.setWidth(Utils.dp2px(getActivity(), 80));
-                deleteItem.setIcon(R.drawable.delete_image);
+                deleteItem.setIcon(R.drawable.btn_delete);
                 menu.addMenuItem(deleteItem);
 
                 SwipeMenuItem noteItem = new SwipeMenuItem(getActivity());
-                noteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                noteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
                 noteItem.setWidth(Utils.dp2px(getActivity(), 80));
-                noteItem.setIcon(R.drawable.ic_customer_note);
+                noteItem.setIcon(R.drawable.btn_note);
                 menu.addMenuItem(noteItem);
 
                 SwipeMenuItem shareItem = new SwipeMenuItem(getActivity());
-                shareItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
                 shareItem.setWidth(Utils.dp2px(getActivity(), 80));
-                shareItem.setIcon(R.drawable.ic_share);
+                shareItem.setIcon(R.drawable.btn_favorite);
                 menu.addMenuItem(shareItem);
 
                 SwipeMenuItem callItem = new SwipeMenuItem(getActivity());
-                callItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                callItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
                 callItem.setWidth(Utils.dp2px(getActivity(), 80));
-                callItem.setIcon(R.drawable.ic_call_while);
+                callItem.setIcon(R.drawable.btn_share);
                 menu.addMenuItem(callItem);
             }
         };
@@ -126,8 +130,10 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 // Capture total checked items
                 final int checkedCount = mLvRecords.getCheckedItemCount();
+                Resources res = getResources();
+                String title = res.getString(R.string.selected, checkedCount);
                 // Set the CAB title according to total checked items
-                mode.setTitle(checkedCount + " Selected");
+                mode.setTitle(title);
                 // Calls toggleSelection method from ListViewAdapter Class
                 mRecordingAdapter.toggleSelection(position);
             }
@@ -137,8 +143,22 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
                 switch (item.getItemId()) {
                 case R.id.delete:
                     // Calls getSelectedIds method from ListViewAdapter Class
-                    SparseBooleanArray selected = mRecordingAdapter.getSelectedIds();
-                    // Close CAB
+                    SparseBooleanArray selectedList = mRecordingAdapter.getSelectedIds();
+                    if (selectedList == null || selectedList.size() == 0)
+                        return false;
+                    onClickDeleteActionMode(selectedList);
+                    return true;
+                case R.id.share:
+                    selectedList = mRecordingAdapter.getSelectedIds();
+                    if (selectedList == null || selectedList.size() == 0)
+                        return false;
+                    ArrayList<RecordingSession> recordingSessions = new ArrayList<RecordingSession>();
+                    for (int i = 0; i < selectedList.size(); i++) {
+                        int position = selectedList.keyAt(i);
+                        RecordingSession recordingSession = mSessions.get(position);
+                        recordingSessions.add(recordingSession);
+                    }
+                    Utils.shareMultiFileByShareActionMode(getActivity(), recordingSessions);
                     mode.finish();
                     return true;
                 default:
@@ -149,6 +169,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 mode.getMenuInflater().inflate(R.menu.activity_main, menu);
+                mActionMode = mode;
                 return true;
             }
 
@@ -159,6 +180,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+
                 return false;
             }
         });
@@ -172,6 +194,51 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         }
     }
 
+    private void onClickDeleteActionMode(final SparseBooleanArray selected) {
+        int size = selected.size();
+        String title = getResources().getString(R.string.one_selected_record, size);
+        String contentMsg = getResources().getString(R.string.are_you_sure_to_selected_record);
+        if (size > 1) {
+            title = getResources().getString(R.string.multi_selected_record, size);
+            contentMsg = getResources().getString(R.string.are_you_sure_to_selected_records);
+        }
+        String cancel = getResources().getString(R.string.cancel);
+        Dialog dialog = new Dialog(getActivity(), title, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mActionMode != null)
+                    mActionMode.finish();
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mActionMode != null)
+                    mActionMode.finish();
+                for (int i = 0; i < selected.size(); i++) {
+                    Log.d("KieuThang", "selected.keyAt:" + selected.keyAt(i));
+                    int position = selected.keyAt(i);
+                    RecordingSession session = mSessions.get(position);
+                    Utils.deleteRecordingSesstionAction(getActivity(), session);
+                    mRecordingAdapter.removeRecord(position);
+                }
+                String deleted = getResources().getString(R.string.deleted);
+                Toast.makeText(getActivity(), deleted, Toast.LENGTH_SHORT).show();
+                if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+                    MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                }
+            }
+        });
+        try {
+            dialog.show();
+        } catch (Exception e) {
+
+        }
+    }
+
     @Override
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
         switch (index) {
@@ -182,23 +249,43 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             updateRecordSessionNote(position);
             break;
         case 2:
+            updateThisContactFavourite(position);
+            break;
+        case 3:
             RecordingSession recordingSession = mSessions.get(position);
             if (recordingSession == null) {
                 return false;
             }
             Utils.shareRecordingSessionAction(getActivity(), recordingSession.fileName);
             break;
-        case 3:
-            if (mSessions.size() > 0 && isTelephonyEnabled()) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + mSessions.get(position).phoneNo));
-                startActivity(intent);
-            }
-            break;
         default:
             break;
         }
         return false;
+    }
+
+    // This method will check this contact is favourite contact or not first,
+    // the checking action includes checking in the contact app. After that, it will add or 
+    // remove (if the contact is already existed in favourites) in the contact and my call recorder database application
+    private void updateThisContactFavourite(int selectedPosition) {
+        RecordingSession recordingSession = mSessions.get(selectedPosition);
+        if (recordingSession == null) {
+            return;
+        }
+        Uri contactIdUri = Utils.getContactUriTypeFromPhoneNumber(getActivity().getContentResolver(), recordingSession.phoneNo, 0);
+        String contactId = (contactIdUri == null ? "" : contactIdUri.toString());
+        FavouriteItem favouriteItem = new FavouriteItem(recordingSession.phoneNo, recordingSession.phoneName, 1, contactId);
+        if (Utils.isCheckFavouriteContactByPhoneNo(getActivity(), recordingSession.phoneNo) > 0) {
+            String removedFavouriteContact = getActivity().getString(R.string.removed_from_favourite, recordingSession.phoneName);
+            mSQLiteHelper.deleteFavouriteItem(favouriteItem);
+            Toast.makeText(getActivity(), removedFavouriteContact, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String addFavouriteContact = getActivity().getString(R.string.added_to_favourite, recordingSession.phoneName);
+            mSQLiteHelper.addNewFavoriteItem(favouriteItem);
+            Toast.makeText(getActivity(), addFavouriteContact, Toast.LENGTH_SHORT).show();
+        }
+        mRecordingAdapter.notifyDataSetChanged();
     }
 
     private void updateRecordSessionNote(int position) {
@@ -218,7 +305,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         bundle.putString(MyCallRecorderConstant.EXTRA_CREATED_DATE, recordingSession.dateCreated);
         bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NAME, recordingSession.phoneName);
         bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NO, recordingSession.phoneNo);
-        
+
         Intent updateNoteIntent = new Intent(getActivity(), ActivityNoteEditor.class);
         updateNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
         updateNoteIntent.putExtras(bundle);
@@ -253,10 +340,6 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         dialog.show();
     }
 
-    private boolean isTelephonyEnabled() {
-        return getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
-    }
-
     public void onAllRecordTabClick(View v) {
 
     }
@@ -267,6 +350,27 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
     public void onTextSearchChanged(CharSequence s) {
         mRecordingAdapter.onTextSearchChanged(s);
+    }
+
+    public void refreshView() {
+        if (mRecordingAdapter == null)
+            return;
+        mRecordingAdapter.notifyDataSetChanged();
+    }
+
+    public ActionMode getActionMode() {
+        return mActionMode;
+    }
+
+    public void addNewRecord(RecordingSession recordingSession) {
+        mRecordingAdapter.addNewRecord(recordingSession);
+    }
+
+    public void updateRecordList() {
+        Log.d("KieuThang", "updateRecordList");
+        mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
+        mSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
+        mRecordingAdapter.updateRecordingSession(mSessions);
     }
 
 }

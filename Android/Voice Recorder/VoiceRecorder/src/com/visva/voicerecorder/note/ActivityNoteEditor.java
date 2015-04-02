@@ -38,21 +38,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.widgets.Dialog;
 import com.visva.android.visvasdklibrary.provider.ReminderProvider;
 import com.visva.android.visvasdklibrary.remind.IReminder;
 import com.visva.android.visvasdklibrary.remind.ReminderItem;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.TimeUtility;
 import com.visva.voicerecorder.utils.Utils;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 
 /**
  * This Activity handles "editing" a note, where editing is responding to
@@ -85,6 +90,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     private TextView              mTextPhoneNo;
     private TextView              mTextDateTime;
     private EditText              mEdittextSubject;
+    private Button                mBtnDeleteNote;
 
     /*==================================Variable Define======================*/
     // Global mutable variables
@@ -205,6 +211,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         mEdittextSubject = (EditText) findViewById(R.id.subject);
         mLayoutRemind = (LinearLayout) findViewById(R.id.layout_remind_me);
         mLayoutRemindDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
+        mBtnDeleteNote = (Button) findViewById(R.id.btn_delete);
 
         mEditTextDate = (EditText) findViewById(R.id.txtDate);
         mEditTextTime = (EditText) findViewById(R.id.txtTime);
@@ -225,6 +232,11 @@ public class ActivityNoteEditor extends Activity implements IReminder {
                 timePickerDialog24h.show(getFragmentManager(), tag);
             }
         });
+        if (mState == MyCallRecorderConstant.STATE_EDIT) {
+            mBtnDeleteNote.setVisibility(View.VISIBLE);
+        } else {
+            mBtnDeleteNote.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -260,6 +272,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
             int colTitleIndex = mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_TITLE);
             String note = mCursor.getString(colNoteIndex);
             String title = mCursor.getString(colTitleIndex);
+            Log.d("KieuThang", "title:" + title);
             mTextNote.setTextKeepState(note);
             mEdittextSubject.setText(title);
 
@@ -349,7 +362,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
      *            The new note title to use
      */
     private final void updateNote(String text, String title, long createdTime) {
-
+        Log.d("KieuThang", "text:" + text + ",title:" + title);
         // Sets up a map to contain values to be updated in the provider.
         ContentValues values = new ContentValues();
         values.put(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, System.currentTimeMillis());
@@ -401,12 +414,12 @@ public class ActivityNoteEditor extends Activity implements IReminder {
          * use android.content.AsyncQueryHandler or android.os.AsyncTask.
          */
         if (mState == MyCallRecorderConstant.STATE_INSERT) {
-            getContentResolver().update(mUri, // The URI for the record to update.
+            getContentResolver().insert(mUri, values);/*(mUri, // The URI for the record to update.
                     values, // The map of column names and new values to apply to them.
                     null, // No selection criteria are used, so no where columns are necessary.
                     null // No where columns are used, so no where arguments are necessary.
-                    );
-        }else{
+                    );*/
+        } else {
             String selection = NotePad.Notes.COLUMN_NAME_CREATE_DATE + " = " + mCreatedTime;
             getContentResolver().update(mUri, // The URI for the record to update.
                     values, // The map of column names and new values to apply to them.
@@ -445,7 +458,8 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         if (mCursor != null) {
             mCursor.close();
             mCursor = null;
-            getContentResolver().delete(mUri, null, null);
+            String where = NotePad.Notes.COLUMN_NAME_CREATE_DATE + " = " + mCreatedTime;
+            getContentResolver().delete(mUri, where, null);
             mTextNote.setText("");
             mEdittextSubject.setText("");
         }
@@ -516,6 +530,9 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         }
         if (mReminderTime == 0) {
             AIOLog.e(MyCallRecorderConstant.TAG, "reminder time is not set!!");
+            if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+                MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+            }
             finish();
             return;
         }
@@ -524,11 +541,46 @@ public class ActivityNoteEditor extends Activity implements IReminder {
                 AlarmManager.INTERVAL_DAY, 1);
         AIOLog.d(MyCallRecorderConstant.TAG, "timeToReminder:" + mReminderTime);
         mReminderTime = 0;
+
+        if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+            MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+        }
         finish();
     }
 
     public void onClickBackBtn(View v) {
         finish();
+    }
+
+    public void onClickDeleteNoteBtn(View v) {
+        String title = getResources().getString(R.string.delete);
+        String contentMsg = getResources().getString(R.string.are_you_sure_to_delete_note);
+        String cancel = getResources().getString(R.string.cancel);
+        Dialog dialog = new Dialog(this, title, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                deleteNote();
+                String deleted = getResources().getString(R.string.deleted);
+                Toast.makeText(ActivityNoteEditor.this, deleted, Toast.LENGTH_SHORT).show();
+                ActivityNoteEditor.this.finish();
+                if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+                    MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                }
+            }
+        });
+        try {
+            dialog.show();
+        } catch (Exception e) {
+
+        }
     }
 
     private final Calendar mCalendar           = Calendar.getInstance();

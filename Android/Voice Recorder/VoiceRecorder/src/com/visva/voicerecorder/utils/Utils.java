@@ -47,6 +47,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
+import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 
 import com.ringdroid.soundfile.CheapSoundFile;
@@ -342,7 +343,7 @@ public class Utils {
 
     public static boolean isCheckFavouriteContact(FragmentActivity activity, String contactId) {
         SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(activity);
-        FavouriteItem favouriteItem = sqLiteHelper.getFavouriteItem(contactId);
+        FavouriteItem favouriteItem = sqLiteHelper.getFavouriteItemByContactId(contactId);
         if (favouriteItem == null)
             return false;
         else
@@ -513,6 +514,24 @@ public class Utils {
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         shareIntent.setType("*/*");
         context.startActivity(Intent.createChooser(shareIntent, "Share via"));
+    }
+
+    public static void shareMultiFileByShareActionMode(Context context, ArrayList<RecordingSession> selectedList) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
+        intent.setType("image/jpeg"); /* This example is sharing jpeg images. */
+
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for (RecordingSession recordingSession : selectedList /* List of the files you want to send */) {
+            File file = new File(recordingSession.fileName);
+            Uri uri = Uri.fromFile(file);
+            files.add(uri);
+        }
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        context.startActivity(intent);
     }
 
     public static void deleteRecordingSesstionAction(Context context, RecordingSession recordingSession) {

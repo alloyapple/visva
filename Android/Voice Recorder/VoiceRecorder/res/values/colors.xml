@@ -59,7 +59,11 @@
     <color name="material_design_color_orange_1">#ff6f43</color>
     <color name="material_design_color_orange_2">#a84a24</color>
     <color name="material_design_color_orange_pressed">#DD2C00</color>
+    <color name="material_design_color_orange_action_delete">#C9C9CE</color>
+    <color name="material_design_color_orange_action_normal">#F93F25</color>
+    
     <color name="divider_grey">#eeeeee</color>
     <color name="transparent">#00000000</color>
+    
 
 </resources>
