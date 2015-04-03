@@ -104,6 +104,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mFavouriteAdapter = new FavouriteAdapter(getActivity(), mFavouriteItems);
         mFavouriteList.setAdapter(mFavouriteAdapter);
         mFavouriteList.setReflectionBackgroundColor(0);
+        mFavouriteList.setShouldRepeat(true);
 
         mBtnOptionMenu.setOnClickListener(new View.OnClickListener() {
 
@@ -115,13 +116,15 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mFavouriteList.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
+                if(position < 0)
+                    return;
                 Log.d("KieuThang", "onScrolledToPosition:" + (mFavouriteItems.get(position).phoneName));
                 if (mFavouriteItems == null || mFavouriteItems.size() < position || StringUtility.isEmpty(mFavouriteItems.get(position).phoneName)) {
                     mTextRecord.setVisibility(View.GONE);
                 } else {
                     mTextSwitcherPhoneName.setText(mFavouriteItems.get(position).phoneName);
                     mTextRecord.setText(getResources().getString(R.string.record_withs, mFavouriteItems.get(position).phoneName));
-                    refreshRecordingListViewData(position);
+                    //refreshRecordingListViewData(position);
                     mFavouritePosition = position;
                 }
             }
