@@ -1,13 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:coverflow="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#eeeeee"
-    android:orientation="vertical" >
+    android:background="@color/black_semi_transparent" >
 
     <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
         android:id="@+id/coverflow"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         coverflow:coverHeight="@dimen/cover_height"
@@ -18,8 +18,21 @@
         coverflow:scalingThreshold="0.5"
         coverflow:spacing="0.7" />
 
+    <Button
+        android:id="@+id/btn_favourite_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/coverflow"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/ic_drawer" />
+
     <TextSwitcher
         android:id="@+id/text_switch_favourite_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/coverflow"
+        android:layout_toLeftOf="@id/btn_favourite_menu" />
+
+</RelativeLayout>
