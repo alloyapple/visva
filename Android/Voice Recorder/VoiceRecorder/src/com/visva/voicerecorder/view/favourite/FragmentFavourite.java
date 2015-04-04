@@ -4,10 +4,12 @@ import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -58,7 +59,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     private ArrayList<RecordingSession> mFavouriteRecordingSessions = new ArrayList<RecordingSession>();
     private boolean                     mIsLongClickFavouriteItem   = false;
     private int                         mFavouritePosition;
-    private Animation                   mFadeOutAnime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,8 +80,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         }
         mRecordingSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
 
-        mFadeOutAnime = AnimationUtils.loadAnimation(getActivity(), R.anim.welcome_intro_fade_out);
-        mFadeOutAnime.setAnimationListener(fadeOutAniListener);
     }
 
     private void initLayout(View root) {
@@ -116,17 +114,12 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mFavouriteList.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                if(position < 0)
+                if(mFavouritePosition == position)
                     return;
-                Log.d("KieuThang", "onScrolledToPosition:" + (mFavouriteItems.get(position).phoneName));
-                if (mFavouriteItems == null || mFavouriteItems.size() < position || StringUtility.isEmpty(mFavouriteItems.get(position).phoneName)) {
-                    mTextRecord.setVisibility(View.GONE);
-                } else {
-                    mTextSwitcherPhoneName.setText(mFavouriteItems.get(position).phoneName);
-                    mTextRecord.setText(getResources().getString(R.string.record_withs, mFavouriteItems.get(position).phoneName));
-                    //refreshRecordingListViewData(position);
-                    mFavouritePosition = position;
-                }
+                mFavouritePosition = position;
+                AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), position);
+                asyncUpdateRecordList.execute();
+                
             }
 
             @Override
@@ -303,7 +296,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     private void deleteRecordingSessionAction(final int position) {
         final RecordingSession recordingSession = mFavouriteRecordingSessions.get(position);
         String title = recordingSession.phoneName;
-        if(StringUtility.isEmpty(title)){
+        if (StringUtility.isEmpty(title)) {
             title = recordingSession.phoneNo;
         }
         String contentMsg = getActivity().getString(R.string.are_you_sure_to_delete_record);
@@ -365,22 +358,40 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         popup.show();
     }
 
-    private AnimationListener fadeOutAniListener = new AnimationListener() {
+    @Override
+    public void refreshUI() {
+        mFavouriteAdapter.notifyDataSetChanged();
+    }
 
-                                                     @Override
-                                                     public void onAnimationStart(Animation animation) {
-                                                     }
+    private class AsyncUpdateRecordList extends AsyncTask<Void, Void, Integer> {
+        private int _position;
+        public AsyncUpdateRecordList(Context context, int position) {
+            _position = position;
+        }
 
-                                                     @Override
-                                                     public void onAnimationRepeat(Animation animation) {
-                                                     }
+        @Override
+        protected Integer doInBackground(Void... params) {
+            if (_position < 0)
+                return 0;
+            Log.d("KieuThang", "onScrolledToPosition:" + (mFavouriteItems.get(_position).phoneName));
+            if (mFavouriteItems == null || mFavouriteItems.size() < _position || StringUtility.isEmpty(mFavouriteItems.get(_position).phoneName)) {
+               return 0;
+            } else {
+                mFavouriteRecordingSessions = getFavouriteFromList(_position);
+                return 1;
+            }
+        }
 
-                                                     @Override
-                                                     public void onAnimationEnd(Animation animation) {
-                                                         if (mIsLongClickFavouriteItem) {
-                                                             mRecordingFavouriteAdapter.setSelectedPosition(mFavouritePosition);
-                                                         } else
-                                                             refreshRecordingListViewData(mFavouritePosition);
-                                                     }
-                                                 };
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            if(result == 0){
+                mTextRecord.setVisibility(View.GONE);
+            }else if(result == 1){
+                mTextSwitcherPhoneName.setText(mFavouriteItems.get(_position).phoneName);
+                mTextRecord.setText(getResources().getString(R.string.record_withs, mFavouriteItems.get(_position).phoneName));
+                mRecordingFavouriteAdapter.updateDetailRecordingSession(mFavouriteRecordingSessions);
+            }
+        }
+    }
 }

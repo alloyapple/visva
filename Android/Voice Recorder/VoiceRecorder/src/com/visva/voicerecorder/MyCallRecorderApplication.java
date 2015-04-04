@@ -118,6 +118,9 @@ public class MyCallRecorderApplication extends Application {
             cursor = null;
         }
 
+        if (activity != null) {
+            activity.requestToRefreshView(ActivityHome.FRAGMENT_FAVOURITE);
+        }
         Log.d("KieuThang", "getNumberFavourite:" + mSqLiteHelper.countAllFavouriteItem());
 
     }
@@ -171,10 +174,8 @@ public class MyCallRecorderApplication extends Application {
     }
 
     private class AsyncCheckRecordFolder extends AsyncTask<Void, Void, Integer> {
-        private Context mContext;
 
         public AsyncCheckRecordFolder(Context context) {
-            this.mContext = context;
             if (mSqLiteHelper == null) {
                 mSqLiteHelper = getSQLiteHelper(context);
             }

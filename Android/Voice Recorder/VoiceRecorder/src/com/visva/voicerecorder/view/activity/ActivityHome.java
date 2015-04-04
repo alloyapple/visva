@@ -359,17 +359,21 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
                 return;
             mFragmentAllRecord.refreshView();
             break;
-
+        case FRAGMENT_FAVOURITE:
+            if (mFragmentFavourite == null)
+                return;
+            mFragmentFavourite.refreshUI();
+            break;
         default:
             break;
         }
     }
-    
-    public void addNewRecord(RecordingSession recordingSession){
+
+    public void addNewRecord(RecordingSession recordingSession) {
         mFragmentAllRecord.addNewRecord(recordingSession);
     }
 
     public void updateRecordList(int fragmentAllRecording) {
-        mFragmentAllRecord.updateRecordList();        
+        mFragmentAllRecord.updateRecordList();
     }
 }
