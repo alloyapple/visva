@@ -56,9 +56,6 @@ public class ProgramHelper {
         SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
         sqLiteHelper.addNewRecordingSession(session);
 
-        if (MyCallRecorderApplication.getInstance().getActivity() != null) {
-            MyCallRecorderApplication.getInstance().getActivity().addNewRecord(session);
-        }
         return true;
     }
 

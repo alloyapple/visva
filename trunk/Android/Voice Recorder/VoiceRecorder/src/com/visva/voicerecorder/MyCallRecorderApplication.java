@@ -121,8 +121,6 @@ public class MyCallRecorderApplication extends Application {
         if (activity != null) {
             activity.requestToRefreshView(ActivityHome.FRAGMENT_FAVOURITE);
         }
-        Log.d("KieuThang", "getNumberFavourite:" + mSqLiteHelper.countAllFavouriteItem());
-
     }
 
     @Override
@@ -153,6 +151,7 @@ public class MyCallRecorderApplication extends Application {
 
     public ActivityHome getActivity() {
         return activity;
+
     }
 
     public SQLiteHelper getSQLiteHelper(Context context) {
@@ -220,4 +219,5 @@ public class MyCallRecorderApplication extends Application {
             }
         }
     }
+
 }
