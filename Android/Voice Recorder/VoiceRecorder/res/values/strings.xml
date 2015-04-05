@@ -76,6 +76,7 @@
     <string name="you_have_new_record">You have a new record</string>
     <string name="add_note">Add note</string>
     <string name="no_record_found">No record found.:(</string>
+    <string name="no_favorite_found">No favorite found.:(</string>
 
     <!-- Note -->
     <string name="search">Search</string>
