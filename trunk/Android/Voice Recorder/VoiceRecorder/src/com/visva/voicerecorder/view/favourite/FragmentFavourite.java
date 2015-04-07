@@ -24,7 +24,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -116,7 +115,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mFavouriteList.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                if (mFavouritePosition == position)
+                if (mFavouritePosition == position && mFavouriteItems.size() > 1)
                     return;
                 mFavouritePosition = position;
                 mRecordingFavouriteList.setVisibility(View.GONE);
@@ -205,8 +204,8 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             mRecordingFavouriteAdapter = new DetailFavouriteAdapter(getActivity(), mFavouriteRecordingSessions);
             mRecordingFavouriteList.setAdapter(mRecordingFavouriteAdapter);
 
-            AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), 0);
-            asyncUpdateRecordList.execute();
+//            AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), 0);
+//            asyncUpdateRecordList.execute();
         }
     }
 

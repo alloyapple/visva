@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.gc.materialdesign.views.CheckBox;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.Utils;
@@ -21,16 +20,11 @@ public class DetailFavouriteAdapter extends BaseAdapter {
     // ======================Variable Define=====================
     LayoutInflater                      layoutInflater;
     private Context                     mContext;
-    private boolean                     mIsLongClick       = false;
-//    private ArrayList<Boolean>          mSeletedList       = new ArrayList<Boolean>();
     private ArrayList<RecordingSession> mRecordingSessions = new ArrayList<RecordingSession>();
 
     public DetailFavouriteAdapter(Context context, ArrayList<RecordingSession> recordingSessions) {
         this.mContext = context;
         this.mRecordingSessions = recordingSessions;
-//        for (int i = 0; i < mRecordingSessions.size(); i++) {
-//            mSeletedList.add(false);
-//        }
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Collections.sort(mRecordingSessions, new MyComparator());
     }
@@ -59,7 +53,6 @@ public class DetailFavouriteAdapter extends BaseAdapter {
             holder.textDate = (TextView) convertView.findViewById(R.id.text_date);
             holder.textTime = (TextView) convertView.findViewById(R.id.text_time);
             holder.textDuration = (TextView) convertView.findViewById(R.id.text_duration);
-            holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox_select_favourite_detail_item);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) (convertView).getTag();
@@ -73,10 +66,6 @@ public class DetailFavouriteAdapter extends BaseAdapter {
         holder.textDate.setText(Utils.getTextDate(mContext, Long.valueOf(recordingSession.dateCreated)));
         holder.textTime.setText(Utils.getTextTime(mContext, Long.valueOf(recordingSession.dateCreated)));
         holder.textDuration.setText(Utils.getDurationTime(mContext, recordingSession.fileName));
-        if (mIsLongClick) {
-            holder.checkBox.setVisibility(View.VISIBLE);
-        } else
-            holder.checkBox.setVisibility(View.GONE);
 
         return convertView;
     }
@@ -85,7 +74,6 @@ public class DetailFavouriteAdapter extends BaseAdapter {
         TextView textDate;
         TextView textTime;
         TextView textDuration;
-        CheckBox checkBox;
     }
 
     public class MyComparator implements Comparator<RecordingSession> {
@@ -97,21 +85,15 @@ public class DetailFavouriteAdapter extends BaseAdapter {
 
     public void updateDetailRecordingSession(ArrayList<RecordingSession> favouriteRecordingSessions) {
         mRecordingSessions.clear();
-//        mSeletedList.clear();
         mRecordingSessions = favouriteRecordingSessions;
-//        for (int i = 0; i < mRecordingSessions.size(); i++) {
-//            mSeletedList.add(false);
-//        }
         notifyDataSetChanged();
     }
 
     public void setLongClickStateView(boolean isLongClick) {
-        mIsLongClick = isLongClick;
         notifyDataSetChanged();
     }
 
     public void setSelectedPosition(int position) {
-//        mSeletedList.set(position, true);
         notifyDataSetChanged();
     }
 
