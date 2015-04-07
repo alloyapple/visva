@@ -3,7 +3,7 @@
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -193,10 +193,10 @@
                     android:id="@+id/btn_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/imageview_description"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/btn_search"
+                    android:contentDescription="@string/imageview_description"
                     android:onClick="onClickSearchButton" />
 
                 <ImageButton
@@ -204,10 +204,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:contentDescription="@string/imageview_description"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/btn_close"
+                    android:contentDescription="@string/imageview_description"
                     android:onClick="onClickClearSearchButton" />
 
                 <EditText
@@ -262,72 +262,5 @@
                 class="com.visva.voicerecorder.view.fragments.FragmentSetting" />
         </RelativeLayout>
     </LinearLayout>
-
-    <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/multiple_actions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        fab:fab_addButtonColorNormal="@color/main"
-        fab:fab_addButtonColorPressed="@color/main_1"
-        fab:fab_addButtonPlusIconColor="@color/white"
-        fab:fab_labelStyle="@style/menu_labels_style" >
-
-        <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickFloatingActionButton"
-            fab:fab_colorNormal="@color/main"
-            fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_contacts"
-            fab:fab_size="mini"
-            fab:fab_title="@string/contact_tab" />
-
-        <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_all_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickFloatingActionButton"
-            fab:fab_colorNormal="@color/main"
-            fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_call_while"
-            fab:fab_size="mini"
-            fab:fab_title="@string/all_record_tab" />
-
-        <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_favourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickFloatingActionButton"
-            fab:fab_colorNormal="@color/main"
-            fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_favourites"
-            fab:fab_size="mini"
-            fab:fab_title="@string/favourite_tab" />
-
-        <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickFloatingActionButton"
-            fab:fab_colorNormal="@color/main"
-            fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_settings"
-            fab:fab_size="mini"
-            fab:fab_title="@string/setting_tab" />
-
-        <com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickFloatingActionButton"
-            fab:fab_colorNormal="@color/main"
-            fab:fab_colorPressed="@color/main_1"
-            fab:fab_icon="@drawable/ic_about"
-            fab:fab_size="mini"
-            fab:fab_title="@string/about_tab" />
-    </com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu>
 
 </RelativeLayout>

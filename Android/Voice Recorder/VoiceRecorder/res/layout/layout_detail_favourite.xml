@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="wrap_content" >
-
-    <com.gc.materialdesign.views.CheckBox
-        android:id="@+id/checkBox_select_favourite_detail_item"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="5dp"
-        android:visibility="gone"
-        android:layout_centerVertical="true" />
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
 
     <TextView
         android:id="@+id/text_date"
@@ -18,8 +10,17 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Test"
-        android:layout_toRightOf="@id/checkBox_select_favourite_detail_item"
         android:textColor="@color/black" />
+
+    <ImageView
+        android:id="@+id/callIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_date"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:contentDescription="@string/imageview_description"
+        android:src="@drawable/ic_incoming" />
 
     <TextView
         android:id="@+id/text_time"
@@ -27,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_date"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/callIndicator"
         android:text="Test"
-        android:layout_toRightOf="@id/checkBox_select_favourite_detail_item"
         android:textColor="@color/gray_1" />
 
     <TextView

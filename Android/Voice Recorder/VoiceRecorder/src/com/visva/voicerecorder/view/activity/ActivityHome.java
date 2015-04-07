@@ -31,7 +31,6 @@ import com.visva.voicerecorder.view.favourite.FragmentFavourite;
 import com.visva.voicerecorder.view.fragments.FragmentContact;
 import com.visva.voicerecorder.view.fragments.FragmentSetting;
 import com.visva.voicerecorder.view.recording.FragmentAllRecord;
-import com.visva.voicerecorder.view.widget.floatingactionbutton.FloatingActionsMenu;
 
 public class ActivityHome extends VisvaAbstractFragmentActivity implements IHomeActionListener {
     // ======================Constant Define=====================
@@ -49,7 +48,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     private FragmentFavourite   mFragmentFavourite;
     private FragmentSetting     mFragmentSetting;
 
-    private FloatingActionsMenu mFloatingActionsMenu;
     private RelativeLayout      mLayoutSearch;
     private EditText            mEditTextSearch;
     private ImageButton         mBtnClearSearch;
@@ -76,7 +74,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     }
 
     private void initLayout() {
-        mFloatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
         mLayoutSearch = (RelativeLayout) findViewById(R.id.layout_search);
         mBtnClearSearch = (ImageButton) findViewById(R.id.btn_clear_search);
         mEditTextSearch = (EditText) findViewById(R.id.edit_text_search);
@@ -161,7 +158,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         }
         switch (fragment) {
         case FRAGMENT_ABOUT:
-            mFloatingActionsMenu.setVisibility(View.GONE);
             mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_ALL_RECORDING:
@@ -173,7 +169,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
 
             mFragmentAllRecord.setBackStatus(isback);
             mTransaction.show(mFragmentAllRecord);
-            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_CONTACT:
@@ -184,7 +179,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
 
             mTransaction.show(mFragmentContact);
-            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_FAVOURITE:
@@ -196,7 +190,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
 
             mFragmentFavourite.setBackStatus(isback);
             mTransaction.show(mFragmentFavourite);
-            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             mLayoutSearch.setVisibility(View.GONE);
             break;
         case FRAGMENT_SETTING:
@@ -209,11 +202,9 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             mLayoutSearch.setVisibility(View.GONE);
             mFragmentSetting.setBackStatus(isback);
             mTransaction.show(mFragmentSetting);
-            mFloatingActionsMenu.setVisibility(View.GONE);
             mLayoutSearch.setVisibility(View.GONE);
             break;
         default:
-            mFloatingActionsMenu.setVisibility(View.VISIBLE);
             break;
         }
         if (!isback)
@@ -269,32 +260,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
 
     private void showToast(String string) {
         Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
-    }
-
-    public void onClickFloatingActionButton(View v) {
-        switch (v.getId()) {
-        case R.id.action_about:
-            showFragment(FRAGMENT_ABOUT, false);
-            break;
-        case R.id.action_all_record:
-            onClickRecordTab(v);
-            break;
-        case R.id.action_contact:
-            onClickContactTab(v);
-            break;
-        case R.id.action_favourite:
-            onClickFavouriteTab(v);
-            break;
-        case R.id.action_setting:
-            onClickSettingTab(v);
-            break;
-        default:
-            break;
-        }
-        if (mFloatingActionsMenu == null)
-            return;
-        if (mFloatingActionsMenu.isExpanded())
-            mFloatingActionsMenu.collapse();
     }
 
     public void onClickSearchButton(View v) {
