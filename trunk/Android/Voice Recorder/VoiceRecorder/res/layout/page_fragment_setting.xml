@@ -30,24 +30,26 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txt_when_call_arrived" >
 
-                <TextView
-                    android:id="@+id/txt_autosaved_records"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:text="@string/auto_saved_incoming_and_out_going_calls"
-                    android:textColor="@color/black" >
-                </TextView>
-
                 <com.gc.materialdesign.views.Switch
                     android:id="@+id/switch_auto_saved_record_call"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="10dp" >
+                    android:layout_marginRight="10dp" >
                 </com.gc.materialdesign.views.Switch>
+
+                <TextView
+                    android:id="@+id/txt_autosaved_records"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/switch_auto_saved_record_call"
+                    android:text="@string/auto_saved_incoming_and_out_going_calls"
+                    android:textColor="@color/black" >
+                </TextView>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -67,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/saved_calls"
+                android:layout_alignParentLeft="true"
                 android:textColor="@color/material_design_color_orange_1"
                 android:textSize="18sp" >
             </TextView>
@@ -77,24 +80,26 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/saved_calls" >
 
-                <TextView
-                    android:id="@+id/incomming_calls"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:text="@string/incoming_calls"
-                    android:textColor="@color/black" >
-                </TextView>
-
                 <com.gc.materialdesign.views.Switch
                     android:id="@+id/switch_incoming_calls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="10dp" >
+                    android:layout_marginRight="10dp" >
                 </com.gc.materialdesign.views.Switch>
+
+                <TextView
+                    android:id="@+id/incomming_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@id/switch_incoming_calls"
+                    android:text="@string/incoming_calls"
+                    android:textColor="@color/black" >
+                </TextView>
             </RelativeLayout>
 
             <RelativeLayout
@@ -102,24 +107,26 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_incoming_calls" >
 
-                <TextView
-                    android:id="@+id/ongoing_calls"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:text="@string/ongoing_calls"
-                    android:textColor="@color/black" >
-                </TextView>
-
                 <com.gc.materialdesign.views.Switch
                     android:id="@+id/switch_ongoing_calls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="10dp" >
+                    android:layout_marginRight="10dp" >
                 </com.gc.materialdesign.views.Switch>
+
+                <TextView
+                    android:id="@+id/ongoing_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/switch_ongoing_calls"
+                    android:text="@string/ongoing_calls"
+                    android:textColor="@color/black" >
+                </TextView>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -185,9 +192,55 @@
             android:background="@color/material_design_color_orange_1" />
 
         <RelativeLayout
-            android:id="@+id/layout_cloud"
+            android:id="@+id/layout_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txt_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/notification"
+                android:textColor="@color/material_design_color_orange_1"
+                android:textSize="18sp" >
+            </TextView>
+
+            <RelativeLayout
+                android:id="@+id/layout_setting_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_notification"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp" >
+
+                <com.gc.materialdesign.views.Switch
+                    android:id="@+id/switch_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp" >
+                </com.gc.materialdesign.views.Switch>
+
+                <TextView
+                    android:id="@+id/txt_show_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/switch_notification"
+                    android:text="@string/notification_you_when_finish_call"
+                    android:textColor="@color/black" >
+                </TextView>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/txt_sync"

@@ -22,15 +22,15 @@ public class DetailFavouriteAdapter extends BaseAdapter {
     LayoutInflater                      layoutInflater;
     private Context                     mContext;
     private boolean                     mIsLongClick       = false;
-    private ArrayList<Boolean>          mSeletedList       = new ArrayList<Boolean>();
+//    private ArrayList<Boolean>          mSeletedList       = new ArrayList<Boolean>();
     private ArrayList<RecordingSession> mRecordingSessions = new ArrayList<RecordingSession>();
 
     public DetailFavouriteAdapter(Context context, ArrayList<RecordingSession> recordingSessions) {
         this.mContext = context;
         this.mRecordingSessions = recordingSessions;
-        for (int i = 0; i < mRecordingSessions.size(); i++) {
-            mSeletedList.add(false);
-        }
+//        for (int i = 0; i < mRecordingSessions.size(); i++) {
+//            mSeletedList.add(false);
+//        }
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Collections.sort(mRecordingSessions, new MyComparator());
     }
@@ -97,11 +97,11 @@ public class DetailFavouriteAdapter extends BaseAdapter {
 
     public void updateDetailRecordingSession(ArrayList<RecordingSession> favouriteRecordingSessions) {
         mRecordingSessions.clear();
-        mSeletedList.clear();
+//        mSeletedList.clear();
         mRecordingSessions = favouriteRecordingSessions;
-        for (int i = 0; i < mRecordingSessions.size(); i++) {
-            mSeletedList.add(false);
-        }
+//        for (int i = 0; i < mRecordingSessions.size(); i++) {
+//            mSeletedList.add(false);
+//        }
         notifyDataSetChanged();
     }
 
@@ -111,7 +111,7 @@ public class DetailFavouriteAdapter extends BaseAdapter {
     }
 
     public void setSelectedPosition(int position) {
-        mSeletedList.set(position, true);
+//        mSeletedList.set(position, true);
         notifyDataSetChanged();
     }
 

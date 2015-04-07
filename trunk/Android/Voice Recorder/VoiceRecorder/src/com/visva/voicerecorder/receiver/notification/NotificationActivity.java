@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
@@ -49,7 +50,7 @@ public class NotificationActivity extends Activity {
         }
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle == null){
+        if (bundle == null) {
             finish();
             return;
         }
@@ -108,8 +109,12 @@ public class NotificationActivity extends Activity {
                                                                  phoneName = phoneNo;
                                                              else
                                                                  phoneName = phoneUri.toString();
-                                                             Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo,
-                                                                     mCreatedDate);
+                                                             boolean isShowNotication = MyCallRecorderApplication.getInstance()
+                                                                     .getMyCallRecorderSharePref(NotificationActivity.this)
+                                                                     .getBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION);
+                                                             if (isShowNotication)
+                                                                 Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo,
+                                                                         mCreatedDate);
                                                          }
                                                          finish();
                                                      }
