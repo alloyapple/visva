@@ -48,6 +48,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedIncomingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_INCOMING_CALL);
                 boolean isValidDurationTime = Utils.isCheckValidDurationTime(mFileName);
+                boolean isShowNotication = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION);
                 AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedIncomingCall:"
                         + isAutoSavedIncomingCall + ",isValidDurationTime:" + isValidDurationTime);
                 if (isAutoSavedIncomingCall && !isAutoSavedRecordCall && isValidDurationTime) {
@@ -55,7 +56,7 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                     i.putExtra(MyCallRecorderConstant.EXTRA_PHONE_NO, phoneNo);
                     i.putExtra(MyCallRecorderConstant.EXTRA_CREATED_DATE, mCreatedDate);
                     i.putExtra(MyCallRecorderConstant.EXTRA_FILE_NAME, mFileName);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 } else {
 
@@ -65,7 +66,8 @@ public class InCommingCallReceiver extends BroadcastReceiver {
                         phoneName = phoneNo;
                     else
                         phoneName = phoneUri.toString();
-                    Utils.showNotificationAfterCalling(context, phoneName, phoneNo, mCreatedDate);
+                    if (isShowNotication)
+                        Utils.showNotificationAfterCalling(context, phoneName, phoneNo, mCreatedDate);
                 }
             } else {
             }

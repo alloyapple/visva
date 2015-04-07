@@ -21,6 +21,7 @@ public class FragmentSetting extends FragmentBasic {
     private Switch                   mSwitchAutoSavedRecordCall;
     private Switch                   mSwitchIncomingCalls;
     private Switch                   mSwitchOutGoingCalls;
+    private Switch                   mSwitchNotification;
     private LayoutRipple             mLayoutTheme;
 
     //========================Variable Define=============
@@ -44,12 +45,13 @@ public class FragmentSetting extends FragmentBasic {
         mSwitchAutoSavedRecordCall = (Switch) root.findViewById(R.id.switch_auto_saved_record_call);
         mSwitchIncomingCalls = (Switch) root.findViewById(R.id.switch_incoming_calls);
         mSwitchOutGoingCalls = (Switch) root.findViewById(R.id.switch_ongoing_calls);
+        mSwitchNotification = (Switch) root.findViewById(R.id.switch_notification);
         mLayoutTheme = (LayoutRipple) root.findViewById(R.id.layout_themes);
         mSwitchAutoSavedRecordCall.setOncheckListener(new OnCheckListener() {
 
             @Override
             public void onCheck(boolean check) {
-                Log.d("KieuThang", "mSwitchAutoSavedRecordCall:"+check);
+                Log.d("KieuThang", "mSwitchAutoSavedRecordCall:" + check);
                 mMyRecorderCallSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED, check);
             }
         });
@@ -67,13 +69,22 @@ public class FragmentSetting extends FragmentBasic {
                 mMyRecorderCallSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_SAVED_OUTGOING_CALL, check);
             }
         });
-        
+        mSwitchNotification.setOncheckListener(new OnCheckListener() {
+            
+            @Override
+            public void onCheck(boolean check) {
+                Log.d("KieuThang", "setOncheckListener notificatoin:"+check);
+                mMyRecorderCallSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION, check);
+            }
+        });
         boolean isAutoSavedCallRecord = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
         mSwitchAutoSavedRecordCall.setChecked(isAutoSavedCallRecord);
         boolean isSavedIncomingCall = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_INCOMING_CALL);
         mSwitchIncomingCalls.setChecked(isSavedIncomingCall);
         boolean isSavedOutGoingCall = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_OUTGOING_CALL);
         mSwitchOutGoingCalls.setChecked(isSavedOutGoingCall);
+        boolean isShowNotification = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION);
+        mSwitchNotification.setChecked(isShowNotification);
         int themeType = mMyRecorderCallSharePrefs.getIntValue(MyCallRecorderConstant.KEY_THEME);
     }
 

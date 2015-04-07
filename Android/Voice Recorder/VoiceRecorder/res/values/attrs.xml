@@ -49,5 +49,13 @@
             <enum name="right" value="3" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="WaitingDots">
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="dotsColor" format="color" />
+        <attr name="period" format="integer" />
+        <attr name="jumpHeight" format="integer" />
+        <attr name="autoplay" format="boolean" />
+    </declare-styleable>
 
 </resources>

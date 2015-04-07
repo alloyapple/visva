@@ -52,6 +52,7 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedOutGoingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_OUTGOING_CALL);
                 boolean isValidDurationTime = Utils.isCheckValidDurationTime(mFileName);
+                boolean isShowNotication = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION);
                 AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedOutGoingCall:"
                         + isAutoSavedOutGoingCall + ",isValidDurationTime:" + isValidDurationTime);
                 if (isAutoSavedOutGoingCall && !isAutoSavedRecordCall && isValidDurationTime) {
@@ -68,7 +69,8 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                         phoneName = phoneNo;
                     else
                         phoneName = phoneUri.toString();
-                    Utils.showNotificationAfterCalling(context, phoneName, phoneNo, mCreatedDate);
+                    if (isShowNotication)
+                        Utils.showNotificationAfterCalling(context, phoneName, phoneNo, mCreatedDate);
                 }
                 OutGoingCallReceiver.phoneNo = null;
                 OutGoingCallReceiver.mCreatedDate = null;

@@ -9,6 +9,7 @@ public class MyCallRecorderConstant {
     public static final String  KEY_SAVED_OUTGOING_CALL  = "key_saved_out_going_call";
     public static final String  KEY_THEME                = "key_theme";
     public static final String  KEY_FIRST_TIME_RUNNING   = "key_first_time_running";
+    public static final String  KEY_SHOW_NOTIFICATION    = "key_show_notificaiton";
 
     // notification intent
     public static final String  FAVORITE_INTENT          = "com.visva.android.myrecordcall.favorite_intent";

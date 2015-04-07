@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
 import com.visva.voicerecorder.view.common.FragmentBasic;
+import com.visva.voicerecorder.view.widget.DotsTextView;
 
 public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickListener {
     // ======================Control Define =====================
@@ -53,7 +55,9 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     private TextView                    mTextRecord;
     private TextSwitcher                mTextSwitcherPhoneName;
     private TextView                    mTextNoFavoriteFound;
+    private TextView                    mTextNoRecordFound;
     private RelativeLayout              mLayoutFavorite;
+    private DotsTextView                mDotsTextView;
     // ======================Variable Define=====================
     private FavouriteAdapter            mFavouriteAdapter;
     private DetailFavouriteAdapter      mRecordingFavouriteAdapter;
@@ -84,11 +88,12 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
         }
         mRecordingSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
-
     }
 
     private void initLayout(View root) {
         Log.d("KieuThang", "initLayout");
+        mDotsTextView = (DotsTextView) root.findViewById(R.id.dots);
+        mTextNoRecordFound = (TextView) root.findViewById(R.id.text_no_record_found);
         mLayoutFavorite = (RelativeLayout) root.findViewById(R.id.layout_favorite);
         mTextNoFavoriteFound = (TextView) root.findViewById(R.id.text_no_favorite_found);
         mTextSwitcherPhoneName = (TextSwitcher) root.findViewById(R.id.text_switch_favourite_name);
@@ -114,6 +119,11 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 if (mFavouritePosition == position)
                     return;
                 mFavouritePosition = position;
+                mRecordingFavouriteList.setVisibility(View.GONE);
+                mTextNoRecordFound.setVisibility(View.GONE);
+                mDotsTextView.setVisibility(View.VISIBLE);
+                mDotsTextView.start();
+
                 AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), position);
                 asyncUpdateRecordList.execute();
             }
@@ -388,15 +398,16 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
+            mDotsTextView.stop();
+            mDotsTextView.setVisibility(View.GONE);
+            mTextRecord.setVisibility(View.VISIBLE);
             if (result == 0) {
-                mTextRecord.setVisibility(View.GONE);
+                mTextNoRecordFound.setVisibility(View.VISIBLE);
             } else if (result == 1) {
-                mLayoutFavorite.setVisibility(View.VISIBLE);
-                mTextNoFavoriteFound.setVisibility(View.GONE);
+                mRecordingFavouriteList.setVisibility(View.VISIBLE);
                 mTextSwitcherPhoneName.setText(mFavouriteItems.get(_position).phoneName);
                 mTextRecord.setText(getResources().getString(R.string.record_withs, mFavouriteItems.get(_position).phoneName));
-                mRecordingFavouriteAdapter.updateDetailRecordingSession(mFavouriteRecordingSessions);
-
+                 mRecordingFavouriteAdapter.updateDetailRecordingSession(mFavouriteRecordingSessions);
             }
         }
     }
