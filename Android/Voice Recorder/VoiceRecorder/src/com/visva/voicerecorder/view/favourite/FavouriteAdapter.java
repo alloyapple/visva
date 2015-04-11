@@ -20,10 +20,6 @@ import com.visva.voicerecorder.utils.Utils;
 
 public class FavouriteAdapter extends BaseAdapter {
     // ======================Constant Define=====================
-    private static final int         _ID             = 0;
-    private static final int         DISPLAY_NAME    = _ID + 1;
-    private static final int         NUMBER          = DISPLAY_NAME + 1;
-    private static final int         PHOTO_URI       = NUMBER + 1;
     // ======================Variable Define=====================
     LayoutInflater                   layoutInflater;
     private Context                  mContext;
@@ -66,7 +62,7 @@ public class FavouriteAdapter extends BaseAdapter {
         if (StringUtility.isEmpty(favouriteItem.phoneNo)) {
             holder.avatar.setImageResource(R.drawable.ic_contact_picture_holo_light);
         } else
-            photoUri = Utils.getContactUriTypeFromPhoneNumber(mContext.getContentResolver(), favouriteItem.phoneNo, PHOTO_URI);
+            photoUri = Utils.getPhotoUriFromPhoneNumber(mContext.getContentResolver(), favouriteItem.phoneNo);
         if (photoUri != null) {
             holder.avatar.setImageURI(photoUri);
         } else {
@@ -85,5 +81,17 @@ public class FavouriteAdapter extends BaseAdapter {
         public int compare(FavouriteItem p1, FavouriteItem p2) {
             return p1.phoneName.compareTo(p2.phoneName);
         }
+    }
+
+    public void removeFavoriteItem(FavouriteItem favouriteItem) {
+        if (mFavouriteItems.size() > 0 && mFavouriteItems.contains(favouriteItem))
+            mFavouriteItems.remove(favouriteItem);
+        notifyDataSetChanged();
+    }
+
+    public void updateFavoriteList(ArrayList<FavouriteItem> favouriteItems) {
+        mFavouriteItems.clear();
+        mFavouriteItems = favouriteItems;
+//        notifyDataSetChanged();
     }
 }

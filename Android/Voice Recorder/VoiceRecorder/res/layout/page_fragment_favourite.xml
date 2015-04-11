@@ -35,7 +35,7 @@
         <RelativeLayout
             android:id="@+id/layout_conversation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/text_record_title"
             android:background="@color/white" >
 

@@ -70,6 +70,8 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if (hidden && mActionMode != null)
+            mActionMode.finish();
     }
 
     private void initLayout(View root) {
@@ -286,6 +288,11 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             Toast.makeText(getActivity(), addFavouriteContact, Toast.LENGTH_SHORT).show();
         }
         mRecordingAdapter.notifyDataSetChanged();
+        
+        if(MyCallRecorderApplication.getInstance().getActivity()!=null){
+            Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_CONTACT);
+            Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
+        }
     }
 
     private void updateRecordSessionNote(int position) {
@@ -352,14 +359,10 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         mRecordingAdapter.onTextSearchChanged(s);
     }
 
-    public void refreshView() {
+    public void refreshUI() {
         if (mRecordingAdapter == null)
             return;
         mRecordingAdapter.notifyDataSetChanged();
-    }
-
-    public ActionMode getActionMode() {
-        return mActionMode;
     }
 
     public void addNewRecord(RecordingSession recordingSession) {
@@ -372,5 +375,4 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         mSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
         mRecordingAdapter.updateRecordingSession(mSessions);
     }
-
 }

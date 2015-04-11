@@ -55,6 +55,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
      */
     private static final String DATE_CREATED     = "date_created";
 
+    private static final String DURATION         = "duration";
+
     /****************************Value constant*******************************/
     private static final int    _RECORD_ID       = 0;
     private static final int    _PHONE_NO        = _RECORD_ID + 1;
@@ -63,6 +65,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final int    _PHONE_NAME      = _RECORD_ID + 4;
     private static final int    _IS_FAVORITED    = _RECORD_ID + 5;
     private static final int    _DATE_CREATED    = _RECORD_ID + 6;
+    private static final int    _DURATION        = _DATE_CREATED + 1;
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -76,7 +79,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         /* Create table record */
         String CREATE_RECORD_TABLE = "CREATE TABLE " + TABLE_RECORD + "(" + RECORD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + PHONE_NO
                 + " TEXT," + CALL_STATE + " INTEGER," + FILE_NAME + " TEXT," + PHONE_NAME + " TEXT," + IS_FAVORITED + " INTEGER," + DATE_CREATED
-                + " TEXT" + ")";
+                + " TEXT," + DURATION + " TEXT" + ")";
 
         db.execSQL(CREATE_FAVORITE_TABLE);
         db.execSQL(CREATE_RECORD_TABLE);
@@ -235,6 +238,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         mValues.put(PHONE_NAME, session.phoneName);
         mValues.put(IS_FAVORITED, session.isFavourite);
         mValues.put(DATE_CREATED, session.dateCreated);
+        mValues.put(DURATION, session.duration);
 
         db.insert(TABLE_RECORD, null, mValues);
         db.close();
@@ -251,6 +255,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         mValues.put(PHONE_NAME, session.phoneName);
         mValues.put(IS_FAVORITED, session.isFavourite);
         mValues.put(DATE_CREATED, session.dateCreated);
+        mValues.put(DURATION, session.duration);
 
         db.update(TABLE_RECORD, mValues, DATE_CREATED + " = ?", new String[] { String.valueOf(session.dateCreated) });
         db.close();
@@ -263,8 +268,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)),
-                    cursor.getString(_FILE_NAME),
-                    cursor.getString(_PHONE_NAME), Integer.parseInt(cursor.getString(_IS_FAVORITED)), cursor.getString(_DATE_CREATED));
+                    cursor.getString(_FILE_NAME), cursor.getString(_PHONE_NAME), Integer.parseInt(cursor.getString(_IS_FAVORITED)),
+                    cursor.getString(_DATE_CREATED), cursor.getString(_DURATION));
             return session;
         }
         if (cursor != null) {
@@ -277,6 +282,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public ArrayList<RecordingSession> getAllRecordItem() {
         SQLiteDatabase db = getReadableDatabase();
+        String project[]={RECORD_ID,PHONE_NO,CALL_STATE,FILE_NAME,PHONE_NAME,IS_FAVORITED,DATE_CREATED,DURATION};
+        db.query(TABLE_RECORD, project, null, null, null, null, DURATION+" DESC");
         ArrayList<RecordingSession> recordingSessions = new ArrayList<RecordingSession>();
         String sql = "Select * from " + TABLE_RECORD;
         Cursor cursor = null;
@@ -286,12 +293,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 do {
                     RecordingSession session = new RecordingSession(cursor.getString(_PHONE_NO), Integer.parseInt(cursor.getString(_CALL_STATE)),
                             cursor.getString(_FILE_NAME), cursor.getString(_PHONE_NAME), Integer.parseInt(cursor.getString(_IS_FAVORITED)),
-                            cursor.getString(_DATE_CREATED));
+                            cursor.getString(_DATE_CREATED), cursor.getString(_DURATION));
                     recordingSessions.add(session);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            // TODO: handle exception
         }
         if (cursor != null) {
             cursor.close();

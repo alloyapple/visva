@@ -22,6 +22,7 @@
     <string name="search_hint">Find contacts</string>
     <string name="app_name_reminder">Reminder</string>
     <string name="you_have_new_reminder">You have new reminder</string>
+    <string name="this_contact_not_in_your_contact">This contact is not in your contact</string>
 
     <!-- Home screen -->
     <string name="contact_tab">Contacts</string>
@@ -48,6 +49,7 @@
     <string name="are_you_sure_to_delete_note">Are you sure to delete this note?</string>
     <string name="are_you_sure_to_selected_record">Are you sure to delete selected record?</string>
     <string name="are_you_sure_to_selected_records">Are you sure to delete selected records?</string>
+     <string name="are_you_sure_to_remove_this_contact_from_favorite">Are you sure to remove this contact from favorites?</string>
     <string name="share">Share</string>
     <string name="name">Name:</string>
     <string name="phone_no">Phone No:</string>
@@ -73,8 +75,8 @@
     <string name="cannot_record">Cannot start recording</string>
     <string name="record_withs">Records with %s</string>
     <string name="remove_from_favorite">Remove from Favorites</string>
-    <string name="view_favorite_contact_detail">View detail</string>
-    <string name="share_this_contact_info">Share</string>
+    <string name="view_favorite_contact_detail">View contact detail</string>
+    <string name="share_this_contact_info">Share contact</string>
     <string name="you_have_new_record">You have a new record</string>
     <string name="add_note">Add note</string>
     <string name="no_record_found">No record found.:(</string>

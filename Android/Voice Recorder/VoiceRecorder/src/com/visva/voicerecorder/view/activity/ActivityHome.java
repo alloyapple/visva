@@ -151,11 +151,6 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         mTransaction = hideFragment();
         mFragmentShowType = fragment;
         mLayoutSearch.setVisibility(View.VISIBLE);
-        if (fragment != FRAGMENT_ALL_RECORDING) {
-            if (mFragmentAllRecord.getActionMode() != null) {
-                mFragmentAllRecord.getActionMode().finish();
-            }
-        }
         switch (fragment) {
         case FRAGMENT_ABOUT:
             mLayoutSearch.setVisibility(View.VISIBLE);
@@ -322,13 +317,17 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         case FRAGMENT_ALL_RECORDING:
             if (mFragmentAllRecord == null)
                 return;
-            mFragmentAllRecord.refreshView();
+            mFragmentAllRecord.refreshUI();
             break;
         case FRAGMENT_FAVOURITE:
             if (mFragmentFavourite == null)
                 return;
             mFragmentFavourite.refreshUI();
             break;
+        case FRAGMENT_CONTACT:
+            if(mFragmentContact == null)
+                return;
+            mFragmentContact.refreshUI();
         default:
             break;
         }

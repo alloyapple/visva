@@ -30,10 +30,6 @@ import com.visva.voicerecorder.view.widget.CircleImageView;
  */
 public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
     // ======================Constant Define=====================
-    private static final int            _ID                     = 0;
-    private static final int            DISPLAY_NAME            = _ID + 1;
-    private static final int            NUMBER                  = DISPLAY_NAME + 1;
-    private static final int            PHOTO_URI               = NUMBER + 1;
     // ======================Control Define =====================
 
     // =======================Class Define ======================
@@ -74,12 +70,12 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         if (recordingSession == null) {
             return null;
         }
-        String durationTime = Utils.getDurationTime(mContext, recordingSession.fileName);
+        String durationTime = Utils.getDurationTextTime(mContext, recordingSession.duration);
         holder.textDuration.setText(durationTime);
         String textDate = Utils.getTextDate(mContext, Long.valueOf(recordingSession.dateCreated));
         holder.textTime.setText(Utils.getTextTime(mContext, Long.valueOf(recordingSession.dateCreated)) + " " + textDate);
 
-        Uri photoUri = Utils.getContactUriTypeFromPhoneNumber(getContext().getContentResolver(), recordingSession.phoneNo, PHOTO_URI);
+        Uri photoUri = Utils.getPhotoUriFromPhoneNumber(getContext().getContentResolver(), recordingSession.phoneNo);
         if (photoUri != null) {
             holder.avatar.setImageURI(photoUri);
         } else {
@@ -94,7 +90,7 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         }
         String contactName = getItem(position).phoneName;
         if (contactName == null || com.visva.voicerecorder.utils.StringUtility.isEmpty(contactName.toString())) {
-            holder.textPhoneName.setText("Unknown");
+            holder.textPhoneName.setText(recordingSession.phoneNo);
         } else {
             holder.textPhoneName.setText(contactName.toString());
         }
@@ -223,6 +219,8 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
     }
 
     public void removeRecord(int position) {
+        if (position > mRecordingSessions.size() - 1)
+            return;
         mRecordingSessions.remove(position);
         notifyDataSetChanged();
     }

@@ -17,9 +17,11 @@ import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 
 public class NotificationActivity extends Activity {
     private LinearLayout   mBottomLayout;
@@ -31,6 +33,8 @@ public class NotificationActivity extends Activity {
     private String         phoneNo;
     private String         mCreatedDate;
     private String         mFileName;
+    private String         mDurationTime;
+    private int            mCallState;
 
     public NotificationActivity() {
     }
@@ -57,6 +61,9 @@ public class NotificationActivity extends Activity {
         phoneNo = bundle.getString(MyCallRecorderConstant.EXTRA_PHONE_NO);
         mCreatedDate = bundle.getString(MyCallRecorderConstant.EXTRA_CREATED_DATE);
         mFileName = bundle.getString(MyCallRecorderConstant.EXTRA_FILE_NAME);
+        mCallState = bundle.getInt(MyCallRecorderConstant.EXTRA_CALL_STATE);
+        mDurationTime = bundle.getString(MyCallRecorderConstant.EXTRA_DURATION);
+
         if (StringUtility.isEmpty(mCreatedDate)) {
             AIOLog.e(MyCallRecorderConstant.TAG, "created date time is null");
             finish();
@@ -103,6 +110,14 @@ public class NotificationActivity extends Activity {
                                                              helper.removeNewestSession(mFileName);
 
                                                          } else {
+                                                             //save the call to the db
+                                                             try {
+                                                                 ProgramHelper.writeToList(NotificationActivity.this, mFileName, phoneNo,
+                                                                         mCreatedDate, mCallState, mDurationTime);
+                                                             } catch (Exception e) {
+                                                                 e.printStackTrace();
+                                                             }
+
                                                              Uri phoneUri = Utils.getContactUriTypeFromPhoneNumber(getContentResolver(), phoneNo, 1);
                                                              String phoneName = "";
                                                              if (phoneUri == null || StringUtility.isEmpty(phoneUri.toString()))
@@ -115,6 +130,9 @@ public class NotificationActivity extends Activity {
                                                              if (isShowNotication)
                                                                  Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo,
                                                                          mCreatedDate);
+                                                             
+                                                             //After call recording, we need to update view if activity is still alive
+                                                             requestToRefreshActivityView(mDurationTime);
                                                          }
                                                          finish();
                                                      }
@@ -128,6 +146,7 @@ public class NotificationActivity extends Activity {
                                                      }
                                                  };
 
+    @SuppressWarnings("deprecation")
     public void onClickButtonAccept(View v) {
         isAccept = true;
 
@@ -142,6 +161,7 @@ public class NotificationActivity extends Activity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void onClickButtonCancel(View v) {
         isAccept = false;
 
@@ -153,6 +173,22 @@ public class NotificationActivity extends Activity {
         mBottomLayout.setBackgroundDrawable(null);
         if (mFadeOutAnime != null) {
             mFadeOutAnime.setAnimationListener(fadeOutAniListener);
+        }
+    }
+
+    private void requestToRefreshActivityView(String duration) {
+        if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+            String phoneName = "";
+            Uri phoneNameUri = Utils.getContactUriTypeFromPhoneNumber(getContentResolver(), phoneNo, 1);
+            if (phoneNameUri == null || StringUtility.isEmpty(phoneNameUri.toString())) {
+                phoneName = "";
+            } else
+                phoneName = phoneNameUri.toString();
+            int isFavorite = Utils.isCheckFavouriteContactByPhoneNo(this, phoneNo);
+            RecordingSession session = new RecordingSession(phoneNo, MyCallRecorderConstant.STATE_INCOMING, mFileName, phoneName, isFavorite,
+                    mCreatedDate, duration);
+            Utils.requestRefreshViewToAddNewRecord(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING,
+                    session);
         }
     }
 }
