@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ringdroid.soundfile.ExtAudioRecorder;
@@ -14,10 +15,12 @@ import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.receiver.notification.NotificationActivity;
+import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.MyCallRecorderSharePrefs;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 
 public class OutGoingCallReceiver extends BroadcastReceiver {
     public static ExtAudioRecorder recorder     = null;
@@ -51,18 +54,28 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                 MyCallRecorderSharePrefs myCallRecorderSharePrefs = MyCallRecorderApplication.getInstance().getMyCallRecorderSharePref(context);
                 boolean isAutoSavedRecordCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
                 boolean isAutoSavedOutGoingCall = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_OUTGOING_CALL);
-                boolean isValidDurationTime = Utils.isCheckValidDurationTime(mFileName);
+                long durationTime = Utils.getDurationTimeFromFile(mFileName);
+                Log.d("KieuThang", "isValidDurationTime:" + durationTime + ",string:" + String.valueOf(durationTime));
                 boolean isShowNotication = myCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION);
                 AIOLog.d(MyCallRecorderConstant.TAG, "isAutoSavedRecordCall:" + isAutoSavedRecordCall + ",isAutoSavedOutGoingCall:"
-                        + isAutoSavedOutGoingCall + ",isValidDurationTime:" + isValidDurationTime);
-                if (isAutoSavedOutGoingCall && !isAutoSavedRecordCall && isValidDurationTime) {
+                        + isAutoSavedOutGoingCall + ",isValidDurationTime:" + durationTime);
+                if (isAutoSavedOutGoingCall && !isAutoSavedRecordCall && durationTime > 0) {
                     Intent i = new Intent(context, NotificationActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra(MyCallRecorderConstant.EXTRA_PHONE_NO, phoneNo);
                     i.putExtra(MyCallRecorderConstant.EXTRA_CREATED_DATE, mCreatedDate);
                     i.putExtra(MyCallRecorderConstant.EXTRA_FILE_NAME, mFileName);
+                    i.putExtra(MyCallRecorderConstant.EXTRA_DURATION, String.valueOf(durationTime));
+                    i.putExtra(MyCallRecorderConstant.EXTRA_CALL_STATE, MyCallRecorderConstant.STATE_OUTGOING);
                     context.startActivity(i);
                 } else {
+                    //save the call to the db
+                    try {
+                        ProgramHelper.writeToList(rcontext, mFileName, phoneNo, mCreatedDate, MyCallRecorderConstant.STATE_OUTGOING,
+                                String.valueOf(durationTime));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     Uri phoneUri = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
                     String phoneName = "";
                     if (phoneUri == null || StringUtility.isEmpty(phoneUri.toString()))
@@ -71,6 +84,9 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                         phoneName = phoneUri.toString();
                     if (isShowNotication)
                         Utils.showNotificationAfterCalling(context, phoneName, phoneNo, mCreatedDate);
+
+                    //After call recording, we need to update view if activity is still alive
+                    requestToRefreshActivityView(durationTime);
                 }
                 OutGoingCallReceiver.phoneNo = null;
                 OutGoingCallReceiver.mCreatedDate = null;
@@ -88,12 +104,28 @@ public class OutGoingCallReceiver extends BroadcastReceiver {
                 AIOLog.d(MyCallRecorderConstant.TAG, "CALL_STATE_OFFHOOK" + phoneNo);
                 if (OutGoingCallReceiver.phoneNo != null) {
                     AIOLog.d(MyCallRecorderConstant.TAG, "outgoing offhook useThisApp");
-                    startRecording(OutGoingCallReceiver.phoneNo, TelephonyManager.CALL_STATE_OFFHOOK);
+                    startRecording(OutGoingCallReceiver.phoneNo, MyCallRecorderConstant.STATE_OUTGOING);
                     Toast.makeText(context, startRecording + OutGoingCallReceiver.phoneNo, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private void requestToRefreshActivityView(long duration) {
+        if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+            String phoneName = "";
+            Uri phoneNameUri = Utils.getContactUriTypeFromPhoneNumber(rcontext.getContentResolver(), phoneNo, 1);
+            if (phoneNameUri == null || StringUtility.isEmpty(phoneNameUri.toString())) {
+                phoneName = "";
+            } else
+                phoneName = phoneNameUri.toString();
+            int isFavorite = Utils.isCheckFavouriteContactByPhoneNo(rcontext, phoneNo);
+            RecordingSession session = new RecordingSession(phoneNo, MyCallRecorderConstant.STATE_OUTGOING, mFileName, phoneName, isFavorite,
+                    mCreatedDate, String.valueOf(duration));
+            Utils.requestRefreshViewToAddNewRecord(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING,
+                    session);
         }
     }
 

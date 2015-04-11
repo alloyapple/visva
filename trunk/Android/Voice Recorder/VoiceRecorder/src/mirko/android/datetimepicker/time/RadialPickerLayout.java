@@ -557,8 +557,6 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
         final Boolean[] isInnerCircle = new Boolean[1];
         isInnerCircle[0] = false;
 
-        long millis = SystemClock.uptimeMillis();
-
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (!mInputEnabled) {

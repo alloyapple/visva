@@ -276,6 +276,12 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         startActivity(Intent.createChooser(sharingIntent, displayName));
     }
 
+    @Override
+    public void refreshUI() {
+        super.refreshUI();
+        mAdapter.notifyDataSetChanged();
+    }
+
     // This method will check this contact is favourite contact or not first,
     // the checking action includes checking in the contact app. After that, it will add or 
     // remove (if the contact is already existed in favourites) in the contact and my call recorder database application

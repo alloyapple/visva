@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.net.Uri;
@@ -28,7 +29,6 @@ public class ProgramHelper {
     public String getFileNameAndWriteToList(Context context, String phoneNo, int callState, String createdDate) throws Exception {
         String fileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCallRecorder/sessions/";
         fileName += phoneNo + ";" + callState + ";" + createdDate + ";" + "1" + MyCallRecorderConstant.AMR_RECORD_TYPE;
-        this.writeToList(context, fileName, phoneNo, createdDate, callState);
         return fileName;
     }
 
@@ -44,7 +44,7 @@ public class ProgramHelper {
      * @param callState
      * @return true/false
      */
-    public boolean writeToList(Context context, String fileName, String phoneNo, String date, int callState) throws Exception {
+    public static boolean writeToList(Context context, String fileName, String phoneNo, String date, int callState, String duration) {
         String phoneName = "";
         Uri phoneNameUri = Utils.getContactUriTypeFromPhoneNumber(context.getContentResolver(), phoneNo, 1);
         if (phoneNameUri == null || StringUtility.isEmpty(phoneNameUri.toString())) {
@@ -52,7 +52,7 @@ public class ProgramHelper {
         } else
             phoneName = phoneNameUri.toString();
         int isFavorite = Utils.isCheckFavouriteContactByPhoneNo(context, phoneNo);
-        RecordingSession session = new RecordingSession(phoneNo, callState, fileName, phoneName, isFavorite, date);
+        RecordingSession session = new RecordingSession(phoneNo, callState, fileName, phoneName, isFavorite, date, duration);
         SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
         sqLiteHelper.addNewRecordingSession(session);
 
@@ -82,13 +82,12 @@ public class ProgramHelper {
      */
     public ArrayList<RecordingSession> getRecordingSessionsFromFile(Context context) {
         ArrayList<RecordingSession> result = new ArrayList<RecordingSession>();
-        ArrayList<RecordingSession> finalResult = new ArrayList<RecordingSession>();
         SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
         result = sqLiteHelper.getAllRecordItem();
-        for (int i = result.size() - 1; i >= 0; i--) {
-            finalResult.add(result.get(i));
-        }
-        return finalResult;
+        
+        /* Sort statement*/
+        Collections.sort(result);
+        return result;
     }
 
     /**

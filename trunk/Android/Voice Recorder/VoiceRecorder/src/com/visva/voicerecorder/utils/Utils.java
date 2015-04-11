@@ -47,7 +47,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
-import android.util.SparseBooleanArray;
+import android.util.Log;
 import android.util.TypedValue;
 
 import com.ringdroid.soundfile.CheapSoundFile;
@@ -159,6 +159,37 @@ public class Utils {
         return result;
     }
 
+    public static Uri getPhotoUriFromPhoneNumber(ContentResolver resolver, String phoneNo) {
+        Uri result = null;
+        if (phoneNo == "" || "null".equals(phoneNo)) {
+            phoneNo = "111111111";
+        }
+        String[] projection = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            projection = new String[] { ContactsContract.Contacts._ID, ContactsContract.PhoneLookup.DISPLAY_NAME,
+                    ContactsContract.PhoneLookup.NUMBER, ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+                    ContactsContract.PhoneLookup.PHOTO_URI, ContactsContract.PhoneLookup.LOOKUP_KEY };
+        } else {
+            projection = new String[] { ContactsContract.Contacts._ID, ContactsContract.PhoneLookup.DISPLAY_NAME,
+                    ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.PHOTO_URI, ContactsContract.PhoneLookup.LOOKUP_KEY };
+        }
+        Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNo));
+        Cursor cursor = resolver.query(lookupUri, projection, null, null, null);
+        if (cursor == null)
+            return null;
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(3) != null)
+                result = Uri.parse(cursor.getString(3));
+            else if (cursor.getString(4) != null)
+                result = Uri.parse(cursor.getString(4));
+        }
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
+        return result;
+    }
+
     public static ArrayList<String> getContactUriTypeFromContactId(ContentResolver resolver, String contactId) {
         ArrayList<String> phones = new ArrayList<String>();
 
@@ -172,8 +203,10 @@ public class Utils {
         {
             phones.add(cursor.getString(cursor.getColumnIndex(CommonDataKinds.Phone.NUMBER)));
         }
-
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
         return (phones);
     }
 
@@ -294,29 +327,12 @@ public class Utils {
         return timeString;
     }
 
-    public static String getDurationTime(Context mContext, String filePath) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        String durationTime = "";
-        long duration = 0L;
-        try {
-            mediaPlayer.setDataSource(filePath);
-            mediaPlayer.prepare();
-            duration = mediaPlayer.getDuration();
-            durationTime = "" + TimeUtility.milliSecondsToTimer(duration);
-            mediaPlayer.reset();
-            mediaPlayer.release();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (duration == 0)
-            return null;
-        return durationTime;
+    public static String getDurationTextTime(Context mContext, String duration) {
+        long durationTime = Long.valueOf(duration);
+        String durationText = "" + TimeUtility.milliSecondsToTimer(durationTime);
+        if (StringUtility.isEmpty(durationText))
+            return "0";
+        return durationText;
     }
 
     public static long getDuration(CheapSoundFile cheapSoundFile) {
@@ -472,10 +488,14 @@ public class Utils {
         notificationManager.notify(0, builder.build());
     }
 
-    public static boolean isCheckValidDurationTime(String filePath) {
+    public static long getDurationTimeFromFile(String filePath) {
         if (StringUtility.isEmpty(filePath)) {
             AIOLog.e(MyCallRecorderConstant.TAG, "filePath is null");
-            return false;
+            return 0;
+        }
+        File file = new File(filePath);
+        if (file == null || !file.exists()) {
+            Log.d("KieuThang", "file it not exitsted!");
         }
         MediaPlayer mediaPlayer = new MediaPlayer();
         long duration = 0L;
@@ -496,11 +516,11 @@ public class Utils {
         }
         //the valid time we offer to save at least more than 1s
         if (duration > 1000) {
-            AIOLog.d(MyCallRecorderConstant.TAG, "Valid time:" + duration);
-            return true;
+            AIOLog.d(MyCallRecorderConstant.TAG, "InValid time:" + duration);
+            return duration;
         }
-        AIOLog.d(MyCallRecorderConstant.TAG, "Invalid time:" + duration);
-        return false;
+        AIOLog.d(MyCallRecorderConstant.TAG, "Valid time:" + duration);
+        return 0;
     }
 
     public static void shareRecordingSessionAction(Context context, String fileName) {
@@ -571,6 +591,26 @@ public class Utils {
             cursor = null;
         }
         return noteItem;
+    }
+
+    public static void requestToRefreshView(final ActivityHome activity, final int fragment) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                activity.requestToRefreshView(fragment);
+            }
+        });
+    }
+
+    public static void requestRefreshViewToAddNewRecord(final ActivityHome activity, final int fragment, final RecordingSession session) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                activity.addNewRecord(session);
+            }
+        });
     }
 
 }

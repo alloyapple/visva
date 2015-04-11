@@ -38,8 +38,6 @@ import com.visva.voicerecorder.R;
  * Displays a selectable list of years.
  */
 public class YearPickerView extends ListView implements OnItemClickListener, OnDateChangedListener {
-    private static final String TAG = "YearPickerView";
-
     private final DatePickerController mController;
     private YearAdapter mAdapter;
     private int mViewSize;

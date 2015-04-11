@@ -45,8 +45,8 @@ public class MyRecordCallReceiver extends BroadcastReceiver {
         AIOLog.e(MyCallRecorderConstant.TAG, "bundle:" + bundle);
         if (MyCallRecorderConstant.FAVORITE_INTENT.equals(action)) {
             Resources res = context.getResources();
-            mPhoneNo = bundle.getString("phone_no");
-            mPhoneName = bundle.getString("phone_name");
+            mPhoneNo = bundle.getString(MyCallRecorderConstant.EXTRA_PHONE_NO);
+            mPhoneName = bundle.getString(MyCallRecorderConstant.EXTRA_PHONE_NAME);
             FavouriteItem favouriteItem = new FavouriteItem(mPhoneNo, mPhoneName, 1, mContactId);
             SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
             sqLiteHelper.addNewFavoriteItem(favouriteItem);

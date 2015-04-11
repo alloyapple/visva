@@ -11,18 +11,26 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
@@ -42,6 +50,7 @@ import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
+import com.visva.voicerecorder.view.activity.ActivityHome;
 import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
 import com.visva.voicerecorder.view.common.FragmentBasic;
 import com.visva.voicerecorder.view.widget.DotsTextView;
@@ -56,6 +65,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     private TextView                    mTextNoFavoriteFound;
     private TextView                    mTextNoRecordFound;
     private RelativeLayout              mLayoutFavorite;
+    private RelativeLayout              mLayoutConversation;
     private DotsTextView                mDotsTextView;
     // ======================Variable Define=====================
     private FavouriteAdapter            mFavouriteAdapter;
@@ -65,6 +75,8 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     private ArrayList<RecordingSession> mFavouriteRecordingSessions = new ArrayList<RecordingSession>();
     private boolean                     mIsLongClickFavouriteItem   = false;
     private int                         mFavouritePosition;
+    private ActionMode                  mActionMode;
+    private ServiceHandler              mServiceHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,6 +99,16 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
         }
         mRecordingSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
+
+        // Get the HandlerThread's Looper and use it for our Handler
+        mServiceHandler = new ServiceHandler(getActivity().getMainLooper());
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden && mActionMode != null)
+            mActionMode.finish();
     }
 
     private void initLayout(View root) {
@@ -94,6 +116,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mDotsTextView = (DotsTextView) root.findViewById(R.id.dots);
         mTextNoRecordFound = (TextView) root.findViewById(R.id.text_no_record_found);
         mLayoutFavorite = (RelativeLayout) root.findViewById(R.id.layout_favorite);
+        mLayoutConversation = (RelativeLayout) root.findViewById(R.id.layout_conversation);
         mTextNoFavoriteFound = (TextView) root.findViewById(R.id.text_no_favorite_found);
         mTextSwitcherPhoneName = (TextSwitcher) root.findViewById(R.id.text_switch_favourite_name);
         //     
@@ -175,13 +198,69 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 startActivity(intent);
             }
         });
-        mRecordingFavouriteList.setOnItemLongClickListener(new OnItemLongClickListener() {
+        mRecordingFavouriteList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        // Capture ListView item click
+        mRecordingFavouriteList.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                // Capture total checked items
+                final int checkedCount = mRecordingFavouriteList.getCheckedItemCount();
+                Resources res = getResources();
+                String title = res.getString(R.string.selected, checkedCount);
+                // Set the CAB title according to total checked items
+                mode.setTitle(title);
+                // Calls toggleSelection method from ListViewAdapter Class
+                mRecordingFavouriteAdapter.toggleSelection(position);
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                case R.id.delete:
+                    // Calls getSelectedIds method from ListViewAdapter Class
+                    SparseBooleanArray selectedList = mRecordingFavouriteAdapter.getSelectedIds();
+                    if (selectedList == null || selectedList.size() == 0)
+                        return false;
+                    onClickDeleteActionMode(selectedList);
+                    return true;
+                case R.id.share:
+                    selectedList = mRecordingFavouriteAdapter.getSelectedIds();
+                    if (selectedList == null || selectedList.size() == 0)
+                        return false;
+                    ArrayList<RecordingSession> recordingSessions = new ArrayList<RecordingSession>();
+                    for (int i = 0; i < selectedList.size(); i++) {
+                        int position = selectedList.keyAt(i);
+                        RecordingSession recordingSession = mFavouriteRecordingSessions.get(position);
+                        recordingSessions.add(recordingSession);
+                    }
+                    Utils.shareMultiFileByShareActionMode(getActivity(), recordingSessions);
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+                }
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                mode.getMenuInflater().inflate(R.menu.activity_main, menu);
+                mActionMode = mode;
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                mRecordingFavouriteAdapter.removeSelection();
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+
                 return false;
             }
         });
+
         if (mFavouriteItems.size() == 0) {
             mLayoutFavorite.setVisibility(View.GONE);
             mTextNoFavoriteFound.setVisibility(View.VISIBLE);
@@ -204,8 +283,53 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             mRecordingFavouriteAdapter = new DetailFavouriteAdapter(getActivity(), mFavouriteRecordingSessions);
             mRecordingFavouriteList.setAdapter(mRecordingFavouriteAdapter);
 
-//            AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), 0);
-//            asyncUpdateRecordList.execute();
+            AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), 0);
+            asyncUpdateRecordList.execute();
+        }
+    }
+
+    private void onClickDeleteActionMode(final SparseBooleanArray selected) {
+        int size = selected.size();
+        String title = getResources().getString(R.string.one_selected_record, size);
+        String contentMsg = getResources().getString(R.string.are_you_sure_to_selected_record);
+        if (size > 1) {
+            title = getResources().getString(R.string.multi_selected_record, size);
+            contentMsg = getResources().getString(R.string.are_you_sure_to_selected_records);
+        }
+        String cancel = getResources().getString(R.string.cancel);
+        Dialog dialog = new Dialog(getActivity(), title, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mActionMode != null)
+                    mActionMode.finish();
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mActionMode != null)
+                    mActionMode.finish();
+                for (int i = 0; i < selected.size(); i++) {
+                    Log.d("KieuThang", "selected.keyAt:" + selected.keyAt(i));
+                    int position = selected.keyAt(i);
+                    RecordingSession session = mFavouriteRecordingSessions.get(position);
+                    Utils.deleteRecordingSesstionAction(getActivity(), session);
+                    mRecordingFavouriteAdapter.removeRecord(position);
+                }
+                String deleted = getResources().getString(R.string.deleted);
+                Toast.makeText(getActivity(), deleted, Toast.LENGTH_SHORT).show();
+                if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+                    MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                }
+            }
+        });
+        try {
+            dialog.show();
+        } catch (Exception e) {
+
         }
     }
 
@@ -278,14 +402,12 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
      * @param position
      */
     private void onLongClickFavouriteItem(View view, int position) {
-        Log.d("KieuThang", "onLongClickItemListener:" + position);
         mIsLongClickFavouriteItem = true;
         mRecordingFavouriteAdapter.setLongClickStateView(mIsLongClickFavouriteItem);
     }
 
     @Override
     public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
-        Log.d("KieuThang", "onMenuItemClick:" + position);
         switch (index) {
         // when user click on delete action, dialog showed to confirm to delete recording file
         case 0:
@@ -323,7 +445,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Delete:" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
                 Utils.deleteRecordingSesstionAction(getActivity(), recordingSession);
                 mRecordingFavouriteAdapter.removeRecord(position);
             }
@@ -353,25 +475,102 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                 case R.id.remove_from_favourite:
-                    Log.d("KieuThang", "remove_from_favourite");
+                    removeThisContactFromFavorites();
                     break;
                 case R.id.view_favorite_contact_detail:
-                    Log.d("KieuThang", "view_favorite_contact_detail");
+                    viewContactDetail();
                     break;
                 case R.id.share_this_contact_info:
-                    Log.d("KieuThang", "share_this_contact_info");
+                    shareThisContactAction();
                     break;
                 }
                 return true;
-
             }
         });
         popup.show();
     }
 
+    private void shareThisContactAction() {
+        FavouriteItem favouriteItem = mFavouriteItems.get(mFavouritePosition);
+        if (favouriteItem == null)
+            return;
+        String displayName = favouriteItem.phoneName;
+        Resources res = getActivity().getResources();
+        StringBuilder builder = new StringBuilder();
+        if (!StringUtility.isEmpty(displayName))
+            builder.append(res.getString(R.string.name)).append(displayName + "\n");
+
+        builder.append(res.getString(R.string.phone_no)).append(favouriteItem.phoneNo);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, res.getString(R.string.share_contact));
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, builder.toString());
+        startActivity(Intent.createChooser(sharingIntent, displayName));
+    }
+
+    private void viewContactDetail() {
+        final FavouriteItem favouriteItem = mFavouriteItems.get(mFavouritePosition);
+        if (favouriteItem == null) {
+            String message = getActivity().getString(R.string.this_contact_not_in_your_contact);
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (StringUtility.isEmpty(favouriteItem.phoneName)) {
+            return;
+        }
+        String phoneNo = favouriteItem.phoneNo;
+        Uri idUri = Utils.getContactUriTypeFromPhoneNumber(getActivity().getContentResolver(), phoneNo, 0);
+        Uri lookupKey = Utils.getContactUriTypeFromPhoneNumber(getActivity().getContentResolver(), phoneNo, 4);
+        if (idUri == null || lookupKey == null)
+            return;
+        final Uri uri = Contacts.getLookupUri(Long.valueOf(idUri.toString()), lookupKey.toString());
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
+    private void removeThisContactFromFavorites() {
+        final FavouriteItem favouriteItem = mFavouriteItems.get(mFavouritePosition);
+        if (favouriteItem == null)
+            return;
+        String title = favouriteItem.phoneName;
+        if (StringUtility.isEmpty(title)) {
+            title = favouriteItem.phoneNo;
+        }
+        String contentMsg = getActivity().getString(R.string.are_you_sure_to_remove_this_contact_from_favorite);
+        String cancel = getActivity().getString(R.string.cancel);
+        Dialog dialog = new Dialog(getActivity(), title, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String phoneName = favouriteItem.phoneName == null ? favouriteItem.phoneNo : favouriteItem.phoneName;
+                String removedFavouriteContact = getActivity().getString(R.string.removed_from_favourite, phoneName);
+                mSQLiteHelper.deleteFavouriteItem(favouriteItem);
+                mFavouriteAdapter.removeFavoriteItem(favouriteItem);
+                Toast.makeText(getActivity(), removedFavouriteContact, Toast.LENGTH_SHORT).show();
+                if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+                    MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                }
+            }
+        });
+        dialog.show();
+    }
+
     @Override
     public void refreshUI() {
-        mFavouriteAdapter.notifyDataSetChanged();
+        mFavouriteItems = mSQLiteHelper.getAllFavouriteItem();
+        if (mFavouriteAdapter == null || mFavouriteItems.size() == 0)
+            return;
+        if(mFavouriteItems.size() == 0){
+            
+        }
+        mFavouriteAdapter.updateFavoriteList(mFavouriteItems);
     }
 
     private class AsyncUpdateRecordList extends AsyncTask<Void, Void, Integer> {
@@ -385,11 +584,12 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         protected Integer doInBackground(Void... params) {
             if (_position < 0)
                 return 0;
-            Log.d("KieuThang", "onScrolledToPosition:" + (mFavouriteItems.get(_position).phoneName));
-            if (mFavouriteItems == null || mFavouriteItems.size() < _position || StringUtility.isEmpty(mFavouriteItems.get(_position).phoneName)) {
+            if (mFavouriteItems == null || mFavouriteItems.size() - 1 < _position || StringUtility.isEmpty(mFavouriteItems.get(_position).phoneName)) {
                 return 0;
             } else {
                 mFavouriteRecordingSessions = getFavouriteFromList(_position);
+                if (mFavouriteRecordingSessions.size() == 0)
+                    return 0;
                 return 1;
             }
         }
@@ -397,16 +597,37 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
+
+            Message message = new Message();
+            message.arg1 = result;
+            message.arg2 = _position;
+            mServiceHandler.sendMessage(message);
+
+        }
+    }
+
+    // Handler that receives messages from the thread
+    private final class ServiceHandler extends Handler {
+        public ServiceHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            int _position = msg.arg2;
             mDotsTextView.stop();
             mDotsTextView.setVisibility(View.GONE);
             mTextRecord.setVisibility(View.VISIBLE);
-            if (result == 0) {
+            mTextSwitcherPhoneName.setText(mFavouriteItems.get(_position).phoneName);
+            if (msg.arg1 == 0) {
                 mTextNoRecordFound.setVisibility(View.VISIBLE);
-            } else if (result == 1) {
+                mRecordingFavouriteList.setVisibility(View.GONE);
+            } else if (msg.arg1 == 1) {
+                mLayoutConversation.setVisibility(View.VISIBLE);
+                mTextNoRecordFound.setVisibility(View.GONE);
                 mRecordingFavouriteList.setVisibility(View.VISIBLE);
-                mTextSwitcherPhoneName.setText(mFavouriteItems.get(_position).phoneName);
                 mTextRecord.setText(getResources().getString(R.string.record_withs, mFavouriteItems.get(_position).phoneName));
-                 mRecordingFavouriteAdapter.updateDetailRecordingSession(mFavouriteRecordingSessions);
+                mRecordingFavouriteAdapter.updateDetailRecordingSession(mFavouriteRecordingSessions);
             }
         }
     }

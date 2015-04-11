@@ -48,7 +48,6 @@ public class MyCallRecorderApplication extends Application {
         super.onCreate();
         checkFavouriteContactApplication();
         mMyCallRecorderSharePrefs = getMyCallRecorderSharePref(this);
-        Log.d("KieuThang", "KEY_FIRST_TIME_RUNNING:" + (mMyCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING)));
         if (mMyCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING)) {
             AsyncCheckRecordFolder asyncCheckRecordFolder = new AsyncCheckRecordFolder(this);
             asyncCheckRecordFolder.execute();
@@ -202,7 +201,16 @@ public class MyCallRecorderApplication extends Application {
                     String phoneNo = content[0];
                     int callState = Integer.parseInt(content[1]);
                     String createdDate = content[2];
-                    helper.getFileNameAndWriteToList(getApplicationContext(), phoneNo, callState, createdDate);
+                    String fileName = fileDataPath + "/" + line;
+                    long duration = Utils.getDurationTimeFromFile(fileName);
+                    Log.d("KieuThang", "fileName:" + fileName + ",duration:" + duration);
+                    //save the call to the db
+                    try {
+                        ProgramHelper
+                                .writeToList(MyCallRecorderApplication.this, fileName, phoneNo, createdDate, callState, String.valueOf(duration));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

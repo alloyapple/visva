@@ -23,6 +23,8 @@ public class MyCallRecorderConstant {
     public static final String  EXTRA_CREATED_DATE       = "created_date";
     public static final String  EXTRA_CUSTOM_ID          = "custom_id";
     public static final String  EXTRA_FILE_NAME          = "file_name";
+    public static final String  EXTRA_DURATION           = "duration";
+    public static final String  EXTRA_CALL_STATE         = "call_state";
 
     public static final String  EXTRA_STATE              = "state";
     public static final int     STATE_INSERT             = 1;
@@ -33,5 +35,8 @@ public class MyCallRecorderConstant {
     public static final String  MP3_RECORD_TYPE          = ".mp3";
     public static final String  AMR_RECORD_TYPE          = ".AMR";
     public static final String  AAC_RECORD_TYPE          = ".acc";
+
+    public static final int     STATE_INCOMING           = 1;
+    public static final int     STATE_OUTGOING            = 2;
 
 }
