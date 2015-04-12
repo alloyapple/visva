@@ -44,6 +44,7 @@
     <color name="dark_slate_gray">#2F4F4F</color>
     <color name="gray_2">#AFAFAF</color>
     <color name="gray_1">#C0C0C0</color>
+    <color name="gray_menu_background">#4d4d4d</color>
     <!-- Post Detail -->
     <color name="postn_detail_button_call_spot_layout">#eeeeee</color>
     <color name="postn_detail_button_call_spot_text">#575757</color>

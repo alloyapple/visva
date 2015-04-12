@@ -46,11 +46,11 @@ public class MyCallRecorderApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        checkFavouriteContactApplication();
         mMyCallRecorderSharePrefs = getMyCallRecorderSharePref(this);
         if (mMyCallRecorderSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING)) {
             AsyncCheckRecordFolder asyncCheckRecordFolder = new AsyncCheckRecordFolder(this);
             asyncCheckRecordFolder.execute();
+            checkFavouriteContactApplication();
             mMyCallRecorderSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING, false);
         }
     }

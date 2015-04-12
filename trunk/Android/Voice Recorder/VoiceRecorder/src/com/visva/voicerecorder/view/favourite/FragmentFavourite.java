@@ -3,6 +3,7 @@ package com.visva.voicerecorder.view.favourite;
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +30,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -43,6 +43,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.gc.materialdesign.views.LayoutRipple;
 import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
@@ -55,17 +56,18 @@ import com.visva.voicerecorder.view.activity.ActivityPlayRecording;
 import com.visva.voicerecorder.view.common.FragmentBasic;
 import com.visva.voicerecorder.view.widget.DotsTextView;
 
+//import android.widget.Button;
+
 public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickListener {
     // ======================Control Define =====================
     private FeatureCoverFlow            mFavouriteList;
     private SwipeMenuListView           mRecordingFavouriteList;
-    private Button                      mBtnOptionMenu;
+    private LayoutRipple                mBtnOptionMenu;
     private TextView                    mTextRecord;
     private TextSwitcher                mTextSwitcherPhoneName;
     private TextView                    mTextNoFavoriteFound;
     private TextView                    mTextNoRecordFound;
     private RelativeLayout              mLayoutFavorite;
-    private RelativeLayout              mLayoutConversation;
     private DotsTextView                mDotsTextView;
     // ======================Variable Define=====================
     private FavouriteAdapter            mFavouriteAdapter;
@@ -116,12 +118,24 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         mDotsTextView = (DotsTextView) root.findViewById(R.id.dots);
         mTextNoRecordFound = (TextView) root.findViewById(R.id.text_no_record_found);
         mLayoutFavorite = (RelativeLayout) root.findViewById(R.id.layout_favorite);
-        mLayoutConversation = (RelativeLayout) root.findViewById(R.id.layout_conversation);
         mTextNoFavoriteFound = (TextView) root.findViewById(R.id.text_no_favorite_found);
         mTextSwitcherPhoneName = (TextSwitcher) root.findViewById(R.id.text_switch_favourite_name);
+        mTextSwitcherPhoneName.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                LayoutInflater inflater = LayoutInflater.from(getActivity());
+                TextView textView = (TextView) inflater.inflate(R.layout.item_title, null);
+                return textView;
+            }
+        });
+        Animation in = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_top);
+        Animation out = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_bottom);
+        mTextSwitcherPhoneName.setInAnimation(in);
+        mTextSwitcherPhoneName.setOutAnimation(out);
+
         //     
         mTextRecord = (TextView) root.findViewById(R.id.text_record_title);
-        mBtnOptionMenu = (Button) root.findViewById(R.id.btn_favourite_menu);
+        mBtnOptionMenu = (LayoutRipple) root.findViewById(R.id.btn_favourite_menu);
         mFavouriteList = (FeatureCoverFlow) root.findViewById(R.id.coverflow);
         mFavouriteAdapter = new FavouriteAdapter(getActivity(), mFavouriteItems);
         mFavouriteList.setAdapter(mFavouriteAdapter);
@@ -152,17 +166,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public void onScrolling() {
-            }
-        });
-
-        mFavouriteList.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String phone = mFavouriteItems.get(position).phoneNo;
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + phone));
-                startActivity(intent);
             }
         });
 
@@ -261,26 +264,14 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             }
         });
 
+        mRecordingFavouriteAdapter = new DetailFavouriteAdapter(getActivity(), mFavouriteRecordingSessions);
+
         if (mFavouriteItems.size() == 0) {
             mLayoutFavorite.setVisibility(View.GONE);
             mTextNoFavoriteFound.setVisibility(View.VISIBLE);
         } else {
-            mTextSwitcherPhoneName.setFactory(new ViewSwitcher.ViewFactory() {
-                @Override
-                public View makeView() {
-                    LayoutInflater inflater = LayoutInflater.from(getActivity());
-                    TextView textView = (TextView) inflater.inflate(R.layout.item_title, null);
-                    return textView;
-                }
-            });
-            Animation in = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_top);
-            Animation out = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_bottom);
-            mTextSwitcherPhoneName.setInAnimation(in);
-            mTextSwitcherPhoneName.setOutAnimation(out);
-
             mLayoutFavorite.setVisibility(View.VISIBLE);
             mTextNoFavoriteFound.setVisibility(View.GONE);
-            mRecordingFavouriteAdapter = new DetailFavouriteAdapter(getActivity(), mFavouriteRecordingSessions);
             mRecordingFavouriteList.setAdapter(mRecordingFavouriteAdapter);
 
             AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), 0);
@@ -338,11 +329,14 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         if (mFavouriteItems.size() == 0)
             return list;
         String phoneNo = mFavouriteItems.get(position).phoneNo;
+        mRecordingSessions = mSQLiteHelper.getAllRecordItem();
         for (RecordingSession recordingSession : mRecordingSessions) {
             if (Utils.isSamePhoneNo(getActivity(), recordingSession.phoneNo, phoneNo)) {
                 list.add(recordingSession);
             }
         }
+        /* Sort statement*/
+        Collections.sort(list);
         return list;
     }
 
@@ -600,7 +594,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             Message message = new Message();
             message.arg1 = result;
             message.arg2 = _position;
-            if(mServiceHandler == null)
+            if (mServiceHandler == null)
                 mServiceHandler = new ServiceHandler(getActivity().getMainLooper());
             mServiceHandler.sendMessage(message);
         }
@@ -615,7 +609,10 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         @Override
         public void handleMessage(Message msg) {
             int _position = msg.arg2;
-            if(_position > mFavouriteItems.size() -1)
+            Log.d("KieuThang", "_position > mFavouriteItems.size()" + (_position > mFavouriteItems.size()));
+            Log.d("KieuThang", "msg.arg1" + msg.arg1);
+            Log.d("KieuThang", "mFavouriteRecordingSessions" + mFavouriteRecordingSessions.size());
+            if (_position > mFavouriteItems.size() - 1)
                 return;
             mDotsTextView.stop();
             mDotsTextView.setVisibility(View.GONE);
@@ -625,7 +622,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 mTextNoRecordFound.setVisibility(View.VISIBLE);
                 mRecordingFavouriteList.setVisibility(View.GONE);
             } else if (msg.arg1 == 1) {
-                mLayoutConversation.setVisibility(View.VISIBLE);
                 mTextNoRecordFound.setVisibility(View.GONE);
                 mRecordingFavouriteList.setVisibility(View.VISIBLE);
                 mTextRecord.setText(getResources().getString(R.string.record_withs, mFavouriteItems.get(_position).phoneName));
