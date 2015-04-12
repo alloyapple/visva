@@ -26,7 +26,7 @@
         android:layout_below="@id/coverflow"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/ic_drawer" />
+        android:background="@drawable/ic_more" />
 
     <TextSwitcher
         android:id="@+id/text_switch_favourite_name"
