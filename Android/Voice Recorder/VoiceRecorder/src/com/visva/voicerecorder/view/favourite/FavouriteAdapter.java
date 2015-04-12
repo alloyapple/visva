@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,7 @@ public class FavouriteAdapter extends BaseAdapter {
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
-        FavouriteItem favouriteItem = mFavouriteItems.get(position);
+        final FavouriteItem favouriteItem = mFavouriteItems.get(position);
         Uri photoUri = null;
         if (StringUtility.isEmpty(favouriteItem.phoneNo)) {
             holder.avatar.setImageResource(R.drawable.ic_contact_picture_holo_light);
@@ -68,6 +69,16 @@ public class FavouriteAdapter extends BaseAdapter {
         } else {
             holder.avatar.setImageResource(R.drawable.ic_contact_picture_holo_light);
         }
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String phone = favouriteItem.phoneNo;
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + phone));
+                mContext.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
@@ -92,6 +103,6 @@ public class FavouriteAdapter extends BaseAdapter {
     public void updateFavoriteList(ArrayList<FavouriteItem> favouriteItems) {
         mFavouriteItems.clear();
         mFavouriteItems = favouriteItems;
-//        notifyDataSetChanged();
+        //        notifyDataSetChanged();
     }
 }

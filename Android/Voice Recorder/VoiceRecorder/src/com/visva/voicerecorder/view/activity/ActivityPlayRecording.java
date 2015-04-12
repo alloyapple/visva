@@ -44,31 +44,6 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
     private Handler          mHandler     = new Handler();
     private RecordingSession mRecordingSession;
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_play_recording);
-//
-//        mRecordingSession = (RecordingSession) getIntent().getExtras().get("recording_session");
-//        if (mRecordingSession == null) {
-//            AIOLog.e(MyCallRecorderConstant.TAG, "recordingSession is null");
-//            finish();
-//        }
-//
-//        initLayout();
-//
-//        // Mediaplayer
-//        mMediaPlayer = new MediaPlayer();
-//
-//        // Listeners
-//        songProgressBar.setOnSeekBarChangeListener(this); // Important
-//        mMediaPlayer.setOnCompletionListener(this); // Important
-//
-//        // By default play first song
-//        playRecoder();
-//
-//    }
-
     private void initLayout() {
         songProgressBar = (SeekBar) findViewById(R.id.songProgressBar);
         songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
