@@ -383,16 +383,9 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         case 0:
             onLongClickFavouriteItem(view, position);
             break;
-        case 1:
-            onLongClickDetailFavouriteItem(view, position);
-            break;
         default:
             break;
         }
-    }
-
-    private void onLongClickDetailFavouriteItem(View view, int position) {
-
     }
 
     /**
@@ -552,7 +545,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 String phoneName = favouriteItem.phoneName == null ? favouriteItem.phoneNo : favouriteItem.phoneName;
                 String removedFavouriteContact = getActivity().getString(R.string.removed_from_favourite, phoneName);
                 mSQLiteHelper.deleteFavouriteItem(favouriteItem);
-                mFavouriteAdapter.removeFavoriteItem(favouriteItem);
+                refreshUI();
                 Toast.makeText(getActivity(), removedFavouriteContact, Toast.LENGTH_SHORT).show();
                 if (MyCallRecorderApplication.getInstance().getActivity() != null) {
                     MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
@@ -565,12 +558,18 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
     @Override
     public void refreshUI() {
         mFavouriteItems = mSQLiteHelper.getAllFavouriteItem();
-        if (mFavouriteAdapter == null || mFavouriteItems.size() == 0)
+        if (mFavouriteAdapter == null)
             return;
-        if(mFavouriteItems.size() == 0){
-            
+        if (mFavouriteItems.size() == 0) {
+            mLayoutFavorite.setVisibility(View.GONE);
+            mTextNoFavoriteFound.setVisibility(View.VISIBLE);
+        } else {
+            mLayoutFavorite.setVisibility(View.VISIBLE);
+            mTextNoFavoriteFound.setVisibility(View.GONE);
+            mFavouriteList.clearCache();
+            mFavouriteAdapter = new FavouriteAdapter(getActivity(), mFavouriteItems);
+            mFavouriteList.setAdapter(mFavouriteAdapter);
         }
-        mFavouriteAdapter.updateFavoriteList(mFavouriteItems);
     }
 
     private class AsyncUpdateRecordList extends AsyncTask<Void, Void, Integer> {
@@ -601,8 +600,9 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             Message message = new Message();
             message.arg1 = result;
             message.arg2 = _position;
+            if(mServiceHandler == null)
+                mServiceHandler = new ServiceHandler(getActivity().getMainLooper());
             mServiceHandler.sendMessage(message);
-
         }
     }
 
@@ -615,6 +615,8 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         @Override
         public void handleMessage(Message msg) {
             int _position = msg.arg2;
+            if(_position > mFavouriteItems.size() -1)
+                return;
             mDotsTextView.stop();
             mDotsTextView.setVisibility(View.GONE);
             mTextRecord.setVisibility(View.VISIBLE);
