@@ -1,10 +1,13 @@
 package com.visva.voicerecorder.view.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.gc.materialdesign.views.LayoutRipple;
 import com.gc.materialdesign.views.Switch;
@@ -23,6 +26,7 @@ public class FragmentSetting extends FragmentBasic {
     private Switch                   mSwitchOutGoingCalls;
     private Switch                   mSwitchNotification;
     private LayoutRipple             mLayoutTheme;
+    private TextView                 mTextTheme;
 
     //========================Variable Define=============
     private MyCallRecorderSharePrefs mMyRecorderCallSharePrefs;
@@ -42,6 +46,8 @@ public class FragmentSetting extends FragmentBasic {
     }
 
     private void initLayout(View root) {
+        //theme
+        mTextTheme = (TextView) root.findViewById(R.id.text_theme);
         mSwitchAutoSavedRecordCall = (Switch) root.findViewById(R.id.switch_auto_saved_record_call);
         mSwitchIncomingCalls = (Switch) root.findViewById(R.id.switch_incoming_calls);
         mSwitchOutGoingCalls = (Switch) root.findViewById(R.id.switch_ongoing_calls);
@@ -70,12 +76,21 @@ public class FragmentSetting extends FragmentBasic {
             }
         });
         mSwitchNotification.setOncheckListener(new OnCheckListener() {
-            
+
             @Override
             public void onCheck(boolean check) {
-                Log.d("KieuThang", "setOncheckListener notificatoin:"+check);
+                Log.d("KieuThang", "setOncheckListener notificatoin:" + check);
                 mMyRecorderCallSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION, check);
             }
+        });
+        mLayoutTheme.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showDialogChooseTheme();
+            }
+
         });
         boolean isAutoSavedCallRecord = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
         mSwitchAutoSavedRecordCall.setChecked(isAutoSavedCallRecord);
@@ -85,7 +100,6 @@ public class FragmentSetting extends FragmentBasic {
         mSwitchOutGoingCalls.setChecked(isSavedOutGoingCall);
         boolean isShowNotification = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION);
         mSwitchNotification.setChecked(isShowNotification);
-        int themeType = mMyRecorderCallSharePrefs.getIntValue(MyCallRecorderConstant.KEY_THEME);
     }
 
     @Override
@@ -96,4 +110,37 @@ public class FragmentSetting extends FragmentBasic {
                 mMyRecorderCallSharePrefs = MyCallRecorderApplication.getInstance().getMyCallRecorderSharePref(getActivity());
         }
     }
+
+    private void showDialogChooseTheme() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.choose_theme).setItems(R.array.Themes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                mMyRecorderCallSharePrefs.putIntValue(MyCallRecorderConstant.KEY_THEME, which);
+                MyCallRecorderApplication.getInstance().updateTheme(which);
+            }
+        });
+        builder.show();
+    }
+
+    public void updateTheme(int themeColor) {
+        int themeType = mMyRecorderCallSharePrefs.getIntValue(MyCallRecorderConstant.KEY_THEME);
+        switch (themeType) {
+        case MyCallRecorderConstant.THEME_ORANGE:
+            mTextTheme.setText(getActivity().getResources().getString(R.string.theme_orage));
+            break;
+        case MyCallRecorderConstant.THEME_RED:
+            mTextTheme.setText(getActivity().getResources().getString(R.string.theme_red));
+            break;
+        case MyCallRecorderConstant.THEME_GREEN:
+            mTextTheme.setText(getActivity().getResources().getString(R.string.theme_green));
+            break;
+        case MyCallRecorderConstant.THEME_BLUE:
+            mTextTheme.setText(getActivity().getResources().getString(R.string.theme_blue));
+            break;
+        default:
+            mTextTheme.setText(getActivity().getResources().getString(R.string.theme_orage));
+            break;
+        }
+    }
+
 }

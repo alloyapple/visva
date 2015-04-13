@@ -229,4 +229,15 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         mRecordingSessions.add(0, recordingSession);
         notifyDataSetChanged();
     }
+
+    public void removeARecord(RecordingSession recordingSession) {
+        int _position = 0;
+        for (int i = 0 ; i < mRecordingSessions.size() ;i++){
+            if(recordingSession.dateCreated.equals(mRecordingSessions.get(i).dateCreated)){
+                _position = i;
+                break;
+            }
+        }
+        removeRecord(_position);
+    }
 }

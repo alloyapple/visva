@@ -515,6 +515,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         String text = mTextNote.getText().toString();
         if (StringUtility.isEmpty(subject) && StringUtility.isEmpty(text)) {
             AIOLog.e(MyCallRecorderConstant.TAG, "text and subject is empty!");
+            setResult(RESULT_CANCELED);
             finish();
             return;
         }
@@ -531,8 +532,10 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         if (mReminderTime == 0) {
             AIOLog.e(MyCallRecorderConstant.TAG, "reminder time is not set!!");
             if (MyCallRecorderApplication.getInstance().getActivity() != null) {
-                MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING);
+                Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
             }
+            setResult(RESULT_OK);
             finish();
             return;
         }
@@ -543,8 +546,10 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         mReminderTime = 0;
 
         if (MyCallRecorderApplication.getInstance().getActivity() != null) {
-            MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+            Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING);
+            Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
         }
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -572,7 +577,8 @@ public class ActivityNoteEditor extends Activity implements IReminder {
                 Toast.makeText(ActivityNoteEditor.this, deleted, Toast.LENGTH_SHORT).show();
                 ActivityNoteEditor.this.finish();
                 if (MyCallRecorderApplication.getInstance().getActivity() != null) {
-                    MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                    Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING);
+                    Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
                 }
             }
         });

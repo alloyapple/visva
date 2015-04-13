@@ -536,6 +536,30 @@ public class Utils {
         context.startActivity(Intent.createChooser(shareIntent, "Share via"));
     }
 
+    public static void shareAllRecordingSessionInfoAction(Context context, RecordingSession session) {
+        File file = new File(session.fileName);
+        if (!file.exists()) {
+            AIOLog.e(MyCallRecorderConstant.TAG, "file not found");
+        }
+        Uri uri = Uri.fromFile(file);
+
+        String displayName = session.phoneName;
+        Resources res = context.getResources();
+        StringBuilder builder = new StringBuilder();
+        if (!StringUtility.isEmpty(displayName))
+            builder.append(res.getString(R.string.name)).append(displayName + "\n");
+
+        builder.append(res.getString(R.string.phone_no)).append(session.phoneNo);
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, res.getString(R.string.share_record));
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, builder.toString());
+        shareIntent.setType("*/*");
+        context.startActivity(Intent.createChooser(shareIntent, "Share via"));
+    }
+
     public static void shareMultiFileByShareActionMode(Context context, ArrayList<RecordingSession> selectedList) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND_MULTIPLE);
@@ -613,4 +637,13 @@ public class Utils {
         });
     }
 
+    public static void requestRefreshViewToRemoveNewRecord(final ActivityHome activity, final int fragment, final RecordingSession session) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                activity.removeARecord(session);
+            }
+        });
+    }
 }

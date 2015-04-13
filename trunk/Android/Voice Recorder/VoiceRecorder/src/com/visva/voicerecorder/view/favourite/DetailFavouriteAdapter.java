@@ -12,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.note.NoteItem;
 import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
 
 public class DetailFavouriteAdapter extends BaseAdapter {
@@ -59,6 +62,8 @@ public class DetailFavouriteAdapter extends BaseAdapter {
             holder.textTime = (TextView) convertView.findViewById(R.id.text_time);
             holder.textDuration = (TextView) convertView.findViewById(R.id.text_duration);
             holder.callIndicator = (ImageView) convertView.findViewById(R.id.callIndicator);
+            holder.layoutNote = (RelativeLayout) convertView.findViewById(R.id.layout_note);
+            holder.textNote = (TextView) convertView.findViewById(R.id.text_note);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) (convertView).getTag();
@@ -77,15 +82,27 @@ public class DetailFavouriteAdapter extends BaseAdapter {
         } else {
             holder.callIndicator.setImageResource(R.drawable.ic_outgoing);
         }
-
+        // note information
+        NoteItem noteItem = Utils.getNoteItemFromRecordSession(mContext, recordingSession.dateCreated);
+        if (noteItem == null || (StringUtility.isEmpty(noteItem.note) && StringUtility.isEmpty(noteItem.title))) {
+            holder.layoutNote.setVisibility(View.GONE);
+        } else {
+            holder.layoutNote.setVisibility(View.VISIBLE);
+            String note = noteItem.title;
+            if (StringUtility.isEmpty(note))
+                note = noteItem.note;
+            holder.textNote.setText(note);
+        }
         return convertView;
     }
 
     static class ViewHolder {
-        TextView  textDate;
-        TextView  textTime;
-        TextView  textDuration;
-        ImageView callIndicator;
+        TextView       textDate;
+        TextView       textTime;
+        TextView       textDuration;
+        ImageView      callIndicator;
+        RelativeLayout layoutNote;
+        TextView       textNote;
     }
 
     public class MyComparator implements Comparator<RecordingSession> {
@@ -110,7 +127,7 @@ public class DetailFavouriteAdapter extends BaseAdapter {
     }
 
     public void removeRecord(int position) {
-        if(position > mRecordingSessions.size() - 1)
+        if (position > mRecordingSessions.size() - 1)
             return;
         mRecordingSessions.remove(position);
         notifyDataSetChanged();

@@ -8,38 +8,87 @@
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:text="Test"
         android:textColor="@color/black" />
 
-    <ImageView
-        android:id="@+id/callIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_date"
-        android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:contentDescription="@string/imageview_description"
-        android:src="@drawable/ic_incoming" />
-
-    <TextView
-        android:id="@+id/text_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_date"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/callIndicator"
-        android:text="Test"
-        android:textColor="@color/gray_1" />
-
-    <TextView
-        android:id="@+id/text_duration"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:text="Test"
-        android:textColor="@color/gray_2" />
+        android:layout_below="@id/text_date"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/layout_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/img_note"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:background="@drawable/ic_note_while"
+                android:contentDescription="@string/imageview_description"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/text_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@id/img_note"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="TextView"
+                android:textColor="@color/material_design_color_orange_1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_bottom_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp" >
+
+            <ImageView
+                android:id="@+id/callIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:contentDescription="@string/imageview_description"
+                android:src="@drawable/ic_incoming" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/callIndicator"
+                android:text="Test"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/text_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="Test"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

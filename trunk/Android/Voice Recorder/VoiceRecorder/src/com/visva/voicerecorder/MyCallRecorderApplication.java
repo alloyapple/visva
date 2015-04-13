@@ -31,6 +31,8 @@ public class MyCallRecorderApplication extends Application {
     private static ProgramHelper             helper;
     private static ActivityHome              activity;
     private static MyCallRecorderSharePrefs  mMyCallRecorderSharePrefs;
+    private static int                       mThemeColor;
+    private static int                       mPressedThemeColor;
 
     public static MyCallRecorderApplication getInstance() {
         if (mInstance == null) {
@@ -53,6 +55,10 @@ public class MyCallRecorderApplication extends Application {
             checkFavouriteContactApplication();
             mMyCallRecorderSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_FIRST_TIME_RUNNING, false);
         }
+
+        int themeType = mMyCallRecorderSharePrefs.getIntValue(MyCallRecorderConstant.KEY_THEME);
+        mThemeColor = getThemeColor(themeType);
+        mPressedThemeColor = getPressedTheme(themeType);
     }
 
     private void checkFavouriteContactApplication() {
@@ -191,7 +197,6 @@ public class MyCallRecorderApplication extends Application {
                 return 0;
             }
             String fileData[] = fileHome.list();
-            Log.d("KieuThang", "fileData:" + fileData.length);
             for (String line : fileData) {
                 String content[] = line.split(";");
                 if (content == null || content.length == 0) {
@@ -203,7 +208,6 @@ public class MyCallRecorderApplication extends Application {
                     String createdDate = content[2];
                     String fileName = fileDataPath + "/" + line;
                     long duration = Utils.getDurationTimeFromFile(fileName);
-                    Log.d("KieuThang", "fileName:" + fileName + ",duration:" + duration);
                     //save the call to the db
                     try {
                         ProgramHelper
@@ -221,11 +225,83 @@ public class MyCallRecorderApplication extends Application {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            Log.d("KieuThang", "onPostExecute:" + activity + ",result:" + result);
             if (activity != null && result != 0) {
                 activity.requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
             }
         }
+    }
+
+    public void updateTheme(int which) {
+        mThemeColor = getThemeColor(which);
+        mPressedThemeColor = getPressedTheme(which);
+        if (activity != null) {
+            activity.updateTheme(mThemeColor, mPressedThemeColor);
+        }
+    }
+
+    public int getApplicationTheme() {
+        if (activity == null)
+            return 0;
+        if (mThemeColor == 0)
+            return activity.getResources().getColor(R.color.material_design_color_orange_1);
+        return mThemeColor;
+    }
+
+    public int getApplicationPressedTheme() {
+        if (activity == null)
+            return 0;
+        if (mPressedThemeColor == 0)
+            return activity.getResources().getColor(R.color.material_design_color_orange_pressed);
+        return mPressedThemeColor;
+    }
+
+    private int getPressedTheme(int which) {
+        Log.d("KieuThang", "getPressedTheme:" + activity + ",which:" + which);
+        if (activity == null)
+            return 0;
+        int pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_orange_pressed);
+        switch (which) {
+        case MyCallRecorderConstant.THEME_ORANGE:
+            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_orange_pressed);
+            break;
+        case MyCallRecorderConstant.THEME_GREEN:
+            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_green_pressed);
+            break;
+        case MyCallRecorderConstant.THEME_RED:
+            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_red_pressed);
+            break;
+        case MyCallRecorderConstant.THEME_BLUE:
+            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_blue_pressed);
+            break;
+        default:
+            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_orange_pressed);
+            break;
+        }
+        return pressedThemeColor;
+    }
+
+    private int getThemeColor(int which) {
+        if (activity == null)
+            return 0;
+        int themeColor = activity.getResources().getColor(R.color.material_design_color_orange_1);
+        switch (which) {
+        case MyCallRecorderConstant.THEME_ORANGE:
+            themeColor = activity.getResources().getColor(R.color.material_design_color_orange_1);
+            break;
+        case MyCallRecorderConstant.THEME_GREEN:
+            themeColor = activity.getResources().getColor(R.color.material_design_color_green);
+            break;
+        case MyCallRecorderConstant.THEME_RED:
+            themeColor = activity.getResources().getColor(R.color.material_design_color_red);
+            break;
+        case MyCallRecorderConstant.THEME_BLUE:
+            themeColor = activity.getResources().getColor(R.color.material_design_color_blue);
+            break;
+        default:
+            themeColor = activity.getResources().getColor(R.color.material_design_color_orange_1);
+            break;
+        }
+        return themeColor;
     }
 
 }

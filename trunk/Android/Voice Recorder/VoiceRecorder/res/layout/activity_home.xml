@@ -11,7 +11,7 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/bottom_box"
+            android:id="@+id/layout_header"
             android:layout_width="match_parent"
             android:layout_height="@dimen/footer_height"
             android:background="@color/material_design_color_orange_1"
@@ -25,10 +25,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@color/material_design_color_orange_1"
                 android:clickable="true"
                 android:gravity="center"
                 android:onClick="onClickContactTab"
-                materialdesign:rippleColor="#1E88E5"
+                materialdesign:rippleColor="@color/material_design_color_orange_pressed"
                 materialdesign:rippleSpeed="20" >
 
                 <ImageView
