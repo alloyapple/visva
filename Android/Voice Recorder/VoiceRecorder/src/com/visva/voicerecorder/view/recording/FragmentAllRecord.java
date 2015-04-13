@@ -90,19 +90,19 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
                 menu.addMenuItem(deleteItem);
 
                 SwipeMenuItem noteItem = new SwipeMenuItem(getActivity());
-                noteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
+                noteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_green)));
                 noteItem.setWidth(Utils.dp2px(getActivity(), 80));
                 noteItem.setIcon(R.drawable.btn_note);
                 menu.addMenuItem(noteItem);
 
                 SwipeMenuItem favoriteItem = new SwipeMenuItem(getActivity());
-                favoriteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
+                favoriteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_yellow)));
                 favoriteItem.setWidth(Utils.dp2px(getActivity(), 80));
                 favoriteItem.setIcon(R.drawable.btn_favorite);
                 menu.addMenuItem(favoriteItem);
 
                 SwipeMenuItem shareItem = new SwipeMenuItem(getActivity());
-                shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
+                shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_red)));
                 shareItem.setWidth(Utils.dp2px(getActivity(), 80));
                 shareItem.setIcon(R.drawable.btn_share);
                 menu.addMenuItem(shareItem);
@@ -383,9 +383,9 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         mRecordingAdapter.updateRecordingSession(mSessions);
     }
 
-    public void updateTheme(int themeColor) {
+    public void updateTheme(int themeColor, int pressThemeColor) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

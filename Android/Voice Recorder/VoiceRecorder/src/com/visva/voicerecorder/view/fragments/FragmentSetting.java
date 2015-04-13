@@ -3,7 +3,6 @@ package com.visva.voicerecorder.view.fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,11 @@ public class FragmentSetting extends FragmentBasic {
     private Switch                   mSwitchNotification;
     private LayoutRipple             mLayoutTheme;
     private TextView                 mTextTheme;
-
+    /*theme*/
+    private TextView                 mTextCallArrived;
+    private TextView                 mTextSavedCalls;
+    private TextView                 mTextTitleTheme;
+    private TextView                 mTextNotification;
     //========================Variable Define=============
     private MyCallRecorderSharePrefs mMyRecorderCallSharePrefs;
 
@@ -48,6 +51,11 @@ public class FragmentSetting extends FragmentBasic {
     private void initLayout(View root) {
         //theme
         mTextTheme = (TextView) root.findViewById(R.id.text_theme);
+        mTextCallArrived = (TextView) root.findViewById(R.id.txt_when_call_arrived);
+        mTextNotification = (TextView) root.findViewById(R.id.txt_notification);
+        mTextSavedCalls = (TextView) root.findViewById(R.id.saved_calls);
+        mTextTitleTheme = (TextView) root.findViewById(R.id.txt_theme);
+
         mSwitchAutoSavedRecordCall = (Switch) root.findViewById(R.id.switch_auto_saved_record_call);
         mSwitchIncomingCalls = (Switch) root.findViewById(R.id.switch_incoming_calls);
         mSwitchOutGoingCalls = (Switch) root.findViewById(R.id.switch_ongoing_calls);
@@ -57,7 +65,6 @@ public class FragmentSetting extends FragmentBasic {
 
             @Override
             public void onCheck(boolean check) {
-                Log.d("KieuThang", "mSwitchAutoSavedRecordCall:" + check);
                 mMyRecorderCallSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED, check);
             }
         });
@@ -79,7 +86,6 @@ public class FragmentSetting extends FragmentBasic {
 
             @Override
             public void onCheck(boolean check) {
-                Log.d("KieuThang", "setOncheckListener notificatoin:" + check);
                 mMyRecorderCallSharePrefs.putBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION, check);
             }
         });
@@ -87,7 +93,6 @@ public class FragmentSetting extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 showDialogChooseTheme();
             }
 
@@ -122,7 +127,7 @@ public class FragmentSetting extends FragmentBasic {
         builder.show();
     }
 
-    public void updateTheme(int themeColor) {
+    public void updateTheme(int themeColor, int pressThemeColor) {
         int themeType = mMyRecorderCallSharePrefs.getIntValue(MyCallRecorderConstant.KEY_THEME);
         switch (themeType) {
         case MyCallRecorderConstant.THEME_ORANGE:
@@ -141,6 +146,10 @@ public class FragmentSetting extends FragmentBasic {
             mTextTheme.setText(getActivity().getResources().getString(R.string.theme_orage));
             break;
         }
+        mTextCallArrived.setTextColor(themeColor);
+        mTextNotification.setTextColor(themeColor);
+        mTextSavedCalls.setTextColor(themeColor);
+        mTextTitleTheme.setTextColor(themeColor);
     }
 
 }

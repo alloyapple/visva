@@ -510,6 +510,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         private LayoutInflater     mInflater;        // Stores the layout inflater
         private AlphabetIndexer    mAlphabetIndexer; // Stores the AlphabetIndexer instance
         private TextAppearanceSpan highlightTextSpan; // Stores the highlight text appearance style
+        private int                mThemeColor;
 
         /**
          * Instantiates a new Contacts Adapter.
@@ -523,6 +524,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             final String alphabet = context.getString(R.string.alphabet);
             mAlphabetIndexer = new AlphabetIndexer(getCursor(), ContactsQuery.SORT_KEY, alphabet);
             highlightTextSpan = new TextAppearanceSpan(getActivity(), R.style.searchTextHiglight);
+            mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
         }
 
         public void onClickCallContact(int position) {
@@ -612,10 +614,11 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             if (positionOfSession == cursor.getPosition()) {
                 holder.textAlphabet.setVisibility(View.VISIBLE);
                 holder.divider.setVisibility(View.VISIBLE);
+                holder.divider.setBackgroundColor(mThemeColor);
                 final String alphabet = context.getString(R.string.alphabet);
                 char alphabetCharacter = alphabet.charAt(sessionPosition);
                 holder.textAlphabet.setText(alphabetCharacter + "");
-
+                holder.textAlphabet.setTextColor(mThemeColor);
             } else {
                 holder.divider.setVisibility(View.GONE);
                 holder.textAlphabet.setVisibility(View.GONE);
@@ -657,6 +660,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             } else {
                 holder.btnButton.setVisibility(View.VISIBLE);
                 holder.dividerCall.setVisibility(View.VISIBLE);
+                holder.dividerCall.setBackgroundColor(mThemeColor);
             }
             holder.btnButton.setFocusable(false);
             holder.dividerCall.setFocusable(false);
@@ -744,6 +748,10 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             View            dividerCall;
             Button          btnButton;
         }
+
+        public void updateTheme(int themeColor, int pressThemeColor) {
+            mThemeColor = themeColor;
+        }
     }
 
     /**
@@ -810,8 +818,7 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         return false;
     }
 
-    public void updateTheme(int themeColor) {
-        // TODO Auto-generated method stub
-        
+    public void updateTheme(int themeColor, int pressThemeColor) {
+        mAdapter.updateTheme(themeColor, pressThemeColor);
     }
 }

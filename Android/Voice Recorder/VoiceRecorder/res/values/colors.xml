@@ -55,14 +55,18 @@
     <color name="black_semi_transparent">#B2000000</color>
 
     <!-- Background color -->
-    <color name="material_design_color_green">#018949</color>
-    <color name="material_design_color_green_pressed">#004424</color>
+    <color name="material_design_color_green">#0da95f</color>
+    <color name="material_design_color_green_pressed">#0A874C</color>
     <color name="material_design_color_blue">#33b5e7</color>
     <color name="material_design_color_blue_pressed">#1A5A74</color>
+    <color name="material_design_color_blue_2">#3078f0</color>
+    <color name="material_design_color_blue_pressed_2">#2660C0</color>
     <color name="material_design_color_orange_1">#ff6f43</color>
-    <color name="material_design_color_orange_pressed">#DD2C00</color>
+    <color name="material_design_color_orange_pressed">#CC5936</color>
     <color name="material_design_color_red">#BA3E49</color>
-    <color name="material_design_color_red_pressed">#822B33</color>
+    <color name="material_design_color_red_pressed">#95323A</color>
+    <color name="material_design_color_yellow">#fccc45</color>
+    <color name="material_design_color_yellow_pressed">#CAA337</color>
     <color name="material_design_color_orange_2">#a84a24</color>
     <color name="material_design_color_orange_action_delete">#C9C9CE</color>
     <color name="material_design_color_orange_action_normal">#F93F25</color>

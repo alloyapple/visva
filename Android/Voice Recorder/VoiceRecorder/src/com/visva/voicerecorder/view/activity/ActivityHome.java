@@ -374,10 +374,10 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         updateThemeForMainActivity(themeColor, pressThemeColor);
 
         //update theme for fragments
-        mFragmentAllRecord.updateTheme(themeColor);
-        mFragmentContact.updateTheme(themeColor);
-        mFragmentFavourite.updateTheme(themeColor);
-        mFragmentSetting.updateTheme(themeColor);
+        mFragmentAllRecord.updateTheme(themeColor, pressThemeColor);
+        mFragmentContact.updateTheme(themeColor, pressThemeColor);
+        mFragmentFavourite.updateTheme(themeColor, pressThemeColor);
+        mFragmentSetting.updateTheme(themeColor, pressThemeColor);
     }
 
     private void updateThemeForMainActivity(int themeColor, int pressThemeColor) {
@@ -396,5 +396,22 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         mLayoutBtnRecord.setRippleColor(pressThemeColor);
         mLayoutBtnSetting.setRippleColor(pressThemeColor);
         mLayoutBtnAddContact.setRippleColor(pressThemeColor);
+
+        switch (mFragmentShowType) {
+        case FRAGMENT_ALL_RECORDING:
+            mLayoutBtnRecord.setBackground(new ColorDrawable(pressThemeColor));
+            break;
+        case FRAGMENT_CONTACT:
+            mLayoutBtnContact.setBackground(new ColorDrawable(pressThemeColor));
+            break;
+        case FRAGMENT_FAVOURITE:
+            mLayoutBtnFavorite.setBackground(new ColorDrawable(pressThemeColor));
+            break;
+        case FRAGMENT_SETTING:
+            mLayoutBtnSetting.setBackground(new ColorDrawable(pressThemeColor));
+            break;
+        default:
+            break;
+        }
     }
 }

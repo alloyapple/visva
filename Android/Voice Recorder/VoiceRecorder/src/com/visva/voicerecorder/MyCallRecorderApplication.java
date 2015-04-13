@@ -257,48 +257,55 @@ public class MyCallRecorderApplication extends Application {
 
     private int getPressedTheme(int which) {
         Log.d("KieuThang", "getPressedTheme:" + activity + ",which:" + which);
-        if (activity == null)
+        Context context = getAndroidContext();
+        if (activity != null)
+            context = activity;
+        if (activity == null && getAndroidContext() == null)
             return 0;
-        int pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_orange_pressed);
+        int pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
         switch (which) {
         case MyCallRecorderConstant.THEME_ORANGE:
-            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_orange_pressed);
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
             break;
         case MyCallRecorderConstant.THEME_GREEN:
-            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_green_pressed);
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_green_pressed);
             break;
         case MyCallRecorderConstant.THEME_RED:
-            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_red_pressed);
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_red_pressed);
             break;
         case MyCallRecorderConstant.THEME_BLUE:
-            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_blue_pressed);
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_blue_pressed);
             break;
         default:
-            pressedThemeColor = activity.getResources().getColor(R.color.material_design_color_orange_pressed);
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
             break;
         }
         return pressedThemeColor;
     }
 
     private int getThemeColor(int which) {
-        if (activity == null)
+        Log.d("Kieuthang", "getThemeColor:" + getAndroidContext());
+        Context context = getAndroidContext();
+        if (activity != null)
+            context = activity;
+        if (activity == null && getAndroidContext() == null)
             return 0;
-        int themeColor = activity.getResources().getColor(R.color.material_design_color_orange_1);
+        int themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
         switch (which) {
         case MyCallRecorderConstant.THEME_ORANGE:
-            themeColor = activity.getResources().getColor(R.color.material_design_color_orange_1);
+            themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
             break;
         case MyCallRecorderConstant.THEME_GREEN:
-            themeColor = activity.getResources().getColor(R.color.material_design_color_green);
+            themeColor = context.getResources().getColor(R.color.material_design_color_green);
             break;
         case MyCallRecorderConstant.THEME_RED:
-            themeColor = activity.getResources().getColor(R.color.material_design_color_red);
+            themeColor = context.getResources().getColor(R.color.material_design_color_red);
             break;
         case MyCallRecorderConstant.THEME_BLUE:
-            themeColor = activity.getResources().getColor(R.color.material_design_color_blue);
+            themeColor = context.getResources().getColor(R.color.material_design_color_blue);
             break;
         default:
-            themeColor = activity.getResources().getColor(R.color.material_design_color_orange_1);
+            themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
             break;
         }
         return themeColor;
