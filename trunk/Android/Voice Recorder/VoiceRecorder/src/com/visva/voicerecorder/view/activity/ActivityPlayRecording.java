@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -53,6 +54,8 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
     // Handler to update UI timer, progress bar etc,.
     private Handler          mHandler     = new Handler();
     private RecordingSession mRecordingSession;
+    private int              mThemeColor;
+    private int              mPressedThemeColor;
 
     private void initLayout() {
         songProgressBar = (SeekBar) findViewById(R.id.songProgressBar);
@@ -260,7 +263,8 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
             AIOLog.e(MyCallRecorderConstant.TAG, "recordingSession is null");
             finish();
         }
-
+        mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
+        mPressedThemeColor = MyCallRecorderApplication.getInstance().getApplicationPressedTheme();
         initLayout();
 
         // Mediaplayer
@@ -281,7 +285,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
                 // Changing button image to play button
                 mBtnPlay.setImageResource(R.drawable.btn_play);
             }
-        } 
+        }
         Log.d("KieuThang", "onCLickDeleteBtn");
         if (mRecordingSession == null)
             return;
@@ -334,7 +338,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
                 // Changing button image to play button
                 mBtnPlay.setImageResource(R.drawable.btn_play);
             }
-        } 
+        }
         if (mRecordingSession == null)
             return;
         Intent intent = new Intent(Intent.ACTION_CALL);
@@ -349,7 +353,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
                 // Changing button image to play button
                 mBtnPlay.setImageResource(R.drawable.btn_play);
             }
-        } 
+        }
         if (mRecordingSession == null)
             return;
         int state = MyCallRecorderConstant.STATE_INSERT;
@@ -379,7 +383,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
                 // Changing button image to play button
                 mBtnPlay.setImageResource(R.drawable.btn_play);
             }
-        } 
+        }
         if (mRecordingSession == null)
             return;
         Utils.shareAllRecordingSessionInfoAction(this, mRecordingSession);

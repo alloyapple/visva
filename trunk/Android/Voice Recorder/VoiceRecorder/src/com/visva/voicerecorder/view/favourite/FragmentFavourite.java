@@ -186,13 +186,13 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 menu.addMenuItem(deleteItem);
 
                 SwipeMenuItem noteItem = new SwipeMenuItem(getActivity());
-                noteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
+                noteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_green)));
                 noteItem.setWidth(Utils.dp2px(getActivity(), 80));
                 noteItem.setIcon(R.drawable.btn_note);
                 menu.addMenuItem(noteItem);
 
                 SwipeMenuItem shareItem = new SwipeMenuItem(getActivity());
-                shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
+                shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_red)));
                 shareItem.setWidth(Utils.dp2px(getActivity(), 100));
                 shareItem.setIcon(R.drawable.btn_share);
                 menu.addMenuItem(shareItem);
@@ -657,9 +657,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         @Override
         public void handleMessage(Message msg) {
             int _position = msg.arg2;
-            Log.d("KieuThang", "_position > mFavouriteItems.size()" + (_position > mFavouriteItems.size()));
-            Log.d("KieuThang", "msg.arg1" + msg.arg1);
-            Log.d("KieuThang", "mFavouriteRecordingSessions" + mFavouriteRecordingSessions.size());
             if (_position > mFavouriteItems.size() - 1)
                 return;
             mDotsTextView.stop();
@@ -678,8 +675,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
         }
     }
 
-    public void updateTheme(int themeColor) {
-        // TODO Auto-generated method stub
-        
+    public void updateTheme(int themeColor, int pressThemeColor) {
+        mTextRecord.setBackgroundColor(themeColor);
     }
 }
