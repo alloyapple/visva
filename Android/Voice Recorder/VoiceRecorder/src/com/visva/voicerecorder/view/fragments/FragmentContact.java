@@ -809,4 +809,9 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
         mQuickAction.show(view, image);
         return false;
     }
+
+    public void updateTheme(int themeColor) {
+        // TODO Auto-generated method stub
+        
+    }
 }

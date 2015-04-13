@@ -56,30 +56,32 @@
 
     <!-- Background color -->
     <color name="material_design_color_green">#018949</color>
+    <color name="material_design_color_green_pressed">#004424</color>
     <color name="material_design_color_blue">#33b5e7</color>
+    <color name="material_design_color_blue_pressed">#1A5A74</color>
     <color name="material_design_color_orange_1">#ff6f43</color>
-    <color name="material_design_color_orange_2">#a84a24</color>
     <color name="material_design_color_orange_pressed">#DD2C00</color>
+    <color name="material_design_color_red">#BA3E49</color>
+    <color name="material_design_color_red_pressed">#822B33</color>
+    <color name="material_design_color_orange_2">#a84a24</color>
     <color name="material_design_color_orange_action_delete">#C9C9CE</color>
     <color name="material_design_color_orange_action_normal">#F93F25</color>
-    
     <color name="divider_grey">#eeeeee</color>
     <color name="transparent">#00000000</color>
 
     <!-- Google calendar -->
-     <color name="circle_background">#f2f2f2</color>
+    <color name="circle_background">#f2f2f2</color>
     <color name="line_background">#cccccc</color>
     <color name="ampm_text_color">#8c8c8c</color>
     <color name="done_text_color_normal">#333333</color>
     <color name="done_text_color_disabled">#CCCCCC</color>
     <color name="numbers_text_color">#8c8c8c</color>
-
     <color name="transparent_black">#7F000000</color>
     <color name="blue">#33b5e5</color>
     <color name="darker_blue">#0099CC</color>
     <color name="date_picker_text_normal">#FF999999</color>
-
     <color name="calendar_header">#999999</color>
     <color name="date_picker_view_animator">#f2f2f2</color>
     <color name="calendar_selected_date_text">#FFD1D2D4</color>
+
 </resources>

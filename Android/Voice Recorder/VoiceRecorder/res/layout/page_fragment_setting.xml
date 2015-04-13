@@ -43,9 +43,9 @@
                     android:id="@+id/txt_autosaved_records"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@id/switch_auto_saved_record_call"
                     android:text="@string/auto_saved_incoming_and_out_going_calls"
                     android:textColor="@color/black" >
@@ -67,9 +67,9 @@
                 android:id="@+id/saved_calls"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_margin="10dp"
                 android:text="@string/saved_calls"
-                android:layout_alignParentLeft="true"
                 android:textColor="@color/material_design_color_orange_1"
                 android:textSize="18sp" >
             </TextView>
@@ -93,8 +93,8 @@
                     android:id="@+id/incomming_calls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toLeftOf="@id/switch_incoming_calls"
                     android:text="@string/incoming_calls"
@@ -120,9 +120,9 @@
                     android:id="@+id/ongoing_calls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@id/switch_ongoing_calls"
                     android:text="@string/ongoing_calls"
                     android:textColor="@color/black" >
@@ -160,7 +160,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:clickable="true"
-                materialdesign:rippleColor="#1E88E5"
+                materialdesign:rippleColor="@color/gray_1"
                 materialdesign:rippleSpeed="70" >
 
                 <TextView
@@ -175,6 +175,7 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/text_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txt_choose_theme"
@@ -227,8 +228,8 @@
                     android:id="@+id/txt_show_notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/switch_notification"
                     android:text="@string/notification_you_when_finish_call"
                     android:textColor="@color/black" >

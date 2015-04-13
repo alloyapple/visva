@@ -8,6 +8,7 @@ public class MyCallRecorderConstant {
     public static final String  KEY_SAVED_INCOMING_CALL  = "key_saved_incoming_call";
     public static final String  KEY_SAVED_OUTGOING_CALL  = "key_saved_out_going_call";
     public static final String  KEY_THEME                = "key_theme";
+    public static final String  KEY_PRESSED_THEME        = "key_pressed_theme";
     public static final String  KEY_FIRST_TIME_RUNNING   = "key_first_time_running";
     public static final String  KEY_SHOW_NOTIFICATION    = "key_show_notificaiton";
 
@@ -37,6 +38,12 @@ public class MyCallRecorderConstant {
     public static final String  AAC_RECORD_TYPE          = ".acc";
 
     public static final int     STATE_INCOMING           = 1;
-    public static final int     STATE_OUTGOING            = 2;
+    public static final int     STATE_OUTGOING           = 2;
+
+    //themes
+    public static final int     THEME_ORANGE             = 0;
+    public static final int     THEME_RED                = 1;
+    public static final int     THEME_GREEN              = 2;
+    public static final int     THEME_BLUE               = 3;
 
 }

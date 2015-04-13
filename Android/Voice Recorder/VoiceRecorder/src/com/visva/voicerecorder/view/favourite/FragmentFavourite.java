@@ -47,7 +47,10 @@ import com.gc.materialdesign.views.LayoutRipple;
 import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
+import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.model.FavouriteItem;
+import com.visva.voicerecorder.note.ActivityNoteEditor;
+import com.visva.voicerecorder.note.NoteItem;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
@@ -59,6 +62,7 @@ import com.visva.voicerecorder.view.widget.DotsTextView;
 //import android.widget.Button;
 
 public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickListener {
+    private static final int            REQUEST_CODE                = 1001;
     // ======================Control Define =====================
     private FeatureCoverFlow            mFavouriteList;
     private SwipeMenuListView           mRecordingFavouriteList;
@@ -180,6 +184,12 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 deleteItem.setWidth(Utils.dp2px(getActivity(), 100));
                 deleteItem.setIcon(R.drawable.btn_delete);
                 menu.addMenuItem(deleteItem);
+
+                SwipeMenuItem noteItem = new SwipeMenuItem(getActivity());
+                noteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
+                noteItem.setWidth(Utils.dp2px(getActivity(), 80));
+                noteItem.setIcon(R.drawable.btn_note);
+                menu.addMenuItem(noteItem);
 
                 SwipeMenuItem shareItem = new SwipeMenuItem(getActivity());
                 shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
@@ -313,7 +323,7 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 String deleted = getResources().getString(R.string.deleted);
                 Toast.makeText(getActivity(), deleted, Toast.LENGTH_SHORT).show();
                 if (MyCallRecorderApplication.getInstance().getActivity() != null) {
-                    MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                    Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING);
                 }
             }
         });
@@ -362,7 +372,6 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
      * @param position
      */
     private void onClickFavouriteItem(View view, int position) {
-        Log.d("KieuThang", "onClickFavouriteItemListener:" + position);
         mFavouritePosition = position;
     }
 
@@ -401,16 +410,52 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             deleteRecordingSessionAction(position);
             break;
         case 1:
+            updateRecordSessionNote(position);
+            break;
+        case 2:
             RecordingSession recordingSession = mFavouriteRecordingSessions.get(position);
             if (recordingSession == null) {
                 return false;
             }
-            Utils.shareRecordingSessionAction(getActivity(), recordingSession.fileName);
+            Utils.shareAllRecordingSessionInfoAction(getActivity(), recordingSession);
             break;
         default:
             break;
         }
         return false;
+    }
+
+    private void updateRecordSessionNote(int position) {
+        RecordingSession recordingSession = mFavouriteRecordingSessions.get(position);
+        if (recordingSession == null) {
+            return;
+        }
+        int state = MyCallRecorderConstant.STATE_INSERT;
+        NoteItem noteItem = Utils.getNoteItemFromRecordSession(getActivity(), recordingSession.dateCreated);
+        if (noteItem == null || (StringUtility.isEmpty(noteItem.note) && StringUtility.isEmpty(noteItem.title))) {
+            state = MyCallRecorderConstant.STATE_INSERT;
+        } else {
+            state = MyCallRecorderConstant.STATE_EDIT;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyCallRecorderConstant.EXTRA_STATE, state);
+        bundle.putString(MyCallRecorderConstant.EXTRA_CREATED_DATE, recordingSession.dateCreated);
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NAME, recordingSession.phoneName);
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NO, recordingSession.phoneNo);
+
+        Intent updateNoteIntent = new Intent(getActivity(), ActivityNoteEditor.class);
+        updateNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
+        updateNoteIntent.putExtras(bundle);
+        updateNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityForResult(updateNoteIntent, REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ActivityHome.RESULT_OK && requestCode == REQUEST_CODE) {
+            mRecordingFavouriteAdapter.notifyDataSetChanged();
+        }
     }
 
     private void deleteRecordingSessionAction(final int position) {
@@ -563,6 +608,9 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             mFavouriteList.clearCache();
             mFavouriteAdapter = new FavouriteAdapter(getActivity(), mFavouriteItems);
             mFavouriteList.setAdapter(mFavouriteAdapter);
+
+            AsyncUpdateRecordList asyncUpdateRecordList = new AsyncUpdateRecordList(getActivity(), mFavouritePosition);
+            asyncUpdateRecordList.execute();
         }
     }
 
@@ -628,5 +676,10 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
                 mRecordingFavouriteAdapter.updateDetailRecordingSession(mFavouriteRecordingSessions);
             }
         }
+    }
+
+    public void updateTheme(int themeColor) {
+        // TODO Auto-generated method stub
+        
     }
 }

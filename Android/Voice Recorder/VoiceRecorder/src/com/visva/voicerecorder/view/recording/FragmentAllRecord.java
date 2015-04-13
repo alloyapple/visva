@@ -32,6 +32,7 @@ import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.model.FavouriteItem;
 import com.visva.voicerecorder.note.ActivityNoteEditor;
 import com.visva.voicerecorder.note.NoteItem;
@@ -94,17 +95,17 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
                 noteItem.setIcon(R.drawable.btn_note);
                 menu.addMenuItem(noteItem);
 
+                SwipeMenuItem favoriteItem = new SwipeMenuItem(getActivity());
+                favoriteItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
+                favoriteItem.setWidth(Utils.dp2px(getActivity(), 80));
+                favoriteItem.setIcon(R.drawable.btn_favorite);
+                menu.addMenuItem(favoriteItem);
+
                 SwipeMenuItem shareItem = new SwipeMenuItem(getActivity());
                 shareItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
                 shareItem.setWidth(Utils.dp2px(getActivity(), 80));
-                shareItem.setIcon(R.drawable.btn_favorite);
+                shareItem.setIcon(R.drawable.btn_share);
                 menu.addMenuItem(shareItem);
-
-                SwipeMenuItem callItem = new SwipeMenuItem(getActivity());
-                callItem.setBackground(new ColorDrawable(res.getColor(R.color.material_design_color_orange_action_normal)));
-                callItem.setWidth(Utils.dp2px(getActivity(), 80));
-                callItem.setIcon(R.drawable.btn_share);
-                menu.addMenuItem(callItem);
             }
         };
 
@@ -230,7 +231,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
                 String deleted = getResources().getString(R.string.deleted);
                 Toast.makeText(getActivity(), deleted, Toast.LENGTH_SHORT).show();
                 if (MyCallRecorderApplication.getInstance().getActivity() != null) {
-                    MyCallRecorderApplication.getInstance().getActivity().requestToRefreshView(ActivityHome.FRAGMENT_ALL_RECORDING);
+                    Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), (ActivityHome.FRAGMENT_ALL_RECORDING));
                 }
             }
         });
@@ -258,7 +259,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             if (recordingSession == null) {
                 return false;
             }
-            Utils.shareRecordingSessionAction(getActivity(), recordingSession.fileName);
+            Utils.shareAllRecordingSessionInfoAction(getActivity(), recordingSession);
             break;
         default:
             break;
@@ -288,8 +289,8 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
             Toast.makeText(getActivity(), addFavouriteContact, Toast.LENGTH_SHORT).show();
         }
         mRecordingAdapter.notifyDataSetChanged();
-        
-        if(MyCallRecorderApplication.getInstance().getActivity()!=null){
+
+        if (MyCallRecorderApplication.getInstance().getActivity() != null) {
             Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_CONTACT);
             Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
         }
@@ -328,7 +329,7 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
         }
         String contentMsg = getActivity().getString(R.string.are_you_sure_to_delete_record);
         String cancel = getActivity().getString(R.string.cancel);
-        Dialog dialog = new Dialog(getActivity(), title, contentMsg);
+        final Dialog dialog = new Dialog(getActivity(), title, contentMsg);
         dialog.addCancelButton(cancel, new OnClickListener() {
 
             @Override
@@ -339,20 +340,22 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Delete:" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
                 Utils.deleteRecordingSesstionAction(getActivity(), recordingSession);
                 mRecordingAdapter.removeRecord(position);
             }
         });
-        dialog.show();
-    }
+        getActivity().runOnUiThread(new Runnable() {
 
-    public void onAllRecordTabClick(View v) {
+            @Override
+            public void run() {
+                try {
+                    dialog.show();
+                } catch (Exception e) {
 
-    }
-
-    public void onContactTabClick(View v) {
-
+                }
+            }
+        });
     }
 
     public void onTextSearchChanged(CharSequence s) {
@@ -360,9 +363,14 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     }
 
     public void refreshUI() {
+        AIOLog.d(MyCallRecorderConstant.TAG, "c all_record");
         if (mRecordingAdapter == null)
             return;
         mRecordingAdapter.notifyDataSetChanged();
+    }
+
+    public void removeARecord(RecordingSession recordingSession) {
+        mRecordingAdapter.removeARecord(recordingSession);
     }
 
     public void addNewRecord(RecordingSession recordingSession) {
@@ -370,9 +378,14 @@ public class FragmentAllRecord extends FragmentBasic implements OnMenuItemClickL
     }
 
     public void updateRecordList() {
-        Log.d("KieuThang", "updateRecordList");
         mProgramHelper = MyCallRecorderApplication.getInstance().getProgramHelper();
         mSessions = mProgramHelper.getRecordingSessionsFromFile(getActivity());
         mRecordingAdapter.updateRecordingSession(mSessions);
     }
+
+    public void updateTheme(int themeColor) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

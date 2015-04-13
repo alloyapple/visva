@@ -1,6 +1,7 @@
 package com.visva.voicerecorder.view.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -55,9 +57,19 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     private LayoutRipple        mLayoutRecord;
     private LayoutRipple        mLayoutFavourite;
     private LayoutRipple        mLayoutSetting;
+
+    /*theme*/
+    private LinearLayout        mLayoutHeader;
+    private LayoutRipple        mLayoutBtnContact;
+    private LayoutRipple        mLayoutBtnRecord;
+    private LayoutRipple        mLayoutBtnFavorite;
+    private LayoutRipple        mLayoutBtnSetting;
+    private LayoutRipple        mLayoutBtnAddContact;
     // ======================Variable Define=====================
     private boolean             mBackPressedToExitOnce = false;
     private int                 mFragmentShowType      = FRAGMENT_ALL_RECORDING;
+    private int                 mThemeColor;
+    private int                 mPressedThemeColor;
 
     @Override
     public int contentView() {
@@ -71,9 +83,20 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         //Remove title bar
         MyCallRecorderApplication.getInstance().setActivity(this);
         initLayout();
+
+        mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
+        mPressedThemeColor = MyCallRecorderApplication.getInstance().getApplicationPressedTheme();
+        updateTheme(mThemeColor, mPressedThemeColor);
     }
 
     private void initLayout() {
+        //theme
+        mLayoutHeader = (LinearLayout) findViewById(R.id.layout_header);
+        mLayoutBtnContact = (LayoutRipple) findViewById(R.id.btn_contact);
+        mLayoutBtnFavorite = (LayoutRipple) findViewById(R.id.btn_favourite);
+        mLayoutBtnRecord = (LayoutRipple) findViewById(R.id.btn_all_record);
+        mLayoutBtnSetting = (LayoutRipple) findViewById(R.id.btn_settings);
+
         mLayoutSearch = (RelativeLayout) findViewById(R.id.layout_search);
         mBtnClearSearch = (ImageButton) findViewById(R.id.btn_clear_search);
         mEditTextSearch = (EditText) findViewById(R.id.edit_text_search);
@@ -81,6 +104,7 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         mLayoutFavourite = (LayoutRipple) findViewById(R.id.btn_favourite);
         mLayoutRecord = (LayoutRipple) findViewById(R.id.btn_all_record);
         mLayoutSetting = (LayoutRipple) findViewById(R.id.btn_settings);
+        mLayoutBtnAddContact = (LayoutRipple) findViewById(R.id.layout_add_contact);
         mBtnClearSearch.setVisibility(View.GONE);
 
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
@@ -157,10 +181,10 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             break;
         case FRAGMENT_ALL_RECORDING:
             Log.d("KieuThang", "onClickRecordTab");
-            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
-            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutSetting.setBackgroundColor(mThemeColor);
+            mLayoutFavourite.setBackgroundColor(mThemeColor);
+            mLayoutRecord.setBackgroundColor(mPressedThemeColor);
+            mLayoutContact.setBackgroundColor(mThemeColor);
 
             mFragmentAllRecord.setBackStatus(isback);
             mTransaction.show(mFragmentAllRecord);
@@ -168,20 +192,20 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             break;
         case FRAGMENT_CONTACT:
             Log.d("KieuThang", "onClickContactTab");
-            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
+            mLayoutSetting.setBackgroundColor(mThemeColor);
+            mLayoutFavourite.setBackgroundColor(mThemeColor);
+            mLayoutRecord.setBackgroundColor(mThemeColor);
+            mLayoutContact.setBackgroundColor(mPressedThemeColor);
 
             mTransaction.show(mFragmentContact);
             mLayoutSearch.setVisibility(View.VISIBLE);
             break;
         case FRAGMENT_FAVOURITE:
             Log.d("KieuThang", "onClickFavouriteTab");
-            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
-            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutSetting.setBackgroundColor(mThemeColor);
+            mLayoutFavourite.setBackgroundColor(mPressedThemeColor);
+            mLayoutRecord.setBackgroundColor(mThemeColor);
+            mLayoutContact.setBackgroundColor(mThemeColor);
 
             mFragmentFavourite.setBackStatus(isback);
             mTransaction.show(mFragmentFavourite);
@@ -189,10 +213,10 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             break;
         case FRAGMENT_SETTING:
             Log.d("KieuThang", "onClickSettingTab");
-            mLayoutSetting.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_pressed));
-            mLayoutFavourite.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutRecord.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
-            mLayoutContact.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+            mLayoutSetting.setBackgroundColor(mPressedThemeColor);
+            mLayoutFavourite.setBackgroundColor(mThemeColor);
+            mLayoutRecord.setBackgroundColor(mThemeColor);
+            mLayoutContact.setBackgroundColor(mThemeColor);
 
             mLayoutSearch.setVisibility(View.GONE);
             mFragmentSetting.setBackStatus(isback);
@@ -325,9 +349,10 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
             mFragmentFavourite.refreshUI();
             break;
         case FRAGMENT_CONTACT:
-            if(mFragmentContact == null)
+            if (mFragmentContact == null)
                 return;
             mFragmentContact.refreshUI();
+            break;
         default:
             break;
         }
@@ -337,7 +362,39 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         mFragmentAllRecord.addNewRecord(recordingSession);
     }
 
+    public void removeARecord(RecordingSession recordingSession) {
+        mFragmentAllRecord.removeARecord(recordingSession);
+    }
+
     public void updateRecordList(int fragmentAllRecording) {
         mFragmentAllRecord.updateRecordList();
+    }
+
+    public void updateTheme(int themeColor, int pressThemeColor) {
+        updateThemeForMainActivity(themeColor, pressThemeColor);
+
+        //update theme for fragments
+        mFragmentAllRecord.updateTheme(themeColor);
+        mFragmentContact.updateTheme(themeColor);
+        mFragmentFavourite.updateTheme(themeColor);
+        mFragmentSetting.updateTheme(themeColor);
+    }
+
+    private void updateThemeForMainActivity(int themeColor, int pressThemeColor) {
+        mThemeColor = themeColor;
+        mPressedThemeColor = pressThemeColor;
+        mLayoutHeader.setBackgroundColor(themeColor);
+        mLayoutBtnContact.setBackground(new ColorDrawable(themeColor));
+        mLayoutBtnFavorite.setBackground(new ColorDrawable(themeColor));
+        mLayoutBtnRecord.setBackground(new ColorDrawable(themeColor));
+        mLayoutBtnSetting.setBackground(new ColorDrawable(themeColor));
+        mLayoutSearch.setBackground(new ColorDrawable(themeColor));
+        mLayoutBtnAddContact.setBackground(new ColorDrawable(themeColor));
+
+        mLayoutBtnContact.setRippleColor(pressThemeColor);
+        mLayoutBtnFavorite.setRippleColor(pressThemeColor);
+        mLayoutBtnRecord.setRippleColor(pressThemeColor);
+        mLayoutBtnSetting.setRippleColor(pressThemeColor);
+        mLayoutBtnAddContact.setRippleColor(pressThemeColor);
     }
 }

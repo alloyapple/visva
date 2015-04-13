@@ -9,16 +9,25 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gc.materialdesign.widgets.Dialog;
+import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.note.ActivityNoteEditor;
+import com.visva.voicerecorder.note.NoteItem;
 import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.TimeUtility;
 import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.VisvaAbstractFragmentActivity;
@@ -26,6 +35,7 @@ import com.visva.voicerecorder.view.widget.CircleImageView;
 
 public class ActivityPlayRecording extends VisvaAbstractFragmentActivity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
     // ======================Constant Define=====================
+    private static final int REQUEST_CODE = 1002;
     private static final int _ID          = 0;
     private static final int DISPLAY_NAME = _ID + 1;
     private static final int NUMBER       = DISPLAY_NAME + 1;
@@ -75,25 +85,25 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
          * pauses a song and changes button to play image
          * */
         mBtnPlay.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View arg0) {
                 // check for already playing
-                if(mMediaPlayer.isPlaying()){
-                    if(mMediaPlayer!=null){
+                if (mMediaPlayer.isPlaying()) {
+                    if (mMediaPlayer != null) {
                         mMediaPlayer.pause();
                         // Changing button image to play button
                         mBtnPlay.setImageResource(R.drawable.btn_play);
                     }
-                }else{
+                } else {
                     // Resume song
-                    if(mMediaPlayer!=null){
+                    if (mMediaPlayer != null) {
                         mMediaPlayer.start();
                         // Changing button image to pause button
                         mBtnPlay.setImageResource(R.drawable.btn_pause);
                     }
                 }
-                
+
             }
         });
     }
@@ -105,7 +115,12 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+                Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING);
+                Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
+            }
+        }
     }
 
     /**
@@ -229,7 +244,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
         mMediaPlayer.release();
     }
 
-    public void onClickCloseButton(View v){
+    public void onClickCloseButton(View v) {
         finish();
     }
 
@@ -256,6 +271,118 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
         mMediaPlayer.setOnCompletionListener(this); // Important
 
         // By default play first song
-        playRecoder();        
+        playRecoder();
     }
+
+    public void onCLickDeleteBtn(View v) {
+        if (mMediaPlayer.isPlaying()) {
+            if (mMediaPlayer != null) {
+                mMediaPlayer.pause();
+                // Changing button image to play button
+                mBtnPlay.setImageResource(R.drawable.btn_play);
+            }
+        } 
+        Log.d("KieuThang", "onCLickDeleteBtn");
+        if (mRecordingSession == null)
+            return;
+        String title = mRecordingSession.phoneName;
+        if (StringUtility.isEmpty(title)) {
+            title = mRecordingSession.phoneNo;
+        }
+        String contentMsg = getResources().getString(R.string.are_you_sure_to_delete_record);
+        String cancel = getResources().getString(R.string.cancel);
+        final Dialog dialog = new Dialog(this, title, contentMsg);
+        dialog.addCancelButton(cancel, new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        dialog.setOnAcceptButtonClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ActivityPlayRecording.this, "Deleted", Toast.LENGTH_SHORT).show();
+                Utils.deleteRecordingSesstionAction(ActivityPlayRecording.this, mRecordingSession);
+
+                finish();
+
+                if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+                    Utils.requestRefreshViewToRemoveNewRecord(MyCallRecorderApplication.getInstance().getActivity(),
+                            ActivityHome.FRAGMENT_ALL_RECORDING, mRecordingSession);
+                    Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
+                }
+            }
+        });
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    dialog.show();
+                } catch (Exception e) {
+
+                }
+            }
+        });
+    }
+
+    public void onClickCallBtn(View v) {
+        if (mMediaPlayer.isPlaying()) {
+            if (mMediaPlayer != null) {
+                mMediaPlayer.pause();
+                // Changing button image to play button
+                mBtnPlay.setImageResource(R.drawable.btn_play);
+            }
+        } 
+        if (mRecordingSession == null)
+            return;
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + mRecordingSession.phoneNo));
+        startActivity(intent);
+    }
+
+    public void onClickNoteBtn(View v) {
+        if (mMediaPlayer.isPlaying()) {
+            if (mMediaPlayer != null) {
+                mMediaPlayer.pause();
+                // Changing button image to play button
+                mBtnPlay.setImageResource(R.drawable.btn_play);
+            }
+        } 
+        if (mRecordingSession == null)
+            return;
+        int state = MyCallRecorderConstant.STATE_INSERT;
+        NoteItem noteItem = Utils.getNoteItemFromRecordSession(this, mRecordingSession.dateCreated);
+        if (noteItem == null || (StringUtility.isEmpty(noteItem.note) && StringUtility.isEmpty(noteItem.title))) {
+            state = MyCallRecorderConstant.STATE_INSERT;
+        } else {
+            state = MyCallRecorderConstant.STATE_EDIT;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(MyCallRecorderConstant.EXTRA_STATE, state);
+        bundle.putString(MyCallRecorderConstant.EXTRA_CREATED_DATE, mRecordingSession.dateCreated);
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NAME, mRecordingSession.phoneName);
+        bundle.putString(MyCallRecorderConstant.EXTRA_PHONE_NO, mRecordingSession.phoneNo);
+
+        Intent updateNoteIntent = new Intent(this, ActivityNoteEditor.class);
+        updateNoteIntent.setAction(MyCallRecorderConstant.MAKE_NOTE_INTENT);
+        updateNoteIntent.putExtras(bundle);
+        updateNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityForResult(updateNoteIntent, REQUEST_CODE);
+    }
+
+    public void onClickShareBtn(View v) {
+        if (mMediaPlayer.isPlaying()) {
+            if (mMediaPlayer != null) {
+                mMediaPlayer.pause();
+                // Changing button image to play button
+                mBtnPlay.setImageResource(R.drawable.btn_play);
+            }
+        } 
+        if (mRecordingSession == null)
+            return;
+        Utils.shareAllRecordingSessionInfoAction(this, mRecordingSession);
+    }
+
 }
