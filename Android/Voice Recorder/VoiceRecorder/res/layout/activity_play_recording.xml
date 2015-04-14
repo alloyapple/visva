@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_play_record"
     android:layout_width="fill_parent"
     android:layout_height="420dp"
     android:background="@color/material_design_color_orange_1"

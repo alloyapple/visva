@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources.Theme;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -16,10 +16,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.LayoutRipple;
 import com.gc.materialdesign.widgets.Dialog;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
@@ -49,6 +51,12 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
     private TextView         mTextPhoneName;
     private TextView         mTextPhoneNumber;
     private ImageButton      mBtnPlay;
+    private RelativeLayout   mLayoutPlayRecord;
+    private TextView         mTextClose;
+    private LayoutRipple     mLayoutDelete;
+    private LayoutRipple     mLayoutCall;
+    private LayoutRipple     mLayoutNote;
+    private LayoutRipple     mLayoutShare;
     // Media Player
     private MediaPlayer      mMediaPlayer;
     // Handler to update UI timer, progress bar etc,.
@@ -58,6 +66,26 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
     private int              mPressedThemeColor;
 
     private void initLayout() {
+        /*theme*/
+        mLayoutPlayRecord = (RelativeLayout) findViewById(R.id.layout_play_record);
+        mTextClose = (TextView) findViewById(R.id.text_close);
+
+        mLayoutCall = (LayoutRipple) findViewById(R.id.btnCall);
+        mLayoutCall.setBackground(new ColorDrawable(mThemeColor));
+        mLayoutCall.setRippleColor(mPressedThemeColor);
+        mLayoutDelete = (LayoutRipple) findViewById(R.id.btn_delete);
+        mLayoutDelete.setBackground(new ColorDrawable(mThemeColor));
+        mLayoutDelete.setRippleColor(mPressedThemeColor);
+        mLayoutNote = (LayoutRipple) findViewById(R.id.btn_note);
+        mLayoutNote.setBackground(new ColorDrawable(mThemeColor));
+        mLayoutNote.setRippleColor(mPressedThemeColor);
+        mLayoutShare = (LayoutRipple) findViewById(R.id.btn_share);
+        mLayoutShare.setBackground(new ColorDrawable(mThemeColor));
+        mLayoutShare.setRippleColor(mPressedThemeColor);
+
+        mLayoutPlayRecord.setBackgroundColor(mThemeColor);
+        mTextClose.setTextColor(mThemeColor);
+
         songProgressBar = (SeekBar) findViewById(R.id.songProgressBar);
         songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
         songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);

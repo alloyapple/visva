@@ -26,10 +26,10 @@
 
     <!-- Theme -->
     <string name="choose_theme">Choose theme</string>
-    <string name="theme_red">Red</string>
+    <string name="theme_red">Red(Default)</string>
     <string name="theme_green">Green</string>
     <string name="theme_blue">Blue</string>
-    <string name="theme_orage">Orange(Default)</string>
+    <string name="theme_orage">Orange</string>
 
     <!-- Home screen -->
     <string name="contact_tab">Contacts</string>
@@ -364,8 +364,8 @@
         <item>263,ZW</item>
     </string-array>
     <string-array name="Themes">
-        <item>Orange(Default)</item>
-        <item>Red</item>
+        <item>Red(Default)</item>
+        <item>Orange</item>
         <item>Green</item>
         <item>Blue</item>
     </string-array>

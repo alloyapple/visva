@@ -3,7 +3,6 @@
     android:id="@+id/welcome_intro_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_design_color_orange_1"
     android:orientation="vertical" >
 
     <LinearLayout

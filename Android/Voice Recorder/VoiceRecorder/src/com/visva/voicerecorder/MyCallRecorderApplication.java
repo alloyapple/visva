@@ -240,6 +240,7 @@ public class MyCallRecorderApplication extends Application {
     }
 
     public int getApplicationTheme() {
+        Log.d("KieuThang", "activit:"+activity+",mThemeColor:"+mThemeColor);
         if (activity == null)
             return 0;
         if (mThemeColor == 0)
