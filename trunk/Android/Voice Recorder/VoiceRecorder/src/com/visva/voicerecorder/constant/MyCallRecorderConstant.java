@@ -41,8 +41,8 @@ public class MyCallRecorderConstant {
     public static final int     STATE_OUTGOING           = 2;
 
     //themes
-    public static final int     THEME_ORANGE             = 0;
-    public static final int     THEME_RED                = 1;
+    public static final int     THEME_RED                = 0;
+    public static final int     THEME_ORANGE             = 1;
     public static final int     THEME_GREEN              = 2;
     public static final int     THEME_BLUE               = 3;
 

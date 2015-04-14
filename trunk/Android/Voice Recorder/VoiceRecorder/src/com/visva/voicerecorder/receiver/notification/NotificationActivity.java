@@ -35,6 +35,10 @@ public class NotificationActivity extends Activity {
     private String         mFileName;
     private String         mDurationTime;
     private int            mCallState;
+    private int            mThemeColor;
+    private int            mPressThemeColor;
+
+    //    private LinearLayout   mLayoutWelcome;
 
     public NotificationActivity() {
     }
@@ -44,7 +48,13 @@ public class NotificationActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_notification);
 
+        mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
+        mPressThemeColor = MyCallRecorderApplication.getInstance().getApplicationPressedTheme();
         mBottomLayout = (LinearLayout) findViewById(R.id.welcome_intro_bottom_layout);
+        Log.d("KieuThang", "mThemeColor:" + mThemeColor);
+        //        mLayoutWelcome = (LinearLayout) findViewById(R.id.welcome_intro_content);
+        // mLayoutWelcome.setBackgroundColor(mThemeColor);
+        mBottomLayout.setBackgroundColor(mThemeColor);
         mBottomLayout.setVisibility(View.GONE);
         mNextBtnLayout = (RelativeLayout) findViewById(R.id.intro_next_layout);
         mContentUpAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
@@ -69,7 +79,7 @@ public class NotificationActivity extends Activity {
             finish();
         }
         mBottomLayout.setVisibility(View.VISIBLE);
-        mBottomLayout.setBackgroundColor(getResources().getColor(R.color.material_design_color_orange_1));
+        mBottomLayout.setBackgroundColor(mThemeColor);
         mBottomLayout.startAnimation(mContentUpAnime);
     }
 
@@ -130,7 +140,7 @@ public class NotificationActivity extends Activity {
                                                              if (isShowNotication)
                                                                  Utils.showNotificationAfterCalling(NotificationActivity.this, phoneName, phoneNo,
                                                                          mCreatedDate);
-                                                             
+
                                                              //After call recording, we need to update view if activity is still alive
                                                              requestToRefreshActivityView(mDurationTime);
                                                          }
