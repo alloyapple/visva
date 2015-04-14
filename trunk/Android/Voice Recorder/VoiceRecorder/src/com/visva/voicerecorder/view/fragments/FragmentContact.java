@@ -318,6 +318,10 @@ public class FragmentContact extends FragmentBasic implements AdapterView.OnItem
             mSQLiteHelper.addNewFavoriteItem(favouriteItem);
             Toast.makeText(getActivity(), addFavouriteContact, Toast.LENGTH_SHORT).show();
         }
+        if (MyCallRecorderApplication.getInstance().getActivity() != null) {
+            Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING);
+            Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_FAVOURITE);
+        }
         mAdapter.notifyDataSetChanged();
     }
 
