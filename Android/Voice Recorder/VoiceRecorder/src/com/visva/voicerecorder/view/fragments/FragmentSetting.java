@@ -1,7 +1,9 @@
 package com.visva.voicerecorder.view.fragments;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +16,12 @@ import com.gc.materialdesign.views.Switch.OnCheckListener;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
+import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.utils.MyCallRecorderSharePrefs;
+import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.common.FragmentBasic;
 
 public class FragmentSetting extends FragmentBasic {
-    //========================Constant Define=============
     //========================Control Define==============
     private Switch                   mSwitchAutoSavedRecordCall;
     private Switch                   mSwitchIncomingCalls;
@@ -26,11 +29,18 @@ public class FragmentSetting extends FragmentBasic {
     private Switch                   mSwitchNotification;
     private LayoutRipple             mLayoutTheme;
     private TextView                 mTextTheme;
+    private LayoutRipple             mLayoutAboutUs;
+    private TextView                 mTextVersionApp;
     /*theme*/
     private TextView                 mTextCallArrived;
     private TextView                 mTextSavedCalls;
     private TextView                 mTextTitleTheme;
     private TextView                 mTextNotification;
+    private TextView                 mTextAbout;
+    private View                     mDivider1;
+    private View                     mDivider2;
+    private View                     mDivider3;
+    private View                     mDivider4;
     //========================Variable Define=============
     private MyCallRecorderSharePrefs mMyRecorderCallSharePrefs;
 
@@ -55,7 +65,14 @@ public class FragmentSetting extends FragmentBasic {
         mTextNotification = (TextView) root.findViewById(R.id.txt_notification);
         mTextSavedCalls = (TextView) root.findViewById(R.id.saved_calls);
         mTextTitleTheme = (TextView) root.findViewById(R.id.txt_theme);
+        mDivider1 = (View) root.findViewById(R.id.divider1);
+        mDivider2 = (View) root.findViewById(R.id.divider2);
+        mDivider3 = (View) root.findViewById(R.id.divider3);
+        mDivider4 = (View) root.findViewById(R.id.divider4);
+        mTextAbout = (TextView) root.findViewById(R.id.txt_about);
 
+        mTextVersionApp = (TextView) root.findViewById(R.id.text_app_version);
+        mLayoutAboutUs = (LayoutRipple) root.findViewById(R.id.layout_about_us);
         mSwitchAutoSavedRecordCall = (Switch) root.findViewById(R.id.switch_auto_saved_record_call);
         mSwitchIncomingCalls = (Switch) root.findViewById(R.id.switch_incoming_calls);
         mSwitchOutGoingCalls = (Switch) root.findViewById(R.id.switch_ongoing_calls);
@@ -97,6 +114,17 @@ public class FragmentSetting extends FragmentBasic {
             }
 
         });
+        mLayoutAboutUs.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Utils.getUrlAboutUs()));
+                } catch (ActivityNotFoundException activityNotFoundException1) {
+                    AIOLog.e(MyCallRecorderConstant.TAG, "Market Intent not found");
+                }
+            }
+        });
         boolean isAutoSavedCallRecord = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_AUTO_SAVED);
         mSwitchAutoSavedRecordCall.setChecked(isAutoSavedCallRecord);
         boolean isSavedIncomingCall = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SAVED_INCOMING_CALL);
@@ -105,6 +133,9 @@ public class FragmentSetting extends FragmentBasic {
         mSwitchOutGoingCalls.setChecked(isSavedOutGoingCall);
         boolean isShowNotification = mMyRecorderCallSharePrefs.getBooleanValue(MyCallRecorderConstant.KEY_SHOW_NOTIFICATION);
         mSwitchNotification.setChecked(isShowNotification);
+
+        String appVersion = getActivity().getResources().getString(R.string.about_app_version, Utils.getApplicationVersion(getActivity()));
+        mTextVersionApp.setText(appVersion);
     }
 
     @Override
@@ -149,7 +180,11 @@ public class FragmentSetting extends FragmentBasic {
         mTextCallArrived.setTextColor(themeColor);
         mTextNotification.setTextColor(themeColor);
         mTextSavedCalls.setTextColor(themeColor);
+        mTextAbout.setTextColor(themeColor);
         mTextTitleTheme.setTextColor(themeColor);
+        mDivider1.setBackgroundColor(themeColor);
+        mDivider2.setBackgroundColor(themeColor);
+        mDivider3.setBackgroundColor(themeColor);
+        mDivider4.setBackgroundColor(themeColor);
     }
-
 }

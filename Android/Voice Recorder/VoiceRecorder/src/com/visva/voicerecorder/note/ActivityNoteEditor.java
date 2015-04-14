@@ -80,7 +80,8 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     private static final String[] PROJECTION       = new String[] {
                                                    NotePad.Notes._ID,
                                                    NotePad.Notes.COLUMN_NAME_TITLE,
-                                                   NotePad.Notes.COLUMN_NAME_NOTE };
+                                                   NotePad.Notes.COLUMN_NAME_NOTE,
+                                                   NotePad.Notes.COLUMN_NAME_REMIND_TIME };
 
     // A label for the saved state of the activity
     private static final String   ORIGINAL_CONTENT = "origContent";
@@ -91,7 +92,8 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     private TextView              mTextDateTime;
     private EditText              mEdittextSubject;
     private Button                mBtnDeleteNote;
-
+    private RelativeLayout        mLayoutHeader;
+    private View                  mDivider;
     /*==================================Variable Define======================*/
     // Global mutable variables
     private int                   mState;
@@ -107,8 +109,11 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     private long                  mTimeByMiliSeconds;
     private long                  mCreatedTime;
     private long                  mReminderTime;
+    private long                  mPreviousReminderTime;
     private String                mPhoneName;
     private String                mPhoneNo;
+    private int                   mThemeColor;
+    private boolean               isDeleteRemind   = false;
 
     /**
      * This method is called by Android when the Activity is first started. From
@@ -124,6 +129,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         final String action = intent.getAction();
         Bundle bundle = intent.getExtras();
         String selection = null;
+
         if (MyCallRecorderConstant.MAKE_NOTE_INTENT.equals(action)) {
             mPhoneName = bundle.getString(MyCallRecorderConstant.EXTRA_PHONE_NAME);
             String dateTime = bundle.getString(MyCallRecorderConstant.EXTRA_CREATED_DATE);
@@ -191,6 +197,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     }
 
     private void initData() {
+        mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
         if (StringUtility.isEmpty(mPhoneName)) {
             mTextPhoneName.setVisibility(View.GONE);
         } else {
@@ -200,10 +207,16 @@ public class ActivityNoteEditor extends Activity implements IReminder {
         mTextPhoneNo.setText(mPhoneNo);
         String createdDate = Utils.getTextDate(this, mCreatedTime) + " " + Utils.getTextTime(this, mCreatedTime);
         mTextDateTime.setText(createdDate);
+
+        /*theme*/
+        mLayoutHeader.setBackgroundColor(mThemeColor);
+        mDivider.setBackgroundColor(mThemeColor);
     }
 
     private void initLayout() {
         // Gets a handle to the EditText in the the layout.
+        mLayoutHeader = (RelativeLayout) findViewById(R.id.layout_header);
+        mDivider = (View) findViewById(R.id.divider);
         mTextNote = (LinedEditText) findViewById(R.id.note);
         mTextPhoneName = (TextView) findViewById(R.id.phone_name);
         mTextPhoneNo = (TextView) findViewById(R.id.phone_number);
@@ -270,11 +283,40 @@ public class ActivityNoteEditor extends Activity implements IReminder {
             // but doesn't change  the text cursor's position.
             int colNoteIndex = mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_NOTE);
             int colTitleIndex = mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_TITLE);
+            int colRemindTimeIndex = mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_REMIND_TIME);
             String note = mCursor.getString(colNoteIndex);
             String title = mCursor.getString(colTitleIndex);
+            String remindTimeStr = mCursor.getString(colRemindTimeIndex);
+            mPreviousReminderTime = Long.valueOf(remindTimeStr);
             Log.d("KieuThang", "title:" + title);
             mTextNote.setTextKeepState(note);
             mEdittextSubject.setText(title);
+            Log.d("KieuThang", "mPreviousReminderTime:" + mPreviousReminderTime + ",mReminderTime:" + mReminderTime);
+            if (mPreviousReminderTime > 0) {
+                mReminderTime = mPreviousReminderTime;
+                mLayoutRemind.setVisibility(View.GONE);
+                mLayoutRemindDateTime.setVisibility(View.VISIBLE);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(mReminderTime);
+
+                String date = Utils.getTextDate(ActivityNoteEditor.this, mReminderTime);
+                SpannableString content = new SpannableString(date);
+                content.setSpan(new UnderlineSpan(), 0, date.length(), 0);
+                mEditTextDate.setText(content);
+                mDateByMiliSeconds = TimeUtility.getDateInMilisFromTime(mReminderTime);
+
+                String time = Utils.getTextTime(ActivityNoteEditor.this, mReminderTime);
+                SpannableString timeContent = new SpannableString(time);
+                timeContent.setSpan(new UnderlineSpan(), 0, time.length(), 0);
+                mEditTextTime.setText(timeContent);
+
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+                mTimeByMiliSeconds = hour * TimeUtility.HOUR_IN_MILIS + minute * TimeUtility.MINUTE_IN_MILIS;
+            } else {
+                onClickCloseRemindMe(null);
+            }
 
             // Stores the original note text, to allow the user to revert changes.
             if (mOriginalContent == null) {
@@ -306,7 +348,6 @@ public class ActivityNoteEditor extends Activity implements IReminder {
 
             // Get the current note text.
             String text = mTextNote.getText().toString();
-            String title = mEdittextSubject.getText().toString();
             int length = text.length();
 
             /*
@@ -327,13 +368,14 @@ public class ActivityNoteEditor extends Activity implements IReminder {
                  * new empty note into the provider, and it is this new note
                  * that is being edited.
                  */
-            } else if (mState == MyCallRecorderConstant.STATE_EDIT) {
-                // Creates a map to contain the new values for the columns
-                updateNote(text, title, mCreatedTime);
-            } else if (mState == MyCallRecorderConstant.STATE_INSERT) {
-                updateNote(text, title, mCreatedTime);
-                mState = MyCallRecorderConstant.STATE_EDIT;
             }
+            //            else if (mState == MyCallRecorderConstant.STATE_EDIT) {
+            //                // Creates a map to contain the new values for the columns
+            //                updateNote(text, title, mCreatedTime, mReminderTime);
+            //            } else if (mState == MyCallRecorderConstant.STATE_INSERT) {
+            //                updateNote(text, title, mCreatedTime, mReminderTime);
+            //                mState = MyCallRecorderConstant.STATE_EDIT;
+            //            }
         }
     }
 
@@ -361,11 +403,11 @@ public class ActivityNoteEditor extends Activity implements IReminder {
      * @param title
      *            The new note title to use
      */
-    private final void updateNote(String text, String title, long createdTime) {
-        Log.d("KieuThang", "text:" + text + ",title:" + title);
+    private final void updateNote(String text, String title, long createdTime, long reminderTime) {
+        Log.d("KieuThang", "text:" + text + ",title:" + title + ",reminderTime:" + reminderTime);
         // Sets up a map to contain values to be updated in the provider.
         ContentValues values = new ContentValues();
-        values.put(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, System.currentTimeMillis());
+        values.put(NotePad.Notes.COLUMN_NAME_REMIND_TIME, reminderTime);
 
         // If the action is to insert a new note, this creates an initial title  for it.
         if (mState == MyCallRecorderConstant.STATE_INSERT) {
@@ -415,10 +457,10 @@ public class ActivityNoteEditor extends Activity implements IReminder {
          */
         if (mState == MyCallRecorderConstant.STATE_INSERT) {
             getContentResolver().insert(mUri, values);/*(mUri, // The URI for the record to update.
-                    values, // The map of column names and new values to apply to them.
-                    null, // No selection criteria are used, so no where columns are necessary.
-                    null // No where columns are used, so no where arguments are necessary.
-                    );*/
+                                                      values, // The map of column names and new values to apply to them.
+                                                      null, // No selection criteria are used, so no where columns are necessary.
+                                                      null // No where columns are used, so no where arguments are necessary.
+                                                      );*/
         } else {
             String selection = NotePad.Notes.COLUMN_NAME_CREATE_DATE + " = " + mCreatedTime;
             getContentResolver().update(mUri, // The URI for the record to update.
@@ -490,6 +532,9 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     }
 
     public void onClickCloseRemindMe(View v) {
+        mReminderTime = 0;
+        if (mPreviousReminderTime > 0)
+            isDeleteRemind = true;
         mLayoutRemind.setVisibility(View.VISIBLE);
         mLayoutRemindDateTime.setVisibility(View.GONE);
     }
@@ -509,7 +554,7 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     }
 
     public void onClickSaveNote(View v) {
-
+        String remindId = String.valueOf(mCreatedTime);
         // update values to note database
         String subject = mEdittextSubject.getText().toString();
         String text = mTextNote.getText().toString();
@@ -519,17 +564,22 @@ public class ActivityNoteEditor extends Activity implements IReminder {
             finish();
             return;
         }
-        updateNote(text, subject, mCreatedTime);
 
         //setup reminder time and data for remind notification
         mReminderTime = mDateByMiliSeconds + mTimeByMiliSeconds;
-        String title = mPhoneName == null ? mPhoneNo : mPhoneName;
+        if (isDeleteRemind) {
+            mReminderTime = 0;
+            ReminderProvider.getInstance(ActivityNoteEditor.this).deleteReminder(ActivityNoteEditor.class, remindId);
+        }
+        //update note to database
+        updateNote(text, subject, mCreatedTime, mReminderTime);
+
         String message = mEdittextSubject.getText().toString();
 
         if (StringUtility.isEmpty(message)) {
             message = mTextNote.getText().toString();
         }
-        if (mReminderTime == 0) {
+        if (mReminderTime == 0 || mReminderTime <= mPreviousReminderTime) {
             AIOLog.e(MyCallRecorderConstant.TAG, "reminder time is not set!!");
             if (MyCallRecorderApplication.getInstance().getActivity() != null) {
                 Utils.requestToRefreshView(MyCallRecorderApplication.getInstance().getActivity(), ActivityHome.FRAGMENT_ALL_RECORDING);
@@ -539,10 +589,9 @@ public class ActivityNoteEditor extends Activity implements IReminder {
             finish();
             return;
         }
-        String notification = title + MyCallRecorderConstant.NOTIFICATION_REMINDER_ID + message;
-        ReminderProvider.getInstance(ActivityNoteEditor.this).addReminder(ActivityNoteEditor.class, notification, mReminderTime,
+
+        ReminderProvider.getInstance(ActivityNoteEditor.this).addReminder(ActivityNoteEditor.class, remindId, mReminderTime,
                 AlarmManager.INTERVAL_DAY, 1);
-        AIOLog.d(MyCallRecorderConstant.TAG, "timeToReminder:" + mReminderTime);
         mReminderTime = 0;
 
         if (MyCallRecorderApplication.getInstance().getActivity() != null) {

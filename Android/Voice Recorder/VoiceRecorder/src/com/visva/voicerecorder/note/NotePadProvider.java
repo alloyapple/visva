@@ -54,13 +54,10 @@ import android.util.Log;
  */
 @SuppressWarnings("deprecation")
 public class NotePadProvider extends ContentProvider implements PipeDataWriter<Cursor> {
-    // Used for debugging and logging
-    private static final String            TAG                   = "NotePadProvider";
-
     /**
      * The database that the provider uses as its underlying data store
      */
-    private static final String            DATABASE_NAME         = "note_pad.db";
+    private static final String            DATABASE_NAME         = "note.db";
 
     /**
      * The database version
@@ -154,8 +151,8 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
 
         // Maps "modified" to "modified"
         sNotesProjectionMap.put(
-                NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE,
-                NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE);
+                NotePad.Notes.COLUMN_NAME_REMIND_TIME,
+                NotePad.Notes.COLUMN_NAME_REMIND_TIME);
 
         /*
          * Creates an initializes a projection map for handling Live Folders
@@ -197,7 +194,7 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
                     + NotePad.Notes.COLUMN_NAME_TITLE + " TEXT,"
                     + NotePad.Notes.COLUMN_NAME_NOTE + " TEXT,"
                     + NotePad.Notes.COLUMN_NAME_CREATE_DATE + " TEXT,"
-                    + NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE + " INTEGER"
+                    + NotePad.Notes.COLUMN_NAME_REMIND_TIME + " INTEGER"
                     + ");");
         }
 
@@ -211,15 +208,11 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-            // Logs that the database is being upgraded
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data");
-
             // Kills the table and existing data
-            db.execSQL("DROP TABLE IF EXISTS notes");
+            //db.execSQL("DROP TABLE IF EXISTS notes");
 
             // Recreates the database with a new version
-            onCreate(db);
+            //onCreate(db);
         }
     }
 
@@ -469,7 +462,7 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
             pw.println("");
             pw.println(c.getString(READ_NOTE_NOTE_INDEX));
         } catch (UnsupportedEncodingException e) {
-            Log.w(TAG, "Ooops", e);
+            AIOLog.d(MyCallRecorderConstant.TAG, "Ooops=>" + e);
         } finally {
             c.close();
             if (pw != null) {
@@ -522,8 +515,8 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
 
         // If the values map doesn't contain the modification date, sets the value to the current
         // time.
-        if (values.containsKey(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE) == false) {
-            values.put(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, now);
+        if (values.containsKey(NotePad.Notes.COLUMN_NAME_REMIND_TIME) == false) {
+            values.put(NotePad.Notes.COLUMN_NAME_REMIND_TIME, now);
         }
 
         // If the values map doesn't contain a title, sets the value to the default title.

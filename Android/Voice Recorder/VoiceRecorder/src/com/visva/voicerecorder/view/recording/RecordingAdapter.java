@@ -240,4 +240,9 @@ public class RecordingAdapter extends ArrayAdapter<RecordingSession> {
         }
         removeRecord(_position);
     }
+
+    public void removeListRecord(ArrayList<RecordingSession> removedList) {
+        mRecordingSessions.removeAll(removedList);
+        notifyDataSetChanged();
+    }
 }
