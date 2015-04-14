@@ -32,6 +32,9 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -65,7 +68,8 @@ import com.visva.voicerecorder.view.activity.ActivityHome;
  * This class contains static utility methods.
  */
 public class Utils {
-    public static String REPLACE_NON_DIGITS = "[^0-9]";
+    public static final String URL_LINk           = "https://play.google.com/store/apps/developer?id=Visva";
+    public static String       REPLACE_NON_DIGITS = "[^0-9]";
 
     // Prevents instantiation.
     private Utils() {
@@ -595,7 +599,8 @@ public class Utils {
     public static NoteItem getNoteItemFromRecordSession(Context context, String createdDate) {
         NoteItem noteItem = new NoteItem();
         Uri uri = NotePad.Notes.CONTENT_URI;
-        final String[] projection = new String[] { NotePad.Notes._ID, NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_NOTE };
+        final String[] projection = new String[] { NotePad.Notes._ID, NotePad.Notes.COLUMN_NAME_TITLE, NotePad.Notes.COLUMN_NAME_NOTE,
+                NotePad.Notes.COLUMN_NAME_REMIND_TIME };
         Cursor cursor = context.getContentResolver().query(uri, projection, NotePad.Notes.COLUMN_NAME_CREATE_DATE + " = " + createdDate, null,
                 NotePad.Notes.DEFAULT_SORT_ORDER);
         if (cursor == null) {
@@ -605,10 +610,13 @@ public class Utils {
         if (cursor.moveToFirst()) {
             int colTitleIndex = cursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_TITLE);
             int noteIndex = cursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_NOTE);
+            int remindTimeIndex = cursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_REMIND_TIME);
             String title = cursor.getString(colTitleIndex);
             String note = cursor.getString(noteIndex);
+            String remindTime = cursor.getString(remindTimeIndex);
             noteItem.title = title;
             noteItem.note = note;
+            noteItem.remindTime = remindTime;
         }
         if (cursor != null) {
             cursor.close();
@@ -645,5 +653,22 @@ public class Utils {
                 activity.removeARecord(session);
             }
         });
+    }
+
+    public static Uri getUrlAboutUs() {
+        return Uri.parse(URL_LINk);
+    }
+
+    public static String getApplicationVersion(Context context) {
+        PackageManager manager = context.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(context.getPackageName(), 0);
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (info == null)
+            return "1.0";
+        return info.versionName;
     }
 }

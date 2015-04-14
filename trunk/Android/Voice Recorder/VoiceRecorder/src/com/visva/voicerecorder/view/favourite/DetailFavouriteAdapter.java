@@ -157,4 +157,9 @@ public class DetailFavouriteAdapter extends BaseAdapter {
         mSelectedItemsIds = new SparseBooleanArray();
         notifyDataSetChanged();
     }
+
+    public void removeRemovedList(ArrayList<RecordingSession> removedList) {
+        mRecordingSessions.removeAll(removedList);
+        notifyDataSetChanged();
+    }
 }

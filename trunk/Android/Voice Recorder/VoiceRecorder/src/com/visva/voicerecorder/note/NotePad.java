@@ -121,7 +121,7 @@ public final class NotePad {
         /**
          * The default sort order for this table
          */
-        public static final String DEFAULT_SORT_ORDER = "modified DESC";
+        public static final String DEFAULT_SORT_ORDER = "created DESC";
 
         /*
          * Column definitions
@@ -149,6 +149,6 @@ public final class NotePad {
          * Column name for the modification timestamp
          * <P>Type: INTEGER (long from System.curentTimeMillis())</P>
          */
-        public static final String COLUMN_NAME_MODIFICATION_DATE = "modified";
+        public static final String COLUMN_NAME_REMIND_TIME = "remind";
     }
 }

@@ -313,13 +313,18 @@ public class FragmentFavourite extends FragmentBasic implements OnMenuItemClickL
             public void onClick(View v) {
                 if (mActionMode != null)
                     mActionMode.finish();
+                ArrayList<RecordingSession> removedList = new ArrayList<RecordingSession>();
                 for (int i = 0; i < selected.size(); i++) {
                     Log.d("KieuThang", "selected.keyAt:" + selected.keyAt(i));
                     int position = selected.keyAt(i);
                     RecordingSession session = mFavouriteRecordingSessions.get(position);
                     Utils.deleteRecordingSesstionAction(getActivity(), session);
-                    mRecordingFavouriteAdapter.removeRecord(position);
+                    removedList.add(session);
                 }
+                mRecordingSessions.removeAll(removedList);
+                mFavouriteRecordingSessions.removeAll(removedList);
+                mRecordingFavouriteAdapter.removeRemovedList(removedList);
+                
                 String deleted = getResources().getString(R.string.deleted);
                 Toast.makeText(getActivity(), deleted, Toast.LENGTH_SHORT).show();
                 if (MyCallRecorderApplication.getInstance().getActivity() != null) {
