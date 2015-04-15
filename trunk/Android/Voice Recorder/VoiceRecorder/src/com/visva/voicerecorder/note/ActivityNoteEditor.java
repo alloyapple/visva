@@ -47,9 +47,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.widgets.Dialog;
-import com.visva.android.visvasdklibrary.provider.ReminderProvider;
 import com.visva.android.visvasdklibrary.remind.IReminder;
 import com.visva.android.visvasdklibrary.remind.ReminderItem;
+import com.visva.android.visvasdklibrary.remind.ReminderProvider;
 import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;

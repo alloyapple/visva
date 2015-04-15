@@ -194,7 +194,7 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
                     + NotePad.Notes.COLUMN_NAME_TITLE + " TEXT,"
                     + NotePad.Notes.COLUMN_NAME_NOTE + " TEXT,"
                     + NotePad.Notes.COLUMN_NAME_CREATE_DATE + " TEXT,"
-                    + NotePad.Notes.COLUMN_NAME_REMIND_TIME + " INTEGER"
+                    + NotePad.Notes.COLUMN_NAME_REMIND_TIME + " TEXT"
                     + ");");
         }
 
@@ -516,7 +516,7 @@ public class NotePadProvider extends ContentProvider implements PipeDataWriter<C
         // If the values map doesn't contain the modification date, sets the value to the current
         // time.
         if (values.containsKey(NotePad.Notes.COLUMN_NAME_REMIND_TIME) == false) {
-            values.put(NotePad.Notes.COLUMN_NAME_REMIND_TIME, now);
+            values.put(NotePad.Notes.COLUMN_NAME_REMIND_TIME, "0");
         }
 
         // If the values map doesn't contain a title, sets the value to the default title.
