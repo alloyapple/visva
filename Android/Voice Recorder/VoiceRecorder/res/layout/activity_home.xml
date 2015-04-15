@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/layout_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
@@ -238,28 +240,42 @@
             android:layout_height="0dp"
             android:layout_weight="1" >
 
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id" >
+            </com.google.android.gms.ads.AdView>
+
             <fragment
                 android:id="@+id/fragment_contact"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@id/adView"
                 class="com.visva.voicerecorder.view.fragments.FragmentContact" />
 
             <fragment
                 android:id="@+id/fragment_all_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@id/adView"
                 class="com.visva.voicerecorder.view.recording.FragmentAllRecord" />
 
             <fragment
                 android:id="@+id/fragment_favourite"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@id/adView"
                 class="com.visva.voicerecorder.view.favourite.FragmentFavourite" />
 
             <fragment
                 android:id="@+id/fragment_settings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@id/adView"
                 class="com.visva.voicerecorder.view.fragments.FragmentSetting" />
         </RelativeLayout>
     </LinearLayout>

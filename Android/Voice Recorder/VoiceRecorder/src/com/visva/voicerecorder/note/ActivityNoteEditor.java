@@ -343,40 +343,6 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     @Override
     protected void onPause() {
         super.onPause();
-
-        if (mCursor != null) {
-
-            // Get the current note text.
-            String text = mTextNote.getText().toString();
-            int length = text.length();
-
-            /*
-             * If the Activity is in the midst of finishing and there is no text
-             * in the current note, returns a result of CANCELED to the caller,
-             * and deletes the note. This is done even if the note was being
-             * edited, the assumption being that the user wanted to "clear out"
-             * (delete) the note.
-             */
-            if (isFinishing() && (length == 0)) {
-                setResult(RESULT_CANCELED);
-                deleteNote();
-
-                /*
-                 * Writes the edits to the provider. The note has been edited if
-                 * an existing note was retrieved into the editor *or* if a new
-                 * note was inserted. In the latter case, onCreate() inserted a
-                 * new empty note into the provider, and it is this new note
-                 * that is being edited.
-                 */
-            }
-            //            else if (mState == MyCallRecorderConstant.STATE_EDIT) {
-            //                // Creates a map to contain the new values for the columns
-            //                updateNote(text, title, mCreatedTime, mReminderTime);
-            //            } else if (mState == MyCallRecorderConstant.STATE_INSERT) {
-            //                updateNote(text, title, mCreatedTime, mReminderTime);
-            //                mState = MyCallRecorderConstant.STATE_EDIT;
-            //            }
-        }
     }
 
     @Override
@@ -541,9 +507,18 @@ public class ActivityNoteEditor extends Activity implements IReminder {
 
     @Override
     public boolean onRemind(Context context, ReminderItem reminderItem) {
+        Log.d("KieuThang", "reminderItem:" + reminderItem.id);
         Resources resources = context.getResources();
-        String title = resources.getString(R.string.app_name_reminder);
-        String message = resources.getString(R.string.you_have_new_reminder);
+        String title = null;
+        String message = null;
+        if (reminderItem != null) {
+            title = Utils.getPhoneNameFromCreatedTime(context, reminderItem.id);
+            message = Utils.getNoteMessageFromCreatedTime(context, reminderItem.id);
+        }
+        if (StringUtility.isEmpty(title))
+            title = resources.getString(R.string.app_name_reminder);
+        if (StringUtility.isEmpty(message))
+            message = resources.getString(R.string.you_have_new_reminder);
         String content[] = reminderItem.id.split(MyCallRecorderConstant.NOTIFICATION_REMINDER_ID + "");
         if (content != null && content.length > 1) {
             title = content[0];

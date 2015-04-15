@@ -39,6 +39,8 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -670,5 +672,29 @@ public class Utils {
         if (info == null)
             return "1.0";
         return info.versionName;
+    }
+
+    public static String getPhoneNameFromCreatedTime(Context context, String id) {
+        SQLiteHelper sqLiteHelper = MyCallRecorderApplication.getInstance().getSQLiteHelper(context);
+        if (sqLiteHelper == null)
+            return null;
+        RecordingSession recordingSession = sqLiteHelper.getARecordItem(id);
+        if (recordingSession == null) {
+            return null;
+        }
+        return StringUtility.isEmpty(recordingSession.phoneName) ? recordingSession.phoneNo : recordingSession.phoneName;
+    }
+
+    public static String getNoteMessageFromCreatedTime(Context context, String createdDate) {
+        NoteItem noteItem = getNoteItemFromRecordSession(context, createdDate);
+        if (noteItem == null)
+            return null;
+        return StringUtility.isEmpty(noteItem.title) ? noteItem.note : noteItem.title;
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
