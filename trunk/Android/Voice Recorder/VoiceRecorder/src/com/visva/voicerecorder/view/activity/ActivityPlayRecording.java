@@ -109,7 +109,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
         }
         mTextPhoneNumber.setText(mRecordingSession.phoneNo + "");
         mAvatar.assignContactFromPhone(mRecordingSession.phoneNo, true);
-        mBtnPlay.setImageResource(R.drawable.btn_pause);
+        mBtnPlay.setImageResource(R.drawable.ic_pause);
         /**
          * Play button click event
          * plays a song and changes button to pause image
@@ -124,14 +124,14 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
                     if (mMediaPlayer != null) {
                         mMediaPlayer.pause();
                         // Changing button image to play button
-                        mBtnPlay.setImageResource(R.drawable.btn_play);
+                        mBtnPlay.setImageResource(R.drawable.ic_play);
                     }
                 } else {
                     // Resume song
                     if (mMediaPlayer != null) {
                         mMediaPlayer.start();
                         // Changing button image to pause button
-                        mBtnPlay.setImageResource(R.drawable.btn_pause);
+                        mBtnPlay.setImageResource(R.drawable.ic_pause);
                     }
                 }
 
@@ -311,7 +311,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
             if (mMediaPlayer != null) {
                 mMediaPlayer.pause();
                 // Changing button image to play button
-                mBtnPlay.setImageResource(R.drawable.btn_play);
+                mBtnPlay.setImageResource(R.drawable.ic_play);
             }
         }
         Log.d("KieuThang", "onCLickDeleteBtn");
@@ -364,7 +364,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
             if (mMediaPlayer != null) {
                 mMediaPlayer.pause();
                 // Changing button image to play button
-                mBtnPlay.setImageResource(R.drawable.btn_play);
+                mBtnPlay.setImageResource(R.drawable.ic_play);
             }
         }
         if (mRecordingSession == null)
@@ -379,7 +379,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
             if (mMediaPlayer != null) {
                 mMediaPlayer.pause();
                 // Changing button image to play button
-                mBtnPlay.setImageResource(R.drawable.btn_play);
+                mBtnPlay.setImageResource(R.drawable.ic_play);
             }
         }
         if (mRecordingSession == null)
@@ -409,7 +409,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
             if (mMediaPlayer != null) {
                 mMediaPlayer.pause();
                 // Changing button image to play button
-                mBtnPlay.setImageResource(R.drawable.btn_play);
+                mBtnPlay.setImageResource(R.drawable.ic_play);
             }
         }
         if (mRecordingSession == null)

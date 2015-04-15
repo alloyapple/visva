@@ -23,6 +23,7 @@
     <string name="app_name_reminder">Reminder</string>
     <string name="you_have_new_reminder">You have new reminder</string>
     <string name="this_contact_not_in_your_contact">This contact is not in your contact</string>
+    <string name="banner_ad_unit_id">ca-app-pub-9000469229477804/8407203577</string>
 
     <!-- Theme -->
     <string name="choose_theme">Choose theme</string>

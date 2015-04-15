@@ -27,12 +27,15 @@ import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.record.RecordingSession;
 import com.visva.voicerecorder.utils.StringUtility;
+import com.visva.voicerecorder.utils.Utils;
 import com.visva.voicerecorder.view.VisvaAbstractFragmentActivity;
 import com.visva.voicerecorder.view.common.IHomeActionListener;
 import com.visva.voicerecorder.view.favourite.FragmentFavourite;
 import com.visva.voicerecorder.view.fragments.FragmentContact;
 import com.visva.voicerecorder.view.fragments.FragmentSetting;
 import com.visva.voicerecorder.view.recording.FragmentAllRecord;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class ActivityHome extends VisvaAbstractFragmentActivity implements IHomeActionListener {
     // ======================Constant Define=====================
@@ -65,6 +68,7 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
     private LayoutRipple        mLayoutBtnFavorite;
     private LayoutRipple        mLayoutBtnSetting;
     private LayoutRipple        mLayoutBtnAddContact;
+    private AdView              mAdView;
     // ======================Variable Define=====================
     private boolean             mBackPressedToExitOnce = false;
     private int                 mFragmentShowType      = FRAGMENT_ALL_RECORDING;
@@ -83,10 +87,20 @@ public class ActivityHome extends VisvaAbstractFragmentActivity implements IHome
         //Remove title bar
         MyCallRecorderApplication.getInstance().setActivity(this);
         initLayout();
-
+        initAdmob();
         mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
         mPressedThemeColor = MyCallRecorderApplication.getInstance().getApplicationPressedTheme();
         updateTheme(mThemeColor, mPressedThemeColor);
+    }
+
+    private void initAdmob() {
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        if (Utils.isNetworkAvailable(this))
+            mAdView.setVisibility(View.VISIBLE);
+        else
+            mAdView.setVisibility(View.GONE);
     }
 
     private void initLayout() {
