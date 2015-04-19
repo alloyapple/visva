@@ -697,4 +697,48 @@ public class Utils {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
+    public static int getPressedTheme(Context context, int which) {
+        int pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
+        switch (which) {
+        case MyCallRecorderConstant.THEME_ORANGE:
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
+            break;
+        case MyCallRecorderConstant.THEME_GREEN:
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_green_pressed);
+            break;
+        case MyCallRecorderConstant.THEME_RED:
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_red_pressed);
+            break;
+        case MyCallRecorderConstant.THEME_BLUE:
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_blue_pressed);
+            break;
+        default:
+            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
+            break;
+        }
+        return pressedThemeColor;
+    }
+
+    public static int getThemeColor(Context context, int which) {
+        int themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
+        switch (which) {
+        case MyCallRecorderConstant.THEME_ORANGE:
+            themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
+            break;
+        case MyCallRecorderConstant.THEME_GREEN:
+            themeColor = context.getResources().getColor(R.color.material_design_color_green);
+            break;
+        case MyCallRecorderConstant.THEME_RED:
+            themeColor = context.getResources().getColor(R.color.material_design_color_red);
+            break;
+        case MyCallRecorderConstant.THEME_BLUE:
+            themeColor = context.getResources().getColor(R.color.material_design_color_blue);
+            break;
+        default:
+            themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
+            break;
+        }
+        return themeColor;
+    }
 }

@@ -240,7 +240,7 @@ public class MyCallRecorderApplication extends Application {
     }
 
     public int getApplicationTheme() {
-        Log.d("KieuThang", "activit:"+activity+",mThemeColor:"+mThemeColor);
+        Log.d("KieuThang", "activit:" + activity + ",mThemeColor:" + mThemeColor);
         if (activity == null)
             return 0;
         if (mThemeColor == 0)
@@ -263,25 +263,8 @@ public class MyCallRecorderApplication extends Application {
             context = activity;
         if (activity == null && getAndroidContext() == null)
             return 0;
-        int pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
-        switch (which) {
-        case MyCallRecorderConstant.THEME_ORANGE:
-            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
-            break;
-        case MyCallRecorderConstant.THEME_GREEN:
-            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_green_pressed);
-            break;
-        case MyCallRecorderConstant.THEME_RED:
-            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_red_pressed);
-            break;
-        case MyCallRecorderConstant.THEME_BLUE:
-            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_blue_pressed);
-            break;
-        default:
-            pressedThemeColor = context.getResources().getColor(R.color.material_design_color_orange_pressed);
-            break;
-        }
-        return pressedThemeColor;
+
+        return Utils.getPressedTheme(context, which);
     }
 
     private int getThemeColor(int which) {
@@ -291,25 +274,7 @@ public class MyCallRecorderApplication extends Application {
             context = activity;
         if (activity == null && getAndroidContext() == null)
             return 0;
-        int themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
-        switch (which) {
-        case MyCallRecorderConstant.THEME_ORANGE:
-            themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
-            break;
-        case MyCallRecorderConstant.THEME_GREEN:
-            themeColor = context.getResources().getColor(R.color.material_design_color_green);
-            break;
-        case MyCallRecorderConstant.THEME_RED:
-            themeColor = context.getResources().getColor(R.color.material_design_color_red);
-            break;
-        case MyCallRecorderConstant.THEME_BLUE:
-            themeColor = context.getResources().getColor(R.color.material_design_color_blue);
-            break;
-        default:
-            themeColor = context.getResources().getColor(R.color.material_design_color_orange_1);
-            break;
-        }
-        return themeColor;
+        return Utils.getThemeColor(context, which);
     }
 
 }

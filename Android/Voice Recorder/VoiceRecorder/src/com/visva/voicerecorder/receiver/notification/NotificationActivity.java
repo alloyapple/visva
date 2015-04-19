@@ -18,6 +18,7 @@ import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
 import com.visva.voicerecorder.record.RecordingSession;
+import com.visva.voicerecorder.utils.MyCallRecorderSharePrefs;
 import com.visva.voicerecorder.utils.ProgramHelper;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.Utils;
@@ -36,7 +37,6 @@ public class NotificationActivity extends Activity {
     private String         mDurationTime;
     private int            mCallState;
     private int            mThemeColor;
-    private int            mPressThemeColor;
 
     //    private LinearLayout   mLayoutWelcome;
 
@@ -47,9 +47,10 @@ public class NotificationActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_notification);
-
-        mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
-        mPressThemeColor = MyCallRecorderApplication.getInstance().getApplicationPressedTheme();
+        
+        MyCallRecorderSharePrefs myCallRecorderSharePrefs = MyCallRecorderSharePrefs.getInstance(this);
+        int which = myCallRecorderSharePrefs.getIntValue(MyCallRecorderConstant.KEY_THEME);
+        mThemeColor = Utils.getThemeColor(this, which);
         mBottomLayout = (LinearLayout) findViewById(R.id.welcome_intro_bottom_layout);
         Log.d("KieuThang", "mThemeColor:" + mThemeColor);
         //        mLayoutWelcome = (LinearLayout) findViewById(R.id.welcome_intro_content);
