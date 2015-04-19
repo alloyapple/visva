@@ -54,6 +54,7 @@ import com.visva.voicerecorder.MyCallRecorderApplication;
 import com.visva.voicerecorder.R;
 import com.visva.voicerecorder.constant.MyCallRecorderConstant;
 import com.visva.voicerecorder.log.AIOLog;
+import com.visva.voicerecorder.utils.MyCallRecorderSharePrefs;
 import com.visva.voicerecorder.utils.StringUtility;
 import com.visva.voicerecorder.utils.TimeUtility;
 import com.visva.voicerecorder.utils.Utils;
@@ -197,7 +198,9 @@ public class ActivityNoteEditor extends Activity implements IReminder {
     }
 
     private void initData() {
-        mThemeColor = MyCallRecorderApplication.getInstance().getApplicationTheme();
+        MyCallRecorderSharePrefs myCallRecorderSharePrefs = MyCallRecorderSharePrefs.getInstance(this);
+        int which = myCallRecorderSharePrefs.getIntValue(MyCallRecorderConstant.KEY_THEME);
+        mThemeColor = Utils.getThemeColor(this, which);
         if (StringUtility.isEmpty(mPhoneName)) {
             mTextPhoneName.setVisibility(View.GONE);
         } else {

@@ -267,6 +267,7 @@ public class ActivityPlayRecording extends VisvaAbstractFragmentActivity impleme
     public void onCompletion(MediaPlayer arg0) {
 
         // check for repeat is ON or OFF
+        mBtnPlay.setImageResource(R.drawable.ic_play);
     }
 
     @Override
