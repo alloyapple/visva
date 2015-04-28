@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sat="http://schemas.android.com/apk/res/android.view.ext"
+    android:id="@+id/root_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout_choose_effect_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/layout_choose_effects"
+        android:background="#000000" />
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:layout_above="@id/layout_choose_effect_id"
         android:contentDescription="@string/content_description" />
 
     <RelativeLayout
@@ -31,12 +42,5 @@
             android:layout_centerInParent="true"
             android:text="@string/face_detecting" />
     </RelativeLayout>
-
-    <include
-        android:id="@+id/layout_choose_effect_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        layout="@layout/layout_choose_effects" />
 
 </RelativeLayout>
