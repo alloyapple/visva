@@ -1,8 +1,6 @@
 package com.visva.android.app.funface.view.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -17,12 +15,12 @@ import android.media.FaceDetector.Face;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.ext.SatelliteMenu;
-import android.view.ext.SatelliteMenuItem;
-import android.view.ext.SatelliteMenu.SateliteClickedListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -32,18 +30,23 @@ import com.visva.android.app.funface.constant.FunFaceConstant;
 import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
+import com.visva.android.app.funface.view.widget.FaceView;
+import com.visva.android.app.funface.view.widget.FaceViewController;
 
+@SuppressLint("ClickableViewAccessibility")
 public class ActivityFaceLoader extends VisvaAbstractActivity {
     //=========================Define Constant================
     //=========================Control Constant===============
-    private ImageView      mImageViewLoadedBitmap;
-    private RelativeLayout mLayoutProgress;
-    private RelativeLayout mLayoutChooseEffects;
-    private SatelliteMenu  mSatelliteMenu;
-    private Animation      mContentUpAnime;
-    private Animation      mContentDownAnime;
+    private ImageView          mImageViewLoadedBitmap;
+    private RelativeLayout     mLayoutProgress;
+    private RelativeLayout     mLayoutChooseEffects;
+    private Button             mBtnAddEffects;
+    private Animation          mContentUpAnime;
+    private Animation          mContentDownAnime;
+    private RelativeLayout     mRootView;
     //=========================Variable Constant==============
-    private Bitmap         mLoadedBitmap;
+    private FaceViewController mFaceViewController;
+    private Bitmap             mLoadedBitmap;
 
     @Override
     public int contentView() {
@@ -65,11 +68,33 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
             return;
         }
         mLoadedBitmap = Utils.decodeBitmapFromCameraIntent(imagePath);
+        mFaceViewController = new FaceViewController(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFaceViewController.loadImages(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFaceViewController.unloadImages();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+            mFaceViewController.trackballClicked();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void initLayout() {
         initLayoutChooseEffects();
-
+        mRootView = (RelativeLayout) findViewById(R.id.root_view);
         mImageViewLoadedBitmap = (ImageView) findViewById(R.id.image_view);
         mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
         mImageViewLoadedBitmap.setVisibility(View.GONE);
@@ -88,27 +113,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
         mContentUpAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_up);
         mContentDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
         mLayoutChooseEffects = (RelativeLayout) findViewById(R.id.layout_choose_effect_id);
-        mSatelliteMenu = (SatelliteMenu) findViewById(R.id.satelite_menu);
-        mSatelliteMenu.setCloseItemsOnClick(true);
-//        mSatelliteMenu.setMainImage(R.drawable.ic_launcher);
-        mSatelliteMenu.setExpandDuration(500);
-        mSatelliteMenu.setSatelliteDistance(150);
-        mSatelliteMenu.setTotalSpacingDegree(85);
         mLayoutChooseEffects.setVisibility(View.GONE);
-
-        List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
-        items.add(new SatelliteMenuItem(1, R.drawable.emoji_1f602_32));
-        items.add(new SatelliteMenuItem(2, R.drawable.pic1));
-        items.add(new SatelliteMenuItem(3, R.drawable.emoji_1f1fa_1f1f8_32));
-        items.add(new SatelliteMenuItem(4, R.drawable.emoji_1f47f_32));
-        mSatelliteMenu.addItems(items);
-
-        mSatelliteMenu.setOnItemClickedListener(new SateliteClickedListener() {
-
-            public void eventOccured(int id) {
-                Log.i("sat", "Clicked on " + id);
-            }
-        });
     }
 
     private class AsyncTaskFaceDetection extends AsyncTask<Void, Void, Integer> {
@@ -140,10 +145,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
             drawPaint.setColor(Color.RED);
             drawPaint.setStyle(Paint.Style.STROKE);
             drawPaint.setStrokeWidth(2);
-
-            mCanvas.setBitmap(mResultBitmap);
-            mCanvas.drawBitmap(mLoadedBitmap, 0, 0, ditherPaint);
-
+            if (mResultBitmap != null && !mResultBitmap.isRecycled()) {
+                mCanvas.setBitmap(mResultBitmap);
+                mCanvas.drawBitmap(mLoadedBitmap, 0, 0, ditherPaint);
+            }
             int facesFound = detector.findFaces(mResultBitmap, faces);
 
             AIOLog.d(FunFaceConstant.TAG, "Number of faces found: " + facesFound);
@@ -174,6 +179,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
             PointF midPoint = new PointF();
             float eyeDistance = 0.0f;
             float confidence = 0.0f;
+
             for (int index = 0; index < result; ++index) {
                 faces[index].getMidPoint(midPoint);
                 eyeDistance = faces[index].eyesDistance();
@@ -183,7 +189,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
                         + ", Eye distance: " + eyeDistance
                         + ", Mid Point: (" + midPoint.x + ", " + midPoint.y
                         + ")");
-
+                FaceView faceView = new FaceView(R.drawable.pic1, getResources());
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pic1);
                 Paint drawPaint = new Paint();
                 drawPaint.setAntiAlias(true);
@@ -195,7 +201,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
                         (int) (midPoint.y - eyeDistance * 2.0f),
                         (int) (midPoint.x + eyeDistance * 2.0f),
                         (int) (midPoint.y + eyeDistance * 2.0f));
-                mCanvas.drawBitmap(bitmap, src, dst, drawPaint);
+                faceView.setPos(dst);
+                mFaceViewController.addFace(faceView);
+            }
+            if (result > 0) {
+                mFaceViewController.draw(mCanvas);
             }
             mImageViewLoadedBitmap.setImageBitmap(mResultBitmap);
         }
@@ -221,6 +231,26 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
 
         imageView.setImageBitmap(bitmap);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLoadedBitmap != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mLoadedBitmap.recycle();
+                    mLoadedBitmap = null;
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mFaceViewController.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
 }
