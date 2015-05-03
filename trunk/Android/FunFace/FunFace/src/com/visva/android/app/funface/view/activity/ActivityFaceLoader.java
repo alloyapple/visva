@@ -1,22 +1,22 @@
 package com.visva.android.app.funface.view.activity;
 
+import java.io.File;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -31,22 +31,26 @@ import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.view.widget.FaceView;
-import com.visva.android.app.funface.view.widget.FaceViewController;
+import com.visva.android.app.funface.view.widget.FaceViewGroup;
 
 @SuppressLint("ClickableViewAccessibility")
 public class ActivityFaceLoader extends VisvaAbstractActivity {
     //=========================Define Constant================
     //=========================Control Constant===============
-    private ImageView          mImageViewLoadedBitmap;
-    private RelativeLayout     mLayoutProgress;
-    private RelativeLayout     mLayoutChooseEffects;
-    private Button             mBtnAddEffects;
-    private Animation          mContentUpAnime;
-    private Animation          mContentDownAnime;
-    private RelativeLayout     mRootView;
+    private ImageView      mImageViewLoadedBitmap;
+    private RelativeLayout mLayoutProgress;
+    private RelativeLayout mLayoutChooseEffects;
+    private Button         mBtnAddEffects;
+    private Animation      mContentUpAnime;
+    private Animation      mContentDownAnime;
+    private RelativeLayout mRootView;
     //=========================Variable Constant==============
-    private FaceViewController mFaceViewController;
-    private Bitmap             mLoadedBitmap;
+    private FaceViewGroup  mFaceViewController;
+    private Bitmap         mLoadedBitmap;
+    private int            mScreenWidth;
+    private int            mScreenHeight;
+    private int            mActionBarHeight;
+    private int            mOrientation;
 
     @Override
     public int contentView() {
@@ -67,20 +71,39 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
             finish();
             return;
         }
+        File file = new File(imagePath);
+        if (!file.exists()) {
+            Log.d(AIOLog.TAG, "File is not existed!");
+            Toast.makeText(this, getString(R.string.image_load_error), Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        Uri uri = Uri.fromFile(file);
+        mOrientation = Utils.checkOrientation(uri);
         mLoadedBitmap = Utils.decodeBitmapFromCameraIntent(imagePath);
-        mFaceViewController = new FaceViewController(this);
+
+        mFaceViewController = new FaceViewGroup(this);
+        Display display = getWindowManager().getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        mScreenWidth = point.x;
+        mScreenHeight = point.y;
+
+        Log.d("KieuThang", "mOrientation:" + mOrientation);
+        if (getActionBar() != null) {
+            mActionBarHeight = getActionBar().getHeight();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mFaceViewController.loadImages(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mFaceViewController.unloadImages();
     }
 
     @Override
@@ -97,6 +120,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
         mRootView = (RelativeLayout) findViewById(R.id.root_view);
         mImageViewLoadedBitmap = (ImageView) findViewById(R.id.image_view);
         mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
+        mFaceViewController = (FaceViewGroup) findViewById(R.id.face_view_group);
         mImageViewLoadedBitmap.setVisibility(View.GONE);
         mLayoutProgress.setVisibility(View.VISIBLE);
         if (mLoadedBitmap == null) {
@@ -118,19 +142,30 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
 
     private class AsyncTaskFaceDetection extends AsyncTask<Void, Void, Integer> {
         private Face[]       faces;
-        private FaceDetector detector;
+        private FaceDetector mFaceDetector;
         private int          mBitmapWidth;
         private int          mBitmapHeight;
         private Canvas       mCanvas;
         private Bitmap       mResultBitmap;
+        private float        mRatioX = 1.0F, mRatioY = 1.0F;
 
         public AsyncTaskFaceDetection(Context context) {
             mBitmapWidth = mLoadedBitmap.getWidth();
             mBitmapHeight = mLoadedBitmap.getHeight();
+            int heightOfLayoutEffect = (int) getResources().getDimension(R.dimen.layout_effect_height);
+            int heightOfLayoutEffectToPixel = Utils.dpToPixels(ActivityFaceLoader.this, heightOfLayoutEffect);
+            Log.d("KieuThang", "heightOfLayoutEffectToPixel:" + heightOfLayoutEffectToPixel + ",heightOfLayoutEffect:" + heightOfLayoutEffect
+                    + ",mActionBarHeight:" + mActionBarHeight);
 
-            detector = new FaceDetector(mBitmapWidth, mBitmapHeight, FunFaceConstant.MAX_FACES);
+            mRatioX = (float) mScreenWidth / (float) mBitmapWidth;
+           // if (mBitmapWidth > mBitmapHeight)
+            //    mRatioY = (float) (mScreenHeight - mActionBarHeight) / (float) mBitmapHeight;
+           // else
+                mRatioY = (float) (mScreenHeight - heightOfLayoutEffectToPixel - mActionBarHeight) / (float) mBitmapHeight;
+            AIOLog.d(FunFaceConstant.TAG, "ratioX:" + mRatioX + ",ratioY:" + mRatioY);
+
+            mFaceDetector = new FaceDetector(mBitmapWidth, mBitmapHeight, FunFaceConstant.MAX_FACES);
             faces = new Face[FunFaceConstant.MAX_FACES];
-
             mCanvas = new Canvas();
         }
 
@@ -138,18 +173,18 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
         protected Integer doInBackground(Void... params) {
 
             mResultBitmap = Bitmap.createBitmap(mBitmapWidth, mBitmapHeight, Config.RGB_565);
-            Paint ditherPaint = new Paint();
-            Paint drawPaint = new Paint();
+            // Paint ditherPaint = new Paint();
+            // Paint drawPaint = new Paint();
 
-            ditherPaint.setDither(true);
-            drawPaint.setColor(Color.RED);
-            drawPaint.setStyle(Paint.Style.STROKE);
-            drawPaint.setStrokeWidth(2);
+            // ditherPaint.setDither(true);
+            //  drawPaint.setColor(Color.RED);
+            // drawPaint.setStyle(Paint.Style.STROKE);
+            //  drawPaint.setStrokeWidth(2);
             if (mResultBitmap != null && !mResultBitmap.isRecycled()) {
                 mCanvas.setBitmap(mResultBitmap);
-                mCanvas.drawBitmap(mLoadedBitmap, 0, 0, ditherPaint);
+                mCanvas.drawBitmap(mLoadedBitmap, 0, 0, null);
             }
-            int facesFound = detector.findFaces(mResultBitmap, faces);
+            int facesFound = mFaceDetector.findFaces(mResultBitmap, faces);
 
             AIOLog.d(FunFaceConstant.TAG, "Number of faces found: " + facesFound);
             return facesFound;
@@ -185,29 +220,27 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
                 eyeDistance = faces[index].eyesDistance();
                 confidence = faces[index].confidence();
 
-                AIOLog.d(FunFaceConstant.TAG, "Confidence: " + confidence
-                        + ", Eye distance: " + eyeDistance
-                        + ", Mid Point: (" + midPoint.x + ", " + midPoint.y
-                        + ")");
-                FaceView faceView = new FaceView(R.drawable.pic1, getResources());
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pic1);
-                Paint drawPaint = new Paint();
-                drawPaint.setAntiAlias(true);
+                AIOLog.d(FunFaceConstant.TAG, "Confidence: " + confidence + ", Eye distance: " + eyeDistance + ", Mid Point: (" + midPoint.x + ", "
+                        + midPoint.y + ")");
+                FaceView faceView = new FaceView(R.drawable.pic1, ActivityFaceLoader.this.getResources(), (int) (2 * eyeDistance * mRatioX));
 
-                Log.d("FaceDetector", "bitmap:" + bitmap);
-                Rect src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-                Rect dst = new Rect(
-                        (int) (midPoint.x - eyeDistance * 2.0f),
-                        (int) (midPoint.y - eyeDistance * 2.0f),
-                        (int) (midPoint.x + eyeDistance * 2.0f),
-                        (int) (midPoint.y + eyeDistance * 2.0f));
-                faceView.setPos(dst);
-                mFaceViewController.addFace(faceView);
-            }
-            if (result > 0) {
-                mFaceViewController.draw(mCanvas);
+                float scaleX = 1.0F;
+                float scaleY = 1.0F;
+                float centerX = midPoint.x * mRatioX;
+                float centerY = midPoint.y * mRatioY;
+                float angle = 0.0F;
+
+                AIOLog.d(FunFaceConstant.TAG, "ratioX:" + mRatioX + ",ratioY:" + mRatioY + ",centerX:" + centerX + ",centerY:" + centerY);
+                faceView.setPos(centerX, centerY, scaleX, scaleY, angle);
+                mFaceViewController.addFace(faceView, ActivityFaceLoader.this);
             }
             mImageViewLoadedBitmap.setImageBitmap(mResultBitmap);
+            Log.d("KieuThang", "mScreenWidth:" + mScreenWidth + ",mScreenHeight:" + mScreenHeight);
+            Log.d("KieuThang", "mImageViewLoadedBitmap width:" + mImageViewLoadedBitmap.getWidth() + ",height:" + mImageViewLoadedBitmap.getHeight());
+            Log.d("KieuThang", "mResultBitmap width:" + mResultBitmap.getWidth() + ", mResultBitmap height:"
+                    + mResultBitmap.getHeight());
+            Log.d("KieuThang", "mScreenWidth:" + mImageViewLoadedBitmap.getDrawable().getIntrinsicWidth() + ",mScreenHeight:"
+                    + mImageViewLoadedBitmap.getDrawable().getIntrinsicHeight());
         }
     }
 
@@ -246,11 +279,4 @@ public class ActivityFaceLoader extends VisvaAbstractActivity {
             });
         }
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        mFaceViewController.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
 }

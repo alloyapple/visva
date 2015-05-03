@@ -3,6 +3,7 @@
  * 
  * (c) Luke Hutchison (luke.hutch@mit.edu)
  * 
+ * TODO: Add OpenGL acceleration.
  * 
  * --
  * 
@@ -26,65 +27,54 @@ package com.visva.android.app.funface.view.widget;
 
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.PointF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.visva.android.app.funface.multitouch.MoveGestureDetector;
-import com.visva.android.app.funface.multitouch.ShoveGestureDetector;
+import com.visva.android.app.funface.utils.MultiTouchController;
+import com.visva.android.app.funface.utils.MultiTouchController.MultiTouchObjectCanvas;
 import com.visva.android.app.funface.utils.MultiTouchController.PointInfo;
 import com.visva.android.app.funface.utils.MultiTouchController.PositionAndScale;
 
-@SuppressLint("ClickableViewAccessibility")
-public class FaceViewController extends View {
+public class FaceViewGroup extends View implements MultiTouchObjectCanvas<FaceView> {
 
-    private ArrayList<FaceView>  mImages                    = new ArrayList<FaceView>();
-
-    private PointInfo            currTouchPoint             = new PointInfo();
-
-    private boolean              mShowDebugInfo             = true;
-
-    private static final int     UI_MODE_ROTATE             = 1, UI_MODE_ANISOTROPIC_SCALE = 2;
-
-    private int                  mUIMode                    = UI_MODE_ROTATE;
+    private ArrayList<FaceView>            mImages                    = new ArrayList<FaceView>();
 
     // --
 
-    private Paint                mLinePaintTouchPointCircle = new Paint();
+    private MultiTouchController<FaceView> multiTouchController       = new MultiTouchController<FaceView>(this);
 
-    private ScaleGestureDetector mScaleDetector;
-    private MoveGestureDetector  mMoveDetector;
-    private ShoveGestureDetector mShoveDetector;
+    // --
 
-    private Matrix               mMatrix                    = new Matrix();
-    private float                mScaleFactor               = .4f;
-    private float                mFocusX                    = 0.f;
-    private float                mFocusY                    = 0.f;
-    private int                  mAlpha                     = 255;
-    private int                  mImageHeight, mImageWidth;
+    private PointInfo                      currTouchPoint             = new PointInfo();
+
+    private boolean                        mShowDebugInfo             = true;
+
+    private static final int               UI_MODE_ROTATE             = 1, UI_MODE_ANISOTROPIC_SCALE = 2;
+
+    private int                            mUIMode                    = UI_MODE_ROTATE;
+
+    // --
+
+    private Paint                          mLinePaintTouchPointCircle = new Paint();
 
     // ---------------------------------------------------------------------------------------------------
 
-    public FaceViewController(Context context) {
+    public FaceViewGroup(Context context) {
         this(context, null);
     }
 
-    public FaceViewController(Context context, AttributeSet attrs) {
+    public FaceViewGroup(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FaceViewController(Context context, AttributeSet attrs, int defStyle) {
+    public FaceViewGroup(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -94,20 +84,15 @@ public class FaceViewController extends View {
         mLinePaintTouchPointCircle.setStrokeWidth(5);
         mLinePaintTouchPointCircle.setStyle(Style.STROKE);
         mLinePaintTouchPointCircle.setAntiAlias(true);
-        setBackgroundColor(Color.BLACK);
-        // Setup Gesture Detectors
-        mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
-        mMoveDetector = new MoveGestureDetector(context, new MoveListener());
-        mShoveDetector = new ShoveGestureDetector(context, new ShoveListener());
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
     /** Called by activity's onResume() method to load the images */
     public void loadImages(Context context) {
         Resources res = context.getResources();
         int n = mImages.size();
-        for (int i = 0; i < n; i++) {
-            mImages.get(i).load(res);
-        }
+        //for (int i = 0; i < n; i++)
+         //   mImages.get(i).load(res);
     }
 
     /** Called by activity's onPause() method to free memory used for loading the images */
@@ -122,14 +107,6 @@ public class FaceViewController extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int n = mImages.size();
-        for (int i = 0; i < n; i++)
-            mImages.get(i).draw(canvas);
-        if (mShowDebugInfo)
-            drawMultitouchDebugMarks(canvas);
-    }
-
-    public void draw(Canvas canvas) {
         int n = mImages.size();
         for (int i = 0; i < n; i++)
             mImages.get(i).draw(canvas);
@@ -158,6 +135,13 @@ public class FaceViewController extends View {
     }
 
     // ---------------------------------------------------------------------------------------------------
+
+    /** Pass touch events to the MT controller */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return multiTouchController.onTouchEvent(event);
+    }
+
     /** Get the image that is under the single-touch point, or return null (canceling the drag op) if none */
     public FaceView getDraggableObjectAtPoint(PointInfo pt) {
         float x = pt.getX(), y = pt.getY();
@@ -174,84 +158,40 @@ public class FaceViewController extends View {
      * Select an object for dragging. Called whenever an object is found to be under the point (non-null is returned by getDraggableObjectAtPoint())
      * and a drag operation is starting. Called with null when drag op ends.
      */
-    public void selectObject(FaceView img, PointInfo touchPoint) {
+    public void selectObject(FaceView FaceView, PointInfo touchPoint) {
         currTouchPoint.set(touchPoint);
-        if (img != null) {
+        if (FaceView != null) {
             // Move image to the top of the stack when selected
-            mImages.remove(img);
-            mImages.add(img);
+            mImages.remove(FaceView);
+            mImages.add(FaceView);
         } else {
-            // Called with img == null when drag stops.
+            // Called with FaceView == null when drag stops.
         }
         invalidate();
     }
 
     /** Get the current position and scale of the selected image. Called whenever a drag starts or is reset. */
-    public void getPositionAndScale(FaceView img, PositionAndScale objPosAndScaleOut) {
-        objPosAndScaleOut.set(img.getCenterX(), img.getCenterY(), (mUIMode & UI_MODE_ANISOTROPIC_SCALE) == 0,
-                (img.getScaleX() + img.getScaleY()) / 2, (mUIMode & UI_MODE_ANISOTROPIC_SCALE) != 0, img.getScaleX(), img.getScaleY(),
-                (mUIMode & UI_MODE_ROTATE) != 0, img.getAngle());
+    public void getPositionAndScale(FaceView FaceView, PositionAndScale objPosAndScaleOut) {
+        // FIXME affine-izem (and fix the fact that the anisotropic_scale part requires averaging the two scale factors)
+        objPosAndScaleOut.set(FaceView.getCenterX(), FaceView.getCenterY(), (mUIMode & UI_MODE_ANISOTROPIC_SCALE) == 0,
+                (FaceView.getScaleX() + FaceView.getScaleY()) / 2, (mUIMode & UI_MODE_ANISOTROPIC_SCALE) != 0, FaceView.getScaleX(),
+                FaceView.getScaleY(),
+                (mUIMode & UI_MODE_ROTATE) != 0, FaceView.getAngle());
     }
 
     /** Set the position and scale of the dragged/stretched image. */
-    public boolean setPositionAndScale(FaceView img, PositionAndScale newImgPosAndScale, PointInfo touchPoint) {
+    public boolean setPositionAndScale(FaceView FaceView, PositionAndScale newFaceViewPosAndScale, PointInfo touchPoint) {
         currTouchPoint.set(touchPoint);
-        return true;
+        boolean ok = FaceView.setPos(newFaceViewPosAndScale, mUIMode);
+        if (ok)
+            invalidate();
+        return ok;
     }
 
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            mScaleFactor *= detector.getScaleFactor();
-
-            // Don't let the object get too small or too large.
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 0.5f));
-
-            return true;
-        }
-    }
-
-    private class MoveListener extends MoveGestureDetector.SimpleOnMoveGestureListener {
-        @Override
-        public boolean onMove(MoveGestureDetector detector) {
-            PointF d = detector.getFocusDelta();
-            mFocusX += d.x;
-            mFocusY += d.y;
-            Log.d("KieuThang", "mFocusX:" + mFocusX);
-            Log.d("KieuThang", "mFocusY:" + mFocusY);
-            return true;
-        }
-    }
-
-    private class ShoveListener extends ShoveGestureDetector.SimpleOnShoveGestureListener {
-        @Override
-        public boolean onShove(ShoveGestureDetector detector) {
-            mAlpha += detector.getShovePixelsDelta();
-            if (mAlpha > 255)
-                mAlpha = 255;
-            else if (mAlpha < 0)
-                mAlpha = 0;
-
-            return true;
-        }
-    }
-
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.d("KieuThang", "onTouchEvent");
-        mScaleDetector.onTouchEvent(event);
-        mMoveDetector.onTouchEvent(event);
-        mShoveDetector.onTouchEvent(event);
-
-        float scaledImageCenterX = (mImageWidth * mScaleFactor) / 2;
-        float scaledImageCenterY = (mImageHeight * mScaleFactor) / 2;
-
-        mMatrix.reset();
-        mMatrix.postScale(mScaleFactor, mScaleFactor);
-        mMatrix.postTranslate(mFocusX - scaledImageCenterX, mFocusY - scaledImageCenterY);
-        return true;
-    }
-
-    public void addFace(FaceView faceView) {
+    public void addFace(FaceView faceView, Context context) {
+        // TODO Auto-generated method stub
+        int size = mImages.size();
         mImages.add(faceView);
+       // mImages.get(size).load(context.getResources());
     }
 }
