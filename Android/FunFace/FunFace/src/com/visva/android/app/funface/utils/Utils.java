@@ -3,6 +3,7 @@ package com.visva.android.app.funface.utils;
 import java.io.File;
 import java.io.IOException;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -41,8 +42,8 @@ public class Utils {
 
         Uri uri = Uri.fromFile(new File(photoPath));
         int orientation = checkOrientation(uri);
-        return decodeBitmap(decodedBitmap, orientation);
 
+        return decodeBitmap(decodedBitmap, orientation);
     }
 
     private static Bitmap decodeBitmap(Bitmap bitmap, int orientation) {
@@ -59,7 +60,7 @@ public class Utils {
      * @param fileUri
      * @return
      */
-    private static int checkOrientation(Uri fileUri) {
+    public static int checkOrientation(Uri fileUri) {
         int rotate = 0;
         String imagePath = fileUri.getPath();
         ExifInterface exif = null;
@@ -85,5 +86,11 @@ public class Utils {
             break;
         }
         return rotate;
+    }
+
+    public static int dpToPixels(Context context, int dps) {
+        float scaleValue = context.getResources().getDisplayMetrics().density;
+        int pixels = (int) (dps * scaleValue + 0.5f);
+        return pixels;
     }
 }
