@@ -57,6 +57,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private Button             mBtnAddEffects;
     private Animation          mContentUpAnime;
     private Animation          mContentDownAnime;
+    private Animation          mDeleteFaceDownAnime;
     private RelativeLayout     mRootView;
     private RelativeLayout     mLayoutDeleteFaces;
     private ImageView          mImageDeletedFace;
@@ -172,6 +173,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mContentUpAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_up);
         mContentDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
         mContentDownAnime.setAnimationListener(contentEffectDownAnimListener);
+        mDeleteFaceDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
+        mDeleteFaceDownAnime.setAnimationListener(deleteFaceDownAnimListener);
         mLayoutChooseEffects = (RelativeLayout) findViewById(R.id.layout_choose_effect_id);
         mLayoutChooseEffects.setVisibility(View.GONE);
         mLayoutItemOptions = (LinearLayout) findViewById(R.id.layout_list_item_options_id);
@@ -202,6 +205,25 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         }
     }
 
+    private AnimationListener deleteFaceDownAnimListener    = new AnimationListener() {
+
+                                                                @Override
+                                                                public void onAnimationStart(Animation animation) {
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationRepeat(Animation animation) {
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationEnd(Animation animation) {
+                                                                    mLayoutDeleteFaces.setVisibility(View.GONE);
+                                                                    isShowDeletedFaceLayout = false;
+                                                                }
+                                                            };
+
     private AnimationListener contentEffectDownAnimListener = new AnimationListener() {
 
                                                                 @Override
@@ -225,13 +247,13 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                         break;
                                                                     }
                                                                     switch (mShowNextLayoutType) {
-                                                                    case TYPE_SHOW_DELETE_FACE_LAYOUT:
-                                                                        mLayoutDeleteFaces.setVisibility(View.GONE);
-                                                                        isShowDeletedFaceLayout = false;
-                                                                        break;
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
                                                                         mLayoutItemOptions.setVisibility(View.VISIBLE);
                                                                         mLayoutItemOptions.startAnimation(mContentUpAnime);
+                                                                        break;
+                                                                    case TYPE_SHOW_ITEM_OPTIONS_LAYOUT:
+                                                                        mLayoutChooseEffects.setVisibility(View.VISIBLE);
+                                                                        mLayoutChooseEffects.startAnimation(mContentUpAnime);
                                                                         break;
                                                                     default:
                                                                         break;
@@ -241,6 +263,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                 }
                                                             };
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onShowDeleteFaces(boolean isShowDeletedFace, FaceView selectedFace) {
         if (isShowDeletedFace) {
@@ -253,10 +276,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     public void onLayoutChange(int showLayoutType, boolean isShow) {
         Log.d("KieuThang", "mShowNextLayoutType:" + mShowNextLayoutType + ",mShowPreviousLayoutType:" + mShowPreviousLayoutType + ",showLayoutType:"
                 + showLayoutType);
-        mShowNextLayoutType = showLayoutType;
-        //show next layout
-        switch (mShowNextLayoutType) {
-        case TYPE_SHOW_DELETE_FACE_LAYOUT:
+        if (TYPE_SHOW_DELETE_FACE_LAYOUT == showLayoutType) {
             if (isShowDeletedFaceLayout == isShow)
                 return;
             if (isShow) {
@@ -264,9 +284,13 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 mLayoutDeleteFaces.startAnimation(mContentUpAnime);
                 isShowDeletedFaceLayout = true;
             } else {
-                mLayoutDeleteFaces.startAnimation(mContentDownAnime);
+                mLayoutDeleteFaces.startAnimation(mDeleteFaceDownAnime);
             }
-            break;
+            return;
+        }
+        mShowNextLayoutType = showLayoutType;
+        //show next layout
+        switch (mShowNextLayoutType) {
         case TYPE_SHOW_ITEM_OPTIONS_LAYOUT:
             mLayoutChooseEffects.setVisibility(View.VISIBLE);
             mLayoutChooseEffects.startAnimation(mContentUpAnime);
@@ -430,21 +454,31 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         onLayoutChange(TYPE_SHOW_ADD_FACE_LAYOUT, true);
     }
 
-    /*on click options tabs listener*/
     public void onClickAddFrameTab(View v) {
 
     }
 
-    /*on click options tabs listener*/
     public void onClickAddEffectTab(View v) {
 
     }
 
-    /*on click options tabs listener*/
     public void onClickSettingTab(View v) {
         Toast.makeText(this, "onClickSettingTab", Toast.LENGTH_SHORT).show();
         AsyncTaskSaveImageToSdCard asyncTaskSaveImageToSdCard = new AsyncTaskSaveImageToSdCard();
         asyncTaskSaveImageToSdCard.execute();
+    }
+
+    /*on click add face layout events handler*/
+    public void onClickAddOtherFaceOption(View v) {
+        Toast.makeText(this, "onClickAddOtherFaceOption", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickAddAnimalFaceOption(View v) {
+        Toast.makeText(this, "onClickAddAnimalFaceOption", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickAddLOLFaceOption(View v) {
+        Toast.makeText(this, "onClickAddLOLFaceOption", Toast.LENGTH_SHORT).show();
     }
 
     /**

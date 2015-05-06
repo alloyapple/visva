@@ -16,17 +16,17 @@
         android:weightSum="3" >
 
         <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/btn_add_face"
+            android:id="@+id/btn_add_lol_face"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="onClickAddFaceTab"
+            android:onClick="onClickAddLOLFaceOption"
             materialdesign:rippleSpeed="20" >
 
             <TextView
-                android:id="@+id/txt_face"
+                android:id="@+id/txt_face_lol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -41,18 +41,18 @@
         </View>
 
         <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/btn_add_frame"
+            android:id="@+id/btn_add_animal_face"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="onClickAddFrameTab"
+            android:onClick="onClickAddAnimalFaceOption"
             materialdesign:rippleColor="#1E88E5"
             materialdesign:rippleSpeed="20" >
 
             <TextView
-                android:id="@+id/txt_frame"
+                android:id="@+id/txt_animal_face"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -67,18 +67,18 @@
         </View>
 
         <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/btn_effect"
+            android:id="@+id/btn_add_other_face"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="onClickAddEffectTab"
+            android:onClick="onClickAddOtherFaceOption"
             materialdesign:rippleColor="#1E88E5"
             materialdesign:rippleSpeed="20" >
 
             <TextView
-                android:id="@+id/txt_effects"
+                android:id="@+id/txt_other_face"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

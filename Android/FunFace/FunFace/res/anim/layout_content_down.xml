@@ -8,11 +8,11 @@
 
     <translate
 
-        android:duration="2000"
+        android:duration="300"
 
-        android:fromYDelta="-100%p"
+        android:fromYDelta="0"
 
-        android:toYDelta="0" />
+        android:toYDelta="100%" />
 
 
 
@@ -20,9 +20,9 @@
 
         android:duration="1000"
 
-        android:fromAlpha="0.0"
+        android:fromAlpha="1.0"
 
-        android:toAlpha="1.0" />
+        android:toAlpha="0.5" />
 
 
 
