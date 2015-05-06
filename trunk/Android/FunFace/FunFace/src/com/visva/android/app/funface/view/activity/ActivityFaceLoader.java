@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
@@ -28,6 +29,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -36,37 +38,43 @@ import com.visva.android.app.funface.constant.FunFaceConstant;
 import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
+import com.visva.android.app.funface.view.adapter.CustomArrayAdapter;
+import com.visva.android.app.funface.view.adapter.CustomData;
 import com.visva.android.app.funface.view.widget.FaceView;
 import com.visva.android.app.funface.view.widget.FaceViewGroup;
 import com.visva.android.app.funface.view.widget.FaceViewGroup.ILayoutChange;
+import com.visva.android.app.funface.view.widget.HorizontalListView;
 
 public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayoutChange {
     //=========================Define Constant================
-    public static final int  TYPE_SHOW_EFFECT_LAYOUT = 0;
-    public static final int  TYPE_SHOW_DELETE_LAYOUT = 1;
-    private static final int FACE_SIZE_OFF           = 15;
+    public static final int    TYPE_SHOW_ITEM_OPTIONS_LAYOUT = 0;
+    public static final int    TYPE_SHOW_DELETE_FACE_LAYOUT  = 1;
+    private static final int   TYPE_SHOW_ADD_FACE_LAYOUT     = 2;
+    private static final int   FACE_SIZE_OFF                 = 15;
     //=========================Control Constant===============
-    private RelativeLayout   mLayoutProgress;
-    private RelativeLayout   mLayoutChooseEffects;
-    private Button           mBtnAddEffects;
-    private Animation        mContentUpAnime;
-    private Animation        mContentDownAnime;
-    private RelativeLayout   mRootView;
-    private RelativeLayout   mLayoutDeleteFaces;
-    private ImageView        mImageDeletedFace;
-    private RelativeLayout   mLayoutMain;
+    private RelativeLayout     mLayoutProgress;
+    private RelativeLayout     mLayoutChooseEffects;
+    private Button             mBtnAddEffects;
+    private Animation          mContentUpAnime;
+    private Animation          mContentDownAnime;
+    private RelativeLayout     mRootView;
+    private RelativeLayout     mLayoutDeleteFaces;
+    private ImageView          mImageDeletedFace;
+    private RelativeLayout     mLayoutMain;
+    private LinearLayout       mLayoutItemOptions;
+    private HorizontalListView mItemOptionsListView;
     //=========================Variable Constant==============
-    private FaceViewGroup    mFaceViewGroup;
-    private Bitmap           mLoadedBitmap;
-    private int              mScreenWidth;
-    private int              mScreenHeight;
-    private int              mActionBarHeight, mNotificationBarHeight;
-    private int              mShowPreviousLayoutType = TYPE_SHOW_EFFECT_LAYOUT;
-    private int              mShowNextLayoutType     = TYPE_SHOW_EFFECT_LAYOUT;
-    private boolean          isShowDeletedFaceLayout = false;
-    private int              mFaceSizeMargin         = FACE_SIZE_OFF;
+    private FaceViewGroup      mFaceViewGroup;
+    private Bitmap             mLoadedBitmap;
+    private int                mScreenWidth;
+    private int                mScreenHeight;
+    private int                mActionBarHeight, mNotificationBarHeight;
+    private int                mShowPreviousLayoutType       = TYPE_SHOW_ITEM_OPTIONS_LAYOUT;
+    private int                mShowNextLayoutType           = TYPE_SHOW_ITEM_OPTIONS_LAYOUT;
+    private boolean            isShowDeletedFaceLayout       = false;
+    private int                mFaceSizeMargin               = FACE_SIZE_OFF;
     /*this value is used for the height of image displayed in real position of device*/
-    private int              mRealImageHeight;
+    private int                mRealImageHeight;
 
     @Override
     public int contentView() {
@@ -166,6 +174,18 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mContentDownAnime.setAnimationListener(contentEffectDownAnimListener);
         mLayoutChooseEffects = (RelativeLayout) findViewById(R.id.layout_choose_effect_id);
         mLayoutChooseEffects.setVisibility(View.GONE);
+        mLayoutItemOptions = (LinearLayout) findViewById(R.id.layout_list_item_options_id);
+        mItemOptionsListView = (HorizontalListView) findViewById(R.id.list_options_item);
+
+        setupOptionItemListCustomLists();
+    }
+
+    private void setupOptionItemListCustomLists() {
+        // Make an array adapter using the built in android layout to render a list of strings
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, mCustomData);
+
+        // Assign adapter to HorizontalListView
+        mItemOptionsListView.setAdapter(adapter);
     }
 
     @Override
@@ -194,12 +214,25 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
                                                                 @Override
                                                                 public void onAnimationEnd(Animation animation) {
+                                                                    switch (mShowPreviousLayoutType) {
+                                                                    case TYPE_SHOW_ADD_FACE_LAYOUT:
+                                                                        mLayoutItemOptions.setVisibility(View.GONE);
+                                                                        break;
+                                                                    case TYPE_SHOW_ITEM_OPTIONS_LAYOUT:
+                                                                        mLayoutChooseEffects.setVisibility(View.GONE);
+                                                                        break;
+                                                                    default:
+                                                                        break;
+                                                                    }
                                                                     switch (mShowNextLayoutType) {
-                                                                    case TYPE_SHOW_DELETE_LAYOUT:
+                                                                    case TYPE_SHOW_DELETE_FACE_LAYOUT:
                                                                         mLayoutDeleteFaces.setVisibility(View.GONE);
                                                                         isShowDeletedFaceLayout = false;
                                                                         break;
-
+                                                                    case TYPE_SHOW_ADD_FACE_LAYOUT:
+                                                                        mLayoutItemOptions.setVisibility(View.VISIBLE);
+                                                                        mLayoutItemOptions.startAnimation(mContentUpAnime);
+                                                                        break;
                                                                     default:
                                                                         break;
                                                                     }
@@ -223,7 +256,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mShowNextLayoutType = showLayoutType;
         //show next layout
         switch (mShowNextLayoutType) {
-        case TYPE_SHOW_DELETE_LAYOUT:
+        case TYPE_SHOW_DELETE_FACE_LAYOUT:
             if (isShowDeletedFaceLayout == isShow)
                 return;
             if (isShow) {
@@ -234,9 +267,12 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 mLayoutDeleteFaces.startAnimation(mContentDownAnime);
             }
             break;
-        case TYPE_SHOW_EFFECT_LAYOUT:
+        case TYPE_SHOW_ITEM_OPTIONS_LAYOUT:
             mLayoutChooseEffects.setVisibility(View.VISIBLE);
             mLayoutChooseEffects.startAnimation(mContentUpAnime);
+            break;
+        case TYPE_SHOW_ADD_FACE_LAYOUT:
+            mLayoutChooseEffects.startAnimation(mContentDownAnime);
             break;
         default:
             mLayoutChooseEffects.setVisibility(View.VISIBLE);
@@ -359,6 +395,61 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         }
     }
 
+    private int getNotificationBarHeight() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int notificationBarHeight = 0;
+        Log.d("KieuThang", "metrics.densityDpi:" + metrics.densityDpi);
+        switch (metrics.densityDpi) {
+        case DisplayMetrics.DENSITY_XHIGH:
+            Log.d("KieuThang", "xhigh");
+            notificationBarHeight = 50;
+            break;
+        case DisplayMetrics.DENSITY_HIGH:
+            Log.d("KieuThang", "high");
+            notificationBarHeight = 48;
+            break;
+        case DisplayMetrics.DENSITY_MEDIUM:
+            Log.d("KieuThang", "medium/default");
+            notificationBarHeight = 32;
+            break;
+        case DisplayMetrics.DENSITY_LOW:
+            Log.d("KieuThang", "low");
+            notificationBarHeight = 24;
+            break;
+        default:
+            notificationBarHeight = 32;
+            break;
+
+        }
+        return notificationBarHeight;
+    }
+
+    /*on click options tabs listener*/
+    public void onClickAddFaceTab(View v) {
+        onLayoutChange(TYPE_SHOW_ADD_FACE_LAYOUT, true);
+    }
+
+    /*on click options tabs listener*/
+    public void onClickAddFrameTab(View v) {
+
+    }
+
+    /*on click options tabs listener*/
+    public void onClickAddEffectTab(View v) {
+
+    }
+
+    /*on click options tabs listener*/
+    public void onClickSettingTab(View v) {
+        Toast.makeText(this, "onClickSettingTab", Toast.LENGTH_SHORT).show();
+        AsyncTaskSaveImageToSdCard asyncTaskSaveImageToSdCard = new AsyncTaskSaveImageToSdCard();
+        asyncTaskSaveImageToSdCard.execute();
+    }
+
+    /**
+     * THIS IS USED FOR SAVING THE IMAGE INTO THE SDCARD AFTER EFFECTING AND DETECTING
+     */
     private class AsyncTaskSaveImageToSdCard extends AsyncTask<Void, Void, Void> {
         private Bitmap mSavedBitmap;
 
@@ -392,55 +483,43 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         }
     }
 
-    private int getNotificationBarHeight() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int notificationBarHeight = 0;
-        Log.d("KieuThang", "metrics.densityDpi:" + metrics.densityDpi);
-        switch (metrics.densityDpi) {
-        case DisplayMetrics.DENSITY_XHIGH:
-            Log.d("KieuThang", "xhigh");
-            notificationBarHeight = 50;
-            break;
-        case DisplayMetrics.DENSITY_HIGH:
-            Log.d("KieuThang", "high");
-            notificationBarHeight = 48;
-            break;
-        case DisplayMetrics.DENSITY_MEDIUM:
-            Log.d("KieuThang", "medium/default");
-            notificationBarHeight = 32;
-            break;
-        case DisplayMetrics.DENSITY_LOW:
-            Log.d("KieuThang", "low");
-            notificationBarHeight = 24;
-            break;
-        default:
-            notificationBarHeight = 32;
-            break;
-
-        }
-        return notificationBarHeight;
-    }
-
-    /*on click options tabs listener*/
-    public void onClickAddFaceTab(View v) {
-
-    }
-
-    /*on click options tabs listener*/
-    public void onClickAddFrameTab(View v) {
-
-    }
-
-    /*on click options tabs listener*/
-    public void onClickAddEffectTab(View v) {
-
-    }
-
-    /*on click options tabs listener*/
-    public void onClickSettingTab(View v) {
-        Toast.makeText(this, "onClickSettingTab", Toast.LENGTH_SHORT).show();
-        AsyncTaskSaveImageToSdCard asyncTaskSaveImageToSdCard = new AsyncTaskSaveImageToSdCard();
-        asyncTaskSaveImageToSdCard.execute();
-    }
+    private CustomData[] mCustomData = new CustomData[] {
+                                     new CustomData(Color.RED, "Red"),
+                                     new CustomData(Color.DKGRAY, "Dark Gray"),
+                                     new CustomData(Color.GREEN, "Green"),
+                                     new CustomData(Color.LTGRAY, "Light Gray"),
+                                     new CustomData(Color.WHITE, "White"),
+                                     new CustomData(Color.RED, "Red"),
+                                     new CustomData(Color.BLACK, "Black"),
+                                     new CustomData(Color.CYAN, "Cyan"),
+                                     new CustomData(Color.DKGRAY, "Dark Gray"),
+                                     new CustomData(Color.GREEN, "Green"),
+                                     new CustomData(Color.RED, "Red"),
+                                     new CustomData(Color.LTGRAY, "Light Gray"),
+                                     new CustomData(Color.WHITE, "White"),
+                                     new CustomData(Color.BLACK, "Black"),
+                                     new CustomData(Color.CYAN, "Cyan"),
+                                     new CustomData(Color.DKGRAY, "Dark Gray"),
+                                     new CustomData(Color.GREEN, "Green"),
+                                     new CustomData(Color.LTGRAY, "Light Gray"),
+                                     new CustomData(Color.RED, "Red"),
+                                     new CustomData(Color.WHITE, "White"),
+                                     new CustomData(Color.DKGRAY, "Dark Gray"),
+                                     new CustomData(Color.GREEN, "Green"),
+                                     new CustomData(Color.LTGRAY, "Light Gray"),
+                                     new CustomData(Color.WHITE, "White"),
+                                     new CustomData(Color.RED, "Red"),
+                                     new CustomData(Color.BLACK, "Black"),
+                                     new CustomData(Color.CYAN, "Cyan"),
+                                     new CustomData(Color.DKGRAY, "Dark Gray"),
+                                     new CustomData(Color.GREEN, "Green"),
+                                     new CustomData(Color.LTGRAY, "Light Gray"),
+                                     new CustomData(Color.RED, "Red"),
+                                     new CustomData(Color.WHITE, "White"),
+                                     new CustomData(Color.BLACK, "Black"),
+                                     new CustomData(Color.CYAN, "Cyan"),
+                                     new CustomData(Color.DKGRAY, "Dark Gray"),
+                                     new CustomData(Color.GREEN, "Green"),
+                                     new CustomData(Color.LTGRAY, "Light Gray")
+                                     };
 }

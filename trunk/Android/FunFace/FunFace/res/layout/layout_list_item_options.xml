@@ -3,10 +3,11 @@
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/layout_header"
+        android:id="@+id/layout_options_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
@@ -91,5 +92,11 @@
             android:layout_height="match_parent" >
         </View>
     </LinearLayout>
+
+    <com.visva.android.app.funface.view.widget.HorizontalListView
+        android:id="@+id/list_options_item"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+    </com.visva.android.app.funface.view.widget.HorizontalListView>
 
 </LinearLayout>

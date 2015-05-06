@@ -213,9 +213,9 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
 
     private void showStatusOfDeleteFacesLayout(boolean isShowDeleteLayout, PointInfo touchPoint) {
         if (isShowDeleteLayout) {
-            iShowLayout.onLayoutChange(ActivityFaceLoader.TYPE_SHOW_DELETE_LAYOUT, true);
+            iShowLayout.onLayoutChange(ActivityFaceLoader.TYPE_SHOW_DELETE_FACE_LAYOUT, true);
         } else {
-            iShowLayout.onLayoutChange(ActivityFaceLoader.TYPE_SHOW_DELETE_LAYOUT, false);
+            iShowLayout.onLayoutChange(ActivityFaceLoader.TYPE_SHOW_DELETE_FACE_LAYOUT, false);
         }
 
         if (mSeletedFaceView != null && isHiddenCondition(mSeletedFaceView)) {
