@@ -6,7 +6,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.EditText;
 
@@ -16,7 +15,6 @@ import android.widget.EditText;
  * @author kieu.thang
  * 
  */
-@SuppressLint("SimpleDateFormat")
 public final class StringUtility {
     /**
      * Check Edit Text input string

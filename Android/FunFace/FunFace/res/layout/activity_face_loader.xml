@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sat="http://schemas.android.com/apk/res/android.view.ext"
     android:id="@+id/root_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/layout_choose_effect_id"
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_effect_height"
         android:layout_alignParentBottom="true"
-        layout="@layout/layout_choose_effects"
-        android:background="#000000" />
+        android:background="@color/white"
+        android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/image_view"
+        <include
+            android:id="@+id/layout_choose_effect_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            layout="@layout/layout_choose_effects"
+            android:background="#000000" />
+
+        <include
+            android:id="@+id/layout_list_item_options_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            layout="@layout/layout_list_item_options"
+            android:background="#000000"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_main"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/layout_choose_effect_id"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/content_description" />
+        android:layout_above="@id/layout_bottom" >
 
-    <com.visva.android.app.funface.view.widget.FaceViewGroup
-        android:id="@+id/face_view_group"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/layout_choose_effect_id"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/content_description" />
+        <com.visva.android.app.funface.view.widget.FaceViewGroup
+            android:id="@+id/face_view_group"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/content_description" />
+
+        <include
+            android:id="@+id/layout_delete_face_id"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_effect_height"
+            android:layout_alignParentBottom="true"
+            layout="@layout/layout_delete_face"
+            android:background="#000000"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/layout_progress"
