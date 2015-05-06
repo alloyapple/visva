@@ -2,13 +2,17 @@ package com.visva.android.app.funface.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.view.View;
+import android.widget.RelativeLayout.LayoutParams;
 
 public class Utils {
     public static Bitmap decodeBitmapFromCameraIntent(String photoPath) {
@@ -88,9 +92,52 @@ public class Utils {
         return rotate;
     }
 
-    public static int dpToPixels(Context context, int dps) {
-        float scaleValue = context.getResources().getDisplayMetrics().density;
-        int pixels = (int) (dps * scaleValue + 0.5f);
-        return pixels;
+    public static float getInitAngle() {
+        int orientation = -1;
+        Random random = new Random();
+        float angle = 0.0F;
+        switch (random.nextInt(2)) {
+        case 0:
+            orientation = -1;
+            break;
+
+        default:
+            orientation = 1;
+            break;
+        }
+        switch (random.nextInt(3)) {
+        case 0:
+            angle = 0.0F;
+            break;
+        case 1:
+            angle = 0.1F;
+            break;
+        case 2:
+            angle = 0.2F;
+            break;
+        case 3:
+            angle = 0.3F;
+            break;
+        default:
+            break;
+        }
+        return orientation * angle;
+    }
+
+    public static Bitmap loadBitmapFromView(View v) {
+        if (v.getMeasuredHeight() <= 0) {
+            v.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            Bitmap b = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(b);
+            v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+            v.draw(c);
+            return b;
+        } else {
+            Bitmap b = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(b);
+            v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+            v.draw(c);
+            return b;
+        }
     }
 }

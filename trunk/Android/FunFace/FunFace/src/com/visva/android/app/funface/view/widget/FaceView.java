@@ -1,16 +1,20 @@
 package com.visva.android.app.funface.view.widget;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.View;
 
+import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.utils.MultiTouchController.PositionAndScale;
 
 public class FaceView {
     private static final int   UI_MODE_ANISOTROPIC_SCALE = 2;
+
+    private int                resId;
 
     private Drawable           drawable;
 
@@ -20,14 +24,18 @@ public class FaceView {
 
     private float              minX, maxX, minY, maxY;
 
-    private static final float SCREEN_MARGIN             = 100;
+    private static final float SCREEN_MARGIN_TOP         = 70;
+    private boolean            isVisible                 = true;
+    private int                mHeightOfLayoutEffect;
+    private Context            mContext;
 
-    public FaceView(int resId, Resources res, int eyeDistance) {
-        this.drawable = res.getDrawable(resId);
+    public FaceView(int resId, Context context, int eyeDistance) {
+        this.mContext = context;
+        this.resId = resId;
+        this.drawable = context.getResources().getDrawable(resId);
         this.width = eyeDistance;
         this.height = eyeDistance;
-        Log.d("KieuThang", "drawable width:" + width + ",height:" + height);
-        getMetrics(res);
+        getMetrics(context.getResources());
     }
 
     private void getMetrics(Resources res) {
@@ -36,6 +44,7 @@ public class FaceView {
                 metrics.heightPixels) : Math.min(metrics.widthPixels, metrics.heightPixels);
         this.displayHeight = res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? Math.min(metrics.widthPixels,
                 metrics.heightPixels) : Math.max(metrics.widthPixels, metrics.heightPixels);
+        mHeightOfLayoutEffect = (int) res.getDimensionPixelSize(R.dimen.layout_effect_height);
     }
 
     /** Called by activity's onPause() method to free memory used for loading the images */
@@ -62,8 +71,8 @@ public class FaceView {
         float newMinY = centerY - hs;
         float newMaxX = centerX + ws;
         float newMaxY = centerY + hs;
-        if (newMinX > displayWidth - SCREEN_MARGIN || newMaxX < SCREEN_MARGIN || newMinY > displayHeight - SCREEN_MARGIN
-                || newMaxY < SCREEN_MARGIN)
+        if (newMinX > displayWidth - 3 * ws / 2 || newMaxX < 3 * ws / 2 || newMinY > displayHeight - 3 * hs / 2 - mHeightOfLayoutEffect
+                || newMaxY < hs + SCREEN_MARGIN_TOP)
             return false;
         this.centerX = centerX;
         this.centerY = centerY;
@@ -84,15 +93,22 @@ public class FaceView {
     }
 
     public void draw(Canvas canvas) {
-        canvas.save();
-        float dx = (maxX + minX) / 2;
-        float dy = (maxY + minY) / 2;
-        drawable.setBounds((int) minX, (int) minY, (int) maxX, (int) maxY);
-        canvas.translate(dx, dy);
-        canvas.rotate(angle * 180.0f / (float) Math.PI);
-        canvas.translate(-dx, -dy);
-        drawable.draw(canvas);
-        canvas.restore();
+        if (drawable != null) {
+            if (isVisible) {
+                drawable.setAlpha(0xff);
+            } else {
+                drawable.setAlpha(0x00);
+            }
+            canvas.save();
+            float dx = (maxX + minX) / 2;
+            float dy = (maxY + minY) / 2;
+            drawable.setBounds((int) minX, (int) minY, (int) maxX, (int) maxY);
+            canvas.translate(dx, dy);
+            canvas.rotate(angle * 180.0f / (float) Math.PI);
+            canvas.translate(-dx, -dy);
+            drawable.draw(canvas);
+            canvas.restore();
+        }
     }
 
     public Drawable getDrawable() {
@@ -144,4 +160,31 @@ public class FaceView {
         return maxY;
     }
 
+    public int getResId() {
+        return resId;
+    }
+
+    public void setResId(int resId) {
+        this.resId = resId;
+    }
+
+    public void setY(int y) {
+        centerY = y;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(int visible) {
+        switch (visible) {
+        case View.GONE:
+            isVisible = false;
+            break;
+
+        default:
+            isVisible = true;
+            break;
+        }
+    }
 }

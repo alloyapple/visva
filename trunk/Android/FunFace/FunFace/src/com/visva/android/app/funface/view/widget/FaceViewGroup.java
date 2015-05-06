@@ -28,7 +28,6 @@ package com.visva.android.app.funface.view.widget;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -36,13 +35,16 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.utils.MultiTouchController;
 import com.visva.android.app.funface.utils.MultiTouchController.MultiTouchObjectCanvas;
 import com.visva.android.app.funface.utils.MultiTouchController.PointInfo;
 import com.visva.android.app.funface.utils.MultiTouchController.PositionAndScale;
+import com.visva.android.app.funface.view.activity.ActivityFaceLoader;
 
-public class FaceViewGroup extends View implements MultiTouchObjectCanvas<FaceView> {
+public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<FaceView> {
 
     private ArrayList<FaceView>            mImages                    = new ArrayList<FaceView>();
 
@@ -63,6 +65,15 @@ public class FaceViewGroup extends View implements MultiTouchObjectCanvas<FaceVi
     // --
 
     private Paint                          mLinePaintTouchPointCircle = new Paint();
+
+    private ILayoutChange                  iShowLayout;
+
+    private int                            mRealImageHeight;
+    private int                            mScreenHeight, mScreenWidth;
+
+    private FaceView                       mSeletedFaceView;
+
+    private boolean                        isDeletedCondition         = false;
 
     // ---------------------------------------------------------------------------------------------------
 
@@ -87,14 +98,6 @@ public class FaceViewGroup extends View implements MultiTouchObjectCanvas<FaceVi
         setBackgroundColor(Color.TRANSPARENT);
     }
 
-    /** Called by activity's onResume() method to load the images */
-    public void loadImages(Context context) {
-        Resources res = context.getResources();
-        int n = mImages.size();
-        //for (int i = 0; i < n; i++)
-         //   mImages.get(i).load(res);
-    }
-
     /** Called by activity's onPause() method to free memory used for loading the images */
     public void unloadImages() {
         int n = mImages.size();
@@ -110,7 +113,10 @@ public class FaceViewGroup extends View implements MultiTouchObjectCanvas<FaceVi
         int n = mImages.size();
         for (int i = 0; i < n; i++)
             mImages.get(i).draw(canvas);
-        if (mShowDebugInfo)
+        boolean isVisible = true;
+        if (mSeletedFaceView != null)
+            isVisible = mSeletedFaceView.isVisible();
+        if (mShowDebugInfo && isVisible)
             drawMultitouchDebugMarks(canvas);
     }
 
@@ -139,6 +145,15 @@ public class FaceViewGroup extends View implements MultiTouchObjectCanvas<FaceVi
     /** Pass touch events to the MT controller */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+        case MotionEvent.ACTION_UP:
+            isDeletedCondition = true;
+            break;
+
+        default:
+            isDeletedCondition = false;
+            break;
+        }
         return multiTouchController.onTouchEvent(event);
     }
 
@@ -158,40 +173,104 @@ public class FaceViewGroup extends View implements MultiTouchObjectCanvas<FaceVi
      * Select an object for dragging. Called whenever an object is found to be under the point (non-null is returned by getDraggableObjectAtPoint())
      * and a drag operation is starting. Called with null when drag op ends.
      */
-    public void selectObject(FaceView FaceView, PointInfo touchPoint) {
+    public void selectObject(FaceView faceView, PointInfo touchPoint) {
         currTouchPoint.set(touchPoint);
-        if (FaceView != null) {
+        if (faceView != null) {
             // Move image to the top of the stack when selected
-            mImages.remove(FaceView);
-            mImages.add(FaceView);
+            mSeletedFaceView = faceView;
+            mImages.remove(faceView);
+            mImages.add(faceView);
         } else {
+            showStatusOfDeleteFacesLayout(false, touchPoint);
             // Called with FaceView == null when drag stops.
         }
         invalidate();
     }
 
     /** Get the current position and scale of the selected image. Called whenever a drag starts or is reset. */
-    public void getPositionAndScale(FaceView FaceView, PositionAndScale objPosAndScaleOut) {
+    public void getPositionAndScale(FaceView faceView, PositionAndScale objPosAndScaleOut) {
         // FIXME affine-izem (and fix the fact that the anisotropic_scale part requires averaging the two scale factors)
-        objPosAndScaleOut.set(FaceView.getCenterX(), FaceView.getCenterY(), (mUIMode & UI_MODE_ANISOTROPIC_SCALE) == 0,
-                (FaceView.getScaleX() + FaceView.getScaleY()) / 2, (mUIMode & UI_MODE_ANISOTROPIC_SCALE) != 0, FaceView.getScaleX(),
-                FaceView.getScaleY(),
-                (mUIMode & UI_MODE_ROTATE) != 0, FaceView.getAngle());
+        objPosAndScaleOut.set(faceView.getCenterX(), faceView.getCenterY(), (mUIMode & UI_MODE_ANISOTROPIC_SCALE) == 0,
+                (faceView.getScaleX() + faceView.getScaleY()) / 2, (mUIMode & UI_MODE_ANISOTROPIC_SCALE) != 0, faceView.getScaleX(),
+                faceView.getScaleY(), (mUIMode & UI_MODE_ROTATE) != 0, faceView.getAngle());
     }
 
     /** Set the position and scale of the dragged/stretched image. */
-    public boolean setPositionAndScale(FaceView FaceView, PositionAndScale newFaceViewPosAndScale, PointInfo touchPoint) {
+    public boolean setPositionAndScale(FaceView faceView, PositionAndScale newFaceViewPosAndScale, PointInfo touchPoint) {
         currTouchPoint.set(touchPoint);
-        boolean ok = FaceView.setPos(newFaceViewPosAndScale, mUIMode);
-        if (ok)
-            invalidate();
+        boolean ok = faceView.setPos(newFaceViewPosAndScale, mUIMode);
+        invalidate();
+
+        // show layout delete faces
+        showStatusOfDeleteFacesLayout(true, touchPoint);
         return ok;
     }
 
     public void addFace(FaceView faceView, Context context) {
-        // TODO Auto-generated method stub
-        int size = mImages.size();
         mImages.add(faceView);
-       // mImages.get(size).load(context.getResources());
+        invalidate();
+    }
+
+    private void showStatusOfDeleteFacesLayout(boolean isShowDeleteLayout, PointInfo touchPoint) {
+        if (isShowDeleteLayout) {
+            iShowLayout.onLayoutChange(ActivityFaceLoader.TYPE_SHOW_DELETE_LAYOUT, true);
+        } else {
+            iShowLayout.onLayoutChange(ActivityFaceLoader.TYPE_SHOW_DELETE_LAYOUT, false);
+        }
+
+        if (mSeletedFaceView != null && isHiddenCondition(mSeletedFaceView)) {
+            iShowLayout.onShowDeleteFaces(true, mSeletedFaceView);
+            mImages.remove(mSeletedFaceView);
+            if (isDeletedCondition) {
+                mSeletedFaceView.setVisible(View.GONE);
+                mSeletedFaceView.unload();
+            }
+        } else {
+            mImages.add(mSeletedFaceView);
+            iShowLayout.onShowDeleteFaces(false, mSeletedFaceView);
+        }
+        invalidate();
+    }
+
+    private boolean isHiddenCondition(FaceView seletedFaceView) {
+        boolean isHidden = false;
+        int sizeOfDeleteLayout = (int) getResources().getDimensionPixelSize(R.dimen.layout_delete_height);
+        isHidden = seletedFaceView.getMaxY() > mRealImageHeight - sizeOfDeleteLayout;
+        int deletedLayoutMinX = mRealImageHeight / 2 - sizeOfDeleteLayout / 2;
+        int deletedLayoutMaxX = mRealImageHeight / 2 + sizeOfDeleteLayout / 2;
+        boolean isPassedWidthCollision = (deletedLayoutMaxX > seletedFaceView.getMinX() && seletedFaceView.getMinX() > deletedLayoutMinX)
+                || (deletedLayoutMaxX > seletedFaceView.getMaxX() && seletedFaceView.getMaxX() > deletedLayoutMinX);
+        isHidden = isHidden && isPassedWidthCollision;
+        return isHidden;
+    }
+
+    public interface ILayoutChange {
+        public void onLayoutChange(int showLayoutType, boolean isShow);
+
+        public void onShowDeleteFaces(boolean b, FaceView mSeletedFaceView);
+    }
+
+    public void setListener(ILayoutChange listener) {
+        this.iShowLayout = listener;
+    }
+
+    public void setRealImageHeight(int realImageHeight) {
+        this.mRealImageHeight = realImageHeight;
+    }
+
+    public int getmScreenHeight() {
+        return mScreenHeight;
+    }
+
+    public void setScreenHeight(int screenHeight) {
+        this.mScreenHeight = screenHeight;
+    }
+
+    public int getmScreenWidth() {
+        return mScreenWidth;
+    }
+
+    public void setScreenWidth(int screenWidth) {
+        this.mScreenWidth = screenWidth;
     }
 }

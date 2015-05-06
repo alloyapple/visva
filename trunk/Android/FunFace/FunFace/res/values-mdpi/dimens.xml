@@ -6,10 +6,6 @@
     <dimen name="layout_effect_height">80dp</dimen>
     <dimen name="layout_delete_height">70dp</dimen>
     <dimen name="image_deleted_face_height">60dp</dimen>
-    <dimen name="face_margin">48dp</dimen>
-
-    <!--  -->
-    <dimen name="width_btn_tab_option">40dp</dimen>
-    <dimen name="height_btn_tab_option">40dp</dimen>
+    <dimen name="face_margin">32dp</dimen>
 
 </resources>

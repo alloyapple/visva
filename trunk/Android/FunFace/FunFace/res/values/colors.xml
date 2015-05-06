@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+
+    <!--
+         Define a standard holo blue color. Useful as we can refer to it from various other
+         resource files or even code and it only needs to be updated in one place if we wanted
+         to change it.
+    -->
+    <color name="holo_blue">#FF33B5E5</color>
+    <!-- Common -->
+    <color name="white">#ffffff</color>
+    <color name="red">#F16745</color>
+    <color name="black">#000000</color>
+    <color name="grey">#c8c7cc</color>
+    <color name="grey_2">#bcbcbc</color>
+    <color name="grey_3">#575757</color>
+    <color name="grey_4">#aaaaaa</color>
+    <color name="divider_listview">#d7d7d7</color>
+
+    <!-- Login/Register -->
+    <color name="login_regiter_layout">#eeeeee</color>
+    <color name="login_register_text">#575757</color>
+    <color name="home_background">#262E35</color>
+    <color name="actionbar_background">#458DAD</color>
+    <color name="actionbar_item_background">#99367895</color>
+
+    <!-- Home -->
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="dark_slate_gray">#2F4F4F</color>
+    <color name="gray_2">#AFAFAF</color>
+    <color name="gray_1">#C0C0C0</color>
+    <color name="gray_menu_background">#4d4d4d</color>
+    <!-- Post Detail -->
+    <color name="postn_detail_button_call_spot_layout">#eeeeee</color>
+    <color name="postn_detail_button_call_spot_text">#575757</color>
+    <color name="click_color">#d9d9d9</color>
+    <color name="devider_color">#d9d9d9</color>
+    <color name="main">#ff6f43</color>
+    <color name="main_1">#a84a24</color>
+    <color name="black_semi_transparent">#B2000000</color>
+
+    <!-- Background color -->
+    <color name="material_design_color_green">#0da95f</color>
+    <color name="material_design_color_green_pressed">#0A874C</color>
+    <color name="material_design_color_blue">#33b5e7</color>
+    <color name="material_design_color_blue_pressed">#1A5A74</color>
+    <color name="material_design_color_blue_2">#3078f0</color>
+    <color name="material_design_color_blue_pressed_2">#2660C0</color>
+    <color name="material_design_color_orange_1">#ff6f43</color>
+    <color name="material_design_color_orange_pressed">#CC5936</color>
+    <color name="material_design_color_red">#BA3E49</color>
+    <color name="material_design_color_red_pressed">#95323A</color>
+    <color name="material_design_color_yellow">#fccc45</color>
+    <color name="material_design_color_yellow_pressed">#CAA337</color>
+    <color name="material_design_color_orange_2">#a84a24</color>
+    <color name="material_design_color_orange_action_delete">#C9C9CE</color>
+    <color name="material_design_color_orange_action_normal">#F93F25</color>
+    <color name="divider_grey">#eeeeee</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Google calendar -->
+    <color name="circle_background">#f2f2f2</color>
+    <color name="line_background">#cccccc</color>
+    <color name="ampm_text_color">#8c8c8c</color>
+    <color name="done_text_color_normal">#333333</color>
+    <color name="done_text_color_disabled">#CCCCCC</color>
+    <color name="numbers_text_color">#8c8c8c</color>
+    <color name="transparent_black">#7F000000</color>
+    <color name="blue">#33b5e5</color>
+    <color name="darker_blue">#0099CC</color>
+    <color name="date_picker_text_normal">#FF999999</color>
+    <color name="calendar_header">#999999</color>
+    <color name="date_picker_view_animator">#f2f2f2</color>
+    <color name="calendar_selected_date_text">#FFD1D2D4</color>
+
+</resources>
