@@ -58,7 +58,6 @@ import android.widget.Scroller;
 
 import com.visva.android.app.funface.R;
 
-
 // @formatter:off
 /**
  * A view that shows items in a horizontally scrolling list. The items
