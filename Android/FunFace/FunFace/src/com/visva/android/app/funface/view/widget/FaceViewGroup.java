@@ -33,6 +33,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,7 +47,7 @@ import com.visva.android.app.funface.view.activity.ActivityFaceLoader;
 
 public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<FaceView> {
 
-    private ArrayList<FaceView>            mImages                    = new ArrayList<FaceView>();
+    private ArrayList<FaceView>            mFaceViewList              = new ArrayList<FaceView>();
 
     // --
 
@@ -100,9 +101,9 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
 
     /** Called by activity's onPause() method to free memory used for loading the images */
     public void unloadImages() {
-        int n = mImages.size();
+        int n = mFaceViewList.size();
         for (int i = 0; i < n; i++)
-            mImages.get(i).unload();
+            mFaceViewList.get(i).unload();
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -110,13 +111,11 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int n = mImages.size();
-        for (int i = 0; i < n; i++)
-            mImages.get(i).draw(canvas);
-        boolean isVisible = true;
-        if (mSeletedFaceView != null)
-            isVisible = mSeletedFaceView.isVisible();
-        if (mShowDebugInfo && isVisible)
+        int n = mFaceViewList.size();
+        for (int i = 0; i < n; i++) {
+            mFaceViewList.get(i).draw(canvas);
+        }
+        if (mShowDebugInfo)
             drawMultitouchDebugMarks(canvas);
     }
 
@@ -146,11 +145,16 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+            mShowDebugInfo = true;
+            break;
         case MotionEvent.ACTION_UP:
             isDeletedCondition = true;
+            mShowDebugInfo = false;
             break;
 
         default:
+            mShowDebugInfo = false;
             isDeletedCondition = false;
             break;
         }
@@ -160,9 +164,9 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
     /** Get the image that is under the single-touch point, or return null (canceling the drag op) if none */
     public FaceView getDraggableObjectAtPoint(PointInfo pt) {
         float x = pt.getX(), y = pt.getY();
-        int n = mImages.size();
+        int n = mFaceViewList.size();
         for (int i = n - 1; i >= 0; i--) {
-            FaceView im = mImages.get(i);
+            FaceView im = mFaceViewList.get(i);
             if (im.containsPoint(x, y))
                 return im;
         }
@@ -178,8 +182,8 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
         if (faceView != null) {
             // Move image to the top of the stack when selected
             mSeletedFaceView = faceView;
-            mImages.remove(faceView);
-            mImages.add(faceView);
+            mFaceViewList.remove(faceView);
+            mFaceViewList.add(faceView);
         } else {
             showStatusOfDeleteFacesLayout(false, touchPoint);
             // Called with FaceView == null when drag stops.
@@ -207,7 +211,7 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
     }
 
     public void addFace(FaceView faceView, Context context) {
-        mImages.add(faceView);
+        mFaceViewList.add(faceView);
         invalidate();
     }
 
@@ -220,24 +224,27 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
 
         if (mSeletedFaceView != null && isHiddenCondition(mSeletedFaceView)) {
             iShowLayout.onShowDeleteFaces(true, mSeletedFaceView);
-            mImages.remove(mSeletedFaceView);
+            mSeletedFaceView.setVisible(View.GONE);
             if (isDeletedCondition) {
+                iShowLayout.onDeletedFace(mSeletedFaceView);
+                removeFace(mFaceViewList.size() - 1);
                 mSeletedFaceView.setVisible(View.GONE);
                 mSeletedFaceView.unload();
             }
         } else {
-            mImages.add(mSeletedFaceView);
             iShowLayout.onShowDeleteFaces(false, mSeletedFaceView);
+            mSeletedFaceView.setVisible(View.VISIBLE);
+
         }
         invalidate();
     }
 
     private boolean isHiddenCondition(FaceView seletedFaceView) {
         boolean isHidden = false;
-        int sizeOfDeleteLayout = (int) getResources().getDimensionPixelSize(R.dimen.layout_delete_height);
+        int sizeOfDeleteLayout = (int) getResources().getDimension(R.dimen.layout_delete_height);
         isHidden = seletedFaceView.getMaxY() > mRealImageHeight - sizeOfDeleteLayout;
-        int deletedLayoutMinX = mRealImageHeight / 2 - sizeOfDeleteLayout / 2;
-        int deletedLayoutMaxX = mRealImageHeight / 2 + sizeOfDeleteLayout / 2;
+        int deletedLayoutMinX = mScreenWidth / 2 - sizeOfDeleteLayout / 2;
+        int deletedLayoutMaxX = mScreenWidth / 2 + sizeOfDeleteLayout / 2;
         boolean isPassedWidthCollision = (deletedLayoutMaxX > seletedFaceView.getMinX() && seletedFaceView.getMinX() > deletedLayoutMinX)
                 || (deletedLayoutMaxX > seletedFaceView.getMaxX() && seletedFaceView.getMaxX() > deletedLayoutMinX);
         isHidden = isHidden && isPassedWidthCollision;
@@ -246,6 +253,8 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
 
     public interface ILayoutChange {
         public void onLayoutChange(int showLayoutType, boolean isShow);
+
+        public void onDeletedFace(FaceView mSeletedFaceView);
 
         public void onShowDeleteFaces(boolean b, FaceView mSeletedFaceView);
     }
@@ -272,5 +281,17 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
 
     public void setScreenWidth(int screenWidth) {
         this.mScreenWidth = screenWidth;
+    }
+
+    public ArrayList<FaceView> getFaceViewList() {
+
+        return mFaceViewList;
+    }
+
+    public void removeFace(int removedPosition) {
+        Log.d("KieuThang", "removeFace:" + removedPosition + ",mFaceViewList:" + mFaceViewList.size());
+        if (removedPosition >= mFaceViewList.size())
+            return;
+        mFaceViewList.remove(removedPosition);
     }
 }

@@ -4,21 +4,25 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.visva.android.app.funface.R;
+import com.visva.android.app.funface.constant.FunFaceConstant;
+import com.visva.android.app.funface.log.AIOLog;
+import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.utils.MultiTouchController.PositionAndScale;
 
-public class FaceView {
+public class FaceView implements Cloneable {
     private static final int   UI_MODE_ANISOTROPIC_SCALE = 2;
-
+    private int                faceId;
     private int                resId;
 
     private Drawable           drawable;
 
-    private int                width, height, displayWidth, displayHeight;
+    private int                width, height, mScreenWidth, mScreenHeight;
 
     private float              centerX, centerY, scaleX, scaleY, angle;
 
@@ -29,9 +33,10 @@ public class FaceView {
     private int                mHeightOfLayoutEffect;
     private Context            mContext;
 
-    public FaceView(int resId, Context context, int eyeDistance) {
+    public FaceView(Context context, int resId, int eyeDistance, int id) {
         this.mContext = context;
         this.resId = resId;
+        this.faceId = id;
         this.drawable = context.getResources().getDrawable(resId);
         this.width = eyeDistance;
         this.height = eyeDistance;
@@ -40,9 +45,9 @@ public class FaceView {
 
     private void getMetrics(Resources res) {
         DisplayMetrics metrics = res.getDisplayMetrics();
-        this.displayWidth = res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? Math.max(metrics.widthPixels,
+        this.mScreenWidth = res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? Math.max(metrics.widthPixels,
                 metrics.heightPixels) : Math.min(metrics.widthPixels, metrics.heightPixels);
-        this.displayHeight = res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? Math.min(metrics.widthPixels,
+        this.mScreenHeight = res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? Math.min(metrics.widthPixels,
                 metrics.heightPixels) : Math.max(metrics.widthPixels, metrics.heightPixels);
         mHeightOfLayoutEffect = (int) res.getDimensionPixelSize(R.dimen.layout_effect_height);
     }
@@ -52,15 +57,16 @@ public class FaceView {
         this.drawable = null;
     }
 
+    public void load(Context context, int resId) {
+        this.resId = resId;
+        this.drawable = context.getResources().getDrawable(resId);
+    }
+
     /** Set the position and scale of an image in screen coordinates */
     public boolean setPos(PositionAndScale newImgPosAndScale, int uiMode) {
         return setPos(newImgPosAndScale.getXOff(), newImgPosAndScale.getYOff(), (uiMode & UI_MODE_ANISOTROPIC_SCALE) != 0 ? newImgPosAndScale
                 .getScaleX() : newImgPosAndScale.getScale(), (uiMode & UI_MODE_ANISOTROPIC_SCALE) != 0 ? newImgPosAndScale.getScaleY()
                 : newImgPosAndScale.getScale(), newImgPosAndScale.getAngle());
-        // FIXME: anisotropic scaling jumps when axis-snapping
-        // FIXME: affine-ize
-        // return setPos(newImgPosAndScale.getXOff(), newImgPosAndScale.getYOff(), newImgPosAndScale.getScaleAnisotropicX(),
-        // newImgPosAndScale.getScaleAnisotropicY(), 0.0f);
     }
 
     /** Set the position and scale of an image in screen coordinates */
@@ -71,7 +77,7 @@ public class FaceView {
         float newMinY = centerY - hs;
         float newMaxX = centerX + ws;
         float newMaxY = centerY + hs;
-        if (newMinX > displayWidth - 3 * ws / 2 || newMaxX < 3 * ws / 2 || newMinY > displayHeight - 3 * hs / 2 - mHeightOfLayoutEffect
+        if (newMinX > mScreenWidth - 3 * ws / 2 || newMaxX < 3 * ws / 2 || newMinY > mScreenHeight - 3 * hs / 2 - mHeightOfLayoutEffect
                 || newMaxY < hs + SCREEN_MARGIN_TOP)
             return false;
         this.centerX = centerX;
@@ -176,6 +182,14 @@ public class FaceView {
         return isVisible;
     }
 
+    public int getFaceId() {
+        return faceId;
+    }
+
+    public void setFaceId(int faceId) {
+        this.faceId = faceId;
+    }
+
     public void setVisible(int visible) {
         switch (visible) {
         case View.GONE:
@@ -187,4 +201,33 @@ public class FaceView {
             break;
         }
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public void setPosition(PointF midPoint, float mRatioX, float mRatioY, int bitmapWidth, int bitmapHeight, int realImageHeight) {
+        float scaleX = 1.0F;
+        float scaleY = 1.0F;
+        float centerX = midPoint.x * mRatioX;
+        float centerY = midPoint.y * mRatioY;
+        if (bitmapWidth >= bitmapHeight)
+            centerY = getCenterYOfFace(midPoint, bitmapWidth, bitmapHeight, realImageHeight);
+        float angle = Utils.getInitAngle();
+
+        setPos(centerX, centerY, scaleX, scaleY, angle);
+    }
+
+    private float getCenterYOfFace(PointF midPoint, int bitmapWidth, int bitmapHeight, int realImageHeight) {
+        int faceSizeMargin = (int) mContext.getResources().getDimension(R.dimen.face_margin);
+        PointF resizedMidPoint = new PointF();
+        AIOLog.d(FunFaceConstant.TAG, "heightOfImage:" + realImageHeight);
+        float ratio = (float) bitmapWidth / mScreenWidth;
+        float displayedImageHeight = (float) bitmapHeight / ratio;
+        resizedMidPoint.x = midPoint.x / ratio;
+        resizedMidPoint.y = midPoint.y / ratio;
+        return ((float) realImageHeight - displayedImageHeight) / 2 + resizedMidPoint.y - faceSizeMargin;
+    }
+
 }
