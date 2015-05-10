@@ -10,7 +10,7 @@
     <string name="app_info">Click on the \'Take Picture\' to take a picture using Camera and detect the face(s) in the picture taken.</string>
     <string name="take_picture">Take Picture</string>
     <string name="detect_face">Detect Face</string>
-    <string name="face_detecting">Face detecting...</string>
+    <string name="face_detecting">Processing...</string>
     <string name="image_load_error">Cannot load this image.Please try again!</string>
     <string name="album_name">FunFace</string>
     <string name="content_description">Image description</string>

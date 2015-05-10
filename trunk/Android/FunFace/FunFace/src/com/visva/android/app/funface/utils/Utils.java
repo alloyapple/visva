@@ -140,4 +140,9 @@ public class Utils {
             return b;
         }
     }
+
+    public static int getResId(Context context, String resName) {
+        int id = context.getResources().getIdentifier(resName, "drawable", context.getPackageName());
+        return id;
+    }
 }

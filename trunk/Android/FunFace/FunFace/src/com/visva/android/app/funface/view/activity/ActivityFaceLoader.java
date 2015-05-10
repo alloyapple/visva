@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -27,6 +30,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +44,6 @@ import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.view.adapter.CustomArrayAdapter;
-import com.visva.android.app.funface.view.adapter.CustomData;
 import com.visva.android.app.funface.view.widget.FaceView;
 import com.visva.android.app.funface.view.widget.FaceViewGroup;
 import com.visva.android.app.funface.view.widget.FaceViewGroup.ILayoutChange;
@@ -47,35 +51,47 @@ import com.visva.android.app.funface.view.widget.HorizontalListView;
 
 public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayoutChange {
     //=========================Define Constant================
-    public static final int    TYPE_SHOW_ITEM_OPTIONS_LAYOUT = 0;
-    public static final int    TYPE_SHOW_DELETE_FACE_LAYOUT  = 1;
-    private static final int   TYPE_SHOW_ADD_FACE_LAYOUT     = 2;
-    private static final int   FACE_SIZE_OFF                 = 15;
+    public static final int     TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
+    public static final int     TYPE_SHOW_DELETE_FACE_LAYOUT  = 1;
+    private static final int    TYPE_SHOW_ADD_FACE_LAYOUT     = 2;
+
+    private static final int    LOL_FACE_TYPE                 = 0;
+    private static final int    ANIMAL_FACE_TYPE              = 1;
+    private static final int    FACEBOOK_FACE_TYPE            = 2;
     //=========================Control Constant===============
-    private RelativeLayout     mLayoutProgress;
-    private RelativeLayout     mLayoutChooseEffects;
-    private Button             mBtnAddEffects;
-    private Animation          mContentUpAnime;
-    private Animation          mContentDownAnime;
-    private Animation          mDeleteFaceDownAnime;
-    private RelativeLayout     mRootView;
-    private RelativeLayout     mLayoutDeleteFaces;
-    private ImageView          mImageDeletedFace;
-    private RelativeLayout     mLayoutMain;
-    private LinearLayout       mLayoutItemOptions;
-    private HorizontalListView mItemOptionsListView;
+    private RelativeLayout      mLayoutProgress;
+    private RelativeLayout      mLayoutChooseOptions;
+    private Button              mBtnAddEffects;
+    private Animation           mContentUpAnime;
+    private Animation           mContentDownAnime;
+    private Animation           mDeleteFaceDownAnime;
+    private RelativeLayout      mLayoutDeleteFaces;
+    private ImageView           mImageDeletedFace;
+    private RelativeLayout      mLayoutMain;
+    private LinearLayout        mLayoutListEffectItems;
+    private HorizontalListView  mItemOptionsListView;
     //=========================Variable Constant==============
-    private FaceViewGroup      mFaceViewGroup;
-    private Bitmap             mLoadedBitmap;
-    private int                mScreenWidth;
-    private int                mScreenHeight;
-    private int                mActionBarHeight, mNotificationBarHeight;
-    private int                mShowPreviousLayoutType       = TYPE_SHOW_ITEM_OPTIONS_LAYOUT;
-    private int                mShowNextLayoutType           = TYPE_SHOW_ITEM_OPTIONS_LAYOUT;
-    private boolean            isShowDeletedFaceLayout       = false;
-    private int                mFaceSizeMargin               = FACE_SIZE_OFF;
+    private FaceViewGroup       mFaceViewGroup;
+    private Bitmap              mLoadedBitmap;
+    private Bitmap              mResultBitmap;
+    private Bitmap              mDeletedFaceBitmap;
+    private int                 mBitmapWidth;
+    private int                 mBitmapHeight;
+    private float               mRatioX                       = 1.0F, mRatioY = 1.0F;
+
+    private int                 mScreenWidth;
+    private int                 mScreenHeight;
+    private int                 mActionBarHeight, mNotificationBarHeight;
+    private int                 mShowPreviousLayoutType       = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private int                 mShowNextLayoutType           = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private boolean             isShowDeletedFaceLayout       = false;
     /*this value is used for the height of image displayed in real position of device*/
-    private int                mRealImageHeight;
+    private int                 mRealImageHeight;
+    private int                 mShowFaceType                 = ANIMAL_FACE_TYPE;
+    private Face[]              mDetectedFaces;
+    private ArrayList<FaceView> mChoiceFacesList              = new ArrayList<FaceView>();
+    private ArrayList<FaceView> mDetectedFacesList            = new ArrayList<FaceView>();
+    private int                 mMaxFaceId                    = 0;
 
     @Override
     public int contentView() {
@@ -120,8 +136,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             mActionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
         mNotificationBarHeight = getNotificationBarHeight();
-        mFaceSizeMargin = (int) getResources().getDimension(R.dimen.face_margin);
-        Log.d("KieuThang", "mNotificationBarHeight:" + mNotificationBarHeight);
     }
 
     @Override
@@ -147,7 +161,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         initLayoutChooseEffects();
         initLayoutDeleteFaces();
         mLayoutMain = (RelativeLayout) findViewById(R.id.layout_main);
-        mRootView = (RelativeLayout) findViewById(R.id.root_view);
         mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
         mFaceViewGroup = (FaceViewGroup) findViewById(R.id.face_view_group);
         mFaceViewGroup.setListener(this);
@@ -175,33 +188,163 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mContentDownAnime.setAnimationListener(contentEffectDownAnimListener);
         mDeleteFaceDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
         mDeleteFaceDownAnime.setAnimationListener(deleteFaceDownAnimListener);
-        mLayoutChooseEffects = (RelativeLayout) findViewById(R.id.layout_choose_effect_id);
-        mLayoutChooseEffects.setVisibility(View.GONE);
-        mLayoutItemOptions = (LinearLayout) findViewById(R.id.layout_list_item_options_id);
+        mLayoutChooseOptions = (RelativeLayout) findViewById(R.id.layout_choose_option_id);
+        mLayoutChooseOptions.setVisibility(View.GONE);
+        mLayoutListEffectItems = (LinearLayout) findViewById(R.id.layout_list_effect_item_id);
         mItemOptionsListView = (HorizontalListView) findViewById(R.id.list_options_item);
 
-        setupOptionItemListCustomLists();
+        setupOptionItemListCustomLists(mShowFaceType);
+
+        mItemOptionsListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                if (position >= mChoiceFacesList.size())
+                    return;
+
+                int resId = mChoiceFacesList.get(position).getResId();
+                FaceView faceView = null;
+                int addPosition = -1;
+                for (int i = 0; i < mDetectedFacesList.size(); i++) {
+                    if (mDetectedFacesList.get(i).getFaceId() == -1) {
+                        faceView = mDetectedFacesList.get(i);
+                        addPosition = i;
+                        break;
+                    }
+                }
+
+                PointF midPoint = new PointF();
+                int eyeDistance;
+                mMaxFaceId++;
+                if (faceView == null) {
+                    Random random = new Random();
+                    float x = random.nextInt(mScreenWidth - 100);
+                    float y = random.nextInt(mRealImageHeight - 100);
+                    midPoint.x = x;
+                    midPoint.y = y;
+                    eyeDistance = 100;
+                    faceView = new FaceView(ActivityFaceLoader.this, resId, eyeDistance, mMaxFaceId);
+                } else {
+                    if (addPosition < mDetectedFaces.length) {
+                        mDetectedFaces[addPosition].getMidPoint(midPoint);
+                    }
+                    faceView.setFaceId(mMaxFaceId);
+                    faceView.load(ActivityFaceLoader.this, resId);
+                    mDetectedFacesList.set(addPosition, faceView);
+                }
+
+                faceView.setPosition(midPoint, mRatioX, mRatioY, mBitmapWidth, mBitmapHeight, mRealImageHeight);
+                faceView.setVisible(View.VISIBLE);
+                mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
+                onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
+            }
+        });
     }
 
-    private void setupOptionItemListCustomLists() {
+    private void setupOptionItemListCustomLists(int showFaceType) {
         // Make an array adapter using the built in android layout to render a list of strings
-        CustomArrayAdapter adapter = new CustomArrayAdapter(this, mCustomData);
+        mChoiceFacesList = getListItem(showFaceType);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, mChoiceFacesList);
 
         // Assign adapter to HorizontalListView
         mItemOptionsListView.setAdapter(adapter);
     }
 
+    private ArrayList<FaceView> getListItem(int showFaceType) {
+        ArrayList<FaceView> imageItems = new ArrayList<FaceView>();
+        switch (showFaceType) {
+        case ANIMAL_FACE_TYPE:
+            for (int i = 1; i <= 30; i++) {
+                String resId = "animal" + i;
+                mMaxFaceId++;
+                FaceView imageItem = new FaceView(ActivityFaceLoader.this, Utils.getResId(ActivityFaceLoader.this, resId), 100, mMaxFaceId);
+                imageItems.add(imageItem);
+            }
+            break;
+        case LOL_FACE_TYPE:
+            for (int i = 1; i <= 35; i++) {
+                String resId = "rage" + i;
+                mMaxFaceId++;
+                FaceView imageItem = new FaceView(ActivityFaceLoader.this, Utils.getResId(ActivityFaceLoader.this, resId), 100, mMaxFaceId);
+                imageItems.add(imageItem);
+            }
+            break;
+        case FACEBOOK_FACE_TYPE:
+            for (int i = 1; i <= 33; i++) {
+                String resId = "facebook" + i;
+                mMaxFaceId++;
+                FaceView imageItem = new FaceView(ActivityFaceLoader.this, Utils.getResId(ActivityFaceLoader.this, resId), 100, mMaxFaceId);
+                imageItems.add(imageItem);
+            }
+            break;
+        default:
+            break;
+        }
+        return imageItems;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // release memory
         if (mLoadedBitmap != null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mLoadedBitmap.recycle();
-                    mLoadedBitmap = null;
-                }
-            });
+            mLoadedBitmap.recycle();
+            mLoadedBitmap = null;
+        }
+        if (mResultBitmap != null) {
+            mResultBitmap.recycle();
+            mResultBitmap = null;
+        }
+        if (mDeletedFaceBitmap != null) {
+            mDeletedFaceBitmap.recycle();
+            mDeletedFaceBitmap = null;
+        }
+        mFaceViewGroup.unloadImages();
+    }
+
+    @Override
+    public void onShowDeleteFaces(boolean isShowDeletedFace, final FaceView selectedFace) {
+        Log.d("KieuThang", "selectedFace:" + selectedFace.getResId() + "isShowDeletedFace:" + isShowDeletedFace);
+        int resId = selectedFace.getResId();
+        if (resId == 0)
+            return;
+        if (isShowDeletedFace) {
+            mImageDeletedFace.setVisibility(View.VISIBLE);
+            mDeletedFaceBitmap = BitmapFactory.decodeResource(this.getResources(), resId);
+            Log.d("KieuThang", "bitmap:" + mDeletedFaceBitmap);
+            //            mIconDeleteFace.setImageBitmap(bitmap);
+            mImageDeletedFace.setImageBitmap(mDeletedFaceBitmap);
+        } else {
+            mImageDeletedFace.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onLayoutChange(int showLayoutType, boolean isShow) {
+        if (TYPE_SHOW_DELETE_FACE_LAYOUT == showLayoutType) {
+            if (isShowDeletedFaceLayout == isShow)
+                return;
+            if (isShow) {
+                mLayoutDeleteFaces.setVisibility(View.VISIBLE);
+                mLayoutDeleteFaces.startAnimation(mContentUpAnime);
+                isShowDeletedFaceLayout = true;
+            } else {
+                mLayoutDeleteFaces.startAnimation(mDeleteFaceDownAnime);
+            }
+            return;
+        }
+        mShowNextLayoutType = showLayoutType;
+        
+        //show next layout
+        switch (mShowNextLayoutType) {
+        case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+            mLayoutListEffectItems.startAnimation(mContentDownAnime);
+            break;
+        case TYPE_SHOW_ADD_FACE_LAYOUT:
+            mLayoutChooseOptions.startAnimation(mContentDownAnime);
+            break;
+        default:
+            break;
         }
     }
 
@@ -238,22 +381,22 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                 public void onAnimationEnd(Animation animation) {
                                                                     switch (mShowPreviousLayoutType) {
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
-                                                                        mLayoutItemOptions.setVisibility(View.GONE);
+                                                                        mLayoutListEffectItems.setVisibility(View.GONE);
                                                                         break;
-                                                                    case TYPE_SHOW_ITEM_OPTIONS_LAYOUT:
-                                                                        mLayoutChooseEffects.setVisibility(View.GONE);
+                                                                    case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+                                                                        mLayoutChooseOptions.setVisibility(View.GONE);
                                                                         break;
                                                                     default:
                                                                         break;
                                                                     }
                                                                     switch (mShowNextLayoutType) {
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
-                                                                        mLayoutItemOptions.setVisibility(View.VISIBLE);
-                                                                        mLayoutItemOptions.startAnimation(mContentUpAnime);
+                                                                        mLayoutListEffectItems.setVisibility(View.VISIBLE);
+                                                                        mLayoutListEffectItems.startAnimation(mContentUpAnime);
                                                                         break;
-                                                                    case TYPE_SHOW_ITEM_OPTIONS_LAYOUT:
-                                                                        mLayoutChooseEffects.setVisibility(View.VISIBLE);
-                                                                        mLayoutChooseEffects.startAnimation(mContentUpAnime);
+                                                                    case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+                                                                        mLayoutChooseOptions.setVisibility(View.VISIBLE);
+                                                                        mLayoutChooseOptions.startAnimation(mContentUpAnime);
                                                                         break;
                                                                     default:
                                                                         break;
@@ -263,67 +406,41 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                 }
                                                             };
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void onShowDeleteFaces(boolean isShowDeletedFace, FaceView selectedFace) {
-        if (isShowDeletedFace) {
-            mImageDeletedFace.setBackgroundResource(selectedFace.getResId());
-        } else
-            mImageDeletedFace.setBackgroundDrawable(null);
-    }
-
-    @Override
-    public void onLayoutChange(int showLayoutType, boolean isShow) {
-        Log.d("KieuThang", "mShowNextLayoutType:" + mShowNextLayoutType + ",mShowPreviousLayoutType:" + mShowPreviousLayoutType + ",showLayoutType:"
-                + showLayoutType);
-        if (TYPE_SHOW_DELETE_FACE_LAYOUT == showLayoutType) {
-            if (isShowDeletedFaceLayout == isShow)
-                return;
-            if (isShow) {
-                mLayoutDeleteFaces.setVisibility(View.VISIBLE);
-                mLayoutDeleteFaces.startAnimation(mContentUpAnime);
-                isShowDeletedFaceLayout = true;
-            } else {
-                mLayoutDeleteFaces.startAnimation(mDeleteFaceDownAnime);
-            }
+    public void onDeletedFace(FaceView faceView) {
+        Log.d("KieuThang", "faceView " + faceView.getCenterX() + ",getCenterY:" + faceView.getCenterY());
+        if (mDetectedFaces == null || mDetectedFaces.length == 0)
+            return;
+        int removedPosition = -1;
+        if (mFaceViewGroup.getFaceViewList().size() == 0) {
+            removedPosition = 0;
             return;
         }
-        mShowNextLayoutType = showLayoutType;
-        //show next layout
-        switch (mShowNextLayoutType) {
-        case TYPE_SHOW_ITEM_OPTIONS_LAYOUT:
-            mLayoutChooseEffects.setVisibility(View.VISIBLE);
-            mLayoutChooseEffects.startAnimation(mContentUpAnime);
-            break;
-        case TYPE_SHOW_ADD_FACE_LAYOUT:
-            mLayoutChooseEffects.startAnimation(mContentDownAnime);
-            break;
-        default:
-            mLayoutChooseEffects.setVisibility(View.VISIBLE);
-            mLayoutChooseEffects.startAnimation(mContentUpAnime);
-            break;
+        Log.d("KieuThang", "mDetectedFacesList.size():" + mDetectedFacesList.size());
+        for (int i = 0; i < mDetectedFacesList.size(); i++) {
+            Log.d("KieuThang", "faceView.getFaceId():" + faceView.getFaceId() + ",mDetectedFacesList.get(i):" + mDetectedFacesList.get(i).getFaceId());
+            if (faceView.getFaceId() == mDetectedFacesList.get(i).getFaceId()) {
+                removedPosition = i;
+                break;
+            }
         }
+        if (removedPosition == -1)
+            return;
+        FaceView _faceView = mDetectedFacesList.get(removedPosition);
+        _faceView.setFaceId(-1);
+        mDetectedFacesList.set(removedPosition, _faceView);
     }
 
     private class AsyncTaskFaceDetection extends AsyncTask<Void, Void, Integer> {
-        private Face[]       faces;
         private FaceDetector mFaceDetector;
-        private int          mBitmapWidth;
-        private int          mBitmapHeight;
         private Canvas       mCanvas;
-        private Bitmap       mResultBitmap;
-        private float        mRatioX = 1.0F, mRatioY = 1.0F;
 
         public AsyncTaskFaceDetection(Context context) {
             mBitmapWidth = mLoadedBitmap.getWidth();
             mBitmapHeight = mLoadedBitmap.getHeight();
             int heightOfLayoutEffect = (int) getResources().getDimensionPixelSize(R.dimen.layout_effect_height);
-            Log.d("KieuThang", "heightOfLayoutEffect:" + heightOfLayoutEffect + ",mActionBarHeight:" + mActionBarHeight);
 
             mRatioX = (float) mScreenWidth / (float) mBitmapWidth;
-            //if (mBitmapWidth > mBitmapHeight)
-            //  mRatioY = (float) (mScreenHeight - mActionBarHeight - mNotificationBarHeight) / (float) mBitmapHeight;
-            //            else
             mRatioY = (float) (mScreenHeight - heightOfLayoutEffect - mActionBarHeight - mNotificationBarHeight) / (float) mBitmapHeight;
 
             //the height of image displayed on the device
@@ -332,7 +449,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             AIOLog.d(FunFaceConstant.TAG, "ratioX:" + mRatioX + ",ratioY:" + mRatioY + ",mRealImageHeight:" + mRealImageHeight);
 
             mFaceDetector = new FaceDetector(mBitmapWidth, mBitmapHeight, FunFaceConstant.MAX_FACES);
-            faces = new Face[FunFaceConstant.MAX_FACES];
+            mDetectedFaces = new Face[FunFaceConstant.MAX_FACES];
             mCanvas = new Canvas();
         }
 
@@ -351,8 +468,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 mCanvas.setBitmap(mResultBitmap);
                 mCanvas.drawBitmap(mLoadedBitmap, 0, 0, null);
             }
-            int facesFound = mFaceDetector.findFaces(mResultBitmap, faces);
-
+            int facesFound = mFaceDetector.findFaces(mResultBitmap, mDetectedFaces);
             AIOLog.d(FunFaceConstant.TAG, "Number of faces found: " + facesFound);
             return facesFound;
 
@@ -362,9 +478,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             mLayoutProgress.setVisibility(View.GONE);
-            mLayoutChooseEffects.setVisibility(View.VISIBLE);
-            mLayoutChooseEffects.startAnimation(mContentUpAnime);
-
+            mLayoutChooseOptions.setVisibility(View.VISIBLE);
+            mLayoutChooseOptions.startAnimation(mContentUpAnime);
             switch (result) {
             case FunFaceConstant.RESULT_FAILED:
                 mFaceViewGroup.setImageBitmap(mLoadedBitmap);
@@ -382,41 +497,49 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             float confidence = 0.0f;
 
             for (int index = 0; index < result; ++index) {
-                faces[index].getMidPoint(midPoint);
-                eyeDistance = faces[index].eyesDistance();
-                confidence = faces[index].confidence();
+                mDetectedFaces[index].getMidPoint(midPoint);
+                eyeDistance = mDetectedFaces[index].eyesDistance();
+                confidence = mDetectedFaces[index].confidence();
 
                 Log.d("KieuThang", "Confidence: " + confidence + ", Eye distance: " + eyeDistance + ", Mid Point: (" + midPoint.x + ", "
                         + midPoint.y + ")");
                 int faceSize = (int) (2 * eyeDistance * mRatioX);
                 if (faceSize > mScreenWidth / 2)
                     faceSize = (int) (1.5 * eyeDistance * mRatioX);
-                FaceView faceView = new FaceView(R.drawable.pic1, ActivityFaceLoader.this, faceSize);
-
-                float scaleX = 1.0F;
-                float scaleY = 1.0F;
-                float centerX = midPoint.x * mRatioX;
-                float centerY = midPoint.y * mRatioY;
-                Log.d("KieuThang", "mBitmapWidth:" + mBitmapWidth + ", mBitmapHeight:" + mBitmapHeight);
-                if (mBitmapWidth >= mBitmapHeight)
-                    centerY = getCenterYOfFace(midPoint);
-                float angle = Utils.getInitAngle();
-                Log.d("KieuThang", "ratioX:" + mRatioX + ",ratioY:" + mRatioY + ",centerX:" + centerX + ",centerY:" + centerY);
-                faceView.setPos(centerX, centerY, scaleX, scaleY, angle);
+                int resId = getRandomResIdFromResource(mShowFaceType);
+                //TODO need check resId is 0x00
+                mMaxFaceId++;
+                FaceView faceView = new FaceView(ActivityFaceLoader.this, resId, faceSize, mMaxFaceId);
+                faceView.setPosition(midPoint, mRatioX, mRatioY, mBitmapWidth, mBitmapHeight, mRealImageHeight);
+                try {
+                    mDetectedFacesList.add((FaceView) faceView.clone());
+                } catch (CloneNotSupportedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
             }
             mFaceViewGroup.setImageBitmap(mResultBitmap);
         }
 
-        private float getCenterYOfFace(PointF midPoint) {
-            PointF resizedMidPoint = new PointF();
-            AIOLog.d(FunFaceConstant.TAG, "heightOfImage:" + mRealImageHeight);
-            float ratio = (float) mBitmapWidth / mScreenWidth;
-            float displayedImageHeight = (float) mBitmapHeight / ratio;
-            resizedMidPoint.x = midPoint.x / ratio;
-            resizedMidPoint.y = midPoint.y / ratio;
-            return ((float) mRealImageHeight - displayedImageHeight) / 2 + resizedMidPoint.y - mFaceSizeMargin;
+        private int getRandomResIdFromResource(int showFaceType) {
+            Random random = new Random();
+            int position = 0;
+            String resIdName = "animal" + 0;
+            switch (random.nextInt(2)) {
+            case ANIMAL_FACE_TYPE:
+                position = random.nextInt(30);
+                resIdName = "animal" + position;
+                break;
+            case LOL_FACE_TYPE:
+                position = random.nextInt(35);
+                resIdName = "rage" + position;
+            default:
+                break;
+            }
+            return Utils.getResId(ActivityFaceLoader.this, resIdName);
         }
+
     }
 
     private int getNotificationBarHeight() {
@@ -469,16 +592,22 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     }
 
     /*on click add face layout events handler*/
-    public void onClickAddOtherFaceOption(View v) {
+    public void onClickAddFacebookFaceOption(View v) {
         Toast.makeText(this, "onClickAddOtherFaceOption", Toast.LENGTH_SHORT).show();
+        mShowFaceType = FACEBOOK_FACE_TYPE;
+        setupOptionItemListCustomLists(mShowFaceType);
     }
 
     public void onClickAddAnimalFaceOption(View v) {
         Toast.makeText(this, "onClickAddAnimalFaceOption", Toast.LENGTH_SHORT).show();
+        mShowFaceType = ANIMAL_FACE_TYPE;
+        setupOptionItemListCustomLists(mShowFaceType);
     }
 
     public void onClickAddLOLFaceOption(View v) {
         Toast.makeText(this, "onClickAddLOLFaceOption", Toast.LENGTH_SHORT).show();
+        mShowFaceType = LOL_FACE_TYPE;
+        setupOptionItemListCustomLists(mShowFaceType);
     }
 
     /**
@@ -492,7 +621,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
         @Override
         protected Void doInBackground(Void... params) {
-            mSavedBitmap = Utils.loadBitmapFromView(mLayoutMain);
+            mSavedBitmap = Utils.loadBitmapFromView(mFaceViewGroup);
             String filepath = Environment.getExternalStorageDirectory() + "/funface_" + System.currentTimeMillis() + ".png";
             try {
                 FileOutputStream fos = new FileOutputStream(filepath);
@@ -517,43 +646,4 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         }
     }
 
-    private CustomData[] mCustomData = new CustomData[] {
-                                     new CustomData(Color.RED, "Red"),
-                                     new CustomData(Color.DKGRAY, "Dark Gray"),
-                                     new CustomData(Color.GREEN, "Green"),
-                                     new CustomData(Color.LTGRAY, "Light Gray"),
-                                     new CustomData(Color.WHITE, "White"),
-                                     new CustomData(Color.RED, "Red"),
-                                     new CustomData(Color.BLACK, "Black"),
-                                     new CustomData(Color.CYAN, "Cyan"),
-                                     new CustomData(Color.DKGRAY, "Dark Gray"),
-                                     new CustomData(Color.GREEN, "Green"),
-                                     new CustomData(Color.RED, "Red"),
-                                     new CustomData(Color.LTGRAY, "Light Gray"),
-                                     new CustomData(Color.WHITE, "White"),
-                                     new CustomData(Color.BLACK, "Black"),
-                                     new CustomData(Color.CYAN, "Cyan"),
-                                     new CustomData(Color.DKGRAY, "Dark Gray"),
-                                     new CustomData(Color.GREEN, "Green"),
-                                     new CustomData(Color.LTGRAY, "Light Gray"),
-                                     new CustomData(Color.RED, "Red"),
-                                     new CustomData(Color.WHITE, "White"),
-                                     new CustomData(Color.DKGRAY, "Dark Gray"),
-                                     new CustomData(Color.GREEN, "Green"),
-                                     new CustomData(Color.LTGRAY, "Light Gray"),
-                                     new CustomData(Color.WHITE, "White"),
-                                     new CustomData(Color.RED, "Red"),
-                                     new CustomData(Color.BLACK, "Black"),
-                                     new CustomData(Color.CYAN, "Cyan"),
-                                     new CustomData(Color.DKGRAY, "Dark Gray"),
-                                     new CustomData(Color.GREEN, "Green"),
-                                     new CustomData(Color.LTGRAY, "Light Gray"),
-                                     new CustomData(Color.RED, "Red"),
-                                     new CustomData(Color.WHITE, "White"),
-                                     new CustomData(Color.BLACK, "Black"),
-                                     new CustomData(Color.CYAN, "Cyan"),
-                                     new CustomData(Color.DKGRAY, "Dark Gray"),
-                                     new CustomData(Color.GREEN, "Green"),
-                                     new CustomData(Color.LTGRAY, "Light Gray")
-                                     };
 }

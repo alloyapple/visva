@@ -14,7 +14,7 @@
         android:orientation="vertical" >
 
         <include
-            android:id="@+id/layout_choose_effect_id"
+            android:id="@+id/layout_choose_option_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -22,7 +22,7 @@
             android:background="#000000" />
 
         <include
-            android:id="@+id/layout_list_item_options_id"
+            android:id="@+id/layout_list_effect_item_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -52,27 +52,26 @@
             layout="@layout/layout_delete_face"
             android:background="#000000"
             android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/layout_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" >
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/progress"
+                android:layout_centerInParent="true"
+                android:text="@string/face_detecting" />
+        </RelativeLayout>
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/layout_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" >
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminate="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/progress"
-            android:layout_centerInParent="true"
-            android:text="@string/face_detecting" />
-    </RelativeLayout>
-
-</RelativeLayout>
+</RelativeLayout>

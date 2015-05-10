@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="onClickAddOtherFaceOption"
+            android:onClick="onClickAddFacebookFaceOption"
             materialdesign:rippleColor="#1E88E5"
             materialdesign:rippleSpeed="20" >
 
