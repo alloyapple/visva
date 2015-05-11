@@ -24,4 +24,35 @@
     <string name="face_animal">Animal</string>
     <string name="face_other">Others</string>
 
+    <string-array name="effects">
+        <item>None</item>
+        <item>High light</item>
+        <item>Invert</item>
+        <item>Grey</item>
+        <item>Gamma</item>
+        <!-- Color filter(red,blue,green) -->
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Sepia</item>
+        <item>Depth</item>
+        <item>Contrast</item>
+        <item>Bright</item>
+        <item>Gaussian</item>
+        <item>Sharp</item>
+        <item>Mean Removal</item>
+        <item>Smooth</item>
+        <item>Emboss</item>
+        <item>Engrave</item>
+        <item>Boost</item>
+        <item>Round Corner</item>
+        <item>Tint</item>
+        <item>Flea</item>
+        <item>Black</item>
+        <item>Snow</item>
+        <item>Shading</item>
+        <item>Saturation</item>
+        <item>Hue</item>
+    </string-array>
+
 </resources>

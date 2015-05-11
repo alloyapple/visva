@@ -17,7 +17,7 @@
             android:id="@+id/layout_choose_option_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             layout="@layout/layout_choose_effects"
             android:background="#000000" />
 
@@ -25,7 +25,6 @@
             android:id="@+id/layout_list_effect_item_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             layout="@layout/layout_list_item_options"
             android:background="#000000"
             android:visibility="gone" />
@@ -39,6 +38,13 @@
 
         <com.visva.android.app.funface.view.widget.FaceViewGroup
             android:id="@+id/face_view_group"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/content_description" />
+
+        <ImageView
+            android:id="@+id/image_frame"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
@@ -74,4 +80,5 @@
                 android:text="@string/face_detecting" />
         </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+
+</RelativeLayout>

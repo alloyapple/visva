@@ -31,7 +31,6 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,10 +38,13 @@ import android.widget.Toast;
 
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.constant.FunFaceConstant;
+import com.visva.android.app.funface.imageprocessing.ImageProcessor;
 import com.visva.android.app.funface.log.AIOLog;
+import com.visva.android.app.funface.model.EffectItem;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.view.adapter.CustomArrayAdapter;
+import com.visva.android.app.funface.view.adapter.EffectAdapter;
 import com.visva.android.app.funface.view.widget.FaceView;
 import com.visva.android.app.funface.view.widget.FaceViewGroup;
 import com.visva.android.app.funface.view.widget.FaceViewGroup.ILayoutChange;
@@ -53,10 +55,14 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     public static final int     TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
     public static final int     TYPE_SHOW_DELETE_FACE_LAYOUT   = 1;
     private static final int    TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
+    private static final int    TYPE_SHOW_EFFECT_LAYOUT        = 3;
+    private static final int    TYPE_SHOW_FRAME_LAYOUT         = 4;
 
     private static final int    LOL_FACE_TYPE                  = 0;
     private static final int    ANIMAL_FACE_TYPE               = 1;
     private static final int    FACEBOOK_FACE_TYPE             = 2;
+    private static final int    EFFECT_TYPE                    = 3;
+    private static final int    FRAME_TYPE                     = 4;
 
     private static final int    SIZE_ANIMAL_FACE               = 30;
     private static final int    SIZE_FACEBOOK_FACE             = 33;
@@ -64,15 +70,16 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     //=========================Control Constant===============
     private RelativeLayout      mLayoutProgress;
     private RelativeLayout      mLayoutChooseOptions;
-    private Button              mBtnAddEffects;
     private Animation           mContentUpAnime;
     private Animation           mContentDownAnime;
     private Animation           mDeleteFaceDownAnime;
     private RelativeLayout      mLayoutDeleteFaces;
     private ImageView           mImageDeletedFace;
+    private ImageView           mImageFrame;
     private RelativeLayout      mLayoutMain;
-    private LinearLayout        mLayoutListEffectItems;
+    private RelativeLayout      mLayoutListEffectItems;
     private HorizontalListView  mItemOptionsListView;
+    private LinearLayout        mLayoutOptionHeader;
     //=========================Variable Constant==============
     private FaceViewGroup       mFaceViewGroup;
     private Bitmap              mLoadedBitmap;
@@ -90,7 +97,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private boolean             isShowDeletedFaceLayout        = false;
     /*this value is used for the height of image displayed in real position of device*/
     private int                 mRealImageHeight;
-    private int                 mShowFaceType                  = ANIMAL_FACE_TYPE;
+    private int                 mShowItemType                  = ANIMAL_FACE_TYPE;
     private Face[]              mDetectedFaces;
     private ArrayList<FaceView> mChoiceFacesList               = new ArrayList<FaceView>();
     private ArrayList<FaceView> mDetectedFacesList             = new ArrayList<FaceView>();
@@ -161,11 +168,12 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     }
 
     private void initLayout() {
-        initLayoutChooseEffects();
+        initLayoutChooseOption();
         initLayoutDeleteFaces();
         mLayoutMain = (RelativeLayout) findViewById(R.id.layout_main);
         mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
         mFaceViewGroup = (FaceViewGroup) findViewById(R.id.face_view_group);
+        mImageFrame = (ImageView) findViewById(R.id.image_frame);
         mFaceViewGroup.setListener(this);
         mFaceViewGroup.setScreenHeight(mScreenHeight);
         mFaceViewGroup.setScreenWidth(mScreenWidth);
@@ -185,7 +193,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mImageDeletedFace = (ImageView) findViewById(R.id.img_delete_face);
     }
 
-    private void initLayoutChooseEffects() {
+    private void initLayoutChooseOption() {
+        mLayoutOptionHeader = (LinearLayout) findViewById(R.id.layout_options_header);
         mContentUpAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_up);
         mContentDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
         mContentDownAnime.setAnimationListener(contentEffectDownAnimListener);
@@ -193,10 +202,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mDeleteFaceDownAnime.setAnimationListener(deleteFaceDownAnimListener);
         mLayoutChooseOptions = (RelativeLayout) findViewById(R.id.layout_choose_option_id);
         mLayoutChooseOptions.setVisibility(View.GONE);
-        mLayoutListEffectItems = (LinearLayout) findViewById(R.id.layout_list_effect_item_id);
+        mLayoutListEffectItems = (RelativeLayout) findViewById(R.id.layout_list_effect_item_id);
         mItemOptionsListView = (HorizontalListView) findViewById(R.id.list_options_item);
 
-        setupOptionItemListCustomLists(mShowFaceType);
+        setupOptionItemListCustomLists(mShowItemType);
 
         mItemOptionsListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -204,53 +213,207 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (position >= mChoiceFacesList.size())
                     return;
-
-                int resId = mChoiceFacesList.get(position).getResId();
-                FaceView faceView = null;
-                int addPosition = -1;
-                for (int i = 0; i < mDetectedFacesList.size(); i++) {
-                    if (mDetectedFacesList.get(i).getFaceId() == -1) {
-                        faceView = mDetectedFacesList.get(i);
-                        addPosition = i;
-                        break;
-                    }
+                switch (mShowNextLayoutType) {
+                case TYPE_SHOW_ADD_FACE_LAYOUT:
+                    onItemClickAddFaceLayout(position);
+                    break;
+                case TYPE_SHOW_EFFECT_LAYOUT:
+                    onItemClickAddEffectLayout(position);
+                    break;
+                case TYPE_SHOW_FRAME_LAYOUT:
+                    onItemClickAddFrameLayout(position);
+                    break;
+                default:
+                    break;
                 }
 
-                PointF midPoint = new PointF();
-                int eyeDistance;
-                mMaxFaceId++;
-                if (faceView == null) {
-                    Random random = new Random();
-                    float x = random.nextInt(mScreenWidth - 100);
-                    float y = random.nextInt(mRealImageHeight - 100);
-                    midPoint.x = x;
-                    midPoint.y = y;
-                    eyeDistance = 100;
-                    faceView = new FaceView(ActivityFaceLoader.this, resId, eyeDistance, mMaxFaceId);
-                } else {
-                    if (addPosition < mDetectedFaces.length) {
-                        mDetectedFaces[addPosition].getMidPoint(midPoint);
-                    }
-                    faceView.setFaceId(mMaxFaceId);
-                    faceView.load(ActivityFaceLoader.this, resId);
-                    mDetectedFacesList.set(addPosition, faceView);
-                }
-
-                faceView.setPosition(midPoint, mRatioX, mRatioY, mBitmapWidth, mBitmapHeight, mRealImageHeight);
-                faceView.setVisible(View.VISIBLE);
-                mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
-                onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
             }
+
         });
+    }
+
+    private void onItemClickAddFrameLayout(int position) {
+        // TODO Auto-generated method stub
+        switch (position) {
+        case 0:
+            mImageFrame.setVisibility(View.GONE);
+            break;
+        case 1:
+            mImageFrame.setBackgroundResource(R.drawable.frame1);
+            break;
+        case 2:
+            mImageFrame.setBackgroundResource(R.drawable.frame2);
+            break;
+        default:
+            break;
+        }
+    }
+
+    private void onItemClickAddEffectLayout(int position) {
+        switch (position) {
+        case FunFaceConstant.EFFECT_NONE:
+            mFaceViewGroup.setImageBitmap(mResultBitmap);
+            break;
+        case FunFaceConstant.EFFECT_HIGH_LIGHT:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doHighlightImage(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_INVERT:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doInvert(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_GREY:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doGreyscale(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_GAMMA:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doGamma(mResultBitmap, 0.6, 0.6, 0.6));// (1.8, 1.8, 1.8)
+            break;
+        case FunFaceConstant.EFFECT_RED:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doColorFilter(mResultBitmap, 1, 0, 0));
+            break;
+        case FunFaceConstant.EFFECT_BLUE:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doColorFilter(mResultBitmap, 0, 1, 0));
+            break;
+        case FunFaceConstant.EFFECT_GREEN:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doColorFilter(mResultBitmap, 0.5, 0.5, 0.5));
+            break;
+        case FunFaceConstant.EFFECT_SEPIA:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.createSepiaToningEffect(mResultBitmap, 50, 0, 1, 0));
+            break;
+        case FunFaceConstant.EFFECT_DEPTH:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.decreaseColorDepth(mResultBitmap, 32));//64/128
+            break;
+        case FunFaceConstant.EFFECT_CONTRAST:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.createContrast(mResultBitmap, 50));//100
+            break;
+        case FunFaceConstant.EFFECT_BRIGTHT:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.doBrightness(mResultBitmap, 50));//100
+            break;
+        case FunFaceConstant.EFFECT_GAUSSIN:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applyGaussianBlur(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_SHARP:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.sharpen(mResultBitmap, 1));
+            break;
+        case FunFaceConstant.EFFECT_MEAN_REMOVAL:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applyMeanRemoval(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_SMOOTH:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.smooth(mResultBitmap, 5));
+            break;
+        case FunFaceConstant.EFFECT_EMBOSS:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.emboss(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_ENGRAVE:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.engrave(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_BOOST:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.boost(mResultBitmap, 1, 150));
+            break;
+        case FunFaceConstant.EFFECT_ROUND_CORNER:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.roundCorner(mResultBitmap, 5));
+            break;
+        case FunFaceConstant.EFFECT_TINT:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.tintImage(mResultBitmap, 50));
+            break;
+        case FunFaceConstant.EFFECT_FLEA:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applyFleaEffect(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_BLACK:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applyBlackFilter(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_SNOW:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applySnowEffect(mResultBitmap));
+            break;
+        case FunFaceConstant.EFFECT_SHADING:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applyShadingFilter(mResultBitmap, 1));
+            break;
+        case FunFaceConstant.EFFECT_SATUARATION:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applySaturationFilter(mResultBitmap, 1));
+            break;
+        case FunFaceConstant.EFFECT_HUE:
+            mFaceViewGroup.setImageBitmap(ImageProcessor.applyHueFilter(mResultBitmap, 5));
+            break;
+        default:
+            mFaceViewGroup.setImageBitmap(mResultBitmap);
+            break;
+        }
+    }
+
+    private void onItemClickAddFaceLayout(int position) {
+        int resId = mChoiceFacesList.get(position).getResId();
+        FaceView faceView = null;
+        int addPosition = -1;
+        for (int i = 0; i < mDetectedFacesList.size(); i++) {
+            if (mDetectedFacesList.get(i).getFaceId() == -1) {
+                faceView = mDetectedFacesList.get(i);
+                addPosition = i;
+                break;
+            }
+        }
+
+        PointF midPoint = new PointF();
+        int eyeDistance;
+        mMaxFaceId++;
+        if (faceView == null) {
+            Random random = new Random();
+            float x = random.nextInt(mScreenWidth - 100);
+            float y = random.nextInt(mRealImageHeight - 100);
+            midPoint.x = x;
+            midPoint.y = y;
+            eyeDistance = 100;
+            faceView = new FaceView(ActivityFaceLoader.this, resId, eyeDistance, mMaxFaceId);
+        } else {
+            if (addPosition < mDetectedFaces.length) {
+                mDetectedFaces[addPosition].getMidPoint(midPoint);
+            }
+            faceView.setFaceId(mMaxFaceId);
+            faceView.load(ActivityFaceLoader.this, resId);
+            mDetectedFacesList.set(addPosition, faceView);
+        }
+
+        faceView.setPosition(midPoint, mRatioX, mRatioY, mBitmapWidth, mBitmapHeight, mRealImageHeight);
+        faceView.setVisible(View.VISIBLE);
+        mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
+        onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
     }
 
     private void setupOptionItemListCustomLists(int showFaceType) {
         // Make an array adapter using the built in android layout to render a list of strings
-        mChoiceFacesList = getListItem(showFaceType);
-        CustomArrayAdapter adapter = new CustomArrayAdapter(this, mChoiceFacesList);
 
-        // Assign adapter to HorizontalListView
-        mItemOptionsListView.setAdapter(adapter);
+        switch (showFaceType) {
+        case LOL_FACE_TYPE:
+        case FACEBOOK_FACE_TYPE:
+        case ANIMAL_FACE_TYPE:
+            mChoiceFacesList = getListItem(showFaceType);
+            CustomArrayAdapter adapter = new CustomArrayAdapter(this, mChoiceFacesList);
+            // Assign adapter to HorizontalListView
+            mItemOptionsListView.setAdapter(adapter);
+            return;
+        case EFFECT_TYPE:
+            ArrayList<EffectItem> mListEffectItems = getEffectList();
+            EffectAdapter effectAdapter = new EffectAdapter(ActivityFaceLoader.this, mListEffectItems);
+            mItemOptionsListView.setAdapter(effectAdapter);
+            break;
+        case FRAME_TYPE:
+            ArrayList<EffectItem> mFrameItems = getEffectList();
+            EffectAdapter frameAdapter = new EffectAdapter(ActivityFaceLoader.this, mFrameItems);
+            mItemOptionsListView.setAdapter(frameAdapter);
+            break;
+        default:
+            break;
+        }
+
+    }
+
+    private ArrayList<EffectItem> getEffectList() {
+        String[] effects = getResources().getStringArray(R.array.effects);
+
+        ArrayList<EffectItem> effectItems = new ArrayList<EffectItem>();
+        if (effects == null || effects.length == 0)
+            return effectItems;
+        for (int i = 0; i < effects.length; i++) {
+            effectItems.add(new EffectItem(effects[i], 0));
+        }
+        return effectItems;
     }
 
     private ArrayList<FaceView> getListItem(int showFaceType) {
@@ -280,6 +443,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 imageItems.add(imageItem);
             }
             break;
+
         default:
             break;
         }
@@ -344,6 +508,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             mLayoutListEffectItems.startAnimation(mContentDownAnime);
             break;
         case TYPE_SHOW_ADD_FACE_LAYOUT:
+        case TYPE_SHOW_EFFECT_LAYOUT:
+        case TYPE_SHOW_FRAME_LAYOUT:
             mLayoutChooseOptions.startAnimation(mContentDownAnime);
             break;
         default:
@@ -384,8 +550,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                 public void onAnimationEnd(Animation animation) {
                                                                     switch (mShowPreviousLayoutType) {
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
+                                                                    case TYPE_SHOW_EFFECT_LAYOUT:
+                                                                    case TYPE_SHOW_FRAME_LAYOUT:
                                                                         mLayoutListEffectItems.setVisibility(View.GONE);
                                                                         break;
+
                                                                     case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
                                                                         mLayoutChooseOptions.setVisibility(View.GONE);
                                                                         break;
@@ -394,6 +563,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                     }
                                                                     switch (mShowNextLayoutType) {
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
+                                                                    case TYPE_SHOW_EFFECT_LAYOUT:
+                                                                    case TYPE_SHOW_FRAME_LAYOUT:
                                                                         mLayoutListEffectItems.setVisibility(View.VISIBLE);
                                                                         mLayoutListEffectItems.startAnimation(mContentUpAnime);
                                                                         break;
@@ -509,7 +680,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 int faceSize = (int) (2 * eyeDistance * mRatioX);
                 if (faceSize > mScreenWidth / 2)
                     faceSize = (int) (1.5 * eyeDistance * mRatioX);
-                int resId = getRandomResIdFromResource(mShowFaceType);
+                int resId = 0x00;
+                while (resId == 0) {
+                    resId = getRandomResIdFromResource(mShowItemType);
+                }
                 //TODO need check resId is 0x00
                 mMaxFaceId++;
                 FaceView faceView = new FaceView(ActivityFaceLoader.this, resId, faceSize, mMaxFaceId);
@@ -578,14 +752,23 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     /*on click options tabs listener*/
     public void onClickAddFaceTab(View v) {
         onLayoutChange(TYPE_SHOW_ADD_FACE_LAYOUT, true);
+        mLayoutOptionHeader.setVisibility(View.VISIBLE);
     }
 
     public void onClickAddFrameTab(View v) {
-
+        Toast.makeText(this, "onClickAddFrameTab", Toast.LENGTH_SHORT).show();
+        mShowItemType = FRAME_TYPE;
+        setupOptionItemListCustomLists(mShowItemType);
+        onLayoutChange(TYPE_SHOW_FRAME_LAYOUT, true);
+        mLayoutOptionHeader.setVisibility(View.GONE);
     }
 
     public void onClickAddEffectTab(View v) {
-
+        Toast.makeText(this, "onClickAddEffectTab", Toast.LENGTH_SHORT).show();
+        mShowItemType = EFFECT_TYPE;
+        setupOptionItemListCustomLists(mShowItemType);
+        onLayoutChange(TYPE_SHOW_EFFECT_LAYOUT, true);
+        mLayoutOptionHeader.setVisibility(View.GONE);
     }
 
     public void onClickSettingTab(View v) {
@@ -597,20 +780,20 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     /*on click add face layout events handler*/
     public void onClickAddFacebookFaceOption(View v) {
         Toast.makeText(this, "onClickAddOtherFaceOption", Toast.LENGTH_SHORT).show();
-        mShowFaceType = FACEBOOK_FACE_TYPE;
-        setupOptionItemListCustomLists(mShowFaceType);
+        mShowItemType = FACEBOOK_FACE_TYPE;
+        setupOptionItemListCustomLists(mShowItemType);
     }
 
     public void onClickAddAnimalFaceOption(View v) {
         Toast.makeText(this, "onClickAddAnimalFaceOption", Toast.LENGTH_SHORT).show();
-        mShowFaceType = ANIMAL_FACE_TYPE;
-        setupOptionItemListCustomLists(mShowFaceType);
+        mShowItemType = ANIMAL_FACE_TYPE;
+        setupOptionItemListCustomLists(mShowItemType);
     }
 
     public void onClickAddLOLFaceOption(View v) {
         Toast.makeText(this, "onClickAddLOLFaceOption", Toast.LENGTH_SHORT).show();
-        mShowFaceType = LOL_FACE_TYPE;
-        setupOptionItemListCustomLists(mShowFaceType);
+        mShowItemType = LOL_FACE_TYPE;
+        setupOptionItemListCustomLists(mShowItemType);
     }
 
     /**
