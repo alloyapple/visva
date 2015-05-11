@@ -10,14 +10,14 @@
         android:id="@+id/img_delete_face"
         android:layout_width="@dimen/image_deleted_face_height"
         android:layout_height="@dimen/image_deleted_face_height"
-        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:contentDescription="@string/content_description" />
 
     <ImageView
         android:id="@+id/icon_delete_face"
         android:layout_width="@dimen/layout_delete_height"
         android:layout_height="@dimen/layout_delete_height"
-        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/remove_tags_icon"
         android:contentDescription="@string/content_description" />
 

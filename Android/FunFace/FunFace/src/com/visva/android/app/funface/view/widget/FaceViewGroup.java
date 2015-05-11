@@ -243,7 +243,7 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
         boolean isHidden = false;
         int sizeOfDeleteLayout = (int) getResources().getDimension(R.dimen.layout_delete_height);
         isHidden = seletedFaceView.getMaxY() > mRealImageHeight - sizeOfDeleteLayout;
-        int deletedLayoutMinX = mScreenWidth / 2 - sizeOfDeleteLayout / 2;
+        int deletedLayoutMinX = mScreenWidth / 2 - sizeOfDeleteLayout;
         int deletedLayoutMaxX = mScreenWidth / 2 + sizeOfDeleteLayout / 2;
         boolean isPassedWidthCollision = (deletedLayoutMaxX > seletedFaceView.getMinX() && seletedFaceView.getMinX() > deletedLayoutMinX)
                 || (deletedLayoutMaxX > seletedFaceView.getMaxX() && seletedFaceView.getMaxX() > deletedLayoutMinX);
