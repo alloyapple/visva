@@ -14,7 +14,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
@@ -52,12 +51,16 @@ import com.visva.android.app.funface.view.widget.HorizontalListView;
 public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayoutChange {
     //=========================Define Constant================
     public static final int     TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
-    public static final int     TYPE_SHOW_DELETE_FACE_LAYOUT  = 1;
-    private static final int    TYPE_SHOW_ADD_FACE_LAYOUT     = 2;
+    public static final int     TYPE_SHOW_DELETE_FACE_LAYOUT   = 1;
+    private static final int    TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
 
-    private static final int    LOL_FACE_TYPE                 = 0;
-    private static final int    ANIMAL_FACE_TYPE              = 1;
-    private static final int    FACEBOOK_FACE_TYPE            = 2;
+    private static final int    LOL_FACE_TYPE                  = 0;
+    private static final int    ANIMAL_FACE_TYPE               = 1;
+    private static final int    FACEBOOK_FACE_TYPE             = 2;
+
+    private static final int    SIZE_ANIMAL_FACE               = 30;
+    private static final int    SIZE_FACEBOOK_FACE             = 33;
+    private static final int    SIZE_RAGE_FACE                 = 31;
     //=========================Control Constant===============
     private RelativeLayout      mLayoutProgress;
     private RelativeLayout      mLayoutChooseOptions;
@@ -77,21 +80,21 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private Bitmap              mDeletedFaceBitmap;
     private int                 mBitmapWidth;
     private int                 mBitmapHeight;
-    private float               mRatioX                       = 1.0F, mRatioY = 1.0F;
+    private float               mRatioX                        = 1.0F, mRatioY = 1.0F;
 
     private int                 mScreenWidth;
     private int                 mScreenHeight;
     private int                 mActionBarHeight, mNotificationBarHeight;
-    private int                 mShowPreviousLayoutType       = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
-    private int                 mShowNextLayoutType           = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
-    private boolean             isShowDeletedFaceLayout       = false;
+    private int                 mShowPreviousLayoutType        = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private int                 mShowNextLayoutType            = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private boolean             isShowDeletedFaceLayout        = false;
     /*this value is used for the height of image displayed in real position of device*/
     private int                 mRealImageHeight;
-    private int                 mShowFaceType                 = ANIMAL_FACE_TYPE;
+    private int                 mShowFaceType                  = ANIMAL_FACE_TYPE;
     private Face[]              mDetectedFaces;
-    private ArrayList<FaceView> mChoiceFacesList              = new ArrayList<FaceView>();
-    private ArrayList<FaceView> mDetectedFacesList            = new ArrayList<FaceView>();
-    private int                 mMaxFaceId                    = 0;
+    private ArrayList<FaceView> mChoiceFacesList               = new ArrayList<FaceView>();
+    private ArrayList<FaceView> mDetectedFacesList             = new ArrayList<FaceView>();
+    private int                 mMaxFaceId                     = 0;
 
     @Override
     public int contentView() {
@@ -254,7 +257,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         ArrayList<FaceView> imageItems = new ArrayList<FaceView>();
         switch (showFaceType) {
         case ANIMAL_FACE_TYPE:
-            for (int i = 1; i <= 30; i++) {
+            for (int i = 1; i <= SIZE_ANIMAL_FACE; i++) {
                 String resId = "animal" + i;
                 mMaxFaceId++;
                 FaceView imageItem = new FaceView(ActivityFaceLoader.this, Utils.getResId(ActivityFaceLoader.this, resId), 100, mMaxFaceId);
@@ -262,7 +265,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             }
             break;
         case LOL_FACE_TYPE:
-            for (int i = 1; i <= 35; i++) {
+            for (int i = 1; i <= SIZE_RAGE_FACE; i++) {
                 String resId = "rage" + i;
                 mMaxFaceId++;
                 FaceView imageItem = new FaceView(ActivityFaceLoader.this, Utils.getResId(ActivityFaceLoader.this, resId), 100, mMaxFaceId);
@@ -270,7 +273,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             }
             break;
         case FACEBOOK_FACE_TYPE:
-            for (int i = 1; i <= 33; i++) {
+            for (int i = 1; i <= SIZE_FACEBOOK_FACE; i++) {
                 String resId = "facebook" + i;
                 mMaxFaceId++;
                 FaceView imageItem = new FaceView(ActivityFaceLoader.this, Utils.getResId(ActivityFaceLoader.this, resId), 100, mMaxFaceId);
@@ -334,7 +337,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             return;
         }
         mShowNextLayoutType = showLayoutType;
-        
+
         //show next layout
         switch (mShowNextLayoutType) {
         case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
