@@ -76,7 +76,6 @@ public class ActivityWelcome extends Activity {
         Log.d("KieuThang", "requestCode:" + requestCode);
         Log.d("KieuThang", "mCurrentPhotoPath:" + imagePath);
         intent.putExtra(FunFaceConstant.EXTRA_IMAGE_PATH, imagePath);
-        intent.putExtra(FunFaceConstant.EXTRA_IMAGE_PATH, imagePath);
         startActivity(intent);
     }
 
