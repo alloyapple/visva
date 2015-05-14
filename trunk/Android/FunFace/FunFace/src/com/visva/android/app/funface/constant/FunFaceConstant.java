@@ -2,7 +2,7 @@ package com.visva.android.app.funface.constant;
 
 public class FunFaceConstant {
 
-    public static final boolean DEBUG_MODE          = true;
+    public static final boolean DEBUG_MODE          = false;
     public static final String  TAG                 = "FunFace";
     public static final int     MAX_FACES           = 10;
 
