@@ -47,7 +47,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.visva.android.app.funface.R;
-import com.visva.android.app.funface.bitmapprocessing.BitmapWorkerTask;
 import com.visva.android.app.funface.constant.FunFaceConstant;
 import com.visva.android.app.funface.imageprocessing.ImageProcessor;
 import com.visva.android.app.funface.log.AIOLog;
@@ -63,61 +62,65 @@ import com.visva.android.app.funface.view.widget.HorizontalListView;
 
 public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayoutChange {
     //=========================Define Constant================
-    public static final int      TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
-    public static final int      TYPE_SHOW_DELETE_FACE_LAYOUT   = 1;
-    private static final int     TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
-    private static final int     TYPE_SHOW_EFFECT_LAYOUT        = 3;
-    private static final int     TYPE_SHOW_FRAME_LAYOUT         = 4;
+    public static final int     TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
+    public static final int     TYPE_SHOW_DELETE_FACE_LAYOUT   = 1;
+    private static final int    TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
+    private static final int    TYPE_SHOW_EFFECT_LAYOUT        = 3;
+    private static final int    TYPE_SHOW_FRAME_LAYOUT         = 4;
 
-    private static final int     LOL_FACE_TYPE                  = 0;
-    private static final int     ANIMAL_FACE_TYPE               = 1;
-    private static final int     FACEBOOK_FACE_TYPE             = 2;
-    private static final int     EFFECT_TYPE                    = 3;
-    private static final int     FRAME_TYPE                     = 4;
+    private static final int    LOL_FACE_TYPE                  = 0;
+    private static final int    ANIMAL_FACE_TYPE               = 1;
+    private static final int    FACEBOOK_FACE_TYPE             = 2;
+    private static final int    EFFECT_TYPE                    = 3;
+    private static final int    FRAME_TYPE                     = 4;
 
-    private static final int     SIZE_ANIMAL_FACE               = 30;
-    private static final int     SIZE_FACEBOOK_FACE             = 33;
-    private static final int     SIZE_RAGE_FACE                 = 31;
+    private static final int    SIZE_ANIMAL_FACE               = 30;
+    private static final int    SIZE_FACEBOOK_FACE             = 33;
+    private static final int    SIZE_RAGE_FACE                 = 31;
     //=========================Control Constant===============
-    private RelativeLayout       mLayoutProgress;
-    private RelativeLayout       mLayoutChooseOptions;
-    private Animation            mContentUpAnime;
-    private Animation            mContentDownAnime;
-    private Animation            mDeleteFaceDownAnime;
-    private RelativeLayout       mLayoutDeleteFaces;
-    private ImageView            mImageDeletedFace;
-    private ImageView            mImageFrame;
-    private RelativeLayout       mLayoutMain;
-    private RelativeLayout       mLayoutListEffectItems;
-    private HorizontalListView   mItemOptionsListView;
-    private LinearLayout         mLayoutOptionHeader;
+    private RelativeLayout      mLayoutProgress;
+    private RelativeLayout      mLayoutChooseOptions;
+    private Animation           mContentUpAnime;
+    private Animation           mContentDownAnime;
+    private Animation           mDeleteFaceDownAnime;
+    private Animation           mContentInRightAnim;
+    private Animation           mContentOutRightAnim;
+    private Animation           mContentInLeftAnim;
+    private Animation           mContentOutLeftAnim;
+    private RelativeLayout      mLayoutDeleteFaces;
+    private ImageView           mImageDeletedFace;
+    private ImageView           mImageFrame;
+    private RelativeLayout      mLayoutMain;
+    private RelativeLayout      mLayoutListEffectItems;
+    private HorizontalListView  mItemOptionsListView;
+    private LinearLayout        mLayoutOptionHeader;
+    private RelativeLayout      mLayoutLeftOptionMenu;
+    private RelativeLayout      mLayoutRightOptionMenu;
     //=========================Variable Constant==============
-    private FaceViewGroup        mFaceViewGroup;
-    private Bitmap               mLoadedBitmap;
-    private Bitmap               mResultBitmap;
-    private Bitmap               mDeletedFaceBitmap;
-    private int                  mBitmapWidth;
-    private int                  mBitmapHeight;
-    private float                mRatioX                        = 1.0F, mRatioY = 1.0F;
+    private FaceViewGroup       mFaceViewGroup;
+    private Bitmap              mLoadedBitmap;
+    private Bitmap              mResultBitmap;
+    private Bitmap              mDeletedFaceBitmap;
+    private int                 mBitmapWidth;
+    private int                 mBitmapHeight;
+    private float               mRatioX                        = 1.0F, mRatioY = 1.0F;
 
-    private int                  mScreenWidth;
-    private int                  mScreenHeight;
-    private int                  mActionBarHeight, mNotificationBarHeight;
-    private int                  mShowPreviousLayoutType        = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
-    private int                  mShowNextLayoutType            = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
-    private boolean              isShowDeletedFaceLayout        = false;
+    private int                 mScreenWidth;
+    private int                 mScreenHeight;
+    private int                 mActionBarHeight, mNotificationBarHeight;
+    private int                 mShowPreviousLayoutType        = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private int                 mShowNextLayoutType            = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private boolean             isShowDeletedFaceLayout        = false;
     /*this value is used for the height of image displayed in real position of device*/
-    private int                  mRealImageHeight;
-    private int                  mShowItemType                  = ANIMAL_FACE_TYPE;
-    private Face[]               mDetectedFaces;
-    private ArrayList<FaceView>  mChoiceFacesList               = new ArrayList<FaceView>();
-    private ArrayList<FaceView>  mDetectedFacesList             = new ArrayList<FaceView>();
-    private int                  mMaxFaceId                     = 0;
-    private String               mImagePath;
+    private int                 mRealImageHeight;
+    private int                 mShowItemType                  = ANIMAL_FACE_TYPE;
+    private Face[]              mDetectedFaces;
+    private ArrayList<FaceView> mChoiceFacesList               = new ArrayList<FaceView>();
+    private ArrayList<FaceView> mDetectedFacesList             = new ArrayList<FaceView>();
+    private int                 mMaxFaceId                     = 0;
+    private String              mImagePath;
 
-    private ImageLoadingListener animateFirstListener           = new AnimateFirstDisplayListener();
-
-    private DisplayImageOptions  options;
+    private DisplayImageOptions options;
 
     @Override
     public int contentView() {
@@ -127,6 +130,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     @Override
     public void onCreate() {
         initData();
+        initAnimation();
         initLayout();
     }
 
@@ -147,13 +151,9 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             return;
         }
 
-        // Uri uri = Uri.fromFile(file);
-        //Utils.checkOrientation(uri);
-        //        mLoadedBitmap = Utils.decodeBitmapFromCameraIntent(imagePath);
-        //mLoadedBitmap = Utils.decodeSampledBitmapFromFile(imagePath, 720, 1280);
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.ic_empty)
-                .showImageOnFail(R.drawable.ic_error)
+                .showImageOnFail(R.drawable.ic_close)
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
@@ -174,6 +174,20 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             mActionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
         mNotificationBarHeight = getNotificationBarHeight();
+    }
+
+    private void initAnimation() {
+        mContentUpAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_up);
+        mContentDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
+        mContentDownAnime.setAnimationListener(contentEffectDownAnimListener);
+        mDeleteFaceDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
+        mDeleteFaceDownAnime.setAnimationListener(deleteFaceDownAnimListener);
+
+        //animation for left,right menu option
+        mContentInLeftAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
+        mContentOutLeftAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
+        mContentInRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
+        mContentOutRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
     }
 
     @Override
@@ -198,6 +212,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private void initLayout() {
         initLayoutChooseOption();
         initLayoutDeleteFaces();
+        initLayoutOptionMenu();
         mLayoutMain = (RelativeLayout) findViewById(R.id.layout_main);
         mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
         mFaceViewGroup = (FaceViewGroup) findViewById(R.id.face_view_group);
@@ -208,19 +223,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
         mLayoutProgress.setVisibility(View.VISIBLE);
         //TODO
-        //        if (mLoadedBitmap == null) {
-        //            Toast.makeText(this, getString(R.string.image_load_error), Toast.LENGTH_SHORT).show();
-        //            finish();
-        //            return;
-        //        }
-        //        mLayoutProgress.setVisibility(View.GONE);
-        //        BitmapWorkerTask bitmapWorkerTask = new BitmapWorkerTask(mFaceViewGroup);
-        //        bitmapWorkerTask.execute(mImagePath);
         Uri uri = Uri.fromFile(new File(mImagePath));
         ImageLoader.getInstance().displayImage(uri.toString(), mFaceViewGroup, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
-                //spinner.setVisibility(View.VISIBLE);
                 mFaceViewGroup.setVisibility(View.GONE);
             }
 
@@ -245,18 +251,24 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                     break;
                 }
                 Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-
-                //spinner.setVisibility(View.GONE);
+                finish();
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-               // spinner.setVisibility(View.GONE);
                 mLoadedBitmap = loadedImage;
                 AsyncTaskFaceDetection asyncTaskFaceDetection = new AsyncTaskFaceDetection(ActivityFaceLoader.this);
                 asyncTaskFaceDetection.execute();
             }
         });
+    }
+
+    private void initLayoutOptionMenu() {
+        // TODO Auto-generated method stub
+        mLayoutLeftOptionMenu = (RelativeLayout) findViewById(R.id.layout_menu_option_left);
+        mLayoutRightOptionMenu = (RelativeLayout) findViewById(R.id.layout_menu_option_right);
+        mLayoutLeftOptionMenu.setVisibility(View.GONE);
+        mLayoutRightOptionMenu.setVisibility(View.GONE);
     }
 
     private void initLayoutDeleteFaces() {
@@ -266,11 +278,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
     private void initLayoutChooseOption() {
         mLayoutOptionHeader = (LinearLayout) findViewById(R.id.layout_options_header);
-        mContentUpAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_up);
-        mContentDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
-        mContentDownAnime.setAnimationListener(contentEffectDownAnimListener);
-        mDeleteFaceDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
-        mDeleteFaceDownAnime.setAnimationListener(deleteFaceDownAnimListener);
         mLayoutChooseOptions = (RelativeLayout) findViewById(R.id.layout_choose_option_id);
         mLayoutChooseOptions.setVisibility(View.GONE);
         mLayoutListEffectItems = (RelativeLayout) findViewById(R.id.layout_list_effect_item_id);
@@ -297,7 +304,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 default:
                     break;
                 }
-
             }
 
         });
@@ -726,6 +732,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             super.onPostExecute(result);
             mLayoutProgress.setVisibility(View.GONE);
             mLayoutChooseOptions.setVisibility(View.VISIBLE);
+            mLayoutLeftOptionMenu.setVisibility(View.VISIBLE);
+            mLayoutRightOptionMenu.setVisibility(View.VISIBLE);
+            mLayoutLeftOptionMenu.startAnimation(mContentOutLeftAnim);
+            mLayoutRightOptionMenu.startAnimation(mContentOutRightAnim);
             mLayoutChooseOptions.startAnimation(mContentUpAnime);
             switch (result) {
             case FunFaceConstant.RESULT_FAILED:

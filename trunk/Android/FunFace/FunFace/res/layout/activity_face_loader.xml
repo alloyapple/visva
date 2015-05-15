@@ -60,6 +60,47 @@
             android:visibility="gone" />
 
         <RelativeLayout
+            android:id="@+id/layout_menu_option_left"
+            android:layout_width="@dimen/width_layout_option_menu"
+            android:layout_height="@dimen/width_layout_option_menu"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_bottom_layout_option_menu"
+            android:background="@drawable/fab_bg_normal"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClickMenuOptionLeft" >
+
+            <ImageView
+                android:id="@+id/ic_menu_option_left"
+                android:layout_width="@dimen/width_ic_option_menu"
+                android:layout_height="@dimen/height_ic_option_menu"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_camera"
+                android:contentDescription="@string/content_description" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_menu_option_right"
+            android:layout_width="@dimen/width_layout_option_menu"
+            android:layout_height="@dimen/width_layout_option_menu"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_bottom_layout_option_menu"
+            android:background="@drawable/fab_bg_normal"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClickMenuOptionLeft" >
+
+            <ImageView
+                android:id="@+id/ic_menu_option_right"
+                android:layout_width="@dimen/width_ic_option_menu"
+                android:layout_height="@dimen/height_ic_option_menu"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_gallery2"
+                android:contentDescription="@string/content_description" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/layout_progress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
