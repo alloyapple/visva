@@ -53,8 +53,8 @@ import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.model.EffectItem;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
-import com.visva.android.app.funface.view.adapter.CustomArrayAdapter;
 import com.visva.android.app.funface.view.adapter.EffectAdapter;
+import com.visva.android.app.funface.view.adapter.FaceAdapter;
 import com.visva.android.app.funface.view.widget.FaceView;
 import com.visva.android.app.funface.view.widget.FaceViewGroup;
 import com.visva.android.app.funface.view.widget.FaceViewGroup.ILayoutChange;
@@ -62,65 +62,67 @@ import com.visva.android.app.funface.view.widget.HorizontalListView;
 
 public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayoutChange {
     //=========================Define Constant================
-    public static final int     TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
-    public static final int     TYPE_SHOW_DELETE_FACE_LAYOUT   = 1;
-    private static final int    TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
-    private static final int    TYPE_SHOW_EFFECT_LAYOUT        = 3;
-    private static final int    TYPE_SHOW_FRAME_LAYOUT         = 4;
+    public static final int       TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
+    public static final int       TYPE_SHOW_DELETE_FACE_LAYOUT   = 1;
+    private static final int      TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
+    private static final int      TYPE_SHOW_EFFECT_LAYOUT        = 3;
+    private static final int      TYPE_SHOW_FRAME_LAYOUT         = 4;
 
-    private static final int    LOL_FACE_TYPE                  = 0;
-    private static final int    ANIMAL_FACE_TYPE               = 1;
-    private static final int    FACEBOOK_FACE_TYPE             = 2;
-    private static final int    EFFECT_TYPE                    = 3;
-    private static final int    FRAME_TYPE                     = 4;
+    private static final int      LOL_FACE_TYPE                  = 0;
+    private static final int      ANIMAL_FACE_TYPE               = 1;
+    private static final int      FACEBOOK_FACE_TYPE             = 2;
+    private static final int      EFFECT_TYPE                    = 3;
+    private static final int      FRAME_TYPE                     = 4;
 
-    private static final int    SIZE_ANIMAL_FACE               = 30;
-    private static final int    SIZE_FACEBOOK_FACE             = 33;
-    private static final int    SIZE_RAGE_FACE                 = 31;
+    private static final int      SIZE_ANIMAL_FACE               = 30;
+    private static final int      SIZE_FACEBOOK_FACE             = 33;
+    private static final int      SIZE_RAGE_FACE                 = 31;
+    private static final int      SIZE_FRAME                     = 35;
     //=========================Control Constant===============
-    private RelativeLayout      mLayoutProgress;
-    private RelativeLayout      mLayoutChooseOptions;
-    private Animation           mContentUpAnime;
-    private Animation           mContentDownAnime;
-    private Animation           mDeleteFaceDownAnime;
-    private Animation           mContentInRightAnim;
-    private Animation           mContentOutRightAnim;
-    private Animation           mContentInLeftAnim;
-    private Animation           mContentOutLeftAnim;
-    private RelativeLayout      mLayoutDeleteFaces;
-    private ImageView           mImageDeletedFace;
-    private ImageView           mImageFrame;
-    private RelativeLayout      mLayoutMain;
-    private RelativeLayout      mLayoutListEffectItems;
-    private HorizontalListView  mItemOptionsListView;
-    private LinearLayout        mLayoutOptionHeader;
-    private RelativeLayout      mLayoutLeftOptionMenu;
-    private RelativeLayout      mLayoutRightOptionMenu;
+    private RelativeLayout        mLayoutProgress;
+    private RelativeLayout        mLayoutChooseOptions;
+    private Animation             mContentUpAnime;
+    private Animation             mContentDownAnime;
+    private Animation             mDeleteFaceDownAnime;
+    private Animation             mContentInRightAnim;
+    private Animation             mContentOutRightAnim;
+    private Animation             mContentInLeftAnim;
+    private Animation             mContentOutLeftAnim;
+    private RelativeLayout        mLayoutDeleteFaces;
+    private ImageView             mImageDeletedFace;
+    private ImageView             mImageFrame;
+    private RelativeLayout        mLayoutMain;
+    private RelativeLayout        mLayoutListEffectItems;
+    private HorizontalListView    mItemOptionsListView;
+    private LinearLayout          mLayoutOptionHeader;
+    private RelativeLayout        mLayoutLeftOptionMenu;
+    private RelativeLayout        mLayoutRightOptionMenu;
     //=========================Variable Constant==============
-    private FaceViewGroup       mFaceViewGroup;
-    private Bitmap              mLoadedBitmap;
-    private Bitmap              mResultBitmap;
-    private Bitmap              mDeletedFaceBitmap;
-    private int                 mBitmapWidth;
-    private int                 mBitmapHeight;
-    private float               mRatioX                        = 1.0F, mRatioY = 1.0F;
+    private FaceViewGroup         mFaceViewGroup;
+    private Bitmap                mLoadedBitmap;
+    private Bitmap                mResultBitmap;
+    private Bitmap                mDeletedFaceBitmap;
+    private int                   mBitmapWidth;
+    private int                   mBitmapHeight;
+    private float                 mRatioX                        = 1.0F, mRatioY = 1.0F;
 
-    private int                 mScreenWidth;
-    private int                 mScreenHeight;
-    private int                 mActionBarHeight, mNotificationBarHeight;
-    private int                 mShowPreviousLayoutType        = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
-    private int                 mShowNextLayoutType            = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
-    private boolean             isShowDeletedFaceLayout        = false;
+    private int                   mScreenWidth;
+    private int                   mScreenHeight;
+    private int                   mActionBarHeight, mNotificationBarHeight;
+    private int                   mShowPreviousLayoutType        = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private int                   mShowNextLayoutType            = TYPE_SHOW_LAYOUT_CHOOSE_OPTION;
+    private boolean               isShowDeletedFaceLayout        = false;
     /*this value is used for the height of image displayed in real position of device*/
-    private int                 mRealImageHeight;
-    private int                 mShowItemType                  = ANIMAL_FACE_TYPE;
-    private Face[]              mDetectedFaces;
-    private ArrayList<FaceView> mChoiceFacesList               = new ArrayList<FaceView>();
-    private ArrayList<FaceView> mDetectedFacesList             = new ArrayList<FaceView>();
-    private int                 mMaxFaceId                     = 0;
-    private String              mImagePath;
+    private int                   mRealImageHeight;
+    private int                   mShowItemType                  = ANIMAL_FACE_TYPE;
+    private Face[]                mDetectedFaces;
+    private ArrayList<FaceView>   mChoiceFacesList               = new ArrayList<FaceView>();
+    private ArrayList<FaceView>   mDetectedFacesList             = new ArrayList<FaceView>();
+    private ArrayList<EffectItem> mFrameList                     = new ArrayList<EffectItem>();
+    private int                   mMaxFaceId                     = 0;
+    private String                mImagePath;
 
-    private DisplayImageOptions options;
+    private DisplayImageOptions   options;
 
     @Override
     public int contentView() {
@@ -188,6 +190,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mContentOutLeftAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
         mContentInRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         mContentOutRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
+        mContentInLeftAnim.setAnimationListener(contentInLeftListener);
+        mContentInRightAnim.setAnimationListener(contentInRightListener);
     }
 
     @Override
@@ -309,21 +313,9 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         });
     }
 
-    private void onItemClickAddFrameLayout(int position) {
-        // TODO Auto-generated method stub
-        switch (position) {
-        case 0:
-            mImageFrame.setVisibility(View.GONE);
-            break;
-        case 1:
-            mImageFrame.setBackgroundResource(R.drawable.frame1);
-            break;
-        case 2:
-            mImageFrame.setBackgroundResource(R.drawable.frame2);
-            break;
-        default:
-            break;
-        }
+    private void onItemClickAddFrameLayout(int position) { // Populate the text
+        String uri = Utils.convertResourceToUri(this, mFrameList.get(position).effectId);
+        ImageLoader.getInstance().displayImage(uri, mImageFrame, options, animateFirstListener);
     }
 
     private void onItemClickAddEffectLayout(int position) {
@@ -462,7 +454,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         case FACEBOOK_FACE_TYPE:
         case ANIMAL_FACE_TYPE:
             mChoiceFacesList = getListItem(showFaceType);
-            CustomArrayAdapter adapter = new CustomArrayAdapter(this, mChoiceFacesList);
+            ArrayList<EffectItem> mFaceLists = getFaceList(mChoiceFacesList);
+            FaceAdapter adapter = new FaceAdapter(this, mFaceLists);
             // Assign adapter to HorizontalListView
             mItemOptionsListView.setAdapter(adapter);
             return;
@@ -472,14 +465,33 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             mItemOptionsListView.setAdapter(effectAdapter);
             break;
         case FRAME_TYPE:
-            ArrayList<EffectItem> mFrameItems = getEffectList();
-            EffectAdapter frameAdapter = new EffectAdapter(ActivityFaceLoader.this, mFrameItems);
+            mFrameList = getFrameList();
+            FaceAdapter frameAdapter = new FaceAdapter(ActivityFaceLoader.this, mFrameList);
             mItemOptionsListView.setAdapter(frameAdapter);
             break;
         default:
             break;
         }
 
+    }
+
+    private ArrayList<EffectItem> getFrameList() {
+        ArrayList<EffectItem> effectItems = new ArrayList<EffectItem>();
+        for (int i = 1; i <= SIZE_FRAME; i++) {
+            String resId = "frame" + i;
+            EffectItem effectItem = new EffectItem("", Utils.getResId(ActivityFaceLoader.this, resId));
+            effectItems.add(effectItem);
+        }
+        return effectItems;
+    }
+
+    private ArrayList<EffectItem> getFaceList(ArrayList<FaceView> choiceFacesList) {
+        ArrayList<EffectItem> effectItems = new ArrayList<EffectItem>();
+        for (FaceView faceView : choiceFacesList) {
+            EffectItem effectItem = new EffectItem("", faceView.getResId());
+            effectItems.add(effectItem);
+        }
+        return effectItems;
     }
 
     private ArrayList<EffectItem> getEffectList() {
@@ -578,6 +590,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             }
             return;
         }
+
         mShowNextLayoutType = showLayoutType;
 
         //show next layout
@@ -593,8 +606,90 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         default:
             break;
         }
+
+        onLayoutMenuOptionChange(showLayoutType, isShow);
     }
 
+    private void onLayoutMenuOptionChange(int showLayoutType, boolean isShow) {
+        if (mShowPreviousLayoutType == showLayoutType) {
+            return;
+        }
+        mLayoutLeftOptionMenu.startAnimation(mContentInLeftAnim);
+        mLayoutRightOptionMenu.startAnimation(mContentInRightAnim);
+    }
+
+    private AnimationListener contentInLeftListener         = new AnimationListener() {
+
+                                                                @Override
+                                                                public void onAnimationStart(Animation animation) {
+                                                                    // TODO Auto-generated method stub
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationRepeat(Animation animation) {
+                                                                    // TODO Auto-generated method stub
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationEnd(Animation animation) {
+                                                                    // TODO Auto-generated method stub
+                                                                    mLayoutLeftOptionMenu.setVisibility(View.GONE);
+                                                                    switch (mShowNextLayoutType) {
+                                                                    case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+                                                                    case TYPE_SHOW_ADD_FACE_LAYOUT:
+                                                                        ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_left)
+                                                                                .setBackgroundResource(R.drawable.ic_camera);
+                                                                        break;
+                                                                    case TYPE_SHOW_EFFECT_LAYOUT:
+                                                                    case TYPE_SHOW_FRAME_LAYOUT:
+                                                                        ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_left)
+                                                                                .setBackgroundResource(R.drawable.ic_check);
+                                                                        break;
+                                                                    default:
+                                                                        break;
+                                                                    }
+                                                                    mLayoutLeftOptionMenu.startAnimation(mContentOutLeftAnim);
+                                                                    mLayoutLeftOptionMenu.setVisibility(View.VISIBLE);
+                                                                }
+                                                            };
+    private AnimationListener contentInRightListener        = new AnimationListener() {
+
+                                                                @Override
+                                                                public void onAnimationStart(Animation animation) {
+                                                                    // TODO Auto-generated method stub
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationRepeat(Animation animation) {
+                                                                    // TODO Auto-generated method stub
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationEnd(Animation animation) {
+                                                                    mLayoutRightOptionMenu.setVisibility(View.GONE);
+                                                                    switch (mShowNextLayoutType) {
+                                                                    case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+                                                                    case TYPE_SHOW_ADD_FACE_LAYOUT:
+                                                                        ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_right)
+                                                                                .setBackgroundResource(R.drawable.ic_gallery2);
+                                                                        break;
+                                                                    case TYPE_SHOW_EFFECT_LAYOUT:
+                                                                    case TYPE_SHOW_FRAME_LAYOUT:
+                                                                        ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_right)
+                                                                                .setBackgroundResource(R.drawable.ic_close);
+                                                                        break;
+                                                                    default:
+                                                                        break;
+                                                                    }
+                                                                    mLayoutRightOptionMenu.startAnimation(mContentOutRightAnim);
+                                                                    mLayoutRightOptionMenu.setVisibility(View.VISIBLE);
+
+                                                                }
+                                                            };
     private AnimationListener deleteFaceDownAnimListener    = new AnimationListener() {
 
                                                                 @Override
@@ -881,6 +976,41 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         setupOptionItemListCustomLists(mShowItemType);
     }
 
+    public void onClickMenuOptionLeft(View v) {
+        Toast.makeText(this, "onClickMenuOptionLeft", Toast.LENGTH_SHORT).show();
+        switch (mShowPreviousLayoutType) {
+        case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+        case TYPE_SHOW_ADD_FACE_LAYOUT:
+            Toast.makeText(this, "on click camera", Toast.LENGTH_SHORT).show();
+            break;
+        case TYPE_SHOW_EFFECT_LAYOUT:
+        case TYPE_SHOW_FRAME_LAYOUT:
+            onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, true);
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    public void onClickMenuOptionRight(View v) {
+        Toast.makeText(this, "onClickMenuOptionRight", Toast.LENGTH_SHORT).show();
+        switch (mShowPreviousLayoutType) {
+        case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+        case TYPE_SHOW_ADD_FACE_LAYOUT:
+            Toast.makeText(this, "on click gallery", Toast.LENGTH_SHORT).show();
+            break;
+        case TYPE_SHOW_EFFECT_LAYOUT:
+        case TYPE_SHOW_FRAME_LAYOUT:
+            onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, true);
+            break;
+
+        default:
+            break;
+        }
+
+    }
+
     /**
      * THIS IS USED FOR SAVING THE IMAGE INTO THE SDCARD AFTER EFFECTING AND DETECTING
      */
@@ -916,6 +1046,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             }
         }
     }
+
+    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 
     private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 

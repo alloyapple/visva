@@ -12,7 +12,6 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class Utils {
@@ -182,7 +181,11 @@ public class Utils {
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        
+
         return BitmapFactory.decodeFile(photoPath, options);
+    }
+
+    public static String convertResourceToUri(Context context, int resID) {
+        return "drawable://" + resID;
     }
 }
