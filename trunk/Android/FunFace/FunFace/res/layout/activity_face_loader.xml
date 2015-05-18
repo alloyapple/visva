@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_effect_height"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
         android:orientation="vertical" >
 
         <include
@@ -89,7 +88,7 @@
             android:background="@drawable/fab_bg_normal"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="onClickMenuOptionLeft" >
+            android:onClick="onClickMenuOptionRight" >
 
             <ImageView
                 android:id="@+id/ic_menu_option_right"
