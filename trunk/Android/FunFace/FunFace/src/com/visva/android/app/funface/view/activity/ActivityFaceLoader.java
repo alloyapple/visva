@@ -293,8 +293,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                if (position >= mChoiceFacesList.size())
-                    return;
                 switch (mShowNextLayoutType) {
                 case TYPE_SHOW_ADD_FACE_LAYOUT:
                     onItemClickAddFaceLayout(position);
@@ -313,7 +311,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         });
     }
 
-    private void onItemClickAddFrameLayout(int position) { // Populate the text
+    private void onItemClickAddFrameLayout(int position) {
+        if (position >= mFrameList.size())
+            return;
+        // Populate the text
         String uri = Utils.convertResourceToUri(this, mFrameList.get(position).effectId);
         ImageLoader.getInstance().displayImage(uri, mImageFrame, options, animateFirstListener);
     }
@@ -408,6 +409,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     }
 
     private void onItemClickAddFaceLayout(int position) {
+        if (position >= mChoiceFacesList.size())
+            return;
         int resId = mChoiceFacesList.get(position).getResId();
         FaceView faceView = null;
         int addPosition = -1;
