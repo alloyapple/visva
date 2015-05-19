@@ -64,7 +64,7 @@ public class FaceAdapter extends BaseAdapter {
         }
 
         // Populate the text
-        String uri = Utils.convertResourceToUri(mContext, getItem(position).effectId);
+        String uri = Utils.convertResourceToImageLoaderUri(mContext, getItem(position).effectId);
         ImageLoader.getInstance().displayImage(uri, holder.imageItem, options, animateFirstListener);
         return convertView;
     }
