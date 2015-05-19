@@ -315,8 +315,49 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         if (position >= mFrameList.size())
             return;
         // Populate the text
-        String uri = Utils.convertResourceToUri(this, mFrameList.get(position).effectId);
-        ImageLoader.getInstance().displayImage(uri, mImageFrame, options, animateFirstListener);
+        String uri = Utils.convertResourceToImageLoaderUri(this, mFrameList.get(position).effectId);
+        ImageLoader.getInstance().displayImage(uri, mImageFrame, options, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                String message = null;
+                switch (failReason.getType()) {
+                case IO_ERROR:
+                    message = "Input/Output error";
+                    break;
+                case DECODING_ERROR:
+                    message = "Image can't be decoded";
+                    break;
+                case NETWORK_DENIED:
+                    message = "Downloads are denied";
+                    break;
+                case OUT_OF_MEMORY:
+                    message = "Out Of Memory error";
+                    break;
+                case UNKNOWN:
+                    message = "Unknown error";
+                    break;
+                }
+                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                String resId[] = imageUri.split("/");
+                if (resId == null || resId.length < 2 || StringUtility.isEmpty(resId[1])) {
+                    Log.e("KieuThang", "onLoadingComplete get image error!!!!");
+                    return;
+                }
+                Log.d("KieuThang", "onLoadingComplete resId:" + resId[1]);
+                String imageUriStr = Utils.convertResourceToUri(ActivityFaceLoader.this, Integer.parseInt(resId[1]));
+                loadedImage = Utils.decodeSampledBitmapFromFile(imageUriStr, mScreenWidth, mRealImageHeight);
+                mImageFrame.setImageBitmap(loadedImage);
+                FadeInBitmapDisplayer.animate(mImageFrame, 500);
+            }
+        });
     }
 
     private void onItemClickAddEffectLayout(int position) {

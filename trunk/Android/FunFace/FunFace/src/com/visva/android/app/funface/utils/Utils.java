@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -185,7 +186,14 @@ public class Utils {
         return BitmapFactory.decodeFile(photoPath, options);
     }
 
-    public static String convertResourceToUri(Context context, int resID) {
+    public static String convertResourceToImageLoaderUri(Context context, int resID) {
         return "drawable://" + resID;
+    }
+
+    public static String convertResourceToUri(Context context, int resID) {
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                context.getResources().getResourcePackageName(resID) + '/' +
+                context.getResources().getResourceTypeName(resID) + '/' +
+                context.getResources().getResourceEntryName(resID)).toString();
     }
 }
