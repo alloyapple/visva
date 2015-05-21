@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/layout_list_item_options"
-            android:background="#000000"
             android:visibility="gone" />
     </RelativeLayout>
 
@@ -44,9 +43,8 @@
 
         <ImageView
             android:id="@+id/image_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:contentDescription="@string/content_description" />
 
         <include
