@@ -17,6 +17,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
@@ -161,6 +162,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .considerExifParams(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
 
@@ -319,6 +321,9 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         ImageLoader.getInstance().displayImage(uri, mImageFrame, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
+                if (mBitmapWidth < mBitmapHeight) {
+                    mImageFrame.setScaleType(ImageView.ScaleType.FIT_XY);
+                }
             }
 
             @Override
@@ -346,18 +351,40 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                String resId[] = imageUri.split("/");
+                Log.d("KieuThang", "onLoadingComplete resId:" + imageUri);
+                String resId[] = imageUri.split("//");
                 if (resId == null || resId.length < 2 || StringUtility.isEmpty(resId[1])) {
                     Log.e("KieuThang", "onLoadingComplete get image error!!!!");
                     return;
                 }
                 Log.d("KieuThang", "onLoadingComplete resId:" + resId[1]);
-                String imageUriStr = Utils.convertResourceToUri(ActivityFaceLoader.this, Integer.parseInt(resId[1]));
-                loadedImage = Utils.decodeSampledBitmapFromFile(imageUriStr, mScreenWidth, mRealImageHeight);
-                mImageFrame.setImageBitmap(loadedImage);
+                if (mBitmapWidth >= mBitmapHeight) {
+                    float ratio = (float) mBitmapWidth / mScreenWidth;
+                    float displayedImageHeight = (float) mBitmapHeight / ratio;
+                    loadedImage = getResizedBitmap(loadedImage, mScreenWidth, (int)displayedImageHeight);
+                    mImageFrame.setImageBitmap(loadedImage);
+                }
+
                 FadeInBitmapDisplayer.animate(mImageFrame, 500);
             }
         });
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+        if(bm != null)
+            bm.recycle();
+        return resizedBitmap;
     }
 
     private void onItemClickAddEffectLayout(int position) {
