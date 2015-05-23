@@ -3,6 +3,8 @@ package com.visva.android.app.funface.view.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +13,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.visva.android.app.funface.R;
+import com.visva.android.app.funface.imageprocessing.ImageEffectLoader;
 import com.visva.android.app.funface.model.EffectItem;
-import com.visva.android.app.funface.view.widget.FaceView;
 
 /** An array adapter that knows how to render views when given CustomData classes */
 public class EffectAdapter extends BaseAdapter {
     private LayoutInflater        mInflater;
     private Context               mContext;
     private ArrayList<EffectItem> mEffectItems;
+    private Bitmap                mBitmap;
 
     public EffectAdapter(Context context, ArrayList<EffectItem> values) {
         this.mContext = context;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mEffectItems = values;
+        mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_custom_service);
+
     }
 
     @Override
@@ -46,6 +51,7 @@ public class EffectAdapter extends BaseAdapter {
 
         // Populate the text
         // holder.imageItem.setBackgroundResource(getItem(position).getResId());
+        ImageEffectLoader.getInstance(mContext).displayImage(holder.imageEffect, position, mBitmap);
         holder.textEffect.setText(getItem(position).textEffect);
         return convertView;
     }

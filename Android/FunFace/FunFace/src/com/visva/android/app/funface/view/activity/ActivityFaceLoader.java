@@ -49,6 +49,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.constant.FunFaceConstant;
+import com.visva.android.app.funface.imageprocessing.ImageEffectLoader;
 import com.visva.android.app.funface.imageprocessing.ImageProcessor;
 import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.model.EffectItem;
@@ -300,7 +301,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                     onItemClickAddFaceLayout(position);
                     break;
                 case TYPE_SHOW_EFFECT_LAYOUT:
-                    onItemClickAddEffectLayout(position);
+                    ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap);
+//                    onItemClickAddEffectLayout(position);
                     break;
                 case TYPE_SHOW_FRAME_LAYOUT:
                     onItemClickAddFrameLayout(position);
