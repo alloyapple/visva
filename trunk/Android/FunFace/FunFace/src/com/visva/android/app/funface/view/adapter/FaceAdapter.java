@@ -22,7 +22,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.model.EffectItem;
 import com.visva.android.app.funface.utils.Utils;
-import com.visva.android.app.funface.view.widget.FaceView;
 
 /** An array adapter that knows how to render views when given CustomData classes */
 public class FaceAdapter extends BaseAdapter {
