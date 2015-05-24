@@ -55,11 +55,6 @@ public class ImageEffectLoader {
         switch (position) {
         case FunFaceConstant.EFFECT_NONE:
             return baseBitmap;
-        case FunFaceConstant.EFFECT_HIGH_LIGHT:
-            return ImageProcessor.doHighlightImage(baseBitmap);
-
-        case FunFaceConstant.EFFECT_INVERT:
-            return ImageProcessor.doInvert(baseBitmap);
 
         case FunFaceConstant.EFFECT_GREY:
             return ImageProcessor.doGreyscale(baseBitmap);
@@ -123,9 +118,6 @@ public class ImageEffectLoader {
 
         case FunFaceConstant.EFFECT_SNOW:
             return ImageProcessor.applySnowEffect(baseBitmap);
-
-        case FunFaceConstant.EFFECT_SHADING:
-            return ImageProcessor.applyShadingFilter(baseBitmap, 1);
 
         case FunFaceConstant.EFFECT_SATUARATION:
             return ImageProcessor.applySaturationFilter(baseBitmap, 1);

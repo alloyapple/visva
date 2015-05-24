@@ -13,7 +13,7 @@
         android:baselineAligned="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:weightSum="4" >
+        android:weightSum="5" >
 
         <com.gc.materialdesign.views.LayoutRipple
             android:id="@+id/btn_add_face"
@@ -120,13 +120,48 @@
         </View>
 
         <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/btn_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClickAddTextTab"
+            materialdesign:rippleColor="#1E88E5"
+            materialdesign:rippleSpeed="20" >
+
+            <ImageView
+                android:id="@+id/ic_texts"
+                android:layout_width="@dimen/width_btn_tab_option"
+                android:layout_height="@dimen/height_btn_tab_option"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_favourites" />
+
+            <TextView
+                android:id="@+id/txt_texts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ic_texts"
+                android:layout_centerHorizontal="true"
+                android:singleLine="true"
+                android:text="@string/texts"
+                android:textColor="@color/white" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent" >
+        </View>
+
+        <com.gc.materialdesign.views.LayoutRipple
             android:id="@+id/btn_settings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="onClickSettingTab"
+            android:onClick="onClickShareTab"
             materialdesign:rippleColor="#1E88E5"
             materialdesign:rippleSpeed="20" >
 

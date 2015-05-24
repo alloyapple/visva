@@ -22,9 +22,7 @@ public class FunFaceConstant {
 
     // effects
     public static final int     EFFECT_NONE         = 0;
-    public static final int     EFFECT_HIGH_LIGHT   = EFFECT_NONE + 1;
-    public static final int     EFFECT_INVERT       = EFFECT_HIGH_LIGHT + 1;
-    public static final int     EFFECT_GREY         = EFFECT_INVERT + 1;
+    public static final int     EFFECT_GREY         = EFFECT_NONE + 1;
     public static final int     EFFECT_GAMMA        = EFFECT_GREY + 1;
     public static final int     EFFECT_RED          = EFFECT_GAMMA + 1;
     public static final int     EFFECT_BLUE         = EFFECT_RED + 1;
@@ -45,7 +43,6 @@ public class FunFaceConstant {
     public static final int     EFFECT_FLEA         = EFFECT_TINT + 1;
     public static final int     EFFECT_BLACK        = EFFECT_FLEA + 1;
     public static final int     EFFECT_SNOW         = EFFECT_BLACK + 1;
-    public static final int     EFFECT_SHADING      = EFFECT_SNOW + 1;
-    public static final int     EFFECT_SATUARATION  = EFFECT_SHADING + 1;
+    public static final int     EFFECT_SATUARATION  = EFFECT_SNOW + 1;
     public static final int     EFFECT_HUE          = EFFECT_SATUARATION + 1;
 }
