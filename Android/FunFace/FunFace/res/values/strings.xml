@@ -19,15 +19,14 @@
     <string name="face">Faces</string>
     <string name="frame">Frames</string>
     <string name="effect">Effects</string>
+    <string name="texts">Texts</string>
     <string name="setting">Settings</string>
-    <string name="face_lol">LOL</string>
+    <string name="face_lol">Troll</string>
     <string name="face_animal">Animal</string>
     <string name="face_other">Others</string>
 
     <string-array name="effects">
         <item>None</item>
-        <item>High light</item>
-        <item>Invert</item>
         <item>Grey</item>
         <item>Gamma</item>
         <!-- Color filter(red,blue,green) -->
@@ -50,7 +49,6 @@
         <item>Flea</item>
         <item>Black</item>
         <item>Snow</item>
-        <item>Shading</item>
         <item>Saturation</item>
         <item>Hue</item>
     </string-array>

@@ -5,9 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 import android.content.Context;
@@ -45,12 +42,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.constant.FunFaceConstant;
 import com.visva.android.app.funface.imageprocessing.ImageEffectLoader;
-import com.visva.android.app.funface.imageprocessing.ImageProcessor;
 import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.model.EffectItem;
 import com.visva.android.app.funface.utils.StringUtility;
@@ -69,17 +64,20 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private static final int      TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
     private static final int      TYPE_SHOW_EFFECT_LAYOUT        = 3;
     private static final int      TYPE_SHOW_FRAME_LAYOUT         = 4;
+    private static final int      TYPE_SHOW_TEXT_LAYOUT          = 5;
 
     private static final int      LOL_FACE_TYPE                  = 0;
     private static final int      ANIMAL_FACE_TYPE               = 1;
     private static final int      FACEBOOK_FACE_TYPE             = 2;
     private static final int      EFFECT_TYPE                    = 3;
     private static final int      FRAME_TYPE                     = 4;
+    private static final int      TEXT_TYPE                      = 5;
 
     private static final int      SIZE_ANIMAL_FACE               = 30;
     private static final int      SIZE_FACEBOOK_FACE             = 33;
     private static final int      SIZE_RAGE_FACE                 = 31;
     private static final int      SIZE_FRAME                     = 35;
+    private static final int      SIZE_TEXT                      = 5;
     //=========================Control Constant===============
     private RelativeLayout        mLayoutProgress;
     private RelativeLayout        mLayoutChooseOptions;
@@ -93,7 +91,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private RelativeLayout        mLayoutDeleteFaces;
     private ImageView             mImageDeletedFace;
     private ImageView             mImageFrame;
-    private RelativeLayout        mLayoutMain;
     private RelativeLayout        mLayoutListEffectItems;
     private HorizontalListView    mItemOptionsListView;
     private LinearLayout          mLayoutOptionHeader;
@@ -106,7 +103,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private Bitmap                mDeletedFaceBitmap;
     private int                   mBitmapWidth;
     private int                   mBitmapHeight;
-    private float                 mRatioX                        = 1.0F, mRatioY = 1.0F;
+    private float                 mRatioX                        = 1.0F;
+    private float                 mRatioY                        = 1.0F;
 
     private int                   mScreenWidth;
     private int                   mScreenHeight;
@@ -121,6 +119,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private ArrayList<FaceView>   mChoiceFacesList               = new ArrayList<FaceView>();
     private ArrayList<FaceView>   mDetectedFacesList             = new ArrayList<FaceView>();
     private ArrayList<EffectItem> mFrameList                     = new ArrayList<EffectItem>();
+    private ArrayList<EffectItem> mTextList                      = new ArrayList<EffectItem>();
     private int                   mMaxFaceId                     = 0;
     private String                mImagePath;
 
@@ -220,7 +219,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         initLayoutChooseOption();
         initLayoutDeleteFaces();
         initLayoutOptionMenu();
-        mLayoutMain = (RelativeLayout) findViewById(R.id.layout_main);
         mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
         mFaceViewGroup = (FaceViewGroup) findViewById(R.id.face_view_group);
         mImageFrame = (ImageView) findViewById(R.id.image_frame);
@@ -271,7 +269,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     }
 
     private void initLayoutOptionMenu() {
-        // TODO Auto-generated method stub
         mLayoutLeftOptionMenu = (RelativeLayout) findViewById(R.id.layout_menu_option_left);
         mLayoutRightOptionMenu = (RelativeLayout) findViewById(R.id.layout_menu_option_right);
         mLayoutLeftOptionMenu.setVisibility(View.GONE);
@@ -302,17 +299,24 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                     break;
                 case TYPE_SHOW_EFFECT_LAYOUT:
                     ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap);
-//                    onItemClickAddEffectLayout(position);
+                    //                    onItemClickAddEffectLayout(position);
                     break;
                 case TYPE_SHOW_FRAME_LAYOUT:
                     onItemClickAddFrameLayout(position);
+                    break;
+                case TYPE_SHOW_TEXT_LAYOUT:
+                    onItemClickAddTextLayout(position);
                     break;
                 default:
                     break;
                 }
             }
-
         });
+    }
+
+    private void onItemClickAddTextLayout(int position) {
+        // TODO Auto-generated method stub
+
     }
 
     private void onItemClickAddFrameLayout(int position) {
@@ -363,7 +367,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 if (mBitmapWidth >= mBitmapHeight) {
                     float ratio = (float) mBitmapWidth / mScreenWidth;
                     float displayedImageHeight = (float) mBitmapHeight / ratio;
-                    loadedImage = getResizedBitmap(loadedImage, mScreenWidth, (int)displayedImageHeight);
+                    loadedImage = getResizedBitmap(loadedImage, mScreenWidth, (int) displayedImageHeight);
                     mImageFrame.setImageBitmap(loadedImage);
                 }
 
@@ -384,98 +388,9 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
         // "RECREATE" THE NEW BITMAP
         Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-        if(bm != null)
+        if (bm != null)
             bm.recycle();
         return resizedBitmap;
-    }
-
-    private void onItemClickAddEffectLayout(int position) {
-        switch (position) {
-        case FunFaceConstant.EFFECT_NONE:
-            mFaceViewGroup.setImageBitmap(mResultBitmap);
-            break;
-        case FunFaceConstant.EFFECT_HIGH_LIGHT:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doHighlightImage(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_INVERT:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doInvert(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_GREY:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doGreyscale(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_GAMMA:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doGamma(mResultBitmap, 0.6, 0.6, 0.6));// (1.8, 1.8, 1.8)
-            break;
-        case FunFaceConstant.EFFECT_RED:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doColorFilter(mResultBitmap, 1, 0, 0));
-            break;
-        case FunFaceConstant.EFFECT_BLUE:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doColorFilter(mResultBitmap, 0, 1, 0));
-            break;
-        case FunFaceConstant.EFFECT_GREEN:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doColorFilter(mResultBitmap, 0.5, 0.5, 0.5));
-            break;
-        case FunFaceConstant.EFFECT_SEPIA:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.createSepiaToningEffect(mResultBitmap, 50, 0, 1, 0));
-            break;
-        case FunFaceConstant.EFFECT_DEPTH:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.decreaseColorDepth(mResultBitmap, 32));//64/128
-            break;
-        case FunFaceConstant.EFFECT_CONTRAST:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.createContrast(mResultBitmap, 50));//100
-            break;
-        case FunFaceConstant.EFFECT_BRIGTHT:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.doBrightness(mResultBitmap, 50));//100
-            break;
-        case FunFaceConstant.EFFECT_GAUSSIN:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applyGaussianBlur(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_SHARP:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.sharpen(mResultBitmap, 1));
-            break;
-        case FunFaceConstant.EFFECT_MEAN_REMOVAL:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applyMeanRemoval(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_SMOOTH:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.smooth(mResultBitmap, 5));
-            break;
-        case FunFaceConstant.EFFECT_EMBOSS:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.emboss(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_ENGRAVE:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.engrave(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_BOOST:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.boost(mResultBitmap, 1, 150));
-            break;
-        case FunFaceConstant.EFFECT_ROUND_CORNER:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.roundCorner(mResultBitmap, 5));
-            break;
-        case FunFaceConstant.EFFECT_TINT:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.tintImage(mResultBitmap, 50));
-            break;
-        case FunFaceConstant.EFFECT_FLEA:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applyFleaEffect(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_BLACK:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applyBlackFilter(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_SNOW:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applySnowEffect(mResultBitmap));
-            break;
-        case FunFaceConstant.EFFECT_SHADING:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applyShadingFilter(mResultBitmap, 1));
-            break;
-        case FunFaceConstant.EFFECT_SATUARATION:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applySaturationFilter(mResultBitmap, 1));
-            break;
-        case FunFaceConstant.EFFECT_HUE:
-            mFaceViewGroup.setImageBitmap(ImageProcessor.applyHueFilter(mResultBitmap, 5));
-            break;
-        default:
-            mFaceViewGroup.setImageBitmap(mResultBitmap);
-            break;
-        }
     }
 
     private void onItemClickAddFaceLayout(int position) {
@@ -542,10 +457,25 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             FaceAdapter frameAdapter = new FaceAdapter(ActivityFaceLoader.this, mFrameList);
             mItemOptionsListView.setAdapter(frameAdapter);
             break;
+        case TEXT_TYPE:
+            mTextList = getTextsList();
+            FaceAdapter textAdapter = new FaceAdapter(ActivityFaceLoader.this, mTextList);
+            mItemOptionsListView.setAdapter(textAdapter);
+            break;
         default:
             break;
         }
 
+    }
+
+    private ArrayList<EffectItem> getTextsList() {
+        ArrayList<EffectItem> effectItems = new ArrayList<EffectItem>();
+        for (int i = 1; i <= SIZE_TEXT; i++) {
+            String resId = "text" + i;
+            EffectItem effectItem = new EffectItem("", Utils.getResId(ActivityFaceLoader.this, resId));
+            effectItems.add(effectItem);
+        }
+        return effectItems;
     }
 
     private ArrayList<EffectItem> getFrameList() {
@@ -608,6 +538,12 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             break;
 
         default:
+            for (int i = 1; i <= SIZE_RAGE_FACE; i++) {
+                String resId = "rage" + i;
+                mMaxFaceId++;
+                FaceView imageItem = new FaceView(ActivityFaceLoader.this, Utils.getResId(ActivityFaceLoader.this, resId), 100, mMaxFaceId);
+                imageItems.add(imageItem);
+            }
             break;
         }
         return imageItems;
@@ -674,6 +610,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         case TYPE_SHOW_ADD_FACE_LAYOUT:
         case TYPE_SHOW_EFFECT_LAYOUT:
         case TYPE_SHOW_FRAME_LAYOUT:
+        case TYPE_SHOW_TEXT_LAYOUT:
             mLayoutChooseOptions.startAnimation(mContentDownAnime);
             break;
         default:
@@ -695,13 +632,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
                                                                 @Override
                                                                 public void onAnimationStart(Animation animation) {
-                                                                    // TODO Auto-generated method stub
 
                                                                 }
 
                                                                 @Override
                                                                 public void onAnimationRepeat(Animation animation) {
-                                                                    // TODO Auto-generated method stub
 
                                                                 }
 
@@ -717,6 +652,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                         break;
                                                                     case TYPE_SHOW_EFFECT_LAYOUT:
                                                                     case TYPE_SHOW_FRAME_LAYOUT:
+                                                                    case TYPE_SHOW_TEXT_LAYOUT:
                                                                         ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_left)
                                                                                 .setBackgroundResource(R.drawable.ic_check);
                                                                         break;
@@ -731,13 +667,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
                                                                 @Override
                                                                 public void onAnimationStart(Animation animation) {
-                                                                    // TODO Auto-generated method stub
 
                                                                 }
 
                                                                 @Override
                                                                 public void onAnimationRepeat(Animation animation) {
-                                                                    // TODO Auto-generated method stub
 
                                                                 }
 
@@ -752,6 +686,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                         break;
                                                                     case TYPE_SHOW_EFFECT_LAYOUT:
                                                                     case TYPE_SHOW_FRAME_LAYOUT:
+                                                                    case TYPE_SHOW_TEXT_LAYOUT:
                                                                         ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_right)
                                                                                 .setBackgroundResource(R.drawable.ic_close);
                                                                         break;
@@ -798,6 +733,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
                                                                     case TYPE_SHOW_EFFECT_LAYOUT:
                                                                     case TYPE_SHOW_FRAME_LAYOUT:
+                                                                    case TYPE_SHOW_TEXT_LAYOUT:
                                                                         mLayoutListEffectItems.setVisibility(View.GONE);
                                                                         break;
 
@@ -811,6 +747,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
                                                                     case TYPE_SHOW_EFFECT_LAYOUT:
                                                                     case TYPE_SHOW_FRAME_LAYOUT:
+                                                                    case TYPE_SHOW_TEXT_LAYOUT:
                                                                         mLayoutListEffectItems.setVisibility(View.VISIBLE);
                                                                         mLayoutListEffectItems.startAnimation(mContentUpAnime);
                                                                         break;
@@ -1024,7 +961,15 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mLayoutOptionHeader.setVisibility(View.GONE);
     }
 
-    public void onClickSettingTab(View v) {
+    public void onClickAddTextTab(View v) {
+        Toast.makeText(this, "onClickAddTextTab", Toast.LENGTH_SHORT).show();
+        mShowItemType = TEXT_TYPE;
+        setupOptionItemListCustomLists(mShowItemType);
+        onLayoutChange(TYPE_SHOW_TEXT_LAYOUT, true);
+        mLayoutOptionHeader.setVisibility(View.GONE);
+    }
+
+    public void onClickShareTab(View v) {
         Toast.makeText(this, "onClickSettingTab", Toast.LENGTH_SHORT).show();
         AsyncTaskSaveImageToSdCard asyncTaskSaveImageToSdCard = new AsyncTaskSaveImageToSdCard();
         asyncTaskSaveImageToSdCard.execute();
@@ -1116,25 +1061,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             if (mSavedBitmap != null) {
                 mSavedBitmap.recycle();
                 mSavedBitmap = null;
-            }
-        }
-    }
-
-    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
-
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
-
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
             }
         }
     }
