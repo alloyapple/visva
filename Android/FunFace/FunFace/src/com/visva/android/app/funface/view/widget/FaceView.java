@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
@@ -16,22 +17,19 @@ import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.utils.MultiTouchController.PositionAndScale;
 
 public class FaceView implements Cloneable {
+    private static final float SCREEN_MARGIN_TOP         = 70;
     private static final int   UI_MODE_ANISOTROPIC_SCALE = 2;
     private int                faceId;
     private int                resId;
-
     private Drawable           drawable;
-
     private int                width, height, mScreenWidth, mScreenHeight;
-
     private float              centerX, centerY, scaleX, scaleY, angle;
-
     private float              minX, maxX, minY, maxY;
-
-    private static final float SCREEN_MARGIN_TOP         = 70;
     private boolean            isVisible                 = true;
     private int                mHeightOfLayoutEffect;
     private Context            mContext;
+
+    private Paint              mPaint;
 
     public FaceView(Context context, int resId, int eyeDistance, int id) {
         this.mContext = context;
@@ -41,6 +39,8 @@ public class FaceView implements Cloneable {
         this.width = eyeDistance;
         this.height = eyeDistance;
         getMetrics(context.getResources());
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
     }
 
     private void getMetrics(Resources res) {
@@ -229,5 +229,4 @@ public class FaceView implements Cloneable {
         resizedMidPoint.y = midPoint.y / ratio;
         return ((float) realImageHeight - displayedImageHeight) / 2 + resizedMidPoint.y - faceSizeMargin;
     }
-
 }
