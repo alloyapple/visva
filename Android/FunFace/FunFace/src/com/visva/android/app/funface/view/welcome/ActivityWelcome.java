@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -15,8 +16,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.constant.FunFaceConstant;
 import com.visva.android.app.funface.log.AIOLog;
@@ -25,11 +33,12 @@ import com.visva.android.app.funface.photointent.BaseAlbumDirFactory;
 import com.visva.android.app.funface.photointent.FroyoAlbumDirFactory;
 import com.visva.android.app.funface.view.activity.ActivityFaceLoader;
 
-public class ActivityWelcome extends Activity {
+public class ActivityWelcome extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     private static final int       REQUEST_CODE_CAMERA     = 100;
     private static final int       REQUEST_CODE_GALLERY    = 101;
     private String                 mCurrentPhotoPath;
     private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
+    private SliderLayout           mIntrodutionSlider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,30 @@ public class ActivityWelcome extends Activity {
         } else {
             mAlbumStorageDirFactory = new BaseAlbumDirFactory();
         }
+        mIntrodutionSlider = (SliderLayout) findViewById(R.id.slider);
+
+        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("Hannibal", R.drawable.hannibal);
+        file_maps.put("Big Bang Theory", R.drawable.bigbang);
+        file_maps.put("House of Cards", R.drawable.house);
+        file_maps.put("Game of Thrones", R.drawable.bigbang);
+
+        for (String name : file_maps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView.description(name).image(file_maps.get(name)).setScaleType(BaseSliderView.ScaleType.Fit).setOnSliderClickListener(this);
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle().putString("extra", name);
+
+            mIntrodutionSlider.addSlider(textSliderView);
+        }
+        mIntrodutionSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mIntrodutionSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mIntrodutionSlider.setCustomAnimation(new DescriptionAnimation());
+        mIntrodutionSlider.setDuration(3000);
+        mIntrodutionSlider.addOnPageChangeListener(this);
     }
 
     @Override
@@ -142,5 +175,36 @@ public class ActivityWelcome extends Activity {
         // when user click gallery to get image
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
+    }
+
+    @Override
+    protected void onStop() {
+        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
+        mIntrodutionSlider.stopAutoCycle();
+        super.onStop();
+    }
+
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.d("Slider Demo", "Page Changed: " + position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
     }
 }
