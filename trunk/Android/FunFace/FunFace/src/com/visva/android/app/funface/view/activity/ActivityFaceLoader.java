@@ -14,7 +14,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
@@ -48,6 +47,8 @@ import com.visva.android.app.funface.constant.FunFaceConstant;
 import com.visva.android.app.funface.imageprocessing.ImageEffectLoader;
 import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.model.EffectItem;
+import com.visva.android.app.funface.utils.DialogUtility;
+import com.visva.android.app.funface.utils.IDialogListener;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.view.adapter.EffectAdapter;
@@ -154,6 +155,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             return;
         }
 
+        //this value to define all attributes to display image loaded by UniversalImageLoader
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.ic_empty)
                 .showImageOnFail(R.drawable.ic_close)
@@ -227,7 +229,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mFaceViewGroup.setScreenWidth(mScreenWidth);
 
         mLayoutProgress.setVisibility(View.VISIBLE);
-        //TODO
         Uri uri = Uri.fromFile(new File(mImagePath));
         ImageLoader.getInstance().displayImage(uri.toString(), mFaceViewGroup, options, new SimpleImageLoadingListener() {
             @Override
@@ -295,11 +296,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 switch (mShowNextLayoutType) {
                 case TYPE_SHOW_ADD_FACE_LAYOUT:
-                    onItemClickAddFaceLayout(position);
+                    onItemClickAddFaceLayout(null, position);
                     break;
                 case TYPE_SHOW_EFFECT_LAYOUT:
                     ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap);
-                    //                    onItemClickAddEffectLayout(position);
                     break;
                 case TYPE_SHOW_FRAME_LAYOUT:
                     onItemClickAddFrameLayout(position);
@@ -314,7 +314,24 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         });
     }
 
-    private void onItemClickAddTextLayout(int position) {
+    private void onItemClickAddTextLayout(final int position) {
+        DialogUtility.showDialogAddText(this, new IDialogListener() {
+
+            @Override
+            public void onClickPositve(String text) {
+                // TODO Auto-generated method stub
+                onShowText(text, position);
+            }
+
+            @Override
+            public void onClickCancel() {
+                // TODO Auto-generated method stub
+
+            }
+        });
+    }
+
+    private void onShowText(String text, int position) {
         // TODO Auto-generated method stub
 
     }
@@ -367,7 +384,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 if (mBitmapWidth >= mBitmapHeight) {
                     float ratio = (float) mBitmapWidth / mScreenWidth;
                     float displayedImageHeight = (float) mBitmapHeight / ratio;
-                    loadedImage = getResizedBitmap(loadedImage, mScreenWidth, (int) displayedImageHeight);
+                    loadedImage = Utils.getResizedBitmap(loadedImage, mScreenWidth, (int) displayedImageHeight);
                     mImageFrame.setImageBitmap(loadedImage);
                 }
 
@@ -376,24 +393,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         });
     }
 
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-        if (bm != null)
-            bm.recycle();
-        return resizedBitmap;
-    }
-
-    private void onItemClickAddFaceLayout(int position) {
+    private void onItemClickAddFaceLayout(String text, int position) {
         if (position >= mChoiceFacesList.size())
             return;
         int resId = mChoiceFacesList.get(position).getResId();
