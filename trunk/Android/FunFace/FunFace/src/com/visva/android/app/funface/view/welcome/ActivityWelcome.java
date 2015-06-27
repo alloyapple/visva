@@ -1,4 +1,4 @@
-package com.visva.android.app.funface.view.activity;
+package com.visva.android.app.funface.view.welcome;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.constant.FunFaceConstant;
@@ -24,6 +23,7 @@ import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.photointent.AlbumStorageDirFactory;
 import com.visva.android.app.funface.photointent.BaseAlbumDirFactory;
 import com.visva.android.app.funface.photointent.FroyoAlbumDirFactory;
+import com.visva.android.app.funface.view.activity.ActivityFaceLoader;
 
 public class ActivityWelcome extends Activity {
     private static final int       REQUEST_CODE_CAMERA     = 100;
@@ -34,10 +34,7 @@ public class ActivityWelcome extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        ((Button) findViewById(R.id.take_picture)).setOnClickListener(btnClick);
-        ((Button) findViewById(R.id.take_picture_from_gallery)).setOnClickListener(btnClick);
+        setContentView(R.layout.activity_welcome);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
             mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
@@ -79,7 +76,7 @@ public class ActivityWelcome extends Activity {
         startActivity(intent);
     }
 
-    private void openCamera() {
+    public void onClickOpenCamera(View v) {
         Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         File f = null;
 
@@ -141,21 +138,7 @@ public class ActivityWelcome extends Activity {
         this.sendBroadcast(mediaScanIntent);
     }
 
-    private View.OnClickListener btnClick = new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v) {
-                                                  switch (v.getId()) {
-                                                  case R.id.take_picture:
-                                                      openCamera();
-                                                      break;
-                                                  case R.id.take_picture_from_gallery:
-                                                      takePictureFromGallery();
-                                                      break;
-                                                  }
-                                              }
-                                          };
-
-    private void takePictureFromGallery() {
+    public void onClickOpenGallery(View v) {
         // when user click gallery to get image
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
