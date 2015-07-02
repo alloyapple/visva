@@ -1,15 +1,19 @@
 package com.visva.android.app.funface.imageprocessing;
 
-import com.visva.android.app.funface.constant.FunFaceConstant;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
+import com.visva.android.app.funface.R;
+import com.visva.android.app.funface.constant.FunFaceConstant;
+import com.visva.android.app.funface.utils.VisvaDialog;
+
 public class ImageEffectLoader {
     private static ImageEffectLoader mInstance;
     private Context                  mContext;
+    private VisvaDialog              mVisvaDialog;
+    private boolean                  mIsCheckEffectItem;
 
     public static ImageEffectLoader getInstance(Context context) {
         if (mInstance == null) {
@@ -22,7 +26,18 @@ public class ImageEffectLoader {
         this.mContext = context;
     }
 
-    public void displayImage(ImageView imageView, int position, Bitmap baseBitmap) {
+    public void displayImage(ImageView imageView, int position, Bitmap baseBitmap, boolean isClickEffectItem) {
+        // Show waiting dialog during connection
+        mIsCheckEffectItem = isClickEffectItem;
+        if (isClickEffectItem) {
+            mVisvaDialog = new VisvaDialog(mContext, R.style.ProgressHUD);
+            try {
+                mVisvaDialog.setCancelable(false);
+                mVisvaDialog.show();
+            } catch (Exception e) {
+                mVisvaDialog = null;
+            }
+        }
         ImageEffectLoaderAsyncTask imageEffectLoaderAsyncTask = new ImageEffectLoaderAsyncTask(mContext, imageView, position, baseBitmap);
         imageEffectLoaderAsyncTask.execute();
     }
@@ -48,6 +63,14 @@ public class ImageEffectLoader {
             super.onPostExecute(result);
             if (result != null)
                 mImageView.setImageBitmap(result);
+            if (mIsCheckEffectItem && mVisvaDialog != null) {
+                try {
+                    mVisvaDialog.dismiss();
+                    mVisvaDialog = null;
+                } catch (Exception e) {
+
+                }
+            }
         }
     }
 

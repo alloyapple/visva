@@ -14,6 +14,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
@@ -53,6 +54,7 @@ import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.view.adapter.EffectAdapter;
 import com.visva.android.app.funface.view.adapter.FaceAdapter;
+import com.visva.android.app.funface.view.adapter.FrameAdapter;
 import com.visva.android.app.funface.view.widget.FaceView;
 import com.visva.android.app.funface.view.widget.FaceViewGroup;
 import com.visva.android.app.funface.view.widget.FaceViewGroup.ILayoutChange;
@@ -124,7 +126,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private int                   mMaxFaceId                     = 0;
     private String                mImagePath;
 
-    private DisplayImageOptions   options;
+    private DisplayImageOptions   mDisplayImageOptions;
+    private Paint                 mPaint;
 
     @Override
     public int contentView() {
@@ -156,15 +159,14 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         }
 
         //this value to define all attributes to display image loaded by UniversalImageLoader
-        options = new DisplayImageOptions.Builder()
+        mDisplayImageOptions = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.ic_empty)
                 .showImageOnFail(R.drawable.ic_close)
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .considerExifParams(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
 
@@ -179,12 +181,17 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             mActionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
+
         mNotificationBarHeight = getNotificationBarHeight();
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setTextSize(35);
     }
 
     private void initAnimation() {
         mContentUpAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_up);
         mContentDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
+        mContentUpAnime.setAnimationListener(contentEffectUpAnimListener);
         mContentDownAnime.setAnimationListener(contentEffectDownAnimListener);
         mDeleteFaceDownAnime = AnimationUtils.loadAnimation(this, R.anim.layout_content_down);
         mDeleteFaceDownAnime.setAnimationListener(deleteFaceDownAnimListener);
@@ -196,16 +203,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mContentOutRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
         mContentInLeftAnim.setAnimationListener(contentInLeftListener);
         mContentInRightAnim.setAnimationListener(contentInRightListener);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -230,7 +227,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
         mLayoutProgress.setVisibility(View.VISIBLE);
         Uri uri = Uri.fromFile(new File(mImagePath));
-        ImageLoader.getInstance().displayImage(uri.toString(), mFaceViewGroup, options, new SimpleImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(uri.toString(), mFaceViewGroup, mDisplayImageOptions, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
                 mFaceViewGroup.setVisibility(View.GONE);
@@ -294,12 +291,14 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                Log.d("KieuThang", "onItemClick:" + mShowNextLayoutType + ",position:" + position);
                 switch (mShowNextLayoutType) {
                 case TYPE_SHOW_ADD_FACE_LAYOUT:
                     onItemClickAddFaceLayout(null, position);
                     break;
                 case TYPE_SHOW_EFFECT_LAYOUT:
-                    ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap);
+                    boolean isClickEffectItem = true;
+                    ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap, isClickEffectItem);
                     break;
                 case TYPE_SHOW_FRAME_LAYOUT:
                     onItemClickAddFrameLayout(position);
@@ -319,20 +318,48 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
             @Override
             public void onClickPositve(String text) {
-                // TODO Auto-generated method stub
-                onShowText(text, position);
+                if (!StringUtility.isEmpty(text))
+                    onShowText(text, position);
             }
 
             @Override
             public void onClickCancel() {
-                // TODO Auto-generated method stub
 
             }
         });
     }
 
     private void onShowText(String text, int position) {
-        // TODO Auto-generated method stub
+        Log.d("KieuThang", "onShowText:" + position);
+        if (position >= mTextList.size())
+            return;
+        int resId = mTextList.get(position).effectId;
+        Log.d("KieuThang", "resId:" + resId);
+        FaceView faceView = null;
+
+        PointF midPoint = new PointF();
+        int eyeDistance;
+        mMaxFaceId++;
+
+        Random random = new Random();
+        float textLength = mPaint.measureText(text);
+        float x = random.nextInt(mScreenWidth - (int) textLength * 2);
+        float y = random.nextInt(mRealImageHeight - (int) textLength * 2);
+        while (x < 0 || y < 0) {
+            x = random.nextInt(mScreenWidth - (int) textLength * 2);
+            y = random.nextInt(mRealImageHeight - (int) textLength * 2);
+        }
+        midPoint.x = x;
+        midPoint.y = y;
+        eyeDistance = (int) textLength * 2;
+        faceView = new FaceView(ActivityFaceLoader.this, resId, eyeDistance, mMaxFaceId);
+        faceView.setText(text);
+
+        faceView.setPosition(midPoint, mRatioX, mRatioY, mBitmapWidth, mBitmapHeight, mRealImageHeight);
+        faceView.setVisible(View.VISIBLE);
+        mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
+        onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
+        mFaceViewGroup.setVisibility(View.VISIBLE);
 
     }
 
@@ -341,7 +368,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             return;
         // Populate the text
         String uri = Utils.convertResourceToImageLoaderUri(this, mFrameList.get(position).effectId);
-        ImageLoader.getInstance().displayImage(uri, mImageFrame, options, new SimpleImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(uri, mImageFrame, mDisplayImageOptions, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
                 if (mBitmapWidth < mBitmapHeight) {
@@ -448,13 +475,13 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             mItemOptionsListView.setAdapter(adapter);
             return;
         case EFFECT_TYPE:
-            ArrayList<EffectItem> mListEffectItems = getEffectList();
-            EffectAdapter effectAdapter = new EffectAdapter(ActivityFaceLoader.this, mListEffectItems);
+            ArrayList<EffectItem> listEffectItems = getEffectList();
+            EffectAdapter effectAdapter = new EffectAdapter(ActivityFaceLoader.this, listEffectItems);
             mItemOptionsListView.setAdapter(effectAdapter);
             break;
         case FRAME_TYPE:
             mFrameList = getFrameList();
-            FaceAdapter frameAdapter = new FaceAdapter(ActivityFaceLoader.this, mFrameList);
+            FrameAdapter frameAdapter = new FrameAdapter(ActivityFaceLoader.this, mFrameList);
             mItemOptionsListView.setAdapter(frameAdapter);
             break;
         case TEXT_TYPE:
@@ -760,6 +787,33 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                     }
 
                                                                     mShowPreviousLayoutType = mShowNextLayoutType;
+                                                                }
+                                                            };
+
+    private AnimationListener contentEffectUpAnimListener   = new AnimationListener() {
+
+                                                                @Override
+                                                                public void onAnimationStart(Animation animation) {
+                                                                    // TODO Auto-generated method stub
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationRepeat(Animation animation) {
+                                                                    // TODO Auto-generated method stub
+
+                                                                }
+
+                                                                @Override
+                                                                public void onAnimationEnd(Animation animation) {
+                                                                    switch (mShowNextLayoutType) {
+                                                                    case TYPE_SHOW_ADD_FACE_LAYOUT:
+                                                                        onClickAddLOLFaceOption(null);
+                                                                        break;
+                                                                    default:
+                                                                        break;
+                                                                    }
+
                                                                 }
                                                             };
 

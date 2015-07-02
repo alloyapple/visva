@@ -5,6 +5,7 @@ public class FunFaceConstant {
     public static final boolean DEBUG_MODE          = false;
     public static final String  TAG                 = "FunFace";
     public static final int     MAX_FACES           = 10;
+    public static final int     TEXTSIZE_DEFAULT    = 35;
 
     //EXTRAS
     public static final String  EXTRA_IMAGE_PATH    = "extra_image_path";
@@ -45,4 +46,5 @@ public class FunFaceConstant {
     public static final int     EFFECT_SNOW         = EFFECT_BLACK + 1;
     public static final int     EFFECT_SATUARATION  = EFFECT_SNOW + 1;
     public static final int     EFFECT_HUE          = EFFECT_SATUARATION + 1;
+
 }

@@ -8,13 +8,21 @@
     <dimen name="image_deleted_face_height">60dp</dimen>
     <dimen name="face_margin">48dp</dimen>
 
-    <!--  -->
+    <!-- Home screen -->
     <dimen name="width_btn_tab_option">40dp</dimen>
     <dimen name="height_btn_tab_option">40dp</dimen>
     <dimen name="width_layout_option_menu">80dp</dimen>
     <dimen name="height_layout_option_menu">80dp</dimen>
     <dimen name="width_ic_option_menu">40dp</dimen>
     <dimen name="height_ic_option_menu">40dp</dimen>
-    <dimen name="margin_bottom_layout_option_menu">10dp</dimen>
+    <dimen name="margin_bottom_layout_option_menu">3dp</dimen>
+    <dimen name="checkin_cirle">110dp</dimen>
+    <dimen name="checkin_button">100dp</dimen>
+    <dimen name="feed_item_corner_radius">3dp</dimen>
+    <dimen name="feed_item_border_width">1dp</dimen>
+
+    <!-- Welcome screen -->
+    <dimen name="width_ic_camera_option">60dp</dimen>
+    <dimen name="height_ic_camera_option">60dp</dimen>
 
 </resources>

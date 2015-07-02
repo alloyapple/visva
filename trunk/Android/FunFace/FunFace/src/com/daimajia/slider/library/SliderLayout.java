@@ -425,7 +425,7 @@ public class SliderLayout extends RelativeLayout{
     };
 
     /**
-     * set a preset viewpager transformer by id.
+     * set a preset view pager transformer by id.
      * @param transformerId
      */
     public void setPresetTransformer(int transformerId){
