@@ -16,8 +16,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 import com.daimajia.slider.library.SliderLayout;
@@ -34,11 +32,13 @@ import com.visva.android.app.funface.photointent.FroyoAlbumDirFactory;
 import com.visva.android.app.funface.view.activity.ActivityFaceLoader;
 
 public class ActivityWelcome extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
-    private static final int       REQUEST_CODE_CAMERA     = 100;
-    private static final int       REQUEST_CODE_GALLERY    = 101;
-    private String                 mCurrentPhotoPath;
-    private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
-    private SliderLayout           mIntrodutionSlider;
+    private static final int         SLIDING_TIME            = 3000;
+    private static final int         REQUEST_CODE_CAMERA     = 100;
+    private static final int         REQUEST_CODE_GALLERY    = 101;
+    private String                   mCurrentPhotoPath;
+    private AlbumStorageDirFactory   mAlbumStorageDirFactory = null;
+    private SliderLayout             mIntrodutionSlider;
+    private HashMap<String, Integer> mWelcomeScreenMap       = new HashMap<String, Integer>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,16 +52,20 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
         }
         mIntrodutionSlider = (SliderLayout) findViewById(R.id.slider);
 
-        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal", R.drawable.hannibal);
-        file_maps.put("Big Bang Theory", R.drawable.bigbang);
-        file_maps.put("House of Cards", R.drawable.house);
-        file_maps.put("Game of Thrones", R.drawable.bigbang);
+        initSlider();
+    }
 
-        for (String name : file_maps.keySet()) {
+    private void initSlider() {
+        mWelcomeScreenMap.put("Hannibal", R.drawable.s01);
+        mWelcomeScreenMap.put("Big Bang Theory", R.drawable.s02);
+        mWelcomeScreenMap.put("House of Cards", R.drawable.s03);
+        mWelcomeScreenMap.put("Game of Thrones", R.drawable.s04);
+
+        for (String name : mWelcomeScreenMap.keySet()) {
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
-            textSliderView.description(name).image(file_maps.get(name)).setScaleType(BaseSliderView.ScaleType.Fit).setOnSliderClickListener(this);
+            textSliderView.description(name).image(mWelcomeScreenMap.get(name)).setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(this);
 
             //add your extra information
             textSliderView.bundle(new Bundle());
@@ -72,7 +76,7 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
         mIntrodutionSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mIntrodutionSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mIntrodutionSlider.setCustomAnimation(new DescriptionAnimation());
-        mIntrodutionSlider.setDuration(3000);
+        mIntrodutionSlider.setDuration(SLIDING_TIME);
         mIntrodutionSlider.addOnPageChangeListener(this);
     }
 
@@ -185,14 +189,14 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
     }
 
     @Override
-    public void onSliderClick(BaseSliderView slider) {
+    protected void onResume() {
+        super.onResume();
+        if (mIntrodutionSlider != null)
+            mIntrodutionSlider.startAutoCycle();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void onSliderClick(BaseSliderView slider) {
     }
 
     @Override
@@ -201,7 +205,6 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
 
     @Override
     public void onPageSelected(int position) {
-        Log.d("Slider Demo", "Page Changed: " + position);
     }
 
     @Override

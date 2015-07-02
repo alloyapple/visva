@@ -96,6 +96,7 @@
     <com.visva.android.app.funface.view.widget.HorizontalListView
         android:id="@+id/list_options_item"
         android:layout_width="match_parent"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_options_header" >
     </com.visva.android.app.funface.view.widget.HorizontalListView>

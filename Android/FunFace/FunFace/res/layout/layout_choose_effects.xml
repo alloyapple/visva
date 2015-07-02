@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@android:color/white" >
+    android:background="@color/main_background" >
 
     <LinearLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:baselineAligned="false"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:weightSum="5" >
 
@@ -85,6 +85,40 @@
         </View>
 
         <com.gc.materialdesign.views.LayoutRipple
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClickShareTab"
+            materialdesign:rippleColor="#1E88E5"
+            materialdesign:rippleSpeed="20" >
+
+            <ImageView
+                android:id="@+id/ic_settings"
+                android:layout_width="@dimen/width_btn_tab_option"
+                android:layout_height="@dimen/height_btn_tab_option"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/btn_share" />
+
+            <TextView
+                android:id="@+id/txt_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ic_settings"
+                android:layout_centerHorizontal="true"
+                android:singleLine="true"
+                android:text="@string/share"
+                android:textColor="@color/white" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent" >
+        </View>
+
+        <com.gc.materialdesign.views.LayoutRipple
             android:id="@+id/btn_effect"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -148,41 +182,55 @@
                 android:text="@string/texts"
                 android:textColor="@color/white" />
         </com.gc.materialdesign.views.LayoutRipple>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/layout_effect_height"
+        android:layout_height="@dimen/layout_effect_height"
+        android:layout_centerInParent="true"
+        android:layout_margin="2dp"
+        android:clickable="true"
+        android:orientation="horizontal" >
 
         <View
+            android:id="@+id/divider1"
             android:layout_width="1dp"
             android:layout_height="match_parent" >
         </View>
 
         <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/btn_settings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_margin="2dp"
             android:clickable="true"
-            android:gravity="center"
             android:onClick="onClickShareTab"
             materialdesign:rippleColor="#1E88E5"
             materialdesign:rippleSpeed="20" >
 
             <ImageView
-                android:id="@+id/ic_settings"
+                android:id="@+id/btn_share"
                 android:layout_width="@dimen/width_btn_tab_option"
                 android:layout_height="@dimen/height_btn_tab_option"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_settings" />
+                android:src="@drawable/btn_share" />
 
             <TextView
-                android:id="@+id/txt_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ic_settings"
+                android:layout_below="@id/btn_share"
                 android:layout_centerHorizontal="true"
                 android:singleLine="true"
-                android:text="@string/setting"
+                android:text="@string/share"
                 android:textColor="@color/white" />
         </com.gc.materialdesign.views.LayoutRipple>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" >
+        </View>
     </LinearLayout>
 
 </RelativeLayout>

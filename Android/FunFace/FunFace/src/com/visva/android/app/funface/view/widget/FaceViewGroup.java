@@ -96,7 +96,7 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
         mLinePaintTouchPointCircle.setStrokeWidth(5);
         mLinePaintTouchPointCircle.setStyle(Style.STROKE);
         mLinePaintTouchPointCircle.setAntiAlias(true);
-        setBackgroundColor(Color.TRANSPARENT);
+//        setBackgroundColor(Color.TRANSPARENT);
     }
 
     /** Called by activity's onPause() method to free memory used for loading the images */

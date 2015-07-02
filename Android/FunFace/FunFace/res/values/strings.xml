@@ -20,12 +20,13 @@
     <string name="frame">Frames</string>
     <string name="effect">Effects</string>
     <string name="texts">Texts</string>
-    <string name="setting">Settings</string>
+    <string name="share">Share</string>
     <string name="face_lol">Troll</string>
     <string name="face_animal">Animal</string>
     <string name="face_other">Others</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <string name="add_text">Add text</string>
 
     <string-array name="effects">
         <item>None</item>

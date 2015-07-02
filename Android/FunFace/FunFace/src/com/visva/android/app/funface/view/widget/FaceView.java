@@ -13,6 +13,7 @@ import android.view.View;
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.constant.FunFaceConstant;
 import com.visva.android.app.funface.log.AIOLog;
+import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
 import com.visva.android.app.funface.utils.MultiTouchController.PositionAndScale;
 
@@ -30,6 +31,7 @@ public class FaceView implements Cloneable {
     private Context            mContext;
 
     private Paint              mPaint;
+    private String             mText;
 
     public FaceView(Context context, int resId, int eyeDistance, int id) {
         this.mContext = context;
@@ -113,6 +115,11 @@ public class FaceView implements Cloneable {
             canvas.rotate(angle * 180.0f / (float) Math.PI);
             canvas.translate(-dx, -dy);
             drawable.draw(canvas);
+            if (!StringUtility.isEmpty(mText) && isVisible) {
+                mPaint.setTextSize(Math.abs((maxY - minY) / 7));
+                float textLength = mPaint.measureText(mText);
+                canvas.drawText(mText, dx - textLength / 2, dy, mPaint);
+            }
             canvas.restore();
         }
     }
@@ -188,6 +195,14 @@ public class FaceView implements Cloneable {
 
     public void setFaceId(int faceId) {
         this.faceId = faceId;
+    }
+
+    public void setText(String text) {
+        this.mText = text;
+    }
+
+    public String getText() {
+        return mText;
     }
 
     public void setVisible(int visible) {

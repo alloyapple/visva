@@ -50,8 +50,7 @@ public class EffectAdapter extends BaseAdapter {
         }
 
         // Populate the text
-        // holder.imageItem.setBackgroundResource(getItem(position).getResId());
-        ImageEffectLoader.getInstance(mContext).displayImage(holder.imageEffect, position, mBitmap);
+        ImageEffectLoader.getInstance(mContext).displayImage(holder.imageEffect, position, mBitmap, false);
         holder.textEffect.setText(getItem(position).textEffect);
         return convertView;
     }

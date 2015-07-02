@@ -1,8 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="52dp"
-    android:layout_height="52dp"
+    android:layout_width="55dp"
+    android:layout_height="55dp"
     android:gravity="center"
+    android:background="@drawable/colorbg"
     android:orientation="vertical" >
 
     <ImageView
@@ -12,6 +13,6 @@
         android:contentDescription="@string/content_description"
         android:gravity="center_horizontal"
         android:padding="5dp"
-        android:textSize="18sp" />
+        android:layout_centerInParent="true" />
 
-</LinearLayout>
+</RelativeLayout>
