@@ -184,7 +184,7 @@
         </com.gc.materialdesign.views.LayoutRipple>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="@dimen/layout_effect_height"
         android:layout_height="@dimen/layout_effect_height"
         android:layout_centerInParent="true"
@@ -195,7 +195,16 @@
         <View
             android:id="@+id/divider1"
             android:layout_width="1dp"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:background="@color/white" >
+        </View>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/white" >
         </View>
 
         <com.gc.materialdesign.views.LayoutRipple
@@ -211,8 +220,7 @@
                 android:id="@+id/btn_share"
                 android:layout_width="@dimen/width_btn_tab_option"
                 android:layout_height="@dimen/height_btn_tab_option"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 android:contentDescription="@string/content_description"
                 android:src="@drawable/btn_share" />
 
@@ -220,17 +228,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_share"
-                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:singleLine="true"
                 android:text="@string/share"
                 android:textColor="@color/white" />
         </com.gc.materialdesign.views.LayoutRipple>
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="1dp"
-            android:layout_height="match_parent" >
-        </View>
-    </LinearLayout>
-
+    </RelativeLayout>
 </RelativeLayout>

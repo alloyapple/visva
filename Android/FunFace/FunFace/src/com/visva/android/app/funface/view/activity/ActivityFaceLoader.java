@@ -516,12 +516,12 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     }
 
     private ArrayList<EffectItem> getFaceList(ArrayList<FaceView> choiceFacesList) {
-        ArrayList<EffectItem> effectItems = new ArrayList<EffectItem>();
+        ArrayList<EffectItem> faceItems = new ArrayList<EffectItem>();
         for (FaceView faceView : choiceFacesList) {
             EffectItem effectItem = new EffectItem("", faceView.getResId());
-            effectItems.add(effectItem);
+            faceItems.add(effectItem);
         }
-        return effectItems;
+        return faceItems;
     }
 
     private ArrayList<EffectItem> getEffectList() {
@@ -794,13 +794,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
                                                                 @Override
                                                                 public void onAnimationStart(Animation animation) {
-                                                                    // TODO Auto-generated method stub
 
                                                                 }
 
                                                                 @Override
                                                                 public void onAnimationRepeat(Animation animation) {
-                                                                    // TODO Auto-generated method stub
 
                                                                 }
 
@@ -808,7 +806,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                 public void onAnimationEnd(Animation animation) {
                                                                     switch (mShowNextLayoutType) {
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
-                                                                        onClickAddLOLFaceOption(null);
+                                                                        if (mShowItemType != ANIMAL_FACE_TYPE)
+                                                                            onClickAddAnimalFaceOption(null);
                                                                         break;
                                                                     default:
                                                                         break;
