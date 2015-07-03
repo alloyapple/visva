@@ -16,31 +16,6 @@
         android:weightSum="3" >
 
         <com.gc.materialdesign.views.LayoutRipple
-            android:id="@+id/btn_add_lol_face"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:gravity="center"
-            android:onClick="onClickAddLOLFaceOption"
-            materialdesign:rippleSpeed="20" >
-
-            <TextView
-                android:id="@+id/txt_face_lol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:singleLine="true"
-                android:text="@string/face_lol"
-                android:textColor="@color/white" />
-        </com.gc.materialdesign.views.LayoutRipple>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent" >
-        </View>
-
-        <com.gc.materialdesign.views.LayoutRipple
             android:id="@+id/btn_add_animal_face"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,12 +27,37 @@
             materialdesign:rippleSpeed="20" >
 
             <TextView
-                android:id="@+id/txt_animal_face"
+                android:id="@+id/txt_face_lol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:singleLine="true"
                 android:text="@string/face_animal"
+                android:textColor="@color/white" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent" >
+        </View>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/btn_add_lol_face"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClickAddLOLFaceOption"
+            materialdesign:rippleSpeed="20" >
+
+            <TextView
+                android:id="@+id/txt_animal_face"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:singleLine="true"
+                android:text="@string/face_lol"
                 android:textColor="@color/white" />
         </com.gc.materialdesign.views.LayoutRipple>
 
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:singleLine="true"
-                android:text="@string/face_other"
+                android:text="@string/face_facebook"
                 android:textColor="@color/white" />
         </com.gc.materialdesign.views.LayoutRipple>
 
@@ -96,9 +96,9 @@
     <com.visva.android.app.funface.view.widget.HorizontalListView
         android:id="@+id/list_options_item"
         android:layout_width="match_parent"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_options_header" >
+        android:layout_below="@id/layout_options_header"
+        android:layout_centerVertical="true" >
     </com.visva.android.app.funface.view.widget.HorizontalListView>
 
 </RelativeLayout>
