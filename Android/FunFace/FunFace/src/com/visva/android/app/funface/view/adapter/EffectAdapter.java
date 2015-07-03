@@ -42,8 +42,8 @@ public class EffectAdapter extends BaseAdapter {
             // Create and save off the holder in the tag so we get quick access to inner fields
             // This must be done for performance reasons
             holder = new Holder();
-            holder.imageEffect = (ImageView) convertView.findViewById(R.id.image_effect);
-            holder.textEffect = (TextView) convertView.findViewById(R.id.text_effect);
+            holder.imageEffect = (ImageView) convertView.findViewById(R.id.img_effect);
+            holder.textEffect = (TextView) convertView.findViewById(R.id.tv_effect);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
