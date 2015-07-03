@@ -36,7 +36,7 @@ public class FaceAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mListItems = values;
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_stub)
+                .showImageOnLoading(R.drawable.empty_photo)
                 .showImageForEmptyUri(R.drawable.ic_empty)
                 .showImageOnFail(R.drawable.ic_close)
                 .cacheInMemory(true)
@@ -56,7 +56,7 @@ public class FaceAdapter extends BaseAdapter {
             // Create and save off the holder in the tag so we get quick access to inner fields
             // This must be done for performance reasons
             holder = new Holder();
-            holder.imageItem = (ImageView) convertView.findViewById(R.id.image_item);
+            holder.imageItem = (ImageView) convertView.findViewById(R.id.img_item);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();

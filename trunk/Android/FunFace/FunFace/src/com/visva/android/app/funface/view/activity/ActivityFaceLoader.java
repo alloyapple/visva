@@ -18,6 +18,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
+import android.media.effect.EffectContext;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -81,7 +82,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private static final int      SIZE_RAGE_FACE                 = 31;
     private static final int      SIZE_FRAME                     = 35;
     private static final int      SIZE_TEXT                      = 5;
-    //=========================Control Constant===============
+    //=========================Control Define===============
     private RelativeLayout        mLayoutProgress;
     private RelativeLayout        mLayoutChooseOptions;
     private Animation             mContentUpAnime;
@@ -99,7 +100,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private LinearLayout          mLayoutOptionHeader;
     private RelativeLayout        mLayoutLeftOptionMenu;
     private RelativeLayout        mLayoutRightOptionMenu;
-    //=========================Variable Constant==============
+    //=========================Class Define==================
+    private FaceAdapter           mFaceAdapter;
+    private EffectAdapter         mEffectAdapter;
+    private FrameAdapter          mFrameAdapter;
+    //=========================Variable Define==============
     private FaceViewGroup         mFaceViewGroup;
     private Bitmap                mLoadedBitmap;
     private Bitmap                mResultBitmap;
@@ -470,24 +475,23 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         case ANIMAL_FACE_TYPE:
             mChoiceFacesList = getListItem(showFaceType);
             ArrayList<EffectItem> mFaceLists = getFaceList(mChoiceFacesList);
-            FaceAdapter adapter = new FaceAdapter(this, mFaceLists);
-            // Assign adapter to HorizontalListView
-            mItemOptionsListView.setAdapter(adapter);
+            mFaceAdapter = new FaceAdapter(this, mFaceLists);
+            mItemOptionsListView.setAdapter(mFaceAdapter);
             return;
         case EFFECT_TYPE:
             ArrayList<EffectItem> listEffectItems = getEffectList();
-            EffectAdapter effectAdapter = new EffectAdapter(ActivityFaceLoader.this, listEffectItems);
-            mItemOptionsListView.setAdapter(effectAdapter);
+            mEffectAdapter = new EffectAdapter(ActivityFaceLoader.this, listEffectItems);
+            mItemOptionsListView.setAdapter(mEffectAdapter);
             break;
         case FRAME_TYPE:
             mFrameList = getFrameList();
-            FrameAdapter frameAdapter = new FrameAdapter(ActivityFaceLoader.this, mFrameList);
-            mItemOptionsListView.setAdapter(frameAdapter);
+            mFrameAdapter = new FrameAdapter(ActivityFaceLoader.this, mFrameList);
+            mItemOptionsListView.setAdapter(mFrameAdapter);
             break;
         case TEXT_TYPE:
             mTextList = getTextsList();
-            FaceAdapter textAdapter = new FaceAdapter(ActivityFaceLoader.this, mTextList);
-            mItemOptionsListView.setAdapter(textAdapter);
+            mFaceAdapter = new FaceAdapter(ActivityFaceLoader.this, mTextList);
+            mItemOptionsListView.setAdapter(mFaceAdapter);
             break;
         default:
             break;
