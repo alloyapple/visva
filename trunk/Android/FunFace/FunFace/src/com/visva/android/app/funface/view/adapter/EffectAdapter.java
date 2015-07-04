@@ -22,6 +22,7 @@ public class EffectAdapter extends BaseAdapter {
     private Context               mContext;
     private ArrayList<EffectItem> mEffectItems;
     private Bitmap                mBitmap;
+    private int                   mCurrentSelectedIndex;
 
     public EffectAdapter(Context context, ArrayList<EffectItem> values) {
         this.mContext = context;
@@ -44,6 +45,7 @@ public class EffectAdapter extends BaseAdapter {
             holder = new Holder();
             holder.imageEffect = (ImageView) convertView.findViewById(R.id.img_effect);
             holder.textEffect = (TextView) convertView.findViewById(R.id.tv_effect);
+            holder.imgSelectedItem = (ImageView) convertView.findViewById(R.id.img_seleted_item);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
@@ -52,6 +54,10 @@ public class EffectAdapter extends BaseAdapter {
         // Populate the text
         ImageEffectLoader.getInstance(mContext).displayImage(holder.imageEffect, position, mBitmap, false);
         holder.textEffect.setText(getItem(position).textEffect);
+        if (getItem(position).isSelected)
+            holder.imgSelectedItem.setVisibility(View.VISIBLE);
+        else
+            holder.imgSelectedItem.setVisibility(View.GONE);
         return convertView;
     }
 
@@ -59,6 +65,7 @@ public class EffectAdapter extends BaseAdapter {
     private static class Holder {
         public ImageView imageEffect;
         public TextView  textEffect;
+        public ImageView imgSelectedItem;
     }
 
     @Override
@@ -74,5 +81,17 @@ public class EffectAdapter extends BaseAdapter {
     @Override
     public long getItemId(int arg0) {
         return 0;
+    }
+
+    public void updateSelectedItem(int position) {
+        EffectItem effectItem = mEffectItems.get(position);
+        effectItem.isSelected = true;
+
+        if (mCurrentSelectedIndex != -1) {
+            EffectItem preSeletedItem = mEffectItems.get(mCurrentSelectedIndex);
+            preSeletedItem.isSelected = false;
+        }
+        mCurrentSelectedIndex = position;
+        notifyDataSetChanged();
     }
 }

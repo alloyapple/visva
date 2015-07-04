@@ -23,6 +23,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_margin="3dp"
+        android:visibility="gone"
         android:background="@drawable/ic_selected_item"
         android:contentDescription="@string/content_description" />
 

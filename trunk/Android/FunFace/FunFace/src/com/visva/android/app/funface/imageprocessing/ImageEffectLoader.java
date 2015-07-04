@@ -3,6 +3,7 @@ package com.visva.android.app.funface.imageprocessing;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.visva.android.app.funface.R;
@@ -61,14 +62,15 @@ public class ImageEffectLoader {
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
+            Log.d("KieuThang", "onPostExecute result:" + result + ",mIsCheckEffectItem:" + mIsCheckEffectItem + ",mVisvaDialog:" + mVisvaDialog);
             if (result != null)
                 mImageView.setImageBitmap(result);
-            if (mIsCheckEffectItem && mVisvaDialog != null) {
+            if (mVisvaDialog != null) {
                 try {
                     mVisvaDialog.dismiss();
                     mVisvaDialog = null;
                 } catch (Exception e) {
-
+                    Log.d("KieuThang", "Exception here");
                 }
             }
         }

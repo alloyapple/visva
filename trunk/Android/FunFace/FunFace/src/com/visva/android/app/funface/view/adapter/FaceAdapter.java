@@ -25,11 +25,12 @@ import com.visva.android.app.funface.utils.Utils;
 
 /** An array adapter that knows how to render views when given CustomData classes */
 public class FaceAdapter extends BaseAdapter {
-    private LayoutInflater       mInflater;
-    private Context              mContext;
-    private ArrayList<EffectItem>  mListItems;
-    private DisplayImageOptions  options;
-    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+    private LayoutInflater        mInflater;
+    private Context               mContext;
+    private ArrayList<EffectItem> mListItems;
+    private DisplayImageOptions   options;
+    private ImageLoadingListener  animateFirstListener = new AnimateFirstDisplayListener();
+    private int                   mCurrentSelectedIndex;
 
     public FaceAdapter(Context context, ArrayList<EffectItem> values) {
         this.mContext = context;
@@ -43,6 +44,7 @@ public class FaceAdapter extends BaseAdapter {
                 .cacheOnDisk(true)
                 .considerExifParams(true)
                 .displayer(new RoundedBitmapDisplayer(20)).build();
+        mCurrentSelectedIndex = -1;
     }
 
     @Override
@@ -50,13 +52,10 @@ public class FaceAdapter extends BaseAdapter {
         Holder holder;
 
         if (convertView == null) {
-            // Inflate the view since it does not exist
             convertView = mInflater.inflate(R.layout.options_item_view, parent, false);
-
-            // Create and save off the holder in the tag so we get quick access to inner fields
-            // This must be done for performance reasons
             holder = new Holder();
-            holder.imageItem = (ImageView) convertView.findViewById(R.id.img_item);
+            holder.imgItem = (ImageView) convertView.findViewById(R.id.img_item);
+            holder.imgSeletedItem = (ImageView) convertView.findViewById(R.id.img_seleted_item);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
@@ -64,13 +63,18 @@ public class FaceAdapter extends BaseAdapter {
 
         // Populate the text
         String uri = Utils.convertResourceToImageLoaderUri(mContext, getItem(position).effectId);
-        ImageLoader.getInstance().displayImage(uri, holder.imageItem, options, animateFirstListener);
+        ImageLoader.getInstance().displayImage(uri, holder.imgItem, options, animateFirstListener);
+        if (getItem(position).isSelected)
+            holder.imgSeletedItem.setVisibility(View.VISIBLE);
+        else
+            holder.imgSeletedItem.setVisibility(View.GONE);
         return convertView;
     }
 
     /** View holder for the views we need access to */
     private static class Holder {
-        public ImageView imageItem;
+        public ImageView imgItem;
+        public ImageView imgSeletedItem;
     }
 
     @Override
@@ -103,5 +107,17 @@ public class FaceAdapter extends BaseAdapter {
                 }
             }
         }
+    }
+
+    public void updateSelectedItem(int position) {
+        EffectItem effectItem = mListItems.get(position);
+        effectItem.isSelected = true;
+
+        if (mCurrentSelectedIndex != -1) {
+            EffectItem preSeletedItem = mListItems.get(mCurrentSelectedIndex);
+            preSeletedItem.isSelected = false;
+        }
+        mCurrentSelectedIndex = position;
+        notifyDataSetChanged();
     }
 }
