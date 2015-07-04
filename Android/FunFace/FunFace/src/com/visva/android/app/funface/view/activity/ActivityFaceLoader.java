@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
@@ -22,6 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -49,6 +52,7 @@ import com.visva.android.app.funface.imageprocessing.ImageEffectLoader;
 import com.visva.android.app.funface.log.AIOLog;
 import com.visva.android.app.funface.model.EffectItem;
 import com.visva.android.app.funface.utils.DialogUtility;
+import com.visva.android.app.funface.utils.FileUtils;
 import com.visva.android.app.funface.utils.IDialogListener;
 import com.visva.android.app.funface.utils.StringUtility;
 import com.visva.android.app.funface.utils.Utils;
@@ -62,6 +66,8 @@ import com.visva.android.app.funface.view.widget.HorizontalListView;
 
 public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayoutChange {
     //=========================Define Constant================
+    private static final int      REQUEST_CODE_CAMERA            = 1000;
+    private static final int      REQUEST_CODE_GALLERY           = 1001;
     public static final int       TYPE_SHOW_LAYOUT_CHOOSE_OPTION = 0;
     public static final int       TYPE_SHOW_DELETE_FACE_LAYOUT   = 1;
     private static final int      TYPE_SHOW_ADD_FACE_LAYOUT      = 2;
@@ -105,7 +111,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private FrameAdapter          mFrameAdapter;
     private FaceViewGroup         mFaceViewGroup;
     //=========================Variable Define==============
-
     private Bitmap                mLoadedBitmap;
     private Bitmap                mResultBitmap;
     private Bitmap                mDeletedFaceBitmap;
@@ -144,10 +149,12 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         initData();
         initAnimation();
         initLayout();
+
+        initImage(getIntent());
     }
 
-    private void initData() {
-        Bundle bundle = getIntent().getExtras();
+    private void initImage(Intent intent) {
+        Bundle bundle = intent.getExtras();
         mImagePath = bundle.getString(FunFaceConstant.EXTRA_IMAGE_PATH);
         AIOLog.d("KieuThang", "mImagePath:" + mImagePath);
         if (StringUtility.isEmpty(mImagePath)) {
@@ -163,6 +170,48 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             return;
         }
 
+        mLayoutProgress.setVisibility(View.VISIBLE);
+        Uri uri = Uri.fromFile(new File(mImagePath));
+        ImageLoader.getInstance().displayImage(uri.toString(), mFaceViewGroup, mDisplayImageOptions, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                mFaceViewGroup.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                String message = null;
+                switch (failReason.getType()) {
+                case IO_ERROR:
+                    message = "Input/Output error";
+                    break;
+                case DECODING_ERROR:
+                    message = "Image can't be decoded";
+                    break;
+                case NETWORK_DENIED:
+                    message = "Downloads are denied";
+                    break;
+                case OUT_OF_MEMORY:
+                    message = "Out Of Memory error";
+                    break;
+                case UNKNOWN:
+                    message = "Unknown error";
+                    break;
+                }
+                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                mLoadedBitmap = loadedImage;
+                AsyncTaskFaceDetection asyncTaskFaceDetection = new AsyncTaskFaceDetection(ActivityFaceLoader.this);
+                asyncTaskFaceDetection.execute();
+            }
+        });
+    }
+
+    private void initData() {
         //this value to define all attributes to display image loaded by UniversalImageLoader
         mDisplayImageOptions = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.ic_empty)
@@ -229,46 +278,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mFaceViewGroup.setListener(this);
         mFaceViewGroup.setScreenHeight(mScreenHeight);
         mFaceViewGroup.setScreenWidth(mScreenWidth);
-
-        mLayoutProgress.setVisibility(View.VISIBLE);
-        Uri uri = Uri.fromFile(new File(mImagePath));
-        ImageLoader.getInstance().displayImage(uri.toString(), mFaceViewGroup, mDisplayImageOptions, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                mFaceViewGroup.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                String message = null;
-                switch (failReason.getType()) {
-                case IO_ERROR:
-                    message = "Input/Output error";
-                    break;
-                case DECODING_ERROR:
-                    message = "Image can't be decoded";
-                    break;
-                case NETWORK_DENIED:
-                    message = "Downloads are denied";
-                    break;
-                case OUT_OF_MEMORY:
-                    message = "Out Of Memory error";
-                    break;
-                case UNKNOWN:
-                    message = "Unknown error";
-                    break;
-                }
-                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                finish();
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                mLoadedBitmap = loadedImage;
-                AsyncTaskFaceDetection asyncTaskFaceDetection = new AsyncTaskFaceDetection(ActivityFaceLoader.this);
-                asyncTaskFaceDetection.execute();
-            }
-        });
     }
 
     private void initLayoutOptionMenu() {
@@ -304,10 +313,9 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                     break;
                 case TYPE_SHOW_EFFECT_LAYOUT:
                     boolean isClickEffectItem = true;
-                    ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap, isClickEffectItem);
-                    
                     if (mEffectAdapter != null)
                         mEffectAdapter.updateSelectedItem(position);
+                    ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap, isClickEffectItem);
                     break;
                 case TYPE_SHOW_FRAME_LAYOUT:
                     if (mFrameAdapter != null)
@@ -346,7 +354,9 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         Log.d("KieuThang", "onShowText:" + position);
         if (position >= mTextList.size())
             return;
-        int resId = mTextList.get(position).effectId;
+        int id = position + 1;
+        String resIdStr = "text" + id + "_bg";
+        int resId = Utils.getResId(ActivityFaceLoader.this, resIdStr);
         Log.d("KieuThang", "resId:" + resId);
         FaceView faceView = null;
 
@@ -356,14 +366,14 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
         Random random = new Random();
         float textLength = mPaint.measureText(text);
-        float x = random.nextInt(mScreenWidth - (int) textLength * 2);
-        float y = random.nextInt(mRealImageHeight - (int) textLength * 2);
-        while (x < 0 || y < 0) {
-            x = random.nextInt(mScreenWidth - (int) textLength * 2);
-            y = random.nextInt(mRealImageHeight - (int) textLength * 2);
+        int deltaX = mScreenWidth - (int) textLength * 2;
+        int deltaY = mRealImageHeight - (int) textLength * 2;
+        while (deltaX <= 0 || deltaY <= 0) {
+            deltaX = random.nextInt(mScreenWidth - (int) textLength * 2);
+            deltaY = random.nextInt(mRealImageHeight - (int) textLength * 2);
         }
-        midPoint.x = x;
-        midPoint.y = y;
+        midPoint.x = deltaX;
+        midPoint.y = deltaY;
         eyeDistance = (int) textLength * 2;
         faceView = new FaceView(ActivityFaceLoader.this, resId, eyeDistance, mMaxFaceId);
         faceView.setText(text);
@@ -373,12 +383,16 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
         onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
         mFaceViewGroup.setVisibility(View.VISIBLE);
-
     }
 
     private void onItemClickAddFrameLayout(int position) {
         if (position >= mFrameList.size())
             return;
+        if (position == 0) {
+            mImageFrame.setVisibility(View.GONE);
+            return;
+        } else
+            mImageFrame.setVisibility(View.VISIBLE);
         // Populate the text
         String uri = Utils.convertResourceToImageLoaderUri(this, mFrameList.get(position).effectId);
         ImageLoader.getInstance().displayImage(uri, mImageFrame, mDisplayImageOptions, new SimpleImageLoadingListener() {
@@ -519,9 +533,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
     private ArrayList<EffectItem> getFrameList() {
         ArrayList<EffectItem> effectItems = new ArrayList<EffectItem>();
+        EffectItem effectItem = new EffectItem("", 0);
+        effectItems.add(effectItem);
         for (int i = 1; i <= SIZE_FRAME; i++) {
             String resId = "frame" + i;
-            EffectItem effectItem = new EffectItem("", Utils.getResId(ActivityFaceLoader.this, resId));
+            effectItem = new EffectItem("", Utils.getResId(ActivityFaceLoader.this, resId));
             effectItems.add(effectItem);
         }
         return effectItems;
@@ -939,7 +955,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 try {
                     mDetectedFacesList.add((FaceView) faceView.clone());
                 } catch (CloneNotSupportedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
@@ -1057,6 +1072,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         Toast.makeText(this, "onClickMenuOptionLeft", Toast.LENGTH_SHORT).show();
         switch (mShowPreviousLayoutType) {
         case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+            onClickOpenCamera();
+            break;
         case TYPE_SHOW_ADD_FACE_LAYOUT:
         case TYPE_SHOW_EFFECT_LAYOUT:
         case TYPE_SHOW_FRAME_LAYOUT:
@@ -1069,10 +1086,28 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         }
     }
 
+    private void onClickOpenCamera() {
+        Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        File f = null;
+
+        try {
+            f = FileUtils.setUpPhotoFile(this, mImagePath);
+            mImagePath = f.getAbsolutePath();
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+        } catch (IOException e) {
+            e.printStackTrace();
+            f = null;
+            mImagePath = null;
+        }
+        startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA);
+    }
+
     public void onClickMenuOptionRight(View v) {
         Toast.makeText(this, "onClickMenuOptionRight", Toast.LENGTH_SHORT).show();
         switch (mShowPreviousLayoutType) {
         case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
+            onClickOpenGallery();
+            break;
         case TYPE_SHOW_ADD_FACE_LAYOUT:
         case TYPE_SHOW_EFFECT_LAYOUT:
         case TYPE_SHOW_FRAME_LAYOUT:
@@ -1083,6 +1118,43 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
             break;
         }
 
+    }
+
+    private void onClickOpenGallery() {
+        // when user click gallery to get image
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("KieuThang", "onActivityResult:" + requestCode + ",data:" + data);
+        if (REQUEST_CODE_CAMERA == requestCode) {
+            FileUtils.galleryAddPic(ActivityFaceLoader.this, mImagePath);
+            sendIntentToActivityFaceLoader(mImagePath, REQUEST_CODE_CAMERA);
+        } else if (REQUEST_CODE_GALLERY == requestCode) {
+            if (data == null || resultCode == RESULT_CANCELED)
+                return;
+            Uri uri = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String imagePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            File file = new File(imagePath);
+            if (file.exists()) {
+                sendIntentToActivityFaceLoader(imagePath, REQUEST_CODE_GALLERY);
+            }
+        }
+    }
+
+    private void sendIntentToActivityFaceLoader(String imagePath, int requestCodeGallery) {
+        Intent intent = new Intent(this, ActivityFaceLoader.class);
+        intent.putExtra(FunFaceConstant.EXTRA_IMAGE_PATH, imagePath);
+        initImage(intent);
     }
 
     /**
