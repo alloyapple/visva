@@ -18,7 +18,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
-import android.media.effect.EffectContext;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -104,8 +103,9 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private FaceAdapter           mFaceAdapter;
     private EffectAdapter         mEffectAdapter;
     private FrameAdapter          mFrameAdapter;
-    //=========================Variable Define==============
     private FaceViewGroup         mFaceViewGroup;
+    //=========================Variable Define==============
+
     private Bitmap                mLoadedBitmap;
     private Bitmap                mResultBitmap;
     private Bitmap                mDeletedFaceBitmap;
@@ -166,7 +166,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         //this value to define all attributes to display image loaded by UniversalImageLoader
         mDisplayImageOptions = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.ic_empty)
-                .showImageOnFail(R.drawable.ic_close)
+                .showImageOnFail(R.drawable.ic_empty)
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
                 .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
@@ -291,7 +291,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mItemOptionsListView = (HorizontalListView) findViewById(R.id.list_options_item);
 
         setupOptionItemListCustomLists(mShowItemType);
-
         mItemOptionsListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -299,16 +298,25 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 Log.d("KieuThang", "onItemClick:" + mShowNextLayoutType + ",position:" + position);
                 switch (mShowNextLayoutType) {
                 case TYPE_SHOW_ADD_FACE_LAYOUT:
+                    if (mFaceAdapter != null)
+                        mFaceAdapter.updateSelectedItem(position);
                     onItemClickAddFaceLayout(null, position);
                     break;
                 case TYPE_SHOW_EFFECT_LAYOUT:
                     boolean isClickEffectItem = true;
                     ImageEffectLoader.getInstance(ActivityFaceLoader.this).displayImage(mFaceViewGroup, position, mResultBitmap, isClickEffectItem);
+                    
+                    if (mEffectAdapter != null)
+                        mEffectAdapter.updateSelectedItem(position);
                     break;
                 case TYPE_SHOW_FRAME_LAYOUT:
+                    if (mFrameAdapter != null)
+                        mFrameAdapter.updateSelectedItem(position);
                     onItemClickAddFrameLayout(position);
                     break;
                 case TYPE_SHOW_TEXT_LAYOUT:
+                    if (mFaceAdapter != null)
+                        mFaceAdapter.updateSelectedItem(position);
                     onItemClickAddTextLayout(position);
                     break;
                 default:
@@ -462,7 +470,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         faceView.setPosition(midPoint, mRatioX, mRatioY, mBitmapWidth, mBitmapHeight, mRealImageHeight);
         faceView.setVisible(View.VISIBLE);
         mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
-        onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
+        //        onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
         mFaceViewGroup.setVisibility(View.VISIBLE);
     }
 
@@ -678,9 +686,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                     switch (mShowNextLayoutType) {
                                                                     case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
-                                                                        ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_left)
-                                                                                .setBackgroundResource(R.drawable.ic_camera);
-                                                                        break;
                                                                     case TYPE_SHOW_EFFECT_LAYOUT:
                                                                     case TYPE_SHOW_FRAME_LAYOUT:
                                                                     case TYPE_SHOW_TEXT_LAYOUT:
@@ -712,9 +717,6 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                                                                     switch (mShowNextLayoutType) {
                                                                     case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
                                                                     case TYPE_SHOW_ADD_FACE_LAYOUT:
-                                                                        ActivityFaceLoader.this.findViewById(R.id.ic_menu_option_right)
-                                                                                .setBackgroundResource(R.drawable.ic_gallery2);
-                                                                        break;
                                                                     case TYPE_SHOW_EFFECT_LAYOUT:
                                                                     case TYPE_SHOW_FRAME_LAYOUT:
                                                                     case TYPE_SHOW_TEXT_LAYOUT:
@@ -1056,11 +1058,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         switch (mShowPreviousLayoutType) {
         case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
         case TYPE_SHOW_ADD_FACE_LAYOUT:
-            Toast.makeText(this, "on click camera", Toast.LENGTH_SHORT).show();
-            break;
         case TYPE_SHOW_EFFECT_LAYOUT:
         case TYPE_SHOW_FRAME_LAYOUT:
-            onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, true);
+        case TYPE_SHOW_TEXT_LAYOUT:
+            onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
             break;
 
         default:
@@ -1073,13 +1074,11 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         switch (mShowPreviousLayoutType) {
         case TYPE_SHOW_LAYOUT_CHOOSE_OPTION:
         case TYPE_SHOW_ADD_FACE_LAYOUT:
-            Toast.makeText(this, "on click gallery", Toast.LENGTH_SHORT).show();
-            break;
         case TYPE_SHOW_EFFECT_LAYOUT:
         case TYPE_SHOW_FRAME_LAYOUT:
-            onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, true);
+        case TYPE_SHOW_TEXT_LAYOUT:
+            onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
             break;
-
         default:
             break;
         }

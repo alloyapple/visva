@@ -25,11 +25,12 @@ import com.visva.android.app.funface.utils.Utils;
 
 /** An array adapter that knows how to render views when given CustomData classes */
 public class FrameAdapter extends BaseAdapter {
-    private LayoutInflater       mInflater;
-    private Context              mContext;
-    private ArrayList<EffectItem>  mListItems;
-    private DisplayImageOptions  options;
-    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+    private LayoutInflater        mInflater;
+    private Context               mContext;
+    private ArrayList<EffectItem> mListItems;
+    private DisplayImageOptions   options;
+    private ImageLoadingListener  animateFirstListener = new AnimateFirstDisplayListener();
+    private int                   mCurrentSelectedIndex;
 
     public FrameAdapter(Context context, ArrayList<EffectItem> values) {
         this.mContext = context;
@@ -57,11 +58,16 @@ public class FrameAdapter extends BaseAdapter {
             // This must be done for performance reasons
             holder = new Holder();
             holder.imageItem = (ImageView) convertView.findViewById(R.id.img_item);
+            holder.imgSeletedItem = (ImageView) convertView.findViewById(R.id.img_seleted_item);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
 
+        if (getItem(position).isSelected)
+            holder.imgSeletedItem.setVisibility(View.VISIBLE);
+        else
+            holder.imgSeletedItem.setVisibility(View.GONE);
         // Populate the text
         String uri = Utils.convertResourceToImageLoaderUri(mContext, getItem(position).effectId);
         ImageLoader.getInstance().displayImage(uri, holder.imageItem, options, animateFirstListener);
@@ -71,6 +77,7 @@ public class FrameAdapter extends BaseAdapter {
     /** View holder for the views we need access to */
     private static class Holder {
         public ImageView imageItem;
+        public ImageView imgSeletedItem;
     }
 
     @Override
@@ -103,5 +110,17 @@ public class FrameAdapter extends BaseAdapter {
                 }
             }
         }
+    }
+
+    public void updateSelectedItem(int position) {
+        EffectItem effectItem = mListItems.get(position);
+        effectItem.isSelected = true;
+
+        if (mCurrentSelectedIndex != -1) {
+            EffectItem preSeletedItem = mListItems.get(mCurrentSelectedIndex);
+            preSeletedItem.isSelected = false;
+        }
+        mCurrentSelectedIndex = position;
+        notifyDataSetChanged();
     }
 }
