@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class FrameAdapter extends BaseAdapter {
                 .cacheOnDisk(true)
                 .considerExifParams(true)
                 .displayer(new RoundedBitmapDisplayer(20)).build();
+        mCurrentSelectedIndex = -1;
     }
 
     @Override
@@ -69,8 +71,10 @@ public class FrameAdapter extends BaseAdapter {
         else
             holder.imgSeletedItem.setVisibility(View.GONE);
         // Populate the text
-        String uri = Utils.convertResourceToImageLoaderUri(mContext, getItem(position).effectId);
-        ImageLoader.getInstance().displayImage(uri, holder.imageItem, options, animateFirstListener);
+        if (getItem(position).effectId != 0) {
+            String uri = Utils.convertResourceToImageLoaderUri(mContext, getItem(position).effectId);
+            ImageLoader.getInstance().displayImage(uri, holder.imageItem, options, animateFirstListener);
+        }
         return convertView;
     }
 
@@ -113,6 +117,9 @@ public class FrameAdapter extends BaseAdapter {
     }
 
     public void updateSelectedItem(int position) {
+        Log.d("KieuThang", "updateSelectedItem position:" + position + ",mCurrentSelectedIndex: " + mCurrentSelectedIndex);
+        if (mCurrentSelectedIndex == position)
+            return;
         EffectItem effectItem = mListItems.get(position);
         effectItem.isSelected = true;
 

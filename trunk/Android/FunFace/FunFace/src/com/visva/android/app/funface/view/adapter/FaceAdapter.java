@@ -62,8 +62,10 @@ public class FaceAdapter extends BaseAdapter {
         }
 
         // Populate the text
-        String uri = Utils.convertResourceToImageLoaderUri(mContext, getItem(position).effectId);
-        ImageLoader.getInstance().displayImage(uri, holder.imgItem, options, animateFirstListener);
+        if (getItem(position).effectId != 0) {
+            String uri = Utils.convertResourceToImageLoaderUri(mContext, getItem(position).effectId);
+            ImageLoader.getInstance().displayImage(uri, holder.imgItem, options, animateFirstListener);
+        }
         if (getItem(position).isSelected)
             holder.imgSeletedItem.setVisibility(View.VISIBLE);
         else
@@ -110,6 +112,8 @@ public class FaceAdapter extends BaseAdapter {
     }
 
     public void updateSelectedItem(int position) {
+        if (mCurrentSelectedIndex == position)
+            return;
         EffectItem effectItem = mListItems.get(position);
         effectItem.isSelected = true;
 

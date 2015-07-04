@@ -2,20 +2,14 @@ package com.visva.android.app.funface.view.welcome;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 
 import com.daimajia.slider.library.SliderLayout;
@@ -25,33 +19,23 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.visva.android.app.funface.R;
 import com.visva.android.app.funface.constant.FunFaceConstant;
-import com.visva.android.app.funface.log.AIOLog;
-import com.visva.android.app.funface.photointent.AlbumStorageDirFactory;
-import com.visva.android.app.funface.photointent.BaseAlbumDirFactory;
-import com.visva.android.app.funface.photointent.FroyoAlbumDirFactory;
+import com.visva.android.app.funface.utils.FileUtils;
 import com.visva.android.app.funface.view.activity.ActivityFaceLoader;
 
 public class ActivityWelcome extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
-    private static final int         SLIDING_TIME            = 3000;
-    private static final int         REQUEST_CODE_CAMERA     = 100;
-    private static final int         REQUEST_CODE_GALLERY    = 101;
+    private static final int         SLIDING_TIME         = 3000;
+    private static final int         REQUEST_CODE_CAMERA  = 100;
+    private static final int         REQUEST_CODE_GALLERY = 101;
     private String                   mCurrentPhotoPath;
-    private AlbumStorageDirFactory   mAlbumStorageDirFactory = null;
     private SliderLayout             mIntrodutionSlider;
-    private HashMap<String, Integer> mWelcomeScreenMap       = new HashMap<String, Integer>();
+    private HashMap<String, Integer> mWelcomeScreenMap    = new HashMap<String, Integer>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
-        } else {
-            mAlbumStorageDirFactory = new BaseAlbumDirFactory();
-        }
         mIntrodutionSlider = (SliderLayout) findViewById(R.id.slider);
-
         initSlider();
     }
 
@@ -83,9 +67,8 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("KieuThang", "onActivityResult:" + requestCode + ",data:" + data);
         if (REQUEST_CODE_CAMERA == requestCode) {
-            galleryAddPic();
+            FileUtils.galleryAddPic(ActivityWelcome.this, mCurrentPhotoPath);
             sendIntentToActivityFaceLoader(mCurrentPhotoPath, REQUEST_CODE_CAMERA);
         } else if (REQUEST_CODE_GALLERY == requestCode) {
             if (data == null || resultCode == RESULT_CANCELED)
@@ -107,8 +90,6 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
 
     private void sendIntentToActivityFaceLoader(String imagePath, int requestCode) {
         Intent intent = new Intent(this, ActivityFaceLoader.class);
-        Log.d("KieuThang", "requestCode:" + requestCode);
-        Log.d("KieuThang", "mCurrentPhotoPath:" + imagePath);
         intent.putExtra(FunFaceConstant.EXTRA_IMAGE_PATH, imagePath);
         startActivity(intent);
     }
@@ -118,7 +99,7 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
         File f = null;
 
         try {
-            f = setUpPhotoFile();
+            f = FileUtils.setUpPhotoFile(this, mCurrentPhotoPath);
             mCurrentPhotoPath = f.getAbsolutePath();
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
         } catch (IOException e) {
@@ -127,52 +108,6 @@ public class ActivityWelcome extends Activity implements BaseSliderView.OnSlider
             mCurrentPhotoPath = null;
         }
         startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA);
-    }
-
-    private File setUpPhotoFile() throws IOException {
-        File f = createImageFile();
-        mCurrentPhotoPath = f.getAbsolutePath();
-        return f;
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
-        String imageFileName = FunFaceConstant.JPEG_FILE_PREFIX + timeStamp + "_";
-        File albumF = getAlbumDir();
-        File imageF = File.createTempFile(imageFileName, FunFaceConstant.JPEG_FILE_SUFFIX, albumF);
-        return imageF;
-    }
-
-    private File getAlbumDir() {
-        File storageDir = null;
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            storageDir = mAlbumStorageDirFactory.getAlbumStorageDir(getAlbumName());
-            if (storageDir != null) {
-                if (!storageDir.mkdirs()) {
-                    if (!storageDir.exists()) {
-                        AIOLog.d(FunFaceConstant.TAG, "failed to create directory");
-                        return null;
-                    }
-                }
-            }
-        } else {
-            AIOLog.d(FunFaceConstant.TAG, "External storage is not mounted READ/WRITE.");
-        }
-        return storageDir;
-    }
-
-    /* Photo album for this application */
-    private String getAlbumName() {
-        return getString(R.string.album_name);
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(FunFaceConstant.ACTION_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
     }
 
     public void onClickOpenGallery(View v) {

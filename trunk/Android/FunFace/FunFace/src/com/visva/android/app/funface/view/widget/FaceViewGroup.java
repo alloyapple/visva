@@ -48,12 +48,7 @@ import com.visva.android.app.funface.view.activity.ActivityFaceLoader;
 public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<FaceView> {
 
     private ArrayList<FaceView>            mFaceViewList              = new ArrayList<FaceView>();
-
-    // --
-
     private MultiTouchController<FaceView> multiTouchController       = new MultiTouchController<FaceView>(this);
-
-    // --
 
     private PointInfo                      currTouchPoint             = new PointInfo();
 
@@ -62,8 +57,6 @@ public class FaceViewGroup extends ImageView implements MultiTouchObjectCanvas<F
     private static final int               UI_MODE_ROTATE             = 1, UI_MODE_ANISOTROPIC_SCALE = 2;
 
     private int                            mUIMode                    = UI_MODE_ROTATE;
-
-    // --
 
     private Paint                          mLinePaintTouchPointCircle = new Paint();
 

@@ -29,7 +29,7 @@ public class EffectAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mEffectItems = values;
         mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_custom_service);
-
+        mCurrentSelectedIndex = -1;  
     }
 
     @Override
@@ -50,14 +50,15 @@ public class EffectAdapter extends BaseAdapter {
         } else {
             holder = (Holder) convertView.getTag();
         }
-
-        // Populate the text
-        ImageEffectLoader.getInstance(mContext).displayImage(holder.imageEffect, position, mBitmap, false);
-        holder.textEffect.setText(getItem(position).textEffect);
+        
         if (getItem(position).isSelected)
             holder.imgSelectedItem.setVisibility(View.VISIBLE);
         else
             holder.imgSelectedItem.setVisibility(View.GONE);
+        // Populate the text
+        ImageEffectLoader.getInstance(mContext).displayImage(holder.imageEffect, position, mBitmap, false);
+        holder.textEffect.setText(getItem(position).textEffect);
+        
         return convertView;
     }
 
@@ -84,6 +85,8 @@ public class EffectAdapter extends BaseAdapter {
     }
 
     public void updateSelectedItem(int position) {
+        if (mCurrentSelectedIndex == position)
+            return;
         EffectItem effectItem = mEffectItems.get(position);
         effectItem.isSelected = true;
 
