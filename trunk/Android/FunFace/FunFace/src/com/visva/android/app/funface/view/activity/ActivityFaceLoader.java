@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -35,10 +36,13 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -64,7 +68,7 @@ import com.visva.android.app.funface.view.widget.FaceViewGroup;
 import com.visva.android.app.funface.view.widget.FaceViewGroup.ILayoutChange;
 import com.visva.android.app.funface.view.widget.HorizontalListView;
 
-public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayoutChange {
+public class ActivityFaceLoader extends Activity implements ILayoutChange {
     //=========================Define Constant================
     private static final int      REQUEST_CODE_CAMERA            = 1000;
     private static final int      REQUEST_CODE_GALLERY           = 1001;
@@ -88,7 +92,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private static final int      SIZE_FRAME                     = 35;
     private static final int      SIZE_TEXT                      = 5;
     //=========================Control Define===============
+    @Bind(R.id.layout_progress)
     private RelativeLayout        mLayoutProgress;
+    @Bind(R.id.tv_text_preview)
+    private EditText              mTvTextPreview;
     private RelativeLayout        mLayoutChooseOptions;
     private Animation             mContentUpAnime;
     private Animation             mContentDownAnime;
@@ -109,7 +116,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private FaceAdapter           mFaceAdapter;
     private EffectAdapter         mEffectAdapter;
     private FrameAdapter          mFrameAdapter;
-    private FaceViewGroup         mFaceViewGroup;
+    @Bind(R.id.face_view_group)
+    public FaceViewGroup          mFaceViewGroup;
     //=========================Variable Define==============
     private Bitmap                mLoadedBitmap;
     private Bitmap                mResultBitmap;
@@ -139,13 +147,16 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     private DisplayImageOptions   mDisplayImageOptions;
     private Paint                 mPaint;
 
-    @Override
-    public int contentView() {
-        return R.layout.activity_face_loader;
-    }
+    //    @Override
+    //    public int contentView() {
+    //        return R.layout.activity_face_loader;
+    //    }
 
     @Override
-    public void onCreate() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_face_loader);
+        ButterKnife.bind(this);
         initData();
         initAnimation();
         initLayout();
@@ -272,8 +283,8 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         initLayoutChooseOption();
         initLayoutDeleteFaces();
         initLayoutOptionMenu();
-        mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
-        mFaceViewGroup = (FaceViewGroup) findViewById(R.id.face_view_group);
+        //        mLayoutProgress = (RelativeLayout) findViewById(R.id.layout_progress);
+        //        mFaceViewGroup = (FaceViewGroup) findViewById(R.id.face_view_group);
         mImageFrame = (ImageView) findViewById(R.id.image_frame);
         mFaceViewGroup.setListener(this);
         mFaceViewGroup.setScreenHeight(mScreenHeight);
@@ -338,7 +349,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         DialogUtility.showDialogAddText(this, new IDialogListener() {
 
             @Override
-            public void onClickPositve(String text) {
+            public void onClickPositve(String text, float textSize) {
                 if (!StringUtility.isEmpty(text))
                     onShowText(text, position);
             }
@@ -351,9 +362,10 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
     }
 
     private void onShowText(String text, int position) {
-        Log.d("KieuThang", "onShowText:" + position);
+        Log.d("KieuThang", "onShowText:" + position + ",text:" + text);
         if (position >= mTextList.size())
             return;
+        Log.d("KieuThang", "mTextList.size():" + mTextList.size());
         int id = position + 1;
         String resIdStr = "text" + id + "_bg";
         int resId = Utils.getResId(ActivityFaceLoader.this, resIdStr);
@@ -366,15 +378,14 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
 
         Random random = new Random();
         float textLength = mPaint.measureText(text);
-        int deltaX = mScreenWidth - (int) textLength * 2;
-        int deltaY = mRealImageHeight - (int) textLength * 2;
-        while (deltaX <= 0 || deltaY <= 0) {
-            deltaX = random.nextInt(mScreenWidth - (int) textLength * 2);
-            deltaY = random.nextInt(mRealImageHeight - (int) textLength * 2);
+        int deltaX = Math.abs(mScreenWidth - (int) textLength * 2);
+        int deltaY = Math.abs(mRealImageHeight - (int) textLength * 2);
+        if (deltaX > 0 && deltaY > 0) {
+            midPoint.x = random.nextInt(deltaX);
+            midPoint.y = random.nextInt(deltaY);
         }
-        midPoint.x = deltaX;
-        midPoint.y = deltaY;
-        eyeDistance = (int) textLength * 2;
+        Log.d("KieuThang", "midPoint.x:" + midPoint.x + ",midPoint.y:" + midPoint.y);
+        eyeDistance = (int) (textLength * 1.5);
         faceView = new FaceView(ActivityFaceLoader.this, resId, eyeDistance, mMaxFaceId);
         faceView.setText(text);
 
@@ -383,6 +394,7 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
         mFaceViewGroup.addFace(faceView, ActivityFaceLoader.this);
         onLayoutChange(TYPE_SHOW_LAYOUT_CHOOSE_OPTION, false);
         mFaceViewGroup.setVisibility(View.VISIBLE);
+
     }
 
     private void onItemClickAddFrameLayout(int position) {
@@ -1190,6 +1202,21 @@ public class ActivityFaceLoader extends VisvaAbstractActivity implements ILayout
                 mSavedBitmap.recycle();
                 mSavedBitmap = null;
             }
+        }
+    }
+
+    // from the link above
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks whether a hardware keyboard is available
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+            Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
+            mTvTextPreview.setVisibility(View.VISIBLE);
+        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
+            mTvTextPreview.setVisibility(View.GONE);
         }
     }
 }

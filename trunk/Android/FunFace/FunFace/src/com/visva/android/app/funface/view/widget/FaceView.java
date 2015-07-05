@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 
 import com.visva.android.app.funface.R;
@@ -79,9 +80,13 @@ public class FaceView implements Cloneable {
         float newMinY = centerY - hs;
         float newMaxX = centerX + ws;
         float newMaxY = centerY + hs;
-        if (newMinX > mScreenWidth - 3 * ws / 2 || newMaxX < 3 * ws / 2 || newMinY > mScreenHeight - 3 * hs / 2 - mHeightOfLayoutEffect
-                || newMaxY < hs + SCREEN_MARGIN_TOP)
-            return false;
+        Log.d("KieuThang", "newMinX > mScreenWidth - 3 * ws / 2 :"+(newMinX > mScreenWidth - 3 * ws / 2 ));
+        Log.d("KieuThang", "newMaxX < 3 * ws / 2 :"+(newMaxX < 3 * ws / 2));
+        Log.d("KieuThang", "newMinY > mScreenHeight - 3 * hs / 2 - mHeightOfLayoutEffect :"+(newMinY > mScreenHeight - 3 * hs / 2 - mHeightOfLayoutEffect));
+        Log.d("KieuThang", "newMaxY < hs + SCREEN_MARGIN_TOP :"+(newMaxY < hs + SCREEN_MARGIN_TOP));
+//        if (newMinX > mScreenWidth - 3 * ws / 2 || newMaxX < 3 * ws / 2 || newMinY > mScreenHeight - 3 * hs / 2 - mHeightOfLayoutEffect
+//                || newMaxY < hs + SCREEN_MARGIN_TOP)
+//            return false;
         this.centerX = centerX;
         this.centerY = centerY;
         this.scaleX = scaleX;
@@ -116,9 +121,12 @@ public class FaceView implements Cloneable {
             canvas.translate(-dx, -dy);
             drawable.draw(canvas);
             if (!StringUtility.isEmpty(mText) && isVisible) {
-                mPaint.setTextSize(Math.abs((maxY - minY) / 7));
+                mPaint.setTextSize(Math.abs((maxY - minY) / 8));
                 float textLength = mPaint.measureText(mText);
-                canvas.drawText(mText, dx - textLength / 2, dy, mPaint);
+                int x = (int) (dx - textLength / 2);
+                x = x > 0 ? x : 0;
+                Log.d("KieuThang", "x:" + x + ",dy:" + dy + ", textSize:" + (maxY - minY));
+                canvas.drawText(mText, x, dy, mPaint);
             }
             canvas.restore();
         }

@@ -3,6 +3,7 @@ package com.visva.android.app.funface.utils;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,7 +27,8 @@ public class DialogUtility {
         String cancel = activity.getString(R.string.cancel);
         alertDialog.setPositiveButton(ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                iDialogListener.onClickPositve(input.getText().toString());
+                Log.d("KieuThang", "input.getTextSize():"+input.getTextSize());
+                iDialogListener.onClickPositve(input.getText().toString(),input.getTextSize());
             }
         });
 
